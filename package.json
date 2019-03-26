@@ -1,0 +1,22 @@
+{
+  "name": "windfall-elimination",
+  "version": "1.0.0",
+  "description": "",
+  "main": "index.js",
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/dylanesque/windfall-elimination.git"
+  },
+  "author": "",
+  "license": "ISC",
+  "bugs": {
+    "url": "https://github.com/dylanesque/windfall-elimination/issues"
+  },
+  "homepage": "https://github.com/dylanesque/windfall-elimination#readme",
+  "dependencies": {
+    "table-scraper": "^0.1.0"
+  }
+}
