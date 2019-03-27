@@ -4,7 +4,6 @@ import styled from "@emotion/styled";
 
 const Wrapper = styled("header")`
     background: blue;
-    margin-bottom: 30px;
     display: flex;
     justify-content: center;
 `;
@@ -29,7 +28,7 @@ export const Header: React.FC<Props> = ({ siteTitle }) => (
                         textDecoration: `none`,
                     }}
                 >
-                    {siteTitle || "Home"}
+                    {siteTitle || "Windfall Elimination"}
                 </Link>
             </h1>
         </div>

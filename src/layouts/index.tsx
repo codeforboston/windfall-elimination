@@ -16,7 +16,7 @@ const Main = styled("main")`
     margin: 15px;
     display: grid;
     justify-content: center;
-    align-content: center;
+    align-content: baseline;
     text-align: center;
 `;
 
