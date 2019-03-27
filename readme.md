@@ -5,5 +5,7 @@ We are building a tool to help retirees affected by the Social Security Windfall
 
 Join the Slack channel #windfall-elimination for more information.
 
+## Launching Gatsby Site
+Install the gatsby-cli with `npm install -g gatsby-cli`
 Run `npm install && gatsby develop` to launch the project.
 
