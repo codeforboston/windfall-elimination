@@ -3,7 +3,7 @@ import { Link } from "gatsby"
 
 import { Form, Input, SEO } from "../components"
 
-const SecondPage = () => (
+const FirstPage = () => (
     <>
         <SEO title="Page two" />
         <h1>Screen 1!</h1>
@@ -26,4 +26,4 @@ const SecondPage = () => (
     </>
 );
 
-export default SecondPage;
+export default FirstPage;

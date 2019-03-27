@@ -1,9 +1,9 @@
 import React from "react"
 import { Link } from "gatsby";
 
-import { Form, Input, SEO } from "../components";
+import { SEO } from "../components";
 
-const SecondPage = () => (
+const ThirdPage = () => (
     <>
         <SEO title="Page two" />
         <h1>Screen 3!</h1>
@@ -14,4 +14,4 @@ const SecondPage = () => (
     </>
 );
 
-export default SecondPage;
+export default ThirdPage;

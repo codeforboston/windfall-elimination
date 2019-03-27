@@ -1,14 +1,6 @@
 import React from "react"
 import { Link } from "gatsby"
-import styled from "@emotion/styled";
-import { SEO } from "../components";
-
-const LinkWrapper = styled("div")`
-    display: grid;
-    grid-template-columns: auto auto auto;
-    width: 300px;
-    justify-self: center;
-`;
+import { LinkWrapper, SEO } from "../components";
 
 const IndexPage = () => (
     <>

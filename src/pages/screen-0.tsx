@@ -1,9 +1,9 @@
 import React from "react"
 import { Link } from "gatsby"
 
-import { Input, Form, SEO } from "../components";
+import { Form, SEO } from "../components";
 
-const IndexPage = () => (
+const PreScreenPage = () => (
     <>
         <SEO title="Home" keywords={[`gatsby`, `application`, `react`]} />
         <h1>Pre-Screen!</h1>
@@ -29,4 +29,4 @@ const IndexPage = () => (
     </>
 )
 
-export default IndexPage
+export default PreScreenPage;

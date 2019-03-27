@@ -1,12 +1,13 @@
 import React from "react";
 import { bendpoints } from "../static/json";
 import styled from "@emotion/styled";
+import { radii, spacing } from "../constants";
 
 const Wrapper = styled("div")`
     border: 1px solid black;
-    border-radius: 4px;
-    margin: 15px 0;
-    padding: 15px;
+    border-radius: ${radii[0]};
+    margin: ${spacing[1]} 0;
+    padding: ${spacing[1]};
 `;
 
 export default () => {
