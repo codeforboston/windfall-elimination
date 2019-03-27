@@ -14,6 +14,10 @@ const Wrapper = styled("div")`
 
 const Main = styled("main")`
     margin: 15px;
+    display: grid;
+    justify-content: center;
+    align-content: center;
+    text-align: center;
 `;
 
 const Footer = styled("footer")`
