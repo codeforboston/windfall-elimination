@@ -26,7 +26,7 @@ export const Header: React.FC<Props> = ({ siteTitle }) => (
                         textDecoration: `none`,
                     }}
                 >
-                    {siteTitle || "Windfall Elimination Project"}
+                    {siteTitle || "Home"}
                 </Link>
             </h1>
         </div>

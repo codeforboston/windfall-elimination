@@ -1,6 +1,5 @@
 import React from "react"
 import { Link } from "gatsby"
-
 import { SEO } from "../components";
 
 const IndexPage = () => (
@@ -14,6 +13,9 @@ const IndexPage = () => (
             </li>
             <li>
                 <Link to="/screen-0/">Demo</Link>
+            </li>
+            <li>
+                <a href="https://github.com/codeforboston/windfall-elimination">Github Repo</a>
             </li>
         </ul>
     </>

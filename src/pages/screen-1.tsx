@@ -10,12 +10,12 @@ const SecondPage = () => (
         <Form>
             <label>
                 Enter your DOB:
-            <Input />
+                <Input type="date"/>
             </label>
             <br />
             <label>
                 Enter your MPB:
-            <Input />
+                <Input />
             </label>
         </Form>
         <Link to="/screen-2/">Submit</Link>

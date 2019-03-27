@@ -16,8 +16,8 @@ export default () => {
             <h2>This is a demo showing data we can use for calculations in this project.</h2>
             {
                 bendpoints.map((bendpoint, index) => (
-                    <Wrapper>
-                        <h3 key={index}>Year: { bendpoint.year }</h3>
+                    <Wrapper key={index}>
+                        <h3 >Year: { bendpoint.year }</h3>
                         <p>First amount: ${ bendpoint.firstAmount }</p>
                         <p>Second amount: ${ bendpoint.secondAmount }</p>
                     </Wrapper>
