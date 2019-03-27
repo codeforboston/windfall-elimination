@@ -5,12 +5,12 @@ import mysql.connector
 def get_aime(mpb,dob,retire_date):
 	pia = mpb/(get_benefit_reduction(dob,retire_date))
 	bend_points = find_bend_points(dob)
-	if pia > (bend_points[0] * .9 + bend_points[1] * .32):
-		aime = bend_points[1] + (pia - (bend_points[0]*.9+bend_points[1]*.32)) / .15
-	elif pia > (bend_points[0]*.9):
-		aime = bend_points[0] + (pia - (bend_points[0]*.9)) / .32
+	if pia > (bend_points[0] * .9 + (bend_points[1]-bend_points[0]) * .32):
+		aime = bend_points[1] + (pia - (bend_points[0] * .9 + bend_points[1] * .32)) / .15
+	elif pia > (bend_points[0] * .9):
+		aime = bend_points[0] + (pia - (bend_points[0] * .9)) / .32
 	else:
-		aime = pia * .9
+		aime = pia / .9
 	return aime
 
 ## Calculates Social Security benefits of a person effected by WEP
