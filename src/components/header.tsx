@@ -1,16 +1,19 @@
 import { Link } from "gatsby"
 import React from "react"
+import styled from "@emotion/styled";
+
+const Wrapper = styled("header")`
+    background: blue;
+    margin-bottom: 30px;
+    display: flex;
+    justify-content: center;
+`;
 
 type Props = {
     siteTitle?: string;
 }
 export const Header: React.FC<Props> = ({ siteTitle }) => (
-    <header
-        style={{
-            background: `rebeccapurple`,
-            marginBottom: `1.45rem`,
-        }}
-    >
+    <Wrapper>
         <div
             style={{
                 margin: `0 auto`,
@@ -30,5 +33,5 @@ export const Header: React.FC<Props> = ({ siteTitle }) => (
                 </Link>
             </h1>
         </div>
-    </header>
+    </Wrapper>
 );
