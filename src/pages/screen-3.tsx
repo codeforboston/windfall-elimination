@@ -7,17 +7,9 @@ const SecondPage = () => (
     <>
         <SEO title="Page two" />
         <h1>Screen 3!</h1>
-        <Form>
-            <label>
-                Enter your DOB:
-            <Input />
-            </label>
-            <br />
-            <label>
-                Enter your MPB:
-            <Input />
-            </label>
-        </Form>
+        <p>* WEP-Adjusted MPB</p>
+        <p>PIA (slider)</p>
+        <p>Visual formula walkthrough?</p>
         <Link to="/">Go Home</Link>
     </>
 );

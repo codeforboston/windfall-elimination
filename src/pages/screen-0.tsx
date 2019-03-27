@@ -1,7 +1,7 @@
 import React from "react"
 import { Link } from "gatsby"
 
-import { Form, SEO } from "../components";
+import { Input, Form, SEO } from "../components";
 
 const IndexPage = () => (
     <>

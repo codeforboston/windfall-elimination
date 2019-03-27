@@ -17,6 +17,10 @@ const SecondPage = () => (
                 Enter your MPB:
                 <Input />
             </label>
+            <br />
+            <label> Enter your planned retirement date
+                <Input type="date" />
+            </label>
         </Form>
         <Link to="/screen-2/">Submit</Link>
     </>
