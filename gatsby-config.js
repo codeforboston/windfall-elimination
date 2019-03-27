@@ -1,8 +1,8 @@
 module.exports = {
   siteMetadata: {
     title: `Windfall Awareness`,
-    description: `Demo for the Windfall Awareness Project`,
-    author: `Code for Boston: Windfall Awareness Project`,
+    description: `Windfall Awareness demo project`,
+    author: `Code for Boston: Windfall Awareness`,
   },
   plugins: [
     `gatsby-plugin-react-helmet`,
@@ -18,9 +18,12 @@ module.exports = {
     {
       resolve: `gatsby-plugin-manifest`,
       options: {
-        name: `windfall-awareness-project`,
-        short_name: `windfall-awareness`,
+        name: `gatsby-starter-default`,
+        short_name: `starter`,
         start_url: `/`,
+        background_color: `#663399`,
+        theme_color: `#663399`,
+        display: `minimal-ui`,
         icon: `src/images/gatsby-icon.png`, // This path is relative to the root of the site.
       },
     },
