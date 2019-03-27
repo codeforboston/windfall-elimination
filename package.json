@@ -7,21 +7,27 @@
   "dependencies": {
     "@emotion/core": "^10.0.10",
     "@emotion/styled": "^10.0.10",
+    "@types/react-helmet": "^5.0.8",
     "gatsby": "^2.2.13",
     "gatsby-cli": "^2.5.2",
     "gatsby-image": "^2.0.34",
+    "gatsby-plugin-layout": "^1.0.13",
     "gatsby-plugin-manifest": "^2.0.24",
     "gatsby-plugin-offline": "^2.0.25",
     "gatsby-plugin-react-helmet": "^3.0.11",
     "gatsby-plugin-sharp": "^2.0.31",
+    "gatsby-plugin-typescript": "^2.0.11",
     "gatsby-source-filesystem": "^2.0.28",
     "gatsby-transformer-sharp": "^2.1.17",
     "prop-types": "^15.7.2",
     "react": "^16.8.5",
     "react-dom": "^16.8.5",
-    "react-helmet": "^5.2.0"
+    "react-helmet": "^5.2.0",
+    "typescript": "^3.3.4000"
   },
   "devDependencies": {
+    "@types/react": "^16.8.8",
+    "@types/react-dom": "^16.8.3",
     "prettier": "^1.16.4"
   },
   "keywords": [
