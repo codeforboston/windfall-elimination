@@ -1,13 +1,13 @@
 import React from "react"
 import { Link } from "gatsby"
 
-import { Input, SEO } from "../components"
+import { Form, Input, SEO } from "../components"
 
 const SecondPage = () => (
     <>
         <SEO title="Page two" />
         <h1>Screen 1!</h1>
-        <form>
+        <Form>
             <label>
                 Enter your DOB:
             <Input />
@@ -17,7 +17,7 @@ const SecondPage = () => (
                 Enter your MPB:
             <Input />
             </label>
-        </form>
+        </Form>
         <Link to="/screen-2/">Submit</Link>
     </>
 );

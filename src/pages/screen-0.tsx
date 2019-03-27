@@ -1,23 +1,29 @@
 import React from "react"
 import { Link } from "gatsby"
 
-import { Input, SEO } from "../components";
+import { Form, SEO } from "../components";
 
 const IndexPage = () => (
     <>
         <SEO title="Home" keywords={[`gatsby`, `application`, `react`]} />
         <h1>Pre-Screen!</h1>
-        <form>
-            <label>
-                Did you work in covered employment?
-        <Input />
+        <Form>
+            <p>Did you work in covered employment?</p>
+            <label> Yes
+                <input type="checkbox" value="true"></input>
+            </label>
+            <label> No
+                <input type="checkbox" value="false"></input>
             </label>
             <br />
-            <label>
-                Do you have a pension or retirement account?
-        <Input />
+            <p>Do you have a pension or retirement account?</p>
+            <label> Yes
+                <input type="checkbox" value="true"></input>
             </label>
-        </form>
+            <label> No
+                <input type="checkbox" value="false"></input>
+            </label>
+        </Form>
         <Link to="/screen-1/">Submit</Link>
     </>
 )

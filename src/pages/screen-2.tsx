@@ -1,24 +1,24 @@
 import React from "react"
 import { Link } from "gatsby"
 
-import { Input, SEO } from "../components";
+import { Form, Input, SEO } from "../components";
 
 const SecondPage = () => (
     <>
         <SEO title="Page two" />
         <h1>Screen 2!</h1>
         <p>* Calculated AIME</p>
-        <form>
+        <Form>
             <label>
                 Enter # of years of substantial earnings
-        <Input />
+                <Input />
             </label>
             <br />
             <label>
                 Enter amount of non-covered pension
-        <Input />
+                <Input />
             </label>
-        </form>
+        </Form>
         <Link to="/screen-3/">Submit</Link>
     </>
 );
