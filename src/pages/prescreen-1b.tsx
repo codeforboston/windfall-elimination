@@ -1,7 +1,7 @@
 import React from "react"
 import { ButtonLink, ButtonLinkRed, Card, Form, HelperText, Message, QuestionText, SEO } from "../components";
 
-const PreScreen1b = () => (
+export default () => (
     <>
         <SEO title="Prescreen 1b" keywords={[`gatsby`, `application`, `react`]} />
         <h2>Am I affected by WEP?</h2>
@@ -41,5 +41,3 @@ const PreScreen1b = () => (
         <ButtonLink to="/prescreen-2/">Submit</ButtonLink>
     </>
 )
-
-export default PreScreen1b;

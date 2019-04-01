@@ -1,7 +1,7 @@
 import React from "react"
 import { ButtonLink, ButtonLinkRed, Card, Form, Input, Message, SEO, TextBlock, HelperText } from "../components"
 
-const Screen1 = () => (
+export default () => (
     <>
         <SEO title="Screen 1" />
         <h2>Background information</h2>
@@ -44,5 +44,3 @@ const Screen1 = () => (
         <ButtonLink to="/screen-2/">Submit</ButtonLink>
     </>
 );
-
-export default Screen1;

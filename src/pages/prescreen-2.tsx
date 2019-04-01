@@ -1,7 +1,7 @@
 import React from "react"
 import { ButtonLink, ButtonLinkRed, Card, Form, HelperText, QuestionText, SEO, TextBlock } from "../components";
 
-const PreScreen2 = () => (
+export default () => (
     <>
         <SEO title="Prescreen 2" keywords={[`gatsby`, `application`, `react`]} />
         <h2>Getting your earnings record</h2>
@@ -54,5 +54,3 @@ const PreScreen2 = () => (
         <ButtonLink to="/screen-1/">Submit</ButtonLink>
     </>
 )
-
-export default PreScreen2;

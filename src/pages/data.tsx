@@ -1,29 +1,19 @@
 import React from "react";
 import { bendpoints } from "../static/json";
-import styled from "@emotion/styled";
-import { radii, spacing } from "../constants";
+import { Card } from "../components";
 
-const Wrapper = styled("div")`
-    border: 1px solid black;
-    border-radius: ${radii[0]};
-    margin: ${spacing[1]} 0;
-    padding: ${spacing[1]};
-`;
-
-export default () => {
-    return (
-        <>
-            <h1>Benefit Formula Bendpoints</h1>
-            <h2>This is a demo showing data we can use for calculations in this project.</h2>
-            {
-                bendpoints.map((bendpoint, index) => (
-                    <Wrapper key={index}>
-                        <h3 >Year: { bendpoint.year }</h3>
-                        <p>First amount: ${ bendpoint.firstAmount }</p>
-                        <p>Second amount: ${ bendpoint.secondAmount }</p>
-                    </Wrapper>
-                ))
-            }
-        </>
-    )
-};
+export default () => (
+    <>
+        <h1>Benefit Formula Bendpoints</h1>
+        <h2>This is a demo showing data we can use for calculations in this project.</h2>
+        {
+            bendpoints.map((bendpoint, index) => (
+                <Card key={index}>
+                    <h3 >Year: { bendpoint.year }</h3>
+                    <p>First amount: ${ bendpoint.firstAmount }</p>
+                    <p>Second amount: ${ bendpoint.secondAmount }</p>
+                </Card>
+            ))
+        }
+    </>
+)

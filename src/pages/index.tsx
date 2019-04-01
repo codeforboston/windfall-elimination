@@ -2,7 +2,7 @@ import React from "react"
 import { Link } from "gatsby"
 import { LinkWrapper, SEO } from "../components";
 
-const IndexPage = () => (
+export default () => (
     <>
         <SEO title="Home" keywords={[`gatsby`, `application`, `react`]} />
         <h2>DEMO</h2>
@@ -14,5 +14,3 @@ const IndexPage = () => (
         </LinkWrapper>
     </>
 )
-
-export default IndexPage
