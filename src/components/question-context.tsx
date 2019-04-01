@@ -39,7 +39,7 @@ export class QuestionProvider extends React.Component<Props, State> {
                 yearsOfSubstantialEarnings: this.state.yearsOfSubstantialEarnings,
                 amountOfNonCoveredPension: this.state.yearsOfSubstantialEarnings
             }}>
-                <QuestionValues values={this.state} />
+                {/* <QuestionValues values={this.state} /> */}
                 { children }
             </QuestionContext.Provider>
         )
@@ -53,15 +53,15 @@ type QuestionValuesProps = {
 }
 const QuestionValues: React.FC<QuestionValuesProps> = ({ values }) => (
     <Card>
-        <div>Question values</div>
-        <ul style={{ listStyle: "none" }}>
-            <li>Social Security: {values.hasSocialSecurityAccount.toString()}</li>
-            <li>Non-covered Employment: {values.nonCoveredEmployment.toString()}</li>
-            <li>Pension or retirement Account: {values.pensionOrRetirementAccount.toString()}</li>
-            <li>Date of birth: {values.dateOfBirth}</li>
-            <li>Social Security benefits amount: {values.socialSecurityBenefitsAmount}</li>
-            <li>Years of earnings: {values.yearsOfSubstantialEarnings}</li>
-            <li>Amount of non-covered pension: {values.amountOfNonCoveredPension}</li>
-        </ul>
+        <div style={{ justifyContent: "left", display: "grid", textAlign: "left" }}>
+            <b style={{ marginBottom: "15px" }}>Context values</b>
+            <div>Social Security: {values.hasSocialSecurityAccount.toString()}</div>
+            <div>Non-covered Employment: {values.nonCoveredEmployment.toString()}</div>
+            <div>Pension or retirement Account: {values.pensionOrRetirementAccount.toString()}</div>
+            <div>Date of birth: {values.dateOfBirth}</div>
+            <div>Social Security benefits amount: {values.socialSecurityBenefitsAmount}</div>
+            <div>Years of earnings: {values.yearsOfSubstantialEarnings}</div>
+            <div>Amount of non-covered pension: {values.amountOfNonCoveredPension}</div>
+        </div>
     </Card>
 )
