@@ -1,30 +1,56 @@
 import React from "react"
-import { ButtonLink, Form, HelperText, QuestionText, SEO, TextBlock } from "../components";
+import { ButtonLink, ButtonLinkRed, Card, Form, HelperText, QuestionText, SEO, TextBlock } from "../components";
 
 const PreScreen2 = () => (
     <>
-        <SEO title="Prescreen" keywords={[`gatsby`, `application`, `react`]} />
+        <SEO title="Prescreen 2" keywords={[`gatsby`, `application`, `react`]} />
         <h2>Getting your earnings record</h2>
-        <h3>We'll need some information to get started.</h3>
+        <div>We'll need some information to get started.</div>
         <Form>
-            <QuestionText>Do you have a MySocialSecurity account?</QuestionText>
-            <HelperText>
-                If no: you can easily sign up online at this <a href="https://www.ssa.gov/myaccount/">link</a>. Your MySocialSecurity account will let you change your address, change your direct deposit, request an earnings statement or a 1099 form, or apply for a replacement SSA card.
+            <Card>
+                <QuestionText>Do you have a MySocialSecurity account?</QuestionText>
+                <HelperText>
+                    If no: you can easily sign up online at this <a href="https://www.ssa.gov/myaccount/">link</a>. Your MySocialSecurity account will let you change your address, change your direct deposit, request an earnings statement or a 1099 form, or apply for a replacement SSA card.
                 </HelperText>
-            <label> Yes
-                <input type="radio" name="mySocialSecurityAccount" value="true"></input>
-            </label>
-            <label> No
-                <input type="radio" name="mySocialSecurityAccount" value="false"></input>
-            </label>
-            <QuestionText>Do you have a pension or retirement account?</QuestionText>
-            <label> Yes
-                <input type="radio" name="pensionOrRetirementAccount" value="true"></input>
-            </label>
-            <label> No
-                <input type="radio" name="pensionOrRetirementAccount" value="false"></input>
-            </label>
+                <label> Yes
+                    <input type="radio" name="mySocialSecurityAccount" value="true"></input>
+                </label>
+                <label> No
+                    <input type="radio" name="mySocialSecurityAccount" value="false"></input>
+                </label>
+            </Card>
         </Form>
+        <TextBlock>
+            I’ve made an account, now what? [skip below to If Yes]
+        </TextBlock>
+        <TextBlock>
+            I’d prefer not to sign up - okay! Are you over 60? SSA sends you a letter in the mail every year with your earnings record. It looks like this:
+        </TextBlock>
+        <TextBlock>
+            [screen grab of the earnings letter]
+        </TextBlock>
+        <TextBlock>
+            I don’t have a copy of this letter - okay! Print out this form (SSA form 7004), complete and mail it to:
+        </TextBlock>
+        <TextBlock>
+            Social Security Administration
+            Wilkes Barre Data Operation Center
+            PO Box 7004
+            Wilkes Barre, PA, 18767-7004
+        </TextBlock>
+        <TextBlock>
+            When you have a copy of the form, return to this page.
+        </TextBlock>
+        <TextBlock>
+            If yes - Great! Download your earnings record as a PDF. You can print it out, or upload it here:
+        </TextBlock>
+        <ButtonLink to="/prescreen-2/">
+            UPLOAD PDF EARNINGS RECORD
+        </ButtonLink>
+        <TextBlock>
+            Also make sure you have ready the amount of your pension (whether it’s paid monthly or a lump sum), and the date you became entitled to it (either the date you started receiving a monthly check or the first day you could withdraw from the account). Your plan may send statements to you proactively, or contact your HR administrator for information on how to request a statement.
+        </TextBlock>
+        <ButtonLinkRed to="/prescreen-1b/">Go back!</ButtonLinkRed>
         <ButtonLink to="/screen-1/">Submit</ButtonLink>
     </>
 )

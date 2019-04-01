@@ -1,20 +1,21 @@
 import React from "react";
 import styled from "@emotion/styled";
 import { StaticQuery, graphql } from "gatsby"
-import { Header } from "../components";
+import { Header, QuestionProvider } from "../components";
 import "./layout.css";
+import { colors, fonts, spacing } from "../constants";
 
 const Wrapper = styled("div")`
     display: grid;
     grid-template-rows: auto 1fr auto;
     grid-template-columns: auto;
-    gap: 30px;
-    font-family: sans-serif;
+    gap: ${spacing[2]};
+    font-family: ${fonts.sansSerif};
     height: 100%;
 `;
 
 const Main = styled("main")`
-    margin: 15px;
+    margin: ${spacing[1]};
     display: grid;
     justify-content: center;
     align-content: baseline;
@@ -27,12 +28,12 @@ const ChildrenWrapper = styled("div")`
 `;
 
 const Footer = styled("footer")`
-    background-color: #000;
-    color: white;
+    background-color: ${colors.black};
+    color: ${colors.white};
     width: 100%;
     bottom: 0;
     text-align: center;
-    padding: 15px 0;
+    padding: ${spacing[1]} 0;
 `;
 
 const Layout: React.FC = ({ children }) => (
@@ -52,7 +53,10 @@ const Layout: React.FC = ({ children }) => (
                 <Header />
                 <Main>
                     <ChildrenWrapper>
-                        {children}
+                        {/* TODO test out this provider */}
+                        <QuestionProvider>
+                            { children }
+                        </QuestionProvider>
                     </ChildrenWrapper>
                 </Main>
                 <Footer>

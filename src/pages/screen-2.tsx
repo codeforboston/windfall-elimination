@@ -1,9 +1,9 @@
 import React from "react"
-import { ButtonLink, Form, Input, SEO } from "../components";
+import { ButtonLink, ButtonLinkRed, Form, Input, SEO } from "../components";
 
 const Screen2 = () => (
     <>
-        <SEO title="Page two" />
+        <SEO title="Screen 2" />
         <h2>Screen 2!</h2>
         <p>* Calculated AIME</p>
         <Form>
@@ -16,6 +16,7 @@ const Screen2 = () => (
                 <Input />
             </label>
         </Form>
+        <ButtonLinkRed to="/screen-1/">Go back!</ButtonLinkRed>
         <ButtonLink to="/screen-3/">Submit</ButtonLink>
     </>
 );

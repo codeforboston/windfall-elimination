@@ -13,5 +13,6 @@ export const ButtonLink = styled(Link)`
     text-decoration: none;
     &:hover {
         background-color: ${colors.lightblue};
+        cursor: pointer;
     }
 `;
