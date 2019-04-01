@@ -17,7 +17,7 @@ const QuestionContext = React.createContext<ContextProps>(null!);
 type Props = {};
 type State = ContextProps;
 export class QuestionProvider extends React.Component<Props, State> {
-    state: State = {
+    public state: State = {
         hasSocialSecurityAccount: false,
         nonCoveredEmployment: false,
         pensionOrRetirementAccount: false,
@@ -26,7 +26,7 @@ export class QuestionProvider extends React.Component<Props, State> {
         yearsOfSubstantialEarnings: 0,
         amountOfNonCoveredPension: 0,
     };
-    render() {
+    public render() {
         const { children } = this.props;
         return (
             <QuestionContext.Provider value={{

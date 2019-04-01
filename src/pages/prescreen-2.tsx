@@ -33,10 +33,10 @@ const PreScreen2 = () => (
             I don’t have a copy of this letter - okay! Print out this form (SSA form 7004), complete and mail it to:
         </TextBlock>
         <TextBlock>
-            Social Security Administration
-            Wilkes Barre Data Operation Center
-            PO Box 7004
-            Wilkes Barre, PA, 18767-7004
+            Social Security Administration<br />
+            Wilkes Barre Data Operation Center<br />
+            PO Box 7004<br />
+            Wilkes Barre, PA, 18767-7004<br />
         </TextBlock>
         <TextBlock>
             When you have a copy of the form, return to this page.
