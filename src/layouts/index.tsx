@@ -7,6 +7,7 @@ import "./layout.css";
 const Wrapper = styled("div")`
     display: grid;
     grid-template-rows: auto 1fr auto;
+    grid-template-columns: auto;
     gap: 30px;
     font-family: sans-serif;
     height: 100%;
@@ -18,6 +19,11 @@ const Main = styled("main")`
     justify-content: center;
     align-content: baseline;
     text-align: center;
+`;
+
+const ChildrenWrapper = styled("div")`
+    max-width: 1000px;
+    justify-content: center;
 `;
 
 const Footer = styled("footer")`
@@ -44,7 +50,11 @@ const Layout: React.FC = ({ children }) => (
         render={data => (
             <Wrapper>
                 <Header />
-                <Main>{children}</Main>
+                <Main>
+                    <ChildrenWrapper>
+                        {children}
+                    </ChildrenWrapper>
+                </Main>
                 <Footer>
                     © {new Date().getFullYear()} | {data.author ? data.author : "Windfall Elimination Project"}
                 </Footer>

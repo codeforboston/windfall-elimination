@@ -1,8 +1,9 @@
 import styled from "@emotion/styled";
+import { colors, spacing, radii } from "../constants";
 
 export const Input = styled("input")`
-    border-radius: 4px;
-    margin: 10px;
-    border: 1px solid gray;
-    padding: 5px;
+    border-radius: ${radii[0]};
+    margin: ${spacing[0]};
+    border: 1px solid ${colors.gray};
+    padding: ${spacing[0]};
 `;

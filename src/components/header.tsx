@@ -1,9 +1,10 @@
 import { Link } from "gatsby"
 import React from "react"
 import styled from "@emotion/styled";
+import { colors } from "../constants";
 
 const Wrapper = styled("header")`
-    background: blue;
+    background: ${colors.blue};
     display: flex;
     justify-content: center;
 `;

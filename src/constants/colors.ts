@@ -8,5 +8,6 @@ export const colors = {
     whiteSmoke: "#f5f5f5",
     snow: "#fffafa",
     blue: "#2b1de8",
+    lightblue: "#105de9",
     linkBlue: "##0000EE",
 };

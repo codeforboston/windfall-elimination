@@ -1,14 +1,10 @@
 import styled from "@emotion/styled";
 import { spacing } from "../constants";
 
-type Props = {
-    width?: string;
-};
-
-export const LinkWrapper = styled("div")<Props>`
+export const LinkWrapper = styled("div")`
     display: grid;
     justify-self: center;
     justify-content: center;
-    width: ${props => props.width ? props.width : "300px"};
+    width: 100%;
     gap: ${spacing[1]};
 `;

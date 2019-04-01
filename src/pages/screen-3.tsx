@@ -1,17 +1,15 @@
 import React from "react"
-import { Link } from "gatsby";
+import { ButtonLink, SEO } from "../components";
 
-import { SEO } from "../components";
-
-const ThirdPage = () => (
+const Screen3 = () => (
     <>
-        <SEO title="Page two" />
-        <h1>Screen 3!</h1>
+        <SEO title="Page three" />
+        <h2>Screen 3!</h2>
         <p>* WEP-Adjusted MPB</p>
         <p>PIA (slider)</p>
         <p>Visual formula walkthrough?</p>
-        <Link to="/">Go Home</Link>
+        <ButtonLink to="/">Go Home</ButtonLink>
     </>
 );
 
-export default ThirdPage;
+export default Screen3;

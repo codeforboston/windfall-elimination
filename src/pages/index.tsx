@@ -5,11 +5,11 @@ import { LinkWrapper, SEO } from "../components";
 const IndexPage = () => (
     <>
         <SEO title="Home" keywords={[`gatsby`, `application`, `react`]} />
-        <h1>DEMO</h1>
-        <h2>This is a demo of the Windfall Elimination Project.<br/>Check out our demo or the admin page!</h2>
+        <h2>DEMO</h2>
+        <h3>This is a demo of the Windfall Elimination Project.<br/>Check out our demo or the admin page!</h3>
         <LinkWrapper>
             <Link to="/admin/">Admin</Link>
-            <Link to="/screen-0/">Demo</Link>
+            <Link to="/prescreen-1/">Demo</Link>
             <a href="https://github.com/codeforboston/windfall-elimination">Github Repo</a>
         </LinkWrapper>
     </>

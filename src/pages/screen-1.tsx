@@ -1,12 +1,10 @@
 import React from "react"
-import { Link } from "gatsby"
+import { ButtonLink, Form, Input, SEO } from "../components"
 
-import { Form, Input, SEO } from "../components"
-
-const FirstPage = () => (
+const Screen1 = () => (
     <>
-        <SEO title="Page two" />
-        <h1>Screen 1!</h1>
+        <SEO title="Page one" />
+        <h2>Screen 1!</h2>
         <Form>
             <label>
                 Enter your DOB:
@@ -22,8 +20,8 @@ const FirstPage = () => (
                 <Input type="date" />
             </label>
         </Form>
-        <Link to="/screen-2/">Submit</Link>
+        <ButtonLink to="/screen-2/">Submit</ButtonLink>
     </>
 );
 
-export default FirstPage;
+export default Screen1;
