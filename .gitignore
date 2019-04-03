@@ -1,0 +1,12 @@
+**/**/.build/
+**/**/.serverless
+**/**/.cache/
+**/**/lib
+**/**/dist/
+*.log
+.DS_Store
+**/node_modules/
+**/vendor/
+**/package-lock.json
+.vscode/
+**/public/
