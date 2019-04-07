@@ -13,6 +13,7 @@ import { QuestionProvider } from "./question-context";
 import { QuestionText } from "./question-text";
 import { SEO } from "./seo";
 import { TextBlock } from "./text-block";
+import { PrescreenInfo } from "./prescreen-info";
 
 export {
     ButtonLink,
@@ -29,5 +30,6 @@ export {
     QuestionProvider,
     QuestionText,
     SEO,
-    TextBlock
+    TextBlock,
+    PrescreenInfo
 };
