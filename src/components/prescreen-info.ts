@@ -8,10 +8,4 @@ export const PrescreenInfo = styled("main")`
         padding-bottom: ${spacing[0]};
         text-align: left;
     }
-    ul {
-        padding: 0 0 0 ${spacing[1]};
-    }
-    li {
-        margin: ${spacing[1]} 0;
-    }
 `;

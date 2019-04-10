@@ -1,5 +1,5 @@
 import React from "react"
-import { ButtonLink, ButtonLinkRed, TextBlock, SEO, PrescreenInfo, Card } from "../components";
+import { ButtonLink, ButtonLinkRed, TextBlock, SEO, PrescreenInfo, Card, UnorderedList, ListItem } from "../components";
 
 export default () => (
     <PrescreenInfo>
@@ -13,10 +13,10 @@ export default () => (
 
         <h3>Will I be affected by WEP?</h3>
         <TextBlock>
-            <ul>
-                <li><strong>Government workers:</strong> Most jobs that do not pay into social security are jobs with state and local government. This means that the majority of affected people are teachers, firefighters, city hall employees, janitors, and other public servants.</li>
-                <li><strong>State of residence:</strong> For some states (including Massachusetts, Kentucky, Ohio, Indiana, and Texas), the majority of state and local employees will be affected by WEP. In the majority of the other states, some but not all retirees will be affected.</li>
-            </ul>
+            <UnorderedList>
+                <ListItem><strong>Government workers:</strong> Most jobs that do not pay into social security are jobs with state and local government. This means that the majority of affected people are teachers, firefighters, city hall employees, janitors, and other public servants.</ListItem>
+                <ListItem><strong>State of residence:</strong> For some states (including Massachusetts, Kentucky, Ohio, Indiana, and Texas), the majority of state and local employees will be affected by WEP. In the majority of the other states, some but not all retirees will be affected.</ListItem>
+            </UnorderedList>
         </TextBlock>
 
         <h3>Why is this app useful?</h3>

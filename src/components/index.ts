@@ -14,6 +14,8 @@ import { QuestionText } from "./question-text";
 import { SEO } from "./seo";
 import { TextBlock } from "./text-block";
 import { PrescreenInfo } from "./prescreen-info";
+import { UnorderedList } from "./unordered-list";
+import { ListItem } from "./list-item";
 
 export {
     ButtonLink,
@@ -31,5 +33,7 @@ export {
     QuestionText,
     SEO,
     TextBlock,
-    PrescreenInfo
+    PrescreenInfo,
+    UnorderedList,
+    ListItem
 };
