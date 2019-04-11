@@ -16,6 +16,7 @@ import { TextBlock } from "./text-block";
 import { PrescreenInfo } from "./prescreen-info";
 import { UnorderedList } from "./unordered-list";
 import { ListItem } from "./list-item";
+import { TextBlockHeader } from "./text-block-header";
 
 export {
     ButtonLink,
@@ -35,5 +36,6 @@ export {
     TextBlock,
     PrescreenInfo,
     UnorderedList,
-    ListItem
+    ListItem,
+    TextBlockHeader
 };
