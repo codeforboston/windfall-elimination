@@ -5,5 +5,5 @@ export const TextBlock = styled("div")`
     text-align: justify;
     font-size: ${fontSizes[1]};
     max-width: ${breakPoints[3]};
-    margin-bottom: ${spacing[2]};
+    margin: 0 auto ${spacing[2]} auto;
 `;

@@ -13,7 +13,6 @@ import { QuestionProvider } from "./question-context";
 import { QuestionText } from "./question-text";
 import { SEO } from "./seo";
 import { TextBlock } from "./text-block";
-import { PrescreenInfo } from "./prescreen-info";
 import { UnorderedList } from "./unordered-list";
 import { ListItem } from "./list-item";
 import { TextBlockHeader } from "./text-block-header";
@@ -34,7 +33,6 @@ export {
     QuestionText,
     SEO,
     TextBlock,
-    PrescreenInfo,
     UnorderedList,
     ListItem,
     TextBlockHeader

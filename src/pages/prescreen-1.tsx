@@ -1,8 +1,8 @@
 import React from "react"
-import { ButtonLink, ButtonLinkRed, TextBlock, SEO, PrescreenInfo, Card, UnorderedList, ListItem, TextBlockHeader } from "../components";
+import { ButtonLink, ButtonLinkRed, TextBlock, SEO, Card, UnorderedList, ListItem, TextBlockHeader } from "../components";
 
 export default () => (
-    <PrescreenInfo>
+    <>
         <SEO title="Prescreen 1" keywords={[`gatsby`, `application`, `react`]} />
         <h2>Pre-Screen</h2>
 
@@ -46,5 +46,5 @@ export default () => (
         </TextBlock>
         <ButtonLinkRed to="/">Go back!</ButtonLinkRed>
         <ButtonLink to="/prescreen-1b/">Start</ButtonLink>
-    </PrescreenInfo>
+    </>
 )
