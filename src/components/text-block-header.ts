@@ -3,6 +3,6 @@ import { spacing, breakPoints } from "../constants";
 
 export const TextBlockHeader = styled("h3")`
     max-width: ${breakPoints[3]};
-    margin: 0 auto ${spacing[0]} auto;
+    margin: 0 auto ${spacing[0]};
     text-align: left;
 `;
