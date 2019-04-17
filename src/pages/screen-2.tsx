@@ -1,7 +1,6 @@
 import React from "react"
 import { ButtonLink, ButtonLinkRed, Form, SEO, ObservableCell, Card, Message } from "../components";
 
-
 export default () => (
     <>
         <SEO title="Screen 2" />
