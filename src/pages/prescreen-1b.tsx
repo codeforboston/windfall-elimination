@@ -38,6 +38,6 @@ export default () => (
             </Message>
         </Form>
         <ButtonLinkRed to="/prescreen-1/">Go back!</ButtonLinkRed>
-        <ButtonLink to="/prescreen-2/">Submit</ButtonLink>
+        <ButtonLink to="/prescreen-1c/">Submit</ButtonLink>
     </>
 )
