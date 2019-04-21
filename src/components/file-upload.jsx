@@ -71,7 +71,14 @@ export default class FileUpload extends React.Component {
 	 	const name = this.fileInput.current.files[0].name
 	 	const formData = new FormData();
 		formData.append(name, file)
-		console.log(formData.get(this.fileInput.current.files[0].name))	
+		console.log(file)	
+
+		var reader = new FileReader()
+		reader.readAsBinaryString(file);
+
+		reader.onloadend = function(){
+		    console.log(reader.result);
+		}
 	 }
 
 	render() {
