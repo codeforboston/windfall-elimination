@@ -13,6 +13,9 @@ import { QuestionProvider } from "./question-context";
 import { QuestionText } from "./question-text";
 import { SEO } from "./seo";
 import { TextBlock } from "./text-block";
+import { UnorderedList } from "./unordered-list";
+import { ListItem } from "./list-item";
+import { TextBlockHeader } from "./text-block-header";
 
 export {
     ButtonLink,
@@ -29,5 +32,8 @@ export {
     QuestionProvider,
     QuestionText,
     SEO,
-    TextBlock
+    TextBlock,
+    UnorderedList,
+    ListItem,
+    TextBlockHeader
 };
