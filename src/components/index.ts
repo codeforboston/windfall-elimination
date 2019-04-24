@@ -15,6 +15,7 @@ import { QuestionText } from "./question-text";
 import { SEO } from "./seo";
 import { TextBlock } from "./text-block";
 import { ListText } from "./list-text";
+import { DisplayTable } from "./display-table";
 import FileUpload from "./file-upload";
 
 export {
@@ -35,5 +36,6 @@ export {
     SEO,
     TextBlock,
     ListText,
+    DisplayTable,
     FileUpload
 };

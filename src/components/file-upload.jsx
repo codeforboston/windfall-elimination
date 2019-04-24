@@ -1,5 +1,6 @@
 import React from 'react';
 import styled from "@emotion/styled";
+import fastXml from 'fast-xml-parser';
 import { spacing, colors, fontSizes, radii } from "../constants";
 
 export const UploadButton = styled("div")`
@@ -35,6 +36,51 @@ export const UploadLabel = styled("label")`
   	height: 50px;
 `;
 
+export const DisplayTable = styled("div")`
+    border-radius: ${radii[0]};
+    margin: ${spacing[0]};
+    border: 1px solid ${colors.gray};
+    padding: ${spacing[0]};
+`;
+
+export class GenerateTable extends React.Component {
+	componentDidMount() {
+
+	}
+
+	render () {
+		if (this.props.parsedXml) {
+			const parsedXml = this.props.parsedXml;
+		    const earnings = parsedXml['osss:OnlineSocialSecurityStatementData']['osss:EarningsRecord']['osss:Earnings'];
+		    var header = <tr><th>Year</th><th>Amount</th></tr>;
+		    var thing = earnings.map((earning, i) => {
+		    	return(
+		    		<tr key={i}>
+			    		<td><label>{earning['@_startYear']}</label></td>
+			    		<td><label>{earning['osss:FicaEarnings']}</label></td>
+			    	</tr>
+		    		)
+			});
+
+	   } else {
+	   	console.log('Over here')
+	   	var header = <tr></tr>;
+	   	var thing = <tr></tr>;
+	   };
+	   	
+
+		return (
+			<table id="data-table">
+			    <tbody>
+			    	{header}
+			    	{thing}
+			    </tbody>
+			</table>
+
+			)
+	}
+}
+
 export default class FileUpload extends React.Component {
 	constructor(props, context) {
 	    super(props, context);
@@ -42,17 +88,15 @@ export default class FileUpload extends React.Component {
 	    this.handleHide = this.handleHide.bind(this);
 	    this.handleSubmit = this.handleSubmit.bind(this);
 	    this.handleText = this.handleText.bind(this);
+	    this.handleLoadTable = this.handleLoadTable.bind(this);
 	    this.fileInput = React.createRef();
 
 	    this.state = {
-	      show: true,
-	      redirect: false,
-	      submitState: false,
-	      matrixType:'None',
-	      directoryReq: "false",
-	      setName: ''
+	      earningsRecord: ''
 	    };
 	 }
+
+
 
 	 handleHide() {
 	    this.setState({ show: false });
@@ -65,29 +109,38 @@ export default class FileUpload extends React.Component {
 	 	});
 	 }
 
+	 handleLoadTable(reader) {
+	 	 if (fastXml.validate(reader.target.result) === true) {
+				var parsedText = fastXml.parse(reader.target.result, {ignoreAttributes: false})
+	 	this.setState({
+	 		earningsRecord: parsedText
+	 	});
+	 	}
+	}
+
 	 handleSubmit(formResponse) {
 	 	formResponse.preventDefault();
 	 	const file = this.fileInput.current.files[0]
 	 	const name = this.fileInput.current.files[0].name
 	 	const formData = new FormData();
 		formData.append(name, file)
-		console.log(file)	
+
 
 		var reader = new FileReader()
-		reader.readAsBinaryString(file);
+		reader.readAsText(file);
 
-		reader.onloadend = function(){
-		    console.log(reader.result);
-		}
+		reader.onload = (reader) => this.handleLoadTable(reader)	
 	 }
 
 	render() {
+
 		return (
-			<div class='upload-form'>
+			<div className ='upload-form'>
 					<UploadButton>
-						<UploadLabel htmlFor="inputfile" class="btn">Upload Earnings Record PDF</UploadLabel>
+						<UploadLabel htmlFor="inputfile" className="btn">Upload Earnings Record PDF</UploadLabel>
 						<UploadInput type='file' id='inputfile' ref={this.fileInput} onChange={this.handleSubmit}></UploadInput>
 					</UploadButton>
+					<GenerateTable parsedXml = {this.state.earningsRecord}/>
 			</div>
 		)
 	}
