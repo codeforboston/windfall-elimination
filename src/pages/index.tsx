@@ -1,10 +1,14 @@
 import React, {Component} from "react";
 import { Link } from "gatsby"
 import { LinkWrapper, SEO, ButtonLink } from "../components";
+
 import {Runtime, Inspector} from "@observablehq/notebook-runtime";
 // import notebook from "how-to-embed-a-notebook-in-a-react-app";
 import notebook from "windfall-awareness-notebook-prototype";
+
 export default class App extends Component {
+
+    //explanation: https://observablehq.com/@observablehq/how-to-embed-a-notebook-in-a-react-app
     birthdateRef = React.createRef();
     calculationDisplayRef = React.createRef();
   
