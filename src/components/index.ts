@@ -14,15 +14,13 @@ import { QuestionProvider } from "./question-context";
 import { QuestionText } from "./question-text";
 import { SEO } from "./seo";
 import { TextBlock } from "./text-block";
-<<<<<<< HEAD
 import { ListText } from "./list-text";
 import { DisplayTable } from "./display-table";
 import FileUpload from "./file-upload";
-=======
 import { UnorderedList } from "./unordered-list";
 import { ListItem } from "./list-item";
 import { TextBlockHeader } from "./text-block-header";
->>>>>>> origin/master
+import ObservableFunction from "./observable-function";
 
 export {
     ButtonLink,
@@ -41,13 +39,11 @@ export {
     QuestionText,
     SEO,
     TextBlock,
-<<<<<<< HEAD
     ListText,
     DisplayTable,
-    FileUpload
-=======
+    FileUpload,
     UnorderedList,
     ListItem,
-    TextBlockHeader
->>>>>>> origin/master
+    TextBlockHeader,
+    ObservableFunction
 };

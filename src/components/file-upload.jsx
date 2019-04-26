@@ -3,6 +3,7 @@ import styled from "@emotion/styled";
 import fastXml from 'fast-xml-parser';
 import { spacing, colors, fontSizes, radii } from "../constants";
 
+//Upload page specific css/html
 export const UploadButton = styled("div")`
 	position: relative;
     padding: ${spacing[0]} ${spacing[0]};
@@ -36,13 +37,27 @@ export const UploadLabel = styled("label")`
   	height: 50px;
 `;
 
-export const DisplayTable = styled("div")`
+export const DisplayTable = styled("table")`
     border-radius: ${radii[0]};
     margin: ${spacing[0]};
-    border: 1px solid ${colors.gray};
-    padding: ${spacing[0]};
+    padding: 8px;
+    max-width: 500px;
+  	margin: auto;
 `;
 
+export const TableHeader = styled("th")`
+	background-color: #dddddd;
+	border: 1px solid #dddddd;
+  	text-align: left;
+  	padding: 8px;
+`;
+
+export const TableRow= styled("tr")`
+	border: 1px solid #dddddd;
+`;
+//-------------------------------------------------
+
+// Generates earning records table from uploaded XML file, XML parsing adapted from Amrutha
 export class GenerateTable extends React.Component {
 	componentDidMount() {
 
@@ -52,13 +67,13 @@ export class GenerateTable extends React.Component {
 		if (this.props.parsedXml) {
 			const parsedXml = this.props.parsedXml;
 		    const earnings = parsedXml['osss:OnlineSocialSecurityStatementData']['osss:EarningsRecord']['osss:Earnings'];
-		    var header = <tr><th>Year</th><th>Amount</th></tr>;
+		    var header = <tr><TableHeader>Year</TableHeader ><TableHeader>Amount</TableHeader ></tr>;
 		    var thing = earnings.map((earning, i) => {
 		    	return(
-		    		<tr key={i}>
+		    		<TableRow key={i}>
 			    		<td><label>{earning['@_startYear']}</label></td>
 			    		<td><label>{earning['osss:FicaEarnings']}</label></td>
-			    	</tr>
+			    	</TableRow>
 		    		)
 			});
 
@@ -70,12 +85,12 @@ export class GenerateTable extends React.Component {
 	   	
 
 		return (
-			<table id="data-table">
+			<DisplayTable>
 			    <tbody>
 			    	{header}
 			    	{thing}
 			    </tbody>
-			</table>
+			</DisplayTable>
 
 			)
 	}
@@ -141,6 +156,7 @@ export default class FileUpload extends React.Component {
 						<UploadInput type='file' id='inputfile' ref={this.fileInput} onChange={this.handleSubmit}></UploadInput>
 					</UploadButton>
 					<GenerateTable parsedXml = {this.state.earningsRecord}/>
+
 			</div>
 		)
 	}
