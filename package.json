@@ -7,6 +7,7 @@
   "dependencies": {
     "@emotion/core": "^10.0.10",
     "@emotion/styled": "^10.0.10",
+    "@observablehq/notebook-runtime": "^2.0.0",
     "@types/react-helmet": "^5.0.8",
     "gatsby": "^2.2.13",
     "gatsby-cli": "^2.5.2",
@@ -19,11 +20,13 @@
     "gatsby-plugin-typescript": "^2.0.11",
     "gatsby-source-filesystem": "^2.0.28",
     "gatsby-transformer-sharp": "^2.1.17",
+    "how-to-embed-a-notebook-in-a-react-app": "https://api.observablehq.com/@jashkenas/how-to-embed-a-notebook-in-a-react-app.tgz?key=188f50f6a5f19b89",
     "prop-types": "^15.7.2",
     "react": "^16.8.5",
     "react-dom": "^16.8.5",
     "react-helmet": "^5.2.0",
-    "typescript": "^3.3.4000"
+    "typescript": "^3.3.4000",
+    "windfall-awareness-notebook-prototype": "https://api.observablehq.com/@thadk/windfall-awareness-notebook-prototype.tgz"
   },
   "devDependencies": {
     "@types/react": "^16.8.8",
