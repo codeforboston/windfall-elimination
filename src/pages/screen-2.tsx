@@ -1,15 +1,19 @@
 import React from "react"
-import { ButtonLink, ButtonLinkRed, Form, Input, SEO } from "../components";
+import { ButtonLink, ButtonLinkRed, Form, Input, SEO, ObservableFunction } from "../components";
 
 export default () => (
     <>
         <SEO title="Screen 2" />
         <h2>Screen 2!</h2>
-        <p>* Calculated AIME</p>
         <Form>
             <label>
-                Enter # of years of substantial earnings
-                <Input />
+                Select your AIME
+                <ObservableFunction cellname='AIMEPicked' widgetmax='5000'/>
+            </label>
+            
+            <label>
+                Select years of substantial earnings
+                <ObservableFunction cellname='yearsSubstantialEarningsPicked' widgetmax='50'/>
             </label>
             <label>
                 Enter amount of non-covered pension

@@ -20,6 +20,7 @@ import FileUpload from "./file-upload";
 import { UnorderedList } from "./unordered-list";
 import { ListItem } from "./list-item";
 import { TextBlockHeader } from "./text-block-header";
+import ObservableFunction from "./observable-function";
 
 export {
     ButtonLink,
@@ -43,5 +44,6 @@ export {
     FileUpload,
     UnorderedList,
     ListItem,
-    TextBlockHeader
+    TextBlockHeader,
+    ObservableFunction
 };
