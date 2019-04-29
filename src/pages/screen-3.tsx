@@ -7,10 +7,7 @@ export default () => (
         <h2>Screen 3!</h2>
         <p>* WEP-Adjusted MPB</p>
         <ObservableFunction 
-        	cellname='yearsSubstantialEarningsPicked' 
-        />
-        <ObservableFunction 
-        	cellname='getPIA' 
+        	cellname='sourceOfRetireeProfile' 
         />
         <p>PIA (slider)</p>
         <p>Visual formula walkthrough?</p>

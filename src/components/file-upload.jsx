@@ -64,11 +64,13 @@ export class GenerateTable extends React.Component {
 	}
 
 	render () {
+		var header;
+		var tableRows;
 		if (this.props.parsedXml) {
 			const parsedXml = this.props.parsedXml;
 		    const earnings = parsedXml['osss:OnlineSocialSecurityStatementData']['osss:EarningsRecord']['osss:Earnings'];
-		    var header = <tr><TableHeader>Year</TableHeader ><TableHeader>Amount</TableHeader ></tr>;
-		    var thing = earnings.map((earning, i) => {
+		    header = <tr><TableHeader>Year</TableHeader ><TableHeader>Amount</TableHeader ></tr>;
+		    tableRows = earnings.map((earning, i) => {
 		    	return(
 		    		<TableRow key={i}>
 			    		<td><label>{earning['@_startYear']}</label></td>
@@ -78,9 +80,8 @@ export class GenerateTable extends React.Component {
 			});
 
 	   } else {
-	   	console.log('Over here')
-	   	var header = <tr></tr>;
-	   	var thing = <tr></tr>;
+	   	header = <tr></tr>;
+	   	tableRows = <tr></tr>;
 	   };
 	   	
 
@@ -88,7 +89,7 @@ export class GenerateTable extends React.Component {
 			<DisplayTable>
 			    <tbody>
 			    	{header}
-			    	{thing}
+			    	{tableRows}
 			    </tbody>
 			</DisplayTable>
 
@@ -152,7 +153,7 @@ export default class FileUpload extends React.Component {
 		return (
 			<div className ='upload-form'>
 					<UploadButton>
-						<UploadLabel htmlFor="inputfile" className="btn">Upload Earnings Record PDF</UploadLabel>
+						<UploadLabel htmlFor="inputfile" className="btn">Upload Earnings Record</UploadLabel>
 						<UploadInput type='file' id='inputfile' ref={this.fileInput} onChange={this.handleSubmit}></UploadInput>
 					</UploadButton>
 					<GenerateTable parsedXml = {this.state.earningsRecord}/>

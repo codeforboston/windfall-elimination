@@ -54,12 +54,30 @@ export default class ObservableFunction extends React.Component {
 
 	displayHTML() {
 		if (this.state.widget) {
-			return (
-				<div>
-					<label>{this.state.widgetvalue}</label>
-					<input type="range" min="0" max={this.props.widgetmax} step="1" value={this.state.widgetvalue} onChange={this.handleWidget} />
-				</div>
-			)
+			if (this.props.isTable) {
+				var tablerows = this.state.widgetvalue.split(/\r?\n/).map((element, index) => {
+					return <tr key={index}><td>{element}</td></tr>
+				});
+				return (
+					<div>
+						<table><tbody>{tablerows}</tbody></table>
+					</div>
+				)
+			} else {
+				return (
+					<div>
+						<label>{this.state.widgetvalue}</label>
+						<input type="range" min="0" max={this.props.widgetmax} step="1" value={this.state.widgetvalue} onChange={this.handleWidget} />
+					</div>
+				)
+			}
+		} else if (this.state.newfunction) {
+			if (this.props.isImage) {
+				var result = this.state.newfunction()
+				var node = this.defaultRef.current
+				node.appendChild(result)
+			}
+			return <div ref={this.defaultRef}></div>
 		} else {
 			return <div ref={this.defaultRef}></div>
 		}

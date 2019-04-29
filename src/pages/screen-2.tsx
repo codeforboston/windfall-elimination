@@ -10,7 +10,7 @@ export default () => (
                 Select your AIME
                 <ObservableFunction cellname='AIMEPicked' widgetmax='5000'/>
             </label>
-            
+
             <label>
                 Select years of substantial earnings
                 <ObservableFunction cellname='yearsSubstantialEarningsPicked' widgetmax='50'/>

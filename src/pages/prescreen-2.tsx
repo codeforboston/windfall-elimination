@@ -1,5 +1,5 @@
 import React from "react"
-import { ButtonLink, ButtonLinkRed, Card, Form, HelperText, QuestionText, SEO, TextBlock, FileUpload } from "../components";
+import { ButtonLink, ButtonLinkRed, Card, Form, HelperText, QuestionText, SEO, TextBlock, FileUpload, ObservableFunction } from "../components";
 
 export default () => (
     <>
@@ -45,6 +45,8 @@ export default () => (
             If yes - Great! Download your earnings record as a PDF. You can print it out, or upload it here:
         </TextBlock>
         <FileUpload />
+        <ObservableFunction cellname='image' isImage={true} />
+        <ObservableFunction cellname='ocrResult' isTable={true} />
         <TextBlock>
             Also make sure you have ready the amount of your pension (whether it’s paid monthly or a lump sum), and the date you became entitled to it (either the date you started receiving a monthly check or the first day you could withdraw from the account). Your plan may send statements to you proactively, or contact your HR administrator for information on how to request a statement.
         </TextBlock>
