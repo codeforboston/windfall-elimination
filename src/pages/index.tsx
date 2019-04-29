@@ -10,6 +10,8 @@ export default class App extends Component {
 
     //explanation: https://observablehq.com/@observablehq/how-to-embed-a-notebook-in-a-react-app
     birthdateRef = React.createRef();
+    birthDatePickedPickerRef = React.createRef();
+
     calculationDisplayRef = React.createRef();
   
     componentDidMount() {
@@ -17,6 +19,9 @@ export default class App extends Component {
         if (cell.name === "birthDatePicked") {
           return new Inspector(this.birthdateRef.current);
         }
+        if (cell.name === "viewof birthDatePicked") {
+            return new Inspector(this.birthDatePickedPickerRef.current);
+          }
         if (cell.name === "calculationDisplay") {
             return new Inspector(this.calculationDisplayRef.current);
           }
@@ -36,6 +41,7 @@ export default class App extends Component {
             </LinkWrapper>
             <p>
                 <div ref={this.birthdateRef}></div>
+                <div ref={this.birthDatePickedPickerRef}></div>
                 <div ref={this.calculationDisplayRef}></div>
             </p> 
         </>
