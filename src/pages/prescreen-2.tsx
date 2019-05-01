@@ -1,9 +1,14 @@
 import React from "react"
-import { ButtonLink, ButtonLinkRed, Card, Form, HelperText, QuestionText, SEO, TextBlock } from "../components";
+import { ButtonLink, ButtonLinkRed, Card, Form, HelperText, QuestionText, SEO, TextBlock, Message } from "../components";
 
 export default () => (
     <>
         <SEO title="Prescreen 2" keywords={[`gatsby`, `application`, `react`]} />
+
+        <Message>
+            Based on your answers, you are probably affected by WEP. Please enter your information below.
+        </Message>
+
         <h2>Getting your earnings record</h2>
         <div>We'll need some information to get started.</div>
         <Form>

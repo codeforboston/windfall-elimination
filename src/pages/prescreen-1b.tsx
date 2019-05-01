@@ -30,12 +30,6 @@ export default () => (
                     <input type="radio" name="pensionOrRetirementAccount" value="false"></input>
                 </label>
             </Card>
-            <Message>
-                If yes: You are probably affected by WEP. Proceed to the next screen.
-            </Message>
-            <Message>
-                If no: Congratulations! You’re probably not affected by WEP. Make sure that your earnings record is correct with the SSA to make sure you get the right amount of SSA benefits you’re entitled to, and report any significant changes in your income.
-            </Message>
         </Form>
         <ButtonLinkRed to="/prescreen-1/">Go back!</ButtonLinkRed>
         <ButtonLink to="/prescreen-2/">Submit</ButtonLink>
