@@ -21,6 +21,7 @@ import { UnorderedList } from "./unordered-list";
 import { ListItem } from "./list-item";
 import { TextBlockHeader } from "./text-block-header";
 import ObservableFunction from "./observable-function";
+import HamburgerHelper from "./hamburger-menu";
 
 export {
     ButtonLink,
@@ -45,5 +46,6 @@ export {
     UnorderedList,
     ListItem,
     TextBlockHeader,
-    ObservableFunction
+    ObservableFunction,
+    HamburgerHelper
 };

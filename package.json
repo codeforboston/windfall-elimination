@@ -11,7 +11,7 @@
     "@types/react-helmet": "^5.0.8",
     "fast-xml-parser": "^3.12.16",
     "gatsby": "^2.3.25",
-    "gatsby-cli": "^2.5.2",
+    "gatsby-cli": "^2.5.12",
     "gatsby-image": "^2.0.34",
     "gatsby-plugin-layout": "^1.0.13",
     "gatsby-plugin-manifest": "^2.0.24",
@@ -25,6 +25,7 @@
     "react": "^16.8.5",
     "react-dom": "^16.8.5",
     "react-helmet": "^5.2.0",
+    "tesseract.js": "^1.0.14",
     "typescript": "^3.3.4000",
     "windfall-awareness-notebook-prototype": "https://api.observablehq.com/@thadk/windfall-awareness-notebook-prototype.tgz"
   },

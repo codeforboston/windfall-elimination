@@ -1,6 +1,7 @@
 import React from 'react';
 import styled from "@emotion/styled";
 import fastXml from 'fast-xml-parser';
+import Tesseract from 'tesseract.js'
 import { spacing, colors, fontSizes, radii } from "../constants";
 
 //Upload page specific css/html
