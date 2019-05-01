@@ -1,13 +1,5 @@
 import React from "react"
-<<<<<<< HEAD:src/pages/prescreen-22.tsx
-<<<<<<< HEAD
 import { ButtonLink, ButtonLinkRed, Card, Form, HelperText, QuestionText, SEO, TextBlock, FileUpload, ObservableFunction } from "../components";
-=======
-import { ButtonLink, ButtonLinkRed, Card, Form, HelperText, QuestionText, SEO, TextBlock, Message } from "../components";
->>>>>>> c591348285b4fe772087b432d3675379602d9050
-=======
-import { ButtonLink, ButtonLinkRed, Card, Form, HelperText, QuestionText, SEO, TextBlock, Message } from "../components";
->>>>>>> refs/remotes/origin/master:src/pages/prescreen-2.tsx
 
 export default () => (
     <>
