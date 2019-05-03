@@ -11,20 +11,25 @@ export default class Prescreen1b extends React.Component {
         this.state={
             coveredEmployment: '',
             pensionOrRetirementAccount: '',
+            selected: 0,
         }
     }
 
     handleSelection(e) {
-        if (e.target.name === 'coveredEmployment') {
+        if (e.target.name === "coveredEmployment") {
             this.setState({
-                coveredEmployment: e.target.value
+                coveredEmployment: e.target.value,
+                selected: this.state.selected + 1
             })
-            console.log('Hello!')
         } else if (e.target.name === "pensionOrRetirementAccount") {
             this.setState({
-                pensionOrRetirementAccount: e.target.value
+                pensionOrRetirementAccount: e.target.value,
+                selected: this.state.selected + 1
             })
-            console.log('Hello!')
+        } else if (e.target.name == "submitButton") {
+            if (this.state.selected < 2) {
+                e.preventDefault()
+            }
         }
     }
 
@@ -40,10 +45,10 @@ export default class Prescreen1b extends React.Component {
                             “Non-covered” employment is employment where your employer did not withhold Social Security taxes from your wages. These earnings will not show up on your Social Security earnings statement. [skip ahead to downloading your earnings statement?]
                         </HelperText>
                         <label> Yes
-                            <input type="radio" name="coveredEmployment" value="true" onClick={this.handleSelection}></input>
+                            <input type="radio" name="coveredEmployment" id='ce1' value="true" onClick={this.handleSelection}></input>
                         </label>
                         <label> No
-                            <input type="radio" name="coveredEmployment" value="false" onClick={this.handleSelection}></input>
+                            <input type="radio" name="coveredEmployment" id='ce2' value="false" onClick={this.handleSelection}></input>
                         </label>
                     </Card>
                     <Card>
@@ -66,7 +71,7 @@ export default class Prescreen1b extends React.Component {
                     </Message>
                 </Form>
                 <ButtonLinkRed to="/prescreen-1/">Go back!</ButtonLinkRed>
-                <ButtonLink to="/prescreen-1c/">Submit</ButtonLink>
+                <ButtonLink to={this.state.coveredEmployment === 'true' ? '/prescreen-1c/' : '/congrats/'} name='submitButton' onClick={this.handleSelection}>Submit</ButtonLink>
             </>
       )
   }

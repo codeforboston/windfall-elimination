@@ -9,10 +9,12 @@
     "@emotion/styled": "^10.0.10",
     "@observablehq/notebook-runtime": "^2.0.0",
     "@types/react-helmet": "^5.0.8",
+    "babel-preset-gatsby": "^0.1.11",
     "fast-xml-parser": "^3.12.16",
     "gatsby": "^2.3.25",
     "gatsby-cli": "^2.5.12",
     "gatsby-image": "^2.0.34",
+    "gatsby-plugin-emotion": "^4.0.6",
     "gatsby-plugin-layout": "^1.0.13",
     "gatsby-plugin-manifest": "^2.0.24",
     "gatsby-plugin-offline": "^2.0.25",
@@ -32,6 +34,7 @@
   "devDependencies": {
     "@types/react": "^16.8.8",
     "@types/react-dom": "^16.8.3",
+    "babel-plugin-emotion": "^10.0.9",
     "prettier": "^1.16.4",
     "react-redux": "^7.0.2"
   },
