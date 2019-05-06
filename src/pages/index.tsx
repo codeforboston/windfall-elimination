@@ -6,7 +6,7 @@ export default () => (
     <>
         <SEO title="Home" keywords={[`gatsby`, `application`, `react`]} />
 
-        <TextBlockHeader>What is the Windfall Elemination Provision?</TextBlockHeader>
+        <TextBlockHeader>What is the Windfall Elimination Provision?</TextBlockHeader>
         <TextBlock>
             The Windfall Elimination Provision is a policy intended to reduce Social Security benefits for people who also have access to a pension or retirement account from work where they did not pay into Social Security.
         </TextBlock>
@@ -25,8 +25,6 @@ export default () => (
         </TextBlock>
         <LinkWrapper>
             <ButtonLink to="/prescreen-1/">Get Started!</ButtonLink>
-            <Link to="/admin/">Admin</Link>
-            <a href="https://github.com/codeforboston/windfall-elimination">Github Repo</a>
         </LinkWrapper>
     </>
 )

@@ -1,5 +1,5 @@
 import React from "react"
-import { ButtonLink, ButtonLinkRed, Form, Input, SEO, ObservableFunction } from "../components";
+import { ButtonLink, ButtonLinkRed, Form, Input, SEO, ObservableCell } from "../components";
 
 export default () => (
     <>
@@ -8,16 +8,26 @@ export default () => (
         <Form>
             <label>
                 Select your AIME
-                <ObservableFunction cellname='AIMEPicked' widgetmax='5000'/>
+                <ObservableCell cellname='viewof AIMEPicked'/>
+            </label>
+            <label>
+                Select years of substantial earnings
+                <ObservableCell cellname='viewof birthDatePicked' />
             </label>
 
             <label>
                 Select years of substantial earnings
-                <ObservableFunction cellname='yearsSubstantialEarningsPicked' widgetmax='50'/>
+                <ObservableCell cellname='viewof yearsSubstantialEarningsPicked' />
+            </label>
+            <label>
+                <ObservableCell cellname='viewof pensionNonCoveredMonthly'/>
             </label>
             <label>
                 Enter amount of non-covered pension
-                <Input />
+                <ObservableCell cellname='viewof retireDatePicked'/>            </label>
+            <label>
+                Select years of substantial earnings
+                <ObservableCell cellname='calculationDisplay' />
             </label>
         </Form>
         <ButtonLinkRed to="/screen-1/">Go back!</ButtonLinkRed>
