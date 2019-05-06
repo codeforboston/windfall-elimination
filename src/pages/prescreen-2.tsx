@@ -1,9 +1,14 @@
 import React from "react"
-import { ButtonLink, ButtonLinkRed, Card, Form, HelperText, QuestionText, SEO, TextBlock } from "../components";
+import { ButtonLink, ButtonLinkRed, Card, Form, HelperText, Message, QuestionText, SEO, TextBlock, FileUpload, ObservableCell } from "../components";
 
 export default () => (
     <>
         <SEO title="Prescreen 2" keywords={[`gatsby`, `application`, `react`]} />
+
+        <Message>
+            Based on your answers, you are probably affected by WEP. Please enter your information below.
+        </Message>
+
         <h2>Getting your earnings record</h2>
         <div>We'll need some information to get started.</div>
         <Form>
@@ -44,13 +49,13 @@ export default () => (
         <TextBlock>
             If yes - Great! Download your earnings record as a PDF. You can print it out, or upload it here:
         </TextBlock>
-        <ButtonLink to="/prescreen-2/">
-            UPLOAD PDF EARNINGS RECORD
-        </ButtonLink>
+        <FileUpload />
+        <ObservableCell cellname='image' isImage={true} />
+        <ObservableCell cellname='ocrResult' isTable={true} />
         <TextBlock>
             Also make sure you have ready the amount of your pension (whether it’s paid monthly or a lump sum), and the date you became entitled to it (either the date you started receiving a monthly check or the first day you could withdraw from the account). Your plan may send statements to you proactively, or contact your HR administrator for information on how to request a statement.
         </TextBlock>
-        <ButtonLinkRed to="/prescreen-1b/">Go back!</ButtonLinkRed>
-        <ButtonLink to="/screen-1/">Submit</ButtonLink>
+        <ButtonLinkRed to="/prescreen-1c/">Go back!</ButtonLinkRed>
+        <ButtonLink to="/prescreen-1c/">Submit</ButtonLink>
     </>
 )

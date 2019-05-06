@@ -37,5 +37,11 @@ module.exports = {
         component: require.resolve(`${__dirname}/src/layouts/index.tsx`)
       }
     },
+    {
+      resolve: `gatsby-plugin-emotion`,
+      options: {
+        // Accepts all options defined by `babel-plugin-emotion` plugin.
+      },
+    }
   ],
 }

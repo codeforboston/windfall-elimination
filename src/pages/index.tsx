@@ -1,50 +1,30 @@
 import React, {Component} from "react";
 import { Link } from "gatsby"
-import { LinkWrapper, SEO, ButtonLink } from "../components";
+import { LinkWrapper, SEO, ButtonLink, TextBlockHeader, TextBlock, ListItem, UnorderedList, HamburgerHelper } from "../components";
 
-import {Runtime, Inspector} from "@observablehq/notebook-runtime";
-// import notebook from "how-to-embed-a-notebook-in-a-react-app";
-import notebook from "windfall-awareness-notebook-prototype";
+export default () => (
+    <>
+        <SEO title="Home" keywords={[`gatsby`, `application`, `react`]} />
 
-export default class App extends Component {
+        <TextBlockHeader>What is the Windfall Elimination Provision?</TextBlockHeader>
+        <TextBlock>
+            The Windfall Elimination Provision is a policy intended to reduce Social Security benefits for people who also have access to a pension or retirement account from work where they did not pay into Social Security.
+        </TextBlock>
 
-    //explanation: https://observablehq.com/@observablehq/how-to-embed-a-notebook-in-a-react-app
-    birthdateRef = React.createRef();
-    birthDatePickedPickerRef = React.createRef();
+        <TextBlockHeader>Will I be affected by WEP?</TextBlockHeader>
+        <TextBlock>
+            <UnorderedList>
+                <ListItem><strong>Government workers:</strong> Most jobs that do not pay into social security are jobs with state and local government. This means that the majority of affected people are teachers, firefighters, city hall employees, janitors, and other public servants.</ListItem>
+                <ListItem><strong>State of residence:</strong> For some states (including Massachusetts, Kentucky, Ohio, Indiana, and Texas), the majority of state and local employees will be affected by WEP. In the majority of the other states, some but not all retirees will be affected.</ListItem>
+            </UnorderedList>
+        </TextBlock>
 
-    calculationDisplayRef = React.createRef();
-  
-    componentDidMount() {
-      Runtime.load(notebook, (cell) => {
-        if (cell.name === "birthDatePicked") {
-          return new Inspector(this.birthdateRef.current);
-        }
-        if (cell.name === "viewof birthDatePicked") {
-            return new Inspector(this.birthDatePickedPickerRef.current);
-          }
-        if (cell.name === "calculationDisplay") {
-            return new Inspector(this.calculationDisplayRef.current);
-          }
-       });
-    }
-  
-    render() {
-      return (
-        <>
-             <SEO title="Home" keywords={[`gatsby`, `application`, `react`]} />
-            <h2>Windfall Elimination Awareness Demo</h2>
-            <p>This is a demo of the Windfall Elimination Project.<br/>Check out our demo or the admin page!</p>
-            <LinkWrapper>
-                <ButtonLink to="/prescreen-1/">Demo</ButtonLink>
-                <Link to="/admin/">Admin</Link>
-                <a href="https://github.com/codeforboston/windfall-elimination">Github Repo</a>
-            </LinkWrapper>
-            <p>
-                <div ref={this.birthdateRef}></div>
-                <div ref={this.birthDatePickedPickerRef}></div>
-                <div ref={this.calculationDisplayRef}></div>
-            </p> 
-        </>
-      );
-    }
-  }
+        <TextBlockHeader>Why is this app useful?</TextBlockHeader>
+        <TextBlock>
+            While the Social Security administration provides some information on how WEP is calculated, this information is often difficult to find and understand.
+        </TextBlock>
+        <LinkWrapper>
+            <ButtonLink to="/prescreen-1/">Get Started!</ButtonLink>
+        </LinkWrapper>
+    </>
+)

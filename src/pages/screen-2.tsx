@@ -1,19 +1,33 @@
 import React from "react"
-import { ButtonLink, ButtonLinkRed, Form, Input, SEO } from "../components";
+import { ButtonLink, ButtonLinkRed, Form, Input, SEO, ObservableCell } from "../components";
 
 export default () => (
     <>
         <SEO title="Screen 2" />
         <h2>Screen 2!</h2>
-        <p>* Calculated AIME</p>
         <Form>
             <label>
-                Enter # of years of substantial earnings
-                <Input />
+                Select your AIME
+                <ObservableCell cellname='viewof AIMEPicked'/>
+            </label>
+            <label>
+                Select years of substantial earnings
+                <ObservableCell cellname='viewof birthDatePicked' />
+            </label>
+
+            <label>
+                Select years of substantial earnings
+                <ObservableCell cellname='viewof yearsSubstantialEarningsPicked' />
+            </label>
+            <label>
+                <ObservableCell cellname='viewof pensionNonCoveredMonthly'/>
             </label>
             <label>
                 Enter amount of non-covered pension
-                <Input />
+                <ObservableCell cellname='viewof retireDatePicked'/>            </label>
+            <label>
+                Select years of substantial earnings
+                <ObservableCell cellname='calculationDisplay' />
             </label>
         </Form>
         <ButtonLinkRed to="/screen-1/">Go back!</ButtonLinkRed>
