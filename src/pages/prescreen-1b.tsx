@@ -1,5 +1,5 @@
 import React from "react"
-import { ButtonLink, ButtonLinkRed, Card, Form, HelperText, Message, QuestionText, SEO } from "../components";
+import { ButtonLink, ButtonLinkRed, Card, Form, HelperText, Message, QuestionText, Radio, SEO } from "../components";
 
 export default () => (
     <>

@@ -10,8 +10,9 @@ export const ButtonLink = styled(Link)`
     color: ${colors.white};
     text-decoration: none;
     display: inline-block;
+    border-radius: ${radii[1]};
     &:hover {
-        background-color: ${colors.lime};
+        background-color: ${colors.grass};
         color: ${colors.white};
         cursor: pointer;
     }

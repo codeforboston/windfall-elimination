@@ -28,7 +28,7 @@ const ChildrenWrapper = styled("div")`
 `;
 
 const Footer = styled("footer")`
-    background-color: ${colors.black};
+    background-color: ${colors.darkGreen};
     color: ${colors.white};
     width: 100%;
     bottom: 0;
