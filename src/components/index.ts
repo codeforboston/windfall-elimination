@@ -22,6 +22,7 @@ import { ListItem } from "./list-item";
 import { TextBlockHeader } from "./text-block-header";
 import ObservableFunction from "./observable-function";
 import HamburgerHelper from "./hamburger-menu";
+import ObservableDock from "./observable-dock";
 
 export {
     ButtonLink,
@@ -47,5 +48,6 @@ export {
     ListItem,
     TextBlockHeader,
     ObservableFunction,
-    HamburgerHelper
+    HamburgerHelper,
+    ObservableDock 
 };

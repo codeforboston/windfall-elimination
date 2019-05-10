@@ -27,7 +27,7 @@ export const HamburgerBuns= styled('span')`
 export const HamburgerMenu = styled('ul')`
   position: absolute;
   width: 100px;
-  margin: 30px 0 0 -25px;
+  margin: 30px 0 0 -1px;
   padding: 50px;
   padding-top: 25px;
   
@@ -102,10 +102,10 @@ export default class HamburgerHelper extends React.Component {
 			  <Hamburger>
 			  	<HamburgerButton type='checkbox' ></HamburgerButton>
 			  	<HamburgerBuns></HamburgerBuns>
-				<HamburgerBuns></HamburgerBuns>
-				<HamburgerBuns></HamburgerBuns>
+  				<HamburgerBuns></HamburgerBuns>
+  				<HamburgerBuns></HamburgerBuns>
 			  	<HamburgerMenu>
-			  				<li><Link to="/" style={{ textDecoration: `none`,}}>Home</Link></li>
+			  			<li><Link to="/" style={{ textDecoration: `none`,}}>Home</Link></li>
 							<li><Link to="/admin/" style={{ textDecoration: `none`,}}>Admin Page</Link></li>
 							<li><a href="https://github.com/codeforboston/windfall-elimination" style={{ textDecoration: `none`,}}>Github</a></li>
 							<li><Link to="/about/" style={{ textDecoration: `none`,}}>About</Link></li>

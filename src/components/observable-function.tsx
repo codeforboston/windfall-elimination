@@ -5,8 +5,9 @@ import notebook from "windfall-awareness-notebook-prototype";
 export default class ObservableFunction extends React.Component {
 	constructor(props, context) {
 	    super(props, context);
-
 	    this.defaultRef = React.createRef();
+	    this.calculationDisplayRef = React.createRef();
+	    this.aimePickedRef = React.createRef();
 	    this.handleWidget = this.handleWidget.bind(this);
 	   	this.displayHTML = this.displayHTML.bind(this);
 
@@ -19,31 +20,10 @@ export default class ObservableFunction extends React.Component {
 
 
 	componentDidMount() {
-		Runtime.load(notebook, (cell) => {
-			if (cell.name == this.props.cellname) {
-				var newfunc = cell.value
-				if (newfunc instanceof Function) {
-					if (newfunc.toString()[0] === 'f') {
-						this.setState({
-		        			newfunction: newfunc
-		        		})
-					} else {
-						return {fulfilled: (value) => {
-	          				this.setState({
-	          					widget: true,
-	          					widgetvalue: value
-	          				})
-							}
-						}
-					}
-
-	        	} else {
-	        		return new Inspector(this.defaultRef.current);
-	        	}
-			}
-
-      	});
-
+		if (this.props.mod) {
+			var newmain = this.props.mod;
+			newmain.variable(this.props.inspector("calculationDisplay")).define(["calculationDisplay"], widget => widget)
+		}
 	}
 
 	handleWidget(e) {
@@ -87,6 +67,8 @@ export default class ObservableFunction extends React.Component {
 		return (
 			<div>
 				{this.displayHTML()}
+				<div ref={this.calculationDisplayRef}></div>
+				<div ref={this.aimePickedRef}></div>
 			</div>
 		)
 	}
