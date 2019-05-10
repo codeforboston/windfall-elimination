@@ -14,8 +14,9 @@ export class ObservableRuntime extends React.Component {
       this.resetCellRefs = this.resetCellRefs.bind(this);
       this.storeCellValues = this.storeCellValues.bind(this);
       this.generateDom = this.generateDom.bind(this);
-      this.main = generateRuntime(notebook);
+      
       this.observer = (dom) => {return new Inspector(dom)}
+      
       this.state = {
         childrenCellRefs: [],
         runtimeState: {},
@@ -25,21 +26,12 @@ export class ObservableRuntime extends React.Component {
       };
    }
 
-  componentDidMount() {
 
+  componentDidMount() {
+    this.main = generateRuntime(notebook);
     if (this.state.childrenCellRefs !== 0) {
       this.state.childrenCellRefs.map(this.generateDom)
     }
-
-    this.state.allNamedCells = this.state.allCells.map((n) => n.name).filter(n => n!== undefined)
-    //"viewof yearsSubstantialEarningsPicked", "yearsSubstantialEarningsPicked", "viewof AIMEPicked", "AIMEPicked",
-    // "viewof birthDatePicked", "birthDatePicked", "viewof ageToRetirePicked", "ageToRetirePicked", "viewof ageToRetireExtraMonthsPicked",
-    // "ageToRetireExtraMonthsPicked", "viewof pensionNonCoveredMonthly", "pensionNonCoveredMonthly", "calculationDisplay", "viewof retireDatePicked", 
-    // "retireDatePicked", "yearOf62yo", "viewof v", "v", "variableRetireDate", "rangeData", "viewof sourceOfRetireeProfile", "sourceOfRetireeProfile",
-    //  "loadRetireeXML", "viewof perYearEarnings", "perYearEarnings", "getAIMEfromEarningRecord", "getSubstantialEarningsYears", "gestAIME", "getBenefitReduction",
-    // "findBendPoints", "getPIA", "getWepMPB", "firstPiaFactor", "getGuaranteeLimit", "viewof useCacheUrlNotSheets", "useCacheUrlNotSheets", "checkCache",
-    // "ColaTable", "benefitReductionTable", "substantialEarningsMarks", "bendPoints", "parsedXmlFileText", "fileTextTemp", "makePerYearEarningsTable",
-    // "addRetirementAgeToBirthdate", "dayjs", "fastXml", "d3", "Tesseract", "viewof applyWEP", "applyWEP", "image", "ocrResult", "ocrParsedData"
   }
 
   componentDidUpdate() {
@@ -49,12 +41,10 @@ export class ObservableRuntime extends React.Component {
     }
   }
 
+
   generateDom(cell) {
-
     this.state.allCells.push(cell)
-
     this.main.variable(this.observer(cell.domRef)).define([cell.cellName], widget => widget)
-
   }
 
   registerCellRef(cellName, domRef) {

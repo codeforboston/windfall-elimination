@@ -35,8 +35,7 @@ export default class ObservableCell extends React.Component {
   }
 
   render() {
-
-      return <div ref={this.defaultRef}></div>
+      return <div key={this.props.cellname} ref={this.defaultRef}></div>
   }
 
 }
