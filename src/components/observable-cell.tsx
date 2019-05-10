@@ -9,20 +9,33 @@ export default class ObservableCell extends React.Component {
 
   constructor(props, context) {
       super(props, context);
-
+      this.domEl = '';
       this.defaultRef = React.createRef();
    }
 
 
   componentDidMount() {
+    this.domEl = this.defaultRef.current
     this.context.registerCellRef(this.props.cellname, this.defaultRef.current)
   }
 
   componentWillUnmount() {
-    this.context.resetCellRefs();
+    var child = this.domEl.children[0]
+    if (child) {
+      switch(child.tagName) {
+        case 'FORM':
+          return this.context.storeCellValues(this.props.cellname, child.elements.input.value);
+
+        case 'SPAN':
+          return this.context.storeCellValues(this.props.cellname, child.value);
+      }
+    }
+
+
   }
 
   render() {
+
       return <div ref={this.defaultRef}></div>
   }
 

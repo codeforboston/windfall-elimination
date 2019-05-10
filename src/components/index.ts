@@ -24,6 +24,7 @@ import ObservableCell from "./observable-cell";
 import { ObservableRuntime } from "./observable-runtime";
 import HamburgerHelper from "./hamburger-menu";
 import ObservableDock from "./observable-dock";
+import ObservableFunction from "./observable-function";
 
 export {
     ButtonLink,
@@ -48,13 +49,9 @@ export {
     UnorderedList,
     ListItem,
     TextBlockHeader,
-<<<<<<< HEAD
     ObservableFunction,
     HamburgerHelper,
-    ObservableDock 
-=======
+    ObservableDock, 
     ObservableCell,
-    ObservableRuntime,
-    HamburgerHelper
->>>>>>> otherrep/master
+    ObservableRuntime
 };

@@ -2,6 +2,7 @@ import React from "react";
 import {Runtime, Inspector} from "@observablehq/notebook-runtime";
 import notebook from "windfall-awareness-notebook-prototype";
 import { node } from "prop-types";
+import { generateRuntime } from './observable-dock';
 
 export const ObservableContext = React.createContext();
 
@@ -11,23 +12,25 @@ export class ObservableRuntime extends React.Component {
       super(props, context);
       this.registerCellRef = this.registerCellRef.bind(this);
       this.resetCellRefs = this.resetCellRefs.bind(this);
-
+      this.storeCellValues = this.storeCellValues.bind(this);
+      this.generateDom = this.generateDom.bind(this);
+      this.main = generateRuntime(notebook);
+      this.observer = (dom) => {return new Inspector(dom)}
       this.state = {
         childrenCellRefs: [],
         runtimeState: {},
         allCells: [],
-        allNamedCells: []
+        allNamedCells: [],
+        valueStore: {}
       };
    }
 
   componentDidMount() {
-    this.state.runtimeState= Runtime.load(notebook, (cell) => {
-        this.state.allCells.push(cell)
-        const match = this.state.childrenCellRefs.find(n => n.cellName === cell.name) 
-        if (match) {
-          return new Inspector(match.domRef);
-        }
-      });
+
+    if (this.state.childrenCellRefs !== 0) {
+      this.state.childrenCellRefs.map(this.generateDom)
+    }
+
     this.state.allNamedCells = this.state.allCells.map((n) => n.name).filter(n => n!== undefined)
     //"viewof yearsSubstantialEarningsPicked", "yearsSubstantialEarningsPicked", "viewof AIMEPicked", "AIMEPicked",
     // "viewof birthDatePicked", "birthDatePicked", "viewof ageToRetirePicked", "ageToRetirePicked", "viewof ageToRetireExtraMonthsPicked",
@@ -40,13 +43,18 @@ export class ObservableRuntime extends React.Component {
   }
 
   componentDidUpdate() {
-    //TODO: preserve Observable notebook app between updates 
-    Runtime.load(notebook, (cell) => {
-      const match = this.state.childrenCellRefs.find(n => n.cellName === cell.name) 
-      if (match) {
-        return new Inspector(match.domRef);
-      }
-        });
+    this.main = generateRuntime(notebook);
+    if (this.state.childrenCellRefs !== 0) {
+      this.state.childrenCellRefs.map(this.generateDom)
+    }
+  }
+
+  generateDom(cell) {
+
+    this.state.allCells.push(cell)
+
+    this.main.variable(this.observer(cell.domRef)).define([cell.cellName], widget => widget)
+
   }
 
   registerCellRef(cellName, domRef) {
@@ -57,10 +65,15 @@ export class ObservableRuntime extends React.Component {
     this.state.childrenCellRefs = []
   }
 
+  storeCellValues(cellName, cellValue) {
+    this.state.valueStore[cellName] = cellValue
+  }
+
   render() {
       return <ObservableContext.Provider value={{
            registerCellRef: this.registerCellRef, 
-           resetCellRefs: this.resetCellRefs 
+           resetCellRefs: this.resetCellRefs,
+           storeCellValues: this.storeCellValues
            }}>
          {this.props.children}
        </ObservableContext.Provider>
