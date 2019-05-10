@@ -4,6 +4,7 @@ import { StaticQuery, graphql } from "gatsby"
 import { Header, QuestionProvider } from "../components";
 import "./layout.css";
 import { colors, fonts, spacing } from "../constants";
+import { ObservableRuntime } from "../components";
 
 const Wrapper = styled("div")`
     display: grid;
@@ -51,14 +52,16 @@ const Layout: React.FC = ({ children }) => (
         render={data => (
             <Wrapper>
                 <Header />
-                <Main>
-                    <ChildrenWrapper>
-                        {/* TODO test out this provider */}
-                        <QuestionProvider>
-                            { children }
-                        </QuestionProvider>
-                    </ChildrenWrapper>
-                </Main>
+                <ObservableRuntime children={children}>
+                    <Main>
+                        <ChildrenWrapper>
+                            {/* TODO test out this provider */}
+                            <QuestionProvider>
+                                { children }
+                            </QuestionProvider>
+                        </ChildrenWrapper>
+                    </Main>
+                </ObservableRuntime>
                 <Footer>
                     © {new Date().getFullYear()} | {data.author ? data.author : "Windfall Elimination Project"}
                 </Footer>

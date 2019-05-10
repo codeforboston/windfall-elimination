@@ -20,7 +20,8 @@ import FileUpload from "./file-upload";
 import { UnorderedList } from "./unordered-list";
 import { ListItem } from "./list-item";
 import { TextBlockHeader } from "./text-block-header";
-import ObservableFunction from "./observable-function";
+import ObservableCell from "./observable-cell";
+import { ObservableRuntime } from "./observable-runtime";
 import HamburgerHelper from "./hamburger-menu";
 import ObservableDock from "./observable-dock";
 
@@ -47,7 +48,13 @@ export {
     UnorderedList,
     ListItem,
     TextBlockHeader,
+<<<<<<< HEAD
     ObservableFunction,
     HamburgerHelper,
     ObservableDock 
+=======
+    ObservableCell,
+    ObservableRuntime,
+    HamburgerHelper
+>>>>>>> otherrep/master
 };
