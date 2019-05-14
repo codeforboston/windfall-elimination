@@ -1,6 +1,4 @@
 import React from "react";
-// import {Runtime, Inspector} from "@observablehq/notebook-runtime";
-// import notebook from "windfall-awareness-notebook-prototype";
 import { ObservableContext } from "./observable-runtime";
 
 export default class ObservableCell extends React.Component {
@@ -9,19 +7,13 @@ export default class ObservableCell extends React.Component {
 
   constructor(props, context) {
       super(props, context);
-      this.domEl = '';
       this.defaultRef = React.createRef();
    }
 
-
   componentDidMount() {
-    var newmain = this.context.testmain
-    this.context.resetHTML()
-    newmain.variable(this.context.observer(this.defaultRef.current)).define([this.props.cellname], widget => widget)
-    
-    this.domEl = this.defaultRef.current
-    //this.context.registerCellRef(this.props.cellname, this.defaultRef.current)
-    
+    var main = this.context.main
+    //Gatsby API, imports the observable cell from the observable module namepsace passes it to Inspector to place in DOM
+    main.variable(this.context.observer(this.defaultRef.current)).define([this.props.cellname], widget => widget) 
   }
 
   componentWillUnmount() {
@@ -29,7 +21,6 @@ export default class ObservableCell extends React.Component {
   }
 
   render() {
-    
       return <div id={this.props.cellname} ref={this.defaultRef}></div>
   }
 

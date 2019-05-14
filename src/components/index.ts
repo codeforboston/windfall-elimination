@@ -23,8 +23,7 @@ import { TextBlockHeader } from "./text-block-header";
 import ObservableCell from "./observable-cell";
 import { ObservableRuntime } from "./observable-runtime";
 import HamburgerHelper from "./hamburger-menu";
-import ObservableDock from "./observable-dock";
-import ObservableFunction from "./observable-function";
+import { generateRuntime } from "./generate-runtime";
 
 export {
     ButtonLink,
@@ -49,9 +48,8 @@ export {
     UnorderedList,
     ListItem,
     TextBlockHeader,
-    ObservableFunction,
-    HamburgerHelper,
-    ObservableDock, 
+    HamburgerHelper, 
     ObservableCell,
-    ObservableRuntime
+    ObservableRuntime,
+    generateRuntime
 };

@@ -1,12 +1,11 @@
 import React from "react"
-import { ButtonLink, ButtonLinkRed, SEO, ObservableFunction, ObservableDock, Input,ObservableCell   } from "../components";
+import { ButtonLink, ButtonLinkRed, SEO, Input, ObservableCell } from "../components";
 
 export default () => (
     <>
         <SEO title="Screen 3" />
         <h2>Screen 3!</h2>
         <p>* WEP-Adjusted MPB</p>
-        <ObservableDock />
         <p>PIA (slider)</p>
         <label>
                 Select years of substantial earnings
