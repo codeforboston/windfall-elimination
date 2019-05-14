@@ -2,6 +2,8 @@ import { Link } from "gatsby"
 import React from "react"
 import styled from "@emotion/styled";
 import { colors } from "../constants";
+import { HamburgerHelper } from "../components"
+
 
 const Wrapper = styled("header")`
     background: ${colors.darkGreen};
@@ -14,6 +16,9 @@ type Props = {
 }
 export const Header: React.FC<Props> = ({ siteTitle }) => (
     <Wrapper>
+        <div style={{float:'left'}}>
+            <HamburgerHelper />
+        </div>
         <div
             style={{
                 margin: `0 auto`,
@@ -21,6 +26,7 @@ export const Header: React.FC<Props> = ({ siteTitle }) => (
                 padding: `1.45rem 1.0875rem`,
             }}
         >
+
             <h1 style={{ margin: 0 }}>
                 <Link
                     to="/"
