@@ -21,6 +21,8 @@ export default class Prescreen1b extends React.Component {
                 coveredEmployment: e.target.value,
                 selected: this.state.selected + 1
             })
+            var test = document.getElementById("btn-yes");
+            test.style.display = "none";
         } else if (e.target.name === "pensionOrRetirementAccount") {
             this.setState({
                 pensionOrRetirementAccount: e.target.value,
@@ -44,6 +46,8 @@ export default class Prescreen1b extends React.Component {
                         <HelperText>
                             “Non-covered” employment is employment where your employer did not withhold Social Security taxes from your wages. These earnings will not show up on your Social Security earnings statement. [skip ahead to downloading your earnings statement?]
                         </HelperText>
+                        <ButtonLink id="btn-yes">Yes</ButtonLink>
+                        <ButtonLink id="btn-no">No</ButtonLink>
                         <label> Yes
                             <input type="radio" name="coveredEmployment" id='ce1' value="true" onClick={this.handleSelection}></input>
                         </label>
