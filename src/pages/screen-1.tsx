@@ -1,5 +1,5 @@
 import React from "react"
-import { ButtonLink, ButtonLinkRed, Card, Form, Input, Message, SEO, TextBlock, HelperText, ObservableCell } from "../components"
+import { ButtonLink, ButtonLinkRed, Card, Form, Input, Message, SEO, TextBlock, HelperText } from "../components"
 
 export default () => (
     <>
@@ -11,11 +11,10 @@ export default () => (
             <Card>
                 <label>
                     What year were you born?
-                    {/* <Input type="date"/> */}
-                    <ObservableCell cellname='viewof birthDatePicked' />
+                    <Input type="date"/>
                 </label>
                 <div>Your full retirement age is: RESULT</div>
-                <div>You turned/will turn 62 in: <ObservableCell cellname='retireDatePicked'/> </div>
+                <div>You turned/will turn 62 in: RESULT YEAR</div>
                 <HelperText>Because 62 is the earliest you can start to draw your Social Security retirement benefits, the SSA uses the year you turned 62 to calculate your benefits.</HelperText>
             </Card>
             <h3>Financial Information</h3>
