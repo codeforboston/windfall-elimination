@@ -1,5 +1,6 @@
 import { ButtonLink } from "./button-link";
 import { ButtonLinkRed } from "./button-link-red";
+import { ButtonLinkWhite } from "./button-link-white"
 import { Card } from "./card";
 import { Form } from "./form";
 import { Header } from "./header";
@@ -20,6 +21,7 @@ import { TextBlockHeader } from "./text-block-header";
 export {
     ButtonLink,
     ButtonLinkRed,
+    ButtonLinkWhite,
     Card,
     Form,
     Header,

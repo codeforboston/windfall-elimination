@@ -25,30 +25,29 @@ export default () => (
                 </label>
             </Card>
         </Form>
-        <TextBlock>
+        <Card>
             I’ve made an account, now what? [skip below to If Yes]
-        </TextBlock>
-        <TextBlock>
+        </Card>
+        <Card>
             I’d prefer not to sign up - okay! Are you over 60? SSA sends you a letter in the mail every year with your earnings record. It looks like this:
-        </TextBlock>
-        <TextBlock>
+        </Card>
+        <Card>
             [screen grab of the earnings letter]
-        </TextBlock>
-        <TextBlock>
-            I don’t have a copy of this letter - okay! Print out this form (SSA form 7004), complete and mail it to:
-        </TextBlock>
-        <TextBlock>
+        </Card>
+        <Card>
+            I don’t have a copy of this letter - okay! Print out this form (SSA form 7004), complete and mail it to:<br /><br />
+
             Social Security Administration<br />
             Wilkes Barre Data Operation Center<br />
             PO Box 7004<br />
             Wilkes Barre, PA, 18767-7004<br />
-        </TextBlock>
-        <TextBlock>
+        </Card>
+        <Card>
             When you have a copy of the form, return to this page.
-        </TextBlock>
-        <TextBlock>
+        </Card>
+        <Card>
             If yes - Great! Download your earnings record as a PDF. You can print it out, or upload it here:
-        </TextBlock>
+        </Card>
         <ButtonLink to="/prescreen-2/">
             UPLOAD PDF EARNINGS RECORD
         </ButtonLink>
