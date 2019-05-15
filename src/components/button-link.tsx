@@ -15,4 +15,6 @@ export const ButtonLink = styled(Link)`
         color: ${colors.white};
         cursor: pointer;
     }
+
+    pointer-events: ${props => props.disabled && 'none'};
 `;

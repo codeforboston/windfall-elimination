@@ -9,9 +9,8 @@ export default class Prescreen1b extends React.Component {
         this.handleSelection = this.handleSelection.bind(this);
 
         this.state={
-            coveredEmployment: '',
-            pensionOrRetirementAccount: '',
-            selected: 0,
+            coveredEmployment: undefined,
+            pensionOrRetirementAccount: undefined,
         }
     }
 
@@ -19,17 +18,11 @@ export default class Prescreen1b extends React.Component {
         if (e.target.name === "coveredEmployment") {
             this.setState({
                 coveredEmployment: e.target.value,
-                selected: this.state.selected + 1
             })
         } else if (e.target.name === "pensionOrRetirementAccount") {
             this.setState({
                 pensionOrRetirementAccount: e.target.value,
-                selected: this.state.selected + 1
             })
-        } else if (e.target.name == "submitButton") {
-            if (this.state.selected < 2) {
-                e.preventDefault()
-            }
         }
     }
 
@@ -71,7 +64,7 @@ export default class Prescreen1b extends React.Component {
                     </Message>
                 </Form>
                 <ButtonLinkRed to="/prescreen-1/">Go back!</ButtonLinkRed>
-                <ButtonLink to={this.state.coveredEmployment === 'true' ? '/prescreen-1c/' : '/congrats/'} name='submitButton' onClick={this.handleSelection}>Submit</ButtonLink>
+                <ButtonLink to={this.state.coveredEmployment === 'true' ? '/prescreen-1c/' : '/congrats/'} name='submitButton' disabled={this.state.coveredEmployment === undefined || this.state.pensionOrRetirementAccount === undefined}>Submit</ButtonLink>
             </>
       )
   }
