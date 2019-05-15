@@ -1,4 +1,4 @@
-import {Runtime, Inspector, Library} from "@observablehq/notebook-runtime";
+import {Runtime, Inspector, Library} from "@observablehq/runtime";
 import notebook from "windfall-awareness-notebook-prototype";
 
 export function generateRuntime(notebook) {

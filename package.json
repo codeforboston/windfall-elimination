@@ -7,7 +7,6 @@
   "dependencies": {
     "@emotion/core": "^10.0.10",
     "@emotion/styled": "^10.0.10",
-    "@observablehq/notebook-runtime": "^2.0.0",
     "@observablehq/runtime": "^4.0.1",
     "@types/react-helmet": "^5.0.8",
     "babel-preset-gatsby": "^0.1.11",
