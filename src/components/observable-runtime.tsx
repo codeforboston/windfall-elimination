@@ -1,5 +1,5 @@
 import React from "react";
-import {Runtime, Inspector} from "@observablehq/notebook-runtime";
+import {Runtime, Inspector} from "@observablehq/runtime";
 import notebook from "windfall-awareness-notebook-prototype";
 import { generateRuntime } from './generate-runtime';
 
