@@ -15,7 +15,7 @@ export default () => (
             <Card>
                 <QuestionText>Do you have a MySocialSecurity account?</QuestionText>
                 <HelperText>
-                    If no: you can easily sign up online at this <a href="https://www.ssa.gov/myaccount/">link</a>. Your MySocialSecurity account will let you change your address, change your direct deposit, request an earnings statement or a 1099 form, or apply for a replacement SSA card.
+                    If no: you can easily sign up online at this <a href="https://www.ssa.gov/myaccount/" target="__blank">link</a>. Your MySocialSecurity account will let you change your address, change your direct deposit, request an earnings statement or a 1099 form, or apply for a replacement SSA card.
                 </HelperText>
                 <label> Yes
                     <input type="radio" name="mySocialSecurityAccount" value="true"></input>
@@ -29,7 +29,8 @@ export default () => (
             I’ve made an account, now what? [skip below to If Yes]
         </TextBlock>
         <TextBlock>
-            I’d prefer not to sign up - okay! Are you over 60? SSA sends you a letter in the mail every year with your earnings record. It looks like this:
+            I’d prefer not to sign up - okay! Are you over 60? SSA sends you a
+            letter in the mail every year with your earnings record. It looks like this:
         </TextBlock>
         <TextBlock>
             [screen grab of the earnings letter]
@@ -53,7 +54,11 @@ export default () => (
         <ObservableCell cellname='image' isImage={true} />
         <ObservableCell cellname='ocrResult' isTable={true} />
         <TextBlock>
-            Also make sure you have ready the amount of your pension (whether it’s paid monthly or a lump sum), and the date you became entitled to it (either the date you started receiving a monthly check or the first day you could withdraw from the account). Your plan may send statements to you proactively, or contact your HR administrator for information on how to request a statement.
+            Also make sure you have ready the amount of your pension (whether it’s paid
+            monthly or a lump sum), and the date you became entitled to it (either the
+            date you started receiving a monthly check or the first day you could withdraw
+            from the account). Your plan may send statements to you proactively, or contact
+            your HR administrator for information on how to request a statement.
         </TextBlock>
         <ButtonLinkRed to="/prescreen-1c/">Go back!</ButtonLinkRed>
         <ButtonLink to="/prescreen-1c/">Submit</ButtonLink>
