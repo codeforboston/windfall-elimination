@@ -6,22 +6,23 @@ export default class ObservableCell extends React.Component {
   static contextType = ObservableContext;
 
   constructor(props, context) {
-      super(props, context);
-      this.defaultRef = React.createRef();
-   }
+    super(props, context);
+    this.defaultRef = React.createRef();
+  }
 
   componentDidMount() {
-    var main = this.context.main
+    var main = this.context.main;
     //Gatsby API, imports the observable cell from the observable module namepsace passes it to Inspector to place in DOM
-    main.variable(this.context.observer(this.defaultRef.current)).define([this.props.cellname], widget => widget) 
+    main
+      .variable(this.context.observer(this.defaultRef.current))
+      .define([this.props.cellname], widget => widget);
   }
 
   componentWillUnmount() {
-    this.context.resetHTML(this.props.cellname, this.defaultRef.current)
+    this.context.resetHTML(this.props.cellname, this.defaultRef.current);
   }
 
   render() {
-      return <div id={this.props.cellname} ref={this.defaultRef}></div>
+    return <div id={this.props.cellname} ref={this.defaultRef} />;
   }
-
 }
