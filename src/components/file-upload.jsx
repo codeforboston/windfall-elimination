@@ -1,8 +1,8 @@
 import React from 'react';
 import styled from "@emotion/styled";
 import fastXml from 'fast-xml-parser';
-import Tesseract from 'tesseract.js'
 import { spacing, colors, fontSizes, radii } from "../constants";
+import { ObservableCell } from "../components";
 
 //Upload page specific css/html
 export const UploadButton = styled("div")`
@@ -60,9 +60,6 @@ export const TableRow= styled("tr")`
 
 // Generates earning records table from uploaded XML file, XML parsing adapted from Amrutha
 export class GenerateTable extends React.Component {
-	componentDidMount() {
-
-	}
 
 	render () {
 		var header;
@@ -72,19 +69,18 @@ export class GenerateTable extends React.Component {
 		    const earnings = parsedXml['osss:OnlineSocialSecurityStatementData']['osss:EarningsRecord']['osss:Earnings'];
 		    header = <tr><TableHeader>Year</TableHeader ><TableHeader>Amount</TableHeader ></tr>;
 		    tableRows = earnings.map((earning, i) => {
+		    	this.props.updateCounter(earning['osss:FicaEarnings'])
 		    	return(
 		    		<TableRow key={i}>
 			    		<td><label>{earning['@_startYear']}</label></td>
-			    		<td><label>{earning['osss:FicaEarnings']}</label></td>
+			    		<td><input defaultValue={earning['osss:FicaEarnings']}></input></td>
 			    	</TableRow>
-		    		)
-			});
-
+		    	)
+		    });
 	   } else {
 	   	header = <tr></tr>;
 	   	tableRows = <tr></tr>;
 	   };
-	   	
 
 		return (
 			<DisplayTable>
@@ -102,40 +98,66 @@ export default class FileUpload extends React.Component {
 	constructor(props, context) {
 	    super(props, context);
 
-	    this.handleHide = this.handleHide.bind(this);
 	    this.handleSubmit = this.handleSubmit.bind(this);
-	    this.handleText = this.handleText.bind(this);
 	    this.handleLoadTable = this.handleLoadTable.bind(this);
+	    this.handleYearsChange = this.handleYearsChange.bind(this);
+	    this.customObserver = this.customObserver.bind(this);
+	    this.updateCounter = this.updateCounter.bind(this);
 	    this.fileInput = React.createRef();
 
 	    this.state = {
-	      earningsRecord: ''
+	      earningsRecord: '',
+	      displayTable: false,
+	      yearsSE: 0,
+	      counter: [],
 	    };
 	 }
 
-
-
-	 handleHide() {
-	    this.setState({ show: false });
-	    this.setState({redirect: true});
+	componentDidUpdate(nextProps, nextState) {
+    	this.testEarning.value = this.state.yearsSE;
+    	if (nextState.earningsRecord !== this.state.earningsRecord) {
+    		this.setState({
+    			counter: []
+    		})
+    	}
+    	
 	 }
 
-	 handleText(name) {
+	 customObserver() {
+	    return {fulfilled: (value) => {
+	        this.testEarning = value
+	    }}
+ 	 }
+
+ 	 updateCounter(earning) {
+ 	 	if (earning > 1000 & !this.state.counter.includes(earning)){
+ 	 		this.state.counter.push(earning)
+ 	 		this.setState({
+ 	 			yearsSE: this.state.counter.length
+ 	 		})
+ 	 	}
+ 	 	//console.log(this.state.counter)
+ 	 }
+
+	 handleYearsChange(e) {
 	 	this.setState({
-	 		setName: name.target.value
-	 	});
+	 		yearsSE: e.target.value
+	 	})
 	 }
 
 	 handleLoadTable(reader) {
 	 	 if (fastXml.validate(reader.target.result) === true) {
 				var parsedText = fastXml.parse(reader.target.result, {ignoreAttributes: false})
-	 	this.setState({
-	 		earningsRecord: parsedText
-	 	});
+			 	this.setState({
+			 		earningsRecord: parsedText
+			 	})
 	 	}
 	}
 
 	 handleSubmit(formResponse) {
+	 	this.setState({
+	 		displayTable: true
+	 	});
 	 	formResponse.preventDefault();
 	 	const file = this.fileInput.current.files[0]
 	 	const name = this.fileInput.current.files[0].name
@@ -150,15 +172,15 @@ export default class FileUpload extends React.Component {
 	 }
 
 	render() {
-
 		return (
 			<div className ='upload-form'>
 					<UploadButton>
 						<UploadLabel htmlFor="inputfile" className="btn">Upload Earnings Record</UploadLabel>
 						<UploadInput type='file' id='inputfile' ref={this.fileInput} onChange={this.handleSubmit}></UploadInput>
 					</UploadButton>
-					<GenerateTable parsedXml = {this.state.earningsRecord}/>
-
+					<GenerateTable parsedXml={this.state.earningsRecord} updateCounter={this.updateCounter} counter={this.state.counter} />
+					<div><ObservableCell cellname='mutable yearsSE' customObserver={this.customObserver} /></div>
+        			<div style={{display: 'none'}}><ObservableCell cellname='calculationDisplay' /></div>
 			</div>
 		)
 	}
