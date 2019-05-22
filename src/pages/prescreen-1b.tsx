@@ -42,7 +42,7 @@ export default class Prescreen1b extends React.Component {
                     <Card>
                         <QuestionText>Did you work in “non-covered” employment?</QuestionText>
                         <HelperText>
-                            “Non-covered” employment is employment where your employer did not withhold Social Security taxes from your wages. These earnings will not show up on your Social Security earnings statement. [skip ahead to downloading your earnings statement?]
+                            “Non-covered” employment is employment where your employer did not withhold Social Security taxes from your wages. These earnings will not show up on your Social Security earnings statement.
                         </HelperText>
                         <label> Yes
                             <input type="radio" name="coveredEmployment" id='ce1' value="true" onClick={this.handleSelection}></input>
