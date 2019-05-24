@@ -1,4 +1,4 @@
-import React from 'react';
+import React from "react";
 import styled from "@emotion/styled";
 import fastXml from 'fast-xml-parser';
 import { spacing, colors, fontSizes, radii } from "../constants";
@@ -6,55 +6,55 @@ import { ObservableCell } from "../components";
 
 //Upload page specific css/html
 export const UploadButton = styled("div")`
-	position: relative;
-    padding: ${spacing[0]} ${spacing[0]};
-    margin: ${spacing[2]} ${spacing[0]};
-    overflow: hidden;
-    background-color: ${colors.blue};
-    font-size: ${fontSizes[1]};
-    border-radius: ${radii[2]};
-    color: ${colors.white};
-    text-decoration: none;
-    display: inline-block;
-    width: 300px;
-    height: 20px;
-    &:hover {
-        background-color: ${colors.lightblue};
-    }
+  position: relative;
+  padding: ${spacing[0]} ${spacing[0]};
+  margin: ${spacing[2]} ${spacing[0]};
+  overflow: hidden;
+  background-color: ${colors.blue};
+  font-size: ${fontSizes[1]};
+  border-radius: ${radii[2]};
+  color: ${colors.white};
+  text-decoration: none;
+  display: inline-block;
+  width: 300px;
+  height: 20px;
+  &:hover {
+    background-color: ${colors.lightblue};
+  }
 `;
 
 export const UploadInput = styled("input")`
-	visibility: hidden;
-	position: relative;
-  	width: 300px;
-  	height: 50px;
-  	z-index: 1;
+  visibility: hidden;
+  position: relative;
+  width: 300px;
+  height: 50px;
+  z-index: 1;
 `;
 
 export const UploadLabel = styled("label")`
-	position: absolute;
-	font-size: ${fontSizes[1]};
-	width: 300px;
-  	height: 50px;
+  position: absolute;
+  font-size: ${fontSizes[1]};
+  width: 300px;
+  height: 50px;
 `;
 
 export const DisplayTable = styled("table")`
-    border-radius: ${radii[0]};
-    margin: ${spacing[0]};
-    padding: 8px;
-    max-width: 500px;
-  	margin: auto;
+  border-radius: ${radii[0]};
+  margin: ${spacing[0]};
+  padding: 8px;
+  max-width: 500px;
+  margin: auto;
 `;
 
 export const TableHeader = styled("th")`
-	background-color: #dddddd;
-	border: 1px solid #dddddd;
-  	text-align: left;
-  	padding: 8px;
+  background-color: #dddddd;
+  border: 1px solid #dddddd;
+  text-align: left;
+  padding: 8px;
 `;
 
-export const TableRow= styled("tr")`
-	border: 1px solid #dddddd;
+export const TableRow = styled("tr")`
+  border: 1px solid #dddddd;
 `;
 //-------------------------------------------------
 

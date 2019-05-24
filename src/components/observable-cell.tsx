@@ -6,9 +6,9 @@ export default class ObservableCell extends React.Component {
   static contextType = ObservableContext;
 
   constructor(props, context) {
-      super(props, context);
-      this.defaultRef = React.createRef();
-   }
+    super(props, context);
+    this.defaultRef = React.createRef();
+  }
 
   componentDidMount() {
     var main = this.context.main
@@ -22,11 +22,10 @@ export default class ObservableCell extends React.Component {
   }
 
   componentWillUnmount() {
-    this.context.resetHTML(this.props.cellname, this.defaultRef.current)
+    this.context.resetHTML(this.props.cellname, this.defaultRef.current);
   }
 
   render() {
-      return <div id={this.props.cellname} ref={this.defaultRef}></div>
+    return <div id={this.props.cellname} ref={this.defaultRef} />;
   }
-
 }

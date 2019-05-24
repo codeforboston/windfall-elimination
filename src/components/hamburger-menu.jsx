@@ -1,6 +1,6 @@
-import React from 'react';
+import React from "react";
 import { Link } from "gatsby";
-import styled from "@emotion/styled"
+import styled from "@emotion/styled";
 import { colors, radii } from "../constants";
 
 //Hamburger buns
@@ -24,7 +24,7 @@ export const HamburgerBuns= styled('span')`
 `;
 
 //Hamburger menu
-export const HamburgerMenu = styled('ul')`
+export const HamburgerMenu = styled("ul")`
   position: absolute;
   width: 100px;
   margin: 30px 0 0 -1px;
@@ -39,11 +39,11 @@ export const HamburgerMenu = styled('ul')`
   transform-origin: 0% 0%;
   transform: translate(-100%, 0);
 
-  transition: transform 0.5s cubic-bezier(0.77,0.2,0.05,1.0);
+  transition: transform 0.5s cubic-bezier(0.77, 0.2, 0.05, 1);
 
   li {
-  	padding: 10px 0;
-  	font-size: 22px;
+    padding: 10px 0;
+    font-size: 22px;
   }
 `;
 
@@ -92,10 +92,27 @@ export const Hamburger= styled('div')`
 	  transform: none;
 	}
 
+  input:checked ~ ${HamburgerBuns} {
+    opacity: 1;
+    transform: rotate(45deg) translate(-3px, -3px);
+  }
+
+  input:checked ~ ${HamburgerBuns}:nth-of-type(2) {
+    opacity: 0;
+    transform: rotate(0deg) scale(0.2, 0.2);
+  }
+
+  input:checked ~ ${HamburgerBuns}:nth-of-type(3) {
+    opacity: 1;
+    transform: rotate(-45deg) translate(0, -3px);
+  }
+
+  input:checked ~ ul {
+    transform: none;
+  }
 `;
 
 export default class HamburgerHelper extends React.Component {
-
 	render() {
 		return(
 			<nav role="navigation">
