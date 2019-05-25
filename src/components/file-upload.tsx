@@ -69,11 +69,10 @@ export class GenerateTable extends React.Component {
 		    const earnings = parsedXml['osss:OnlineSocialSecurityStatementData']['osss:EarningsRecord']['osss:Earnings'];
 		    header = <tr><TableHeader>Year</TableHeader ><TableHeader>Amount</TableHeader ></tr>;
 		    tableRows = earnings.map((earning, i) => {
-		    	this.props.updateCounter(earning['osss:FicaEarnings'])
 		    	return(
 		    		<TableRow key={i}>
 			    		<td><label>{earning['@_startYear']}</label></td>
-			    		<td><input defaultValue={earning['osss:FicaEarnings']}></input></td>
+			    		<td><input defaultValue={earning['osss:FicaEarnings']} onChange={this.props.handleInputEarnings}></input></td>
 			    	</TableRow>
 		    	)
 		    });
@@ -100,50 +99,31 @@ export default class FileUpload extends React.Component {
 
 	    this.handleSubmit = this.handleSubmit.bind(this);
 	    this.handleLoadTable = this.handleLoadTable.bind(this);
-	    this.handleYearsChange = this.handleYearsChange.bind(this);
+	    this.handleInputEarnings = this.handleInputEarnings.bind(this);
 	    this.customObserver = this.customObserver.bind(this);
-	    this.updateCounter = this.updateCounter.bind(this);
 	    this.fileInput = React.createRef();
 
 	    this.state = {
 	      earningsRecord: '',
-	      displayTable: false,
-	      yearsSE: 0,
-	      counter: [],
+	      displayTable: false
 	    };
 	 }
 
 	componentDidUpdate(nextProps, nextState) {
-    	this.testEarning.value = this.state.yearsSE;
-    	if (nextState.earningsRecord !== this.state.earningsRecord) {
-    		this.setState({
-    			counter: []
-    		})
-    	}
-    	
+		console.log(this.state.earningsRecord)
+    	this.parseXML.value = this.state.earningsRecord;
 	 }
 
 	 customObserver() {
 	    return {fulfilled: (value) => {
-	        this.testEarning = value
+	        this.parseXML = value
 	    }}
  	 }
 
- 	 updateCounter(earning) {
- 	 	if (earning > 1000 & !this.state.counter.includes(earning)){
- 	 		this.state.counter.push(earning)
- 	 		this.setState({
- 	 			yearsSE: this.state.counter.length
- 	 		})
- 	 	}
- 	 	//console.log(this.state.counter)
+ 	 handleInputEarnings(input) {
+ 	 	console.log(input.target)
+ 	 	console.log(input.target.value)
  	 }
-
-	 handleYearsChange(e) {
-	 	this.setState({
-	 		yearsSE: e.target.value
-	 	})
-	 }
 
 	 handleLoadTable(reader) {
 	 	 if (fastXml.validate(reader.target.result) === true) {
@@ -178,8 +158,8 @@ export default class FileUpload extends React.Component {
 						<UploadLabel htmlFor="inputfile" className="btn">Upload Earnings Record</UploadLabel>
 						<UploadInput type='file' id='inputfile' ref={this.fileInput} onChange={this.handleSubmit}></UploadInput>
 					</UploadButton>
-					<GenerateTable parsedXml={this.state.earningsRecord} updateCounter={this.updateCounter} counter={this.state.counter} />
-					<div><ObservableCell cellname='mutable yearsSE' customObserver={this.customObserver} /></div>
+					<GenerateTable parsedXml={this.state.earningsRecord} handleInputEarnings={this.handleInputEarnings} />
+					<div><ObservableCell cellname="mutable parsedXmlFileText" customObserver={this.customObserver} /></div>
         			<div style={{display: 'none'}}><ObservableCell cellname='calculationDisplay' /></div>
 			</div>
 		)
