@@ -1,5 +1,16 @@
-import React from "react"
-import { ButtonLink, ButtonLinkRed, Card, Form, Input, Message, SEO, TextBlock, HelperText, ObservableCell } from "../components"
+import React from "react";
+import {
+  ButtonLink,
+  ButtonLinkRed,
+  Card,
+  Form,
+  Input,
+  Message,
+  SEO,
+  TextBlock,
+  HelperText,
+  ObservableCell
+} from "../components";
 
 export default () => (
     <>

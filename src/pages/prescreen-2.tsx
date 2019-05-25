@@ -42,7 +42,7 @@ export default class Prescreen2 extends React.Component {
                             Your MySocialSecurity account will let you change your address, change your direct deposit, 
                             request an earnings statement or a 1099 form, or apply for a replacement SSA card.
 
-                            If yes: once you are logged in to your MySSA account, download your earnings record as a PDF.
+                            If yes: once you are logged in to your MySSA account, download your earnings record as a file (XML or PDF).
                         </HelperText>
                         <label> Yes
                             <input type="radio" name="mySocialSecurityAccount" value="true" onChange={this.handleOption}></input>
@@ -58,7 +58,7 @@ export default class Prescreen2 extends React.Component {
         The SSA will send you a free copy of your earnings record. To request the earnings record, print and complete this form and mail it to the address listed.
                 </TextBlock>
                 <TextBlock>
-                    Once you have a copy of your earnings record, upload the PDF below.
+                    Once you have a copy of your earnings record, upload the XML or PDF below.
                 </TextBlock>
                 <FileUpload />
                 <TextBlock>
