@@ -1,10 +1,9 @@
 import React from "react";
-import {Runtime, Inspector} from "@observablehq/runtime";
+import { Runtime, Inspector } from "@observablehq/runtime";
 import notebook from "windfall-awareness-notebook-prototype";
-import { generateRuntime } from './generate-runtime';
+import { generateRuntime } from "./generate-runtime";
 
 export const ObservableContext = React.createContext();
-
 
 export class ObservableRuntime extends React.Component {
   constructor(props, context) {
@@ -29,23 +28,22 @@ export class ObservableRuntime extends React.Component {
    }
 
   storeCellValues(cellName, cellValue) {
-      
-    if (cellValue){
+    if (cellValue) {
       this.state.htmlList[cellName] = cellValue.innerHTML;
     }
 
     if (cellValue) {
-      var child = cellValue.children[0]
+      var child = cellValue.children[0];
       if (child) {
-        switch(child.tagName) {
-          case 'FORM':
-            return this.state.valueStore[cellName] = child.elements.input.value;
+        switch (child.tagName) {
+          case "FORM":
+            return (this.state.valueStore[cellName] =
+              child.elements.input.value);
 
-          case 'SPAN':
-            return this.state.valueStore[cellName] = child.value;
+          case "SPAN":
+            return (this.state.valueStore[cellName] = child.value);
         }
       }
-      
     }
   }
 
@@ -55,7 +53,7 @@ export class ObservableRuntime extends React.Component {
 
   //Reset Observable Cell nodes to allow Observable Inspector to reinsert div.
   resetHTML(cellName, cellNode) {
-    this.storeCellValues(cellName, cellNode)
+    this.storeCellValues(cellName, cellNode);
     if (cellNode) {
         cellNode.innerHTML = this.state.htmlList[cellName]
     }
@@ -70,5 +68,4 @@ export class ObservableRuntime extends React.Component {
          {this.props.children}
        </ObservableContext.Provider>
   }
-
 }
