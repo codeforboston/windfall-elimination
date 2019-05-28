@@ -3,6 +3,7 @@ import { Link } from "gatsby";
 import { spacing, colors, fontSizes, radii } from "../constants";
 
 export const ButtonLink = styled(Link)`
+    width: 150px;
     padding: ${spacing[1]} ${spacing[2]};
     margin: ${spacing[2]} ${spacing[2]};
     background-color: ${colors.darkGreen};
@@ -10,8 +11,9 @@ export const ButtonLink = styled(Link)`
     color: ${colors.white};
     text-decoration: none;
     display: inline-block;
+    border-radius: ${radii[1]};
     &:hover {
-        background-color: ${colors.lime};
+        background-color: ${colors.grass};
         color: ${colors.white};
         cursor: pointer;
     }

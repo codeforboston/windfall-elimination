@@ -2,7 +2,8 @@ import styled from "@emotion/styled"
 import { ButtonLink } from "../components";
 import { colors, radii } from "../constants";
 
-export const ButtonLinkRed = styled(ButtonLink)`
+export const ButtonLinkWhite = styled(ButtonLink)`
+    width: 100px;
     background-color: ${colors.white};
     border: 2px solid darkGreen;
     color: ${colors.black};

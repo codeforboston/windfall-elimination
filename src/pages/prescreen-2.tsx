@@ -25,33 +25,39 @@ export default () => (
                 </label>
             </Card>
         </Form>
-        <TextBlock>
+        <Card>
             I’ve made an account, now what? [skip below to If Yes]
-        </TextBlock>
-        <TextBlock>
+        </Card>
+        <Card>
             I’d prefer not to sign up - okay! Are you over 60? SSA sends you a letter in the mail every year with your earnings record. It looks like this:
-        </TextBlock>
-        <TextBlock>
+        </Card>
+        <Card>
             [screen grab of the earnings letter]
-        </TextBlock>
-        <TextBlock>
-            I don’t have a copy of this letter - okay! Print out this form (SSA form 7004), complete and mail it to:
-        </TextBlock>
-        <TextBlock>
+        </Card>
+        <Card>
+            I don’t have a copy of this letter - okay! Print out this form (SSA form 7004), complete and mail it to:<br /><br />
+
             Social Security Administration<br />
             Wilkes Barre Data Operation Center<br />
             PO Box 7004<br />
             Wilkes Barre, PA, 18767-7004<br />
-        </TextBlock>
-        <TextBlock>
+        </Card>
+        <Card>
             When you have a copy of the form, return to this page.
-        </TextBlock>
-        <TextBlock>
+        </Card>
+        <Card>
             If yes - Great! Download your earnings record as a PDF. You can print it out, or upload it here:
+<<<<<<< HEAD
         </TextBlock>
         <FileUpload />
         <ObservableCell cellname='image' isImage={true} />
         <ObservableCell cellname='ocrResult' isTable={true} />
+=======
+        </Card>
+        <ButtonLink to="/prescreen-2/">
+            UPLOAD PDF EARNINGS RECORD
+        </ButtonLink>
+>>>>>>> 05e4502682d51efa15a6fae30f1bbd39057b79e3
         <TextBlock>
             Also make sure you have ready the amount of your pension (whether it’s paid monthly or a lump sum), and the date you became entitled to it (either the date you started receiving a monthly check or the first day you could withdraw from the account). Your plan may send statements to you proactively, or contact your HR administrator for information on how to request a statement.
         </TextBlock>
