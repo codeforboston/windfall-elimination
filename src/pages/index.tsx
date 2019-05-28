@@ -42,14 +42,17 @@ export default () => (
       </UnorderedList>
     </TextBlock>
 
-    <TextBlockHeader>Why is this app useful?</TextBlockHeader>
-    <TextBlock>
-      While the Social Security administration provides some information on how
-      WEP is calculated, this information is often difficult to find and
-      understand.
-    </TextBlock>
-    <LinkWrapper>
-      <ButtonLink to="/prescreen-1/">Get Started!</ButtonLink>
-    </LinkWrapper>
-  </>
-);
+        <TextBlockHeader>Why is this app useful?</TextBlockHeader>
+        <TextBlock>
+            While the Social Security administration provides some information on how WEP is calculated, this information is often difficult to find and understand.
+        </TextBlock>
+        <TextBlock>
+            This site is for informational purposes only, and should not be taken as legal, tax, investment, financial, or other advice. You should consult with a financial advisor or attorney to determine what is best for your individual circumstances. Congressman Moulton's office and Code for Boston may not be held liable for damages arising from any decision you make based on the information on this site.
+
+            Please note that the SSA updates the formulas used to calculate benefit amounts yearly. Therefore, it is likely that your benefit estimates in the future will differ from those calculated today.
+        </TextBlock>
+        <LinkWrapper>
+            <ButtonLink to="/prescreen-1/">Get Started!</ButtonLink>
+        </LinkWrapper>
+    </>
+)

@@ -7,29 +7,25 @@ export const ObservableContext = React.createContext();
 
 export class ObservableRuntime extends React.Component {
   constructor(props, context) {
-    super(props, context);
-
-    this.storeCellValues = this.storeCellValues.bind(this);
-    this.resetHTML = this.resetHTML.bind(this);
-
-    //Generate Observable Notebook runtime object, this contains module namespace
-    //premain() to prevent build error reference to window.
-    this.premain = () => {
-      if (typeof window !== "undefined") {
-        return generateRuntime(notebook);
-      }
-    };
-    this.main = this.premain();
-
-    this.observer = dom => {
-      return new Inspector(dom);
-    };
-
-    this.state = {
-      valueStore: {},
-      htmlList: {}
-    };
-  }
+      super(props, context);
+      
+      this.storeCellValues = this.storeCellValues.bind(this);
+      this.resetHTML = this.resetHTML.bind(this);
+      this.registerChild = this.registerChild.bind(this);
+      
+      //Generate Observable Notebook runtime object, this contains module namespace
+      //premain() to prevent build error reference to window. 
+      this.premain = () => {if (typeof window !== 'undefined') {return generateRuntime(notebook)}}
+      this.main = this.premain()
+      
+      this.observer = (dom) => {return new Inspector(dom)}
+      
+      this.state = {
+        valueStore: {},
+        htmlList: {},
+        childStore: []
+      };
+   }
 
   storeCellValues(cellName, cellValue) {
     if (cellValue) {
@@ -51,25 +47,25 @@ export class ObservableRuntime extends React.Component {
     }
   }
 
+  registerChild(cell, node) {
+    this.state.childStore.push(cell);
+  }
+
   //Reset Observable Cell nodes to allow Observable Inspector to reinsert div.
   resetHTML(cellName, cellNode) {
     this.storeCellValues(cellName, cellNode);
     if (cellNode) {
-      cellNode.innerHTML = this.state.htmlList[cellName];
+        cellNode.innerHTML = this.state.htmlList[cellName]
     }
   }
 
   render() {
-    return (
-      <ObservableContext.Provider
-        value={{
-          main: this.main,
-          observer: this.observer,
-          resetHTML: this.resetHTML
-        }}
-      >
-        {this.props.children}
-      </ObservableContext.Provider>
-    );
+      return <ObservableContext.Provider value={{
+           main: this.main,
+           observer: this.observer,
+           resetHTML: this.resetHTML,
+           }}>
+         {this.props.children}
+       </ObservableContext.Provider>
   }
 }

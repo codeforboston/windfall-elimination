@@ -1,79 +1,73 @@
 import React from "react";
-import {
-  ButtonLink,
-  ButtonLinkRed,
-  Card,
-  Form,
-  HelperText,
-  Message,
-  QuestionText,
-  SEO,
-  TextBlock,
-  FileUpload,
-  ObservableCell
-} from "../components";
+import styled from "@emotion/styled";
+import { ButtonLink, ButtonLinkRed, Card, Form, HelperText, Message, QuestionText, SEO, TextBlock, FileUpload, ObservableCell } from "../components";
 
-export default () => (
-  <>
-    <SEO title="Prescreen 2" keywords={[`gatsby`, `application`, `react`]} />
+export const SsaImage= styled("img")`
+    border: 1px solid #dddddd;
+    width: 500px;
+`; 
 
-    <Message>
-      Based on your answers, you are probably affected by WEP. Please enter your
-      information below.
-    </Message>
+export default class Prescreen2 extends React.Component {
+    constructor(props, context) {
+        super(props)
+        this.handleOption = this.handleOption.bind(this);
 
-        <h2>Getting your earnings record</h2>
-        <div>We'll need some information to get started.</div>
-        <Form>
-            <Card>
-                <QuestionText>Do you have a MySocialSecurity account?</QuestionText>
-                <HelperText>
-                    If no: you can easily sign up online at this <a href="https://www.ssa.gov/myaccount/" target="__blank">link</a>. Your MySocialSecurity account will let you change your address, change your direct deposit, request an earnings statement or a 1099 form, or apply for a replacement SSA card.
-                </HelperText>
-                <label> Yes
-                    <input type="radio" name="mySocialSecurityAccount" value="true"></input>
-                </label>
-                <label> No
-                    <input type="radio" name="mySocialSecurityAccount" value="false"></input>
-                </label>
-            </Card>
-        </Form>
-        <TextBlock>
-            I’ve made an account, now what? [skip below to If Yes]
-        </TextBlock>
-        <TextBlock>
-            I’d prefer not to sign up - okay! Are you over 60? SSA sends you a
-            letter in the mail every year with your earnings record. It looks like this:
-        </TextBlock>
-        <TextBlock>
-            [screen grab of the earnings letter]
-        </TextBlock>
-        <TextBlock>
-            I don’t have a copy of this letter - okay! Print out this form (SSA form 7004), complete and mail it to:
-        </TextBlock>
-        <TextBlock>
-            Social Security Administration<br />
-            Wilkes Barre Data Operation Center<br />
-            PO Box 7004<br />
-            Wilkes Barre, PA, 18767-7004<br />
-        </TextBlock>
-        <TextBlock>
-            When you have a copy of the form, return to this page.
-        </TextBlock>
-        <TextBlock>
-            If yes - Great! Download your earnings record as a PDF. You can print it out, or upload it here:
-        </TextBlock>
-        <FileUpload />
-        <ObservableCell cellname='image' isImage={true} />
-        <ObservableCell cellname='ocrResult' isTable={true} />
-        <TextBlock>
-            Also make sure you have ready the amount of your pension (whether it’s paid
-            monthly or a lump sum), and the date you became entitled to it (either the
-            date you started receiving a monthly check or the first day you could withdraw
-            from the account). Your plan may send statements to you proactively, or contact
-            your HR administrator for information on how to request a statement.
-        </TextBlock>
-        <ButtonLinkRed to="/prescreen-1c/">Go back!</ButtonLinkRed>
-        <ButtonLink to="/prescreen-1c/">Submit</ButtonLink>
-    </>
-)
+        this.state = {
+            displayImage: false
+        }
+    }
+
+    handleOption(e) {
+        this.setState({
+            displayImage: e.target.value
+        })
+    }
+
+    render() {
+        return(
+            <>
+                <SEO title="Prescreen 2" keywords={[`gatsby`, `application`, `react`]} />
+
+                <Message>
+                    Based on your answers, you are probably affected by WEP. Please enter your information below.
+                </Message>
+
+                <h2>Getting your earnings record</h2>
+                <div>To calculate your Social Security retirement benefits, you will need a record of your earnings from Social Security. There are a few ways to get this earnings record:</div>
+                <Form>
+                    <Card>
+                        <QuestionText>Do you have a MySocialSecurity account?</QuestionText>
+                        <HelperText>
+                            If no: you can easily sign up online at this <a href="https://www.ssa.gov/myaccount/" target="__blank">link</a>. 
+                            Your MySocialSecurity account will let you change your address, change your direct deposit, 
+                            request an earnings statement or a 1099 form, or apply for a replacement SSA card.
+
+                            If yes: once you are logged in to your MySSA account, download your earnings record as a file (XML or PDF).
+                        </HelperText>
+                        <label> Yes
+                            <input type="radio" name="mySocialSecurityAccount" value="true" onChange={this.handleOption}></input>
+                        </label>
+                        <label> No
+                            <input type="radio" name="mySocialSecurityAccount" value="false" onChange={this.handleOption}></input>
+                        </label>
+                    </Card>
+                </Form>
+                <div style={{display: this.state.displayImage == "true" ? true : 'none'}}><SsaImage src='https://user-images.githubusercontent.com/50156013/56998273-bcd78800-6b78-11e9-86b5-9db06d292a4c.jpg'></SsaImage></div>
+                <TextBlock>
+                    Write to the SSA to request that a copy of your earnings record be mailed to you:
+        The SSA will send you a free copy of your earnings record. To request the earnings record, print and complete this form and mail it to the address listed.
+                </TextBlock>
+                <TextBlock>
+                    Once you have a copy of your earnings record, upload the XML or PDF below.
+                </TextBlock>
+                <FileUpload />
+                <TextBlock>
+                       Once you have uploaded your earnings record, click "Submit".
+                </TextBlock>
+                <ButtonLinkRed to="/prescreen-1c/">Go back!</ButtonLinkRed>
+                <ButtonLink to="/screen-1/">Submit</ButtonLink>
+            </>
+
+            )
+    }
+}
