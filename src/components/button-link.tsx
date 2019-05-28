@@ -8,7 +8,6 @@ export const ButtonLink = styled(Link)`
     background-color: ${props =>
       props.disabled ? colors.gray : colors.darkGreen};
     border-radius: ${radii[2]};
-    background-color: ${colors.darkGreen};
     font-size: ${fontSizes[1]};
     color: ${colors.white};
     text-decoration: none;
