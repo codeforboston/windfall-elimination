@@ -13,8 +13,8 @@ export const ButtonLink = styled(Link)`
     color: ${colors.white};
     text-decoration: none;
     display: inline-block;
+    border: 2px solid ${colors.darkGreen};
     &:hover {
-        border: 2px solid ${colors.darkGreen};
         background-color: ${colors.white};
         color: ${colors.darkGreen};
         cursor: pointer;
