@@ -28,4 +28,6 @@ export default class Prescreen1 extends React.Component {
         <ButtonLinkRed to="/">Go back!</ButtonLinkRed>
         <ButtonLink to="/prescreen-1b/">Start</ButtonLink>
     </>
-)
+    )
+  }
+}
