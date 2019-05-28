@@ -1,6 +1,6 @@
 import React from "react";
 import styled from "@emotion/styled";
-import { StaticQuery, graphql } from "gatsby";
+import { StaticQuery, graphql, Link } from "gatsby"
 import { Header, QuestionProvider } from "../components";
 import "./layout.css";
 import { colors, fonts, spacing } from "../constants";
@@ -29,12 +29,19 @@ const ChildrenWrapper = styled("div")`
 `;
 
 const Footer = styled("footer")`
-  background-color: ${colors.black};
-  color: ${colors.white};
-  width: 100%;
-  bottom: 0;
-  text-align: center;
-  padding: ${spacing[1]} 0;
+    background-color: ${colors.darkGreen};
+    color: ${colors.white};
+    width: 100%;
+    bottom: 0;
+    verical-align: baseline;
+    text-align: center;
+    padding: ${spacing[1]} 0;
+`;
+
+const FooterLink = styled("footer")`
+    display: inline;
+    color: ${colors.white};
+    padding: ${spacing[1]};
 `;
 
 const Layout: React.FC = ({ children }) => (
@@ -61,8 +68,9 @@ const Layout: React.FC = ({ children }) => (
           </Main>
         </ObservableRuntime>
         <Footer>
-          © {new Date().getFullYear()} |{" "}
-          {data.author ? data.author : "Windfall Elimination Project"}
+          © {new Date().getFullYear()} | {data.author ? data.author : "Windfall Elimination Project"}
+          <FooterLink><Link to="https://observablehq.com/@thadk/windfall-awareness-notebook-prototype">Admin</Link></FooterLink>
+          <FooterLink><a href="https://github.com/codeforboston/windfall-elimination">Github Repo</a></FooterLink>
         </Footer>
       </Wrapper>
     )}
