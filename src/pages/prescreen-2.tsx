@@ -25,6 +25,7 @@ export default () => (
                 </label>
             </Card>
         </Form>
+        <Card>
         <TextBlock>
             I’ve made an account, now what? [skip below to If Yes]
         </TextBlock>
@@ -46,6 +47,7 @@ export default () => (
         <TextBlock>
             When you have a copy of the form, return to this page.
         </TextBlock>
+        </Card>
         <TextBlock>
             If yes - Great! Download your earnings record as a PDF. You can print it out, or upload it here:
         </TextBlock>

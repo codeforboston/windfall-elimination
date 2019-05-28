@@ -26,8 +26,6 @@ export default () => (
 
         <LinkWrapper>
             <ButtonLink to="/prescreen-1/">Get Started!</ButtonLink>
-            <Link to="/admin/">Admin</Link>
-            <a href="https://github.com/codeforboston/windfall-elimination">Github Repo</a>
         </LinkWrapper>
     </>
 )

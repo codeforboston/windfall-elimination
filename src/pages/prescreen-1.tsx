@@ -7,10 +7,13 @@ export default () => (
         <h2>Pre-Screen</h2>
 
         <TextBlock>
-            This app will walk you through how the formula works, and help you estimate how WEP will affect you when you retire. It will also give you some starting points to take political action, handle an overpayment, or help other people understand how WEP will affect them.
-        </TextBlock>
-        <TextBlock>
-            Click below to start.
+            <strong>This app will:</strong>
+            <UnorderedList>
+              <ListItem>walk you through how the formula works</ListItem>
+              <ListItem>help you estimate how WEP will affect you when you retire</ListItem>
+              <ListItem>help you handle an overpayment</ListItem>
+              <ListItem>give you some starting points to take political action</ListItem>
+            </UnorderedList>
         </TextBlock>
         <ButtonLinkRed to="/">Go back!</ButtonLinkRed>
         <ButtonLink to="/prescreen-1b/">Start</ButtonLink>
