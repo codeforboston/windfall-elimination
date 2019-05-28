@@ -2,7 +2,7 @@ import React from 'react';
 import styled from "@emotion/styled";
 import fastXml from 'fast-xml-parser';
 import { spacing, colors, fontSizes, radii } from "../constants";
-import { ObservableCell } from "../components";
+import { ObservableCell, SessionStore } from "../components";
 
 //Upload page specific css/html
 export const UploadButton = styled("div")`
@@ -72,7 +72,7 @@ export class GenerateTable extends React.Component {
 		    	return(
 		    		<TableRow key={i}>
 			    		<td><label>{earning['@_startYear']}</label></td>
-			    		<td><input defaultValue={earning['osss:FicaEarnings']} onChange={this.props.handleInputEarnings}></input></td>
+			    		<td><input id={earning['@_startYear']} defaultValue={earning['osss:FicaEarnings']} onChange={this.props.handleInputEarnings}></input></td>
 			    	</TableRow>
 		    	)
 		    });
@@ -100,34 +100,76 @@ export default class FileUpload extends React.Component {
 	    this.handleSubmit = this.handleSubmit.bind(this);
 	    this.handleLoadTable = this.handleLoadTable.bind(this);
 	    this.handleInputEarnings = this.handleInputEarnings.bind(this);
+	    this.assertLoad = this.assertLoad.bind(this);
 	    this.customObserver = this.customObserver.bind(this);
 	    this.fileInput = React.createRef();
 
 	    this.state = {
-	      earningsRecord: '',
-	      displayTable: false
+	    	elementLoaded: false,
+	    	earningsRecord: undefined,
+		    displayTable: false
 	    };
 	 }
 
-	componentDidUpdate(nextProps, nextState) {
-		console.log(this.state.earningsRecord)
-    	this.parseXML.value = this.state.earningsRecord;
+	componentDidUpdate(prevProps, prevState) {
+		if (this.state.elementLoaded) {
+			this.parseXML.value = this.state.earningsRecord
+		}
 	 }
 
-	 customObserver() {
+	 componentDidMount() {
+	 	if (SessionStore.get('earnings')) {
+	 		var earningsValue = JSON.parse(SessionStore.get('earnings'))
+	 		this.setState({
+	 			earningsRecord: earningsValue
+	 		})
+
+	 	}
+	 }
+
+	 assertLoad() {
+	 	this.setState({
+	 		elementLoaded: true
+	 	})
+	 }
+
+	 customObserver(test) {
 	    return {fulfilled: (value) => {
 	        this.parseXML = value
+	        this.assertLoad()
 	    }}
  	 }
 
  	 handleInputEarnings(input) {
- 	 	console.log(input.target)
- 	 	console.log(input.target.value)
+ 	 	var modifiedEarnings = this.state.earningsRecord
+ 	 	var earnings = modifiedEarnings['osss:OnlineSocialSecurityStatementData']['osss:EarningsRecord']['osss:Earnings']
+ 	 	var modifiedyear = input.target.id
+
+ 	 	var findValue = earnings.find((element) => {
+ 	 		if (element['@_startYear'] === modifiedyear) {
+ 	 			element['osss:FicaEarnings'] = input.target.value
+ 	 			return true
+ 	 		}
+ 	 	})
+
+ 	 	if (findValue) {
+ 	 		modifiedEarnings['osss:OnlineSocialSecurityStatementData']['osss:EarningsRecord']['osss:Earnings'] = earnings
+
+ 	 		var earningsJSON = JSON.stringify(modifiedEarnings)
+	 	 	SessionStore.push('earnings', earningsJSON)
+
+	 	 	this.setState({
+	 	 		earningsRecord: modifiedEarnings
+	 	 	})
+ 	 	}
+
  	 }
 
 	 handleLoadTable(reader) {
 	 	 if (fastXml.validate(reader.target.result) === true) {
 				var parsedText = fastXml.parse(reader.target.result, {ignoreAttributes: false})
+				var earningsJSON = JSON.stringify(parsedText)
+	 	 		SessionStore.push('earnings', earningsJSON)
 			 	this.setState({
 			 		earningsRecord: parsedText
 			 	})
@@ -159,7 +201,7 @@ export default class FileUpload extends React.Component {
 						<UploadInput type='file' id='inputfile' ref={this.fileInput} onChange={this.handleSubmit}></UploadInput>
 					</UploadButton>
 					<GenerateTable parsedXml={this.state.earningsRecord} handleInputEarnings={this.handleInputEarnings} />
-					<div><ObservableCell cellname="mutable parsedXmlFileText" customObserver={this.customObserver} /></div>
+					<div><ObservableCell cellname="mutable parsedXmlFileText" customObserver={this.customObserver}/></div>
         			<div style={{display: 'none'}}><ObservableCell cellname='calculationDisplay' /></div>
 			</div>
 		)
