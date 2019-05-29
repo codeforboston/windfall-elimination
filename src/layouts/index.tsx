@@ -68,8 +68,6 @@ const Layout: React.FC = ({ children }) => (
                 </Main>
                 <Footer>
                     © {new Date().getFullYear()} | {data.author ? data.author : "Windfall Elimination Project"}
-                    <FooterLink><Link to="/admin/">Admin</Link></FooterLink>
-                    <FooterLink><a href="https://github.com/codeforboston/windfall-elimination">Github Repo</a></FooterLink>
                 </Footer>
             </Wrapper>
         )}
