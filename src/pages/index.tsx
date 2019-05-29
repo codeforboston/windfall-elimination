@@ -41,7 +41,6 @@ export default () => (
         </ListItem>
       </UnorderedList>
     </TextBlock>
-
         <TextBlockHeader>Why is this app useful?</TextBlockHeader>
         <TextBlock>
             While the Social Security administration provides some information on how WEP is calculated, this information is often difficult to find and understand.
