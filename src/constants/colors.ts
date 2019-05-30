@@ -15,5 +15,6 @@ export const colors = {
     darkGreen: "#2E4600",
     grass: "#486B00",
     earth: "#7D4427",
-    lime: "#A2c523"
+    lime: "#A2c523",
+    darkLime: "#809e11"
 };
