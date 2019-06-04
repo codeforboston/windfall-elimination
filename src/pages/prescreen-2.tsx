@@ -1,6 +1,6 @@
 import React from "react";
 import styled from "@emotion/styled";
-import { ButtonLink, ButtonLinkRed, Card, Form, HelperText, Message, QuestionText, SEO, TextBlock, FileUpload, ObservableCell } from "../components";
+import { ButtonLink, ButtonLinkRed, Card, Form, HelperText, Message, QuestionText, SEO, TextBlock, FileUpload, ObservableCell, SessionStore } from "../components";
 
 export const SsaImage= styled("img")`
     border: 1px solid #dddddd;
@@ -17,7 +17,16 @@ export default class Prescreen2 extends React.Component {
         }
     }
 
+    componentDidMount() {
+        if (SessionStore.get('displayImage')) {
+            this.setState({
+                displayImage: SessionStore.get('displayImage')
+            })
+        }
+    }
+
     handleOption(e) {
+        SessionStore.push("displayImage", e.target.value)
         this.setState({
             displayImage: e.target.value
         })
@@ -45,25 +54,42 @@ export default class Prescreen2 extends React.Component {
                             If yes: once you are logged in to your MySSA account, download your earnings record as a file (XML or PDF).
                         </HelperText>
                         <label> Yes
-                            <input type="radio" name="mySocialSecurityAccount" value="true" onChange={this.handleOption}></input>
+                            <input type="radio" name="mySocialSecurityAccount" value="true" onChange={this.handleOption} checked={this.state.displayImage === 'true' ? true : false }></input>
                         </label>
                         <label> No
-                            <input type="radio" name="mySocialSecurityAccount" value="false" onChange={this.handleOption}></input>
+                            <input type="radio" name="mySocialSecurityAccount" value="false" onChange={this.handleOption} checked={this.state.displayImage === 'false' ? true : false}></input>
                         </label>
                     </Card>
                 </Form>
-                <div style={{display: this.state.displayImage == "true" ? true : 'none'}}><SsaImage src='https://user-images.githubusercontent.com/50156013/56998273-bcd78800-6b78-11e9-86b5-9db06d292a4c.jpg'></SsaImage></div>
-                <TextBlock>
-                    Write to the SSA to request that a copy of your earnings record be mailed to you:
-        The SSA will send you a free copy of your earnings record. To request the earnings record, print and complete this form and mail it to the address listed.
-                </TextBlock>
-                <TextBlock>
-                    Once you have a copy of your earnings record, upload the XML or PDF below.
-                </TextBlock>
-                <FileUpload />
-                <TextBlock>
-                       Once you have uploaded your earnings record, click "Submit".
-                </TextBlock>
+                <div style={{display: this.state.displayImage === "true" ? true : 'none'}}><SsaImage src='https://user-images.githubusercontent.com/50156013/56998273-bcd78800-6b78-11e9-86b5-9db06d292a4c.jpg'></SsaImage></div>
+                {this.state.displayImage === false ? 
+                    <div></div> 
+                    :
+                    this.state.displayImage === "true" ?
+                        <div>
+                            <TextBlock>
+                                Once you have a copy of your earnings record, upload the XML or PDF below.
+                            </TextBlock>
+                            <FileUpload manual={false}/>
+                            <TextBlock>
+                                   Once you have uploaded your earnings record, click "Submit".
+                            </TextBlock>
+                        </div>
+                        :
+                        <div>
+                            <TextBlock>
+                                If no: Write to the SSA to request that a copy of your earnings record be mailed to you:
+                    The SSA will send you a free copy of your earnings record. To request the earnings record, print and complete this form and mail it to the address listed.
+                            </TextBlock>
+                            <TextBlock>
+                                Once you have a copy of your earnings record, you can manually enter the values below.
+                            </TextBlock>
+                            <FileUpload manual={true} />
+                            <TextBlock>
+                                   Once you have entered your earnings record, click "Submit".
+                            </TextBlock>
+                        </div>
+                }
                 <ButtonLinkRed to="/prescreen-1c/">Go back!</ButtonLinkRed>
                 <ButtonLink to="/screen-1/">Submit</ButtonLink>
             </>
