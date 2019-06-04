@@ -56,6 +56,10 @@ export const TableHeader = styled("th")`
 export const TableRow = styled("tr")`
   border: 1px solid #dddddd;
 `;
+
+export const AddRow = styled("button")`
+  border: 1px solid #dddddd;
+`;
 //-------------------------------------------------
 
 // Generates earning records table from uploaded XML file, XML parsing adapted from Amrutha
@@ -64,10 +68,10 @@ export class GenerateTable extends React.Component {
 	render () {
 		var header;
 		var tableRows;
-		if (this.props.parsedXml) {
+		if ((this.props.parsedXml) & !(this.props.manual))  {
 			const parsedXml = this.props.parsedXml;
 		    const earnings = parsedXml['osss:OnlineSocialSecurityStatementData']['osss:EarningsRecord']['osss:Earnings'];
-		    header = <tr><TableHeader>Year</TableHeader ><TableHeader>Amount</TableHeader ></tr>;
+		    header = <tr><TableHeader>Year</TableHeader ><TableHeader>Amount</TableHeader ><AddRow style={{display: this.props.manual ? true : 'none'}} onClick={this.props.addTableRow}>+</AddRow></tr>;
 		    tableRows = earnings.map((earning, i) => {
 		    	return(
 		    		<TableRow key={i}>
@@ -75,7 +79,13 @@ export class GenerateTable extends React.Component {
 			    		<td><input id={earning['@_startYear']} defaultValue={earning['osss:FicaEarnings']} onChange={this.props.handleInputEarnings}></input></td>
 			    	</TableRow>
 		    	)
+
 		    });
+	   } else if (this.props.manual) {
+	   	header = <tr><TableHeader>Year</TableHeader ><TableHeader>Amount</TableHeader><td><AddRow onClick={this.props.addTableRow}>+</AddRow></td></tr>;
+	   	tableRows = this.props.manualTable.map((tableRow) => {
+	   		return(tableRow)
+	   	})
 	   } else {
 	   	header = <tr></tr>;
 	   	tableRows = <tr></tr>;
@@ -97,9 +107,12 @@ export default class FileUpload extends React.Component {
 	constructor(props, context) {
 	    super(props, context);
 
-	    this.handleSubmit = this.handleSubmit.bind(this);
+	    this.handleUpload = this.handleUpload.bind(this);
 	    this.handleLoadTable = this.handleLoadTable.bind(this);
 	    this.handleInputEarnings = this.handleInputEarnings.bind(this);
+	    this.handleManualEarnings = this.handleManualEarnings.bind(this);
+	    this.handleSave = this.handleSave.bind(this);
+	    this.addTableRow = this.addTableRow.bind(this);
 	    this.assertLoad = this.assertLoad.bind(this);
 	    this.customObserver = this.customObserver.bind(this);
 	    this.fileInput = React.createRef();
@@ -107,7 +120,18 @@ export default class FileUpload extends React.Component {
 	    this.state = {
 	    	elementLoaded: false,
 	    	earningsRecord: undefined,
-		    displayTable: false
+	    	defaultRecord: {
+	    		'osss:OnlineSocialSecurityStatementData': {
+	    			'osss:EarningsRecord': {
+	    				'osss:Earnings': []
+	    			}
+	    	}},
+	    	rowValues: [],
+	    	manualTable: [],
+		    displayTable: false,
+		    buttonText: this.props.manual ? "Enter Earnings Record" :"Upload Earnings Record",
+		    buttonFunction: this.props.manual ? this.handleEnter : this.handleUpload,
+		    buttonType: this.props.manual ? "button" : "file"
 	    };
 	 }
 
@@ -123,8 +147,27 @@ export default class FileUpload extends React.Component {
 	 		this.setState({
 	 			earningsRecord: earningsValue
 	 		})
-
 	 	}
+	 	
+	 	if (SessionStore.get('tableRows')) {
+	 		var tableJSON = JSON.parse(SessionStore.get('tableRows'))
+	 		var updateTable = this.state.manualTable
+	 		var table = tableJSON.map((row, i) => {
+	 			return (
+	 				updateTable.push(
+	 				<TableRow key={i}>
+			    		<td><input type="text" id={'year_' + i} defaultValue={row['year']} onChange={this.handleManualEarnings}></input></td>
+			    		<td><input type="text" id={'value_' + i} defaultValue={row['value']} onChange={this.handleManualEarnings}></input></td>
+			    	</TableRow>
+			    	)
+			    )
+	 		})
+	 		this.setState({
+	 			rowValues: tableJSON,
+	 			manualTable: updateTable
+	 		})
+	 	}
+	 	
 	 }
 
 	 assertLoad() {
@@ -176,11 +219,11 @@ export default class FileUpload extends React.Component {
 	 	}
 	}
 
-	 handleSubmit(formResponse) {
+	 handleUpload(formResponse) {
 	 	this.setState({
 	 		displayTable: true
 	 	});
-	 	formResponse.preventDefault();
+	 	//formResponse.preventDefault();
 	 	const file = this.fileInput.current.files[0]
 	 	const name = this.fileInput.current.files[0].name
 	 	const formData = new FormData();
@@ -192,14 +235,72 @@ export default class FileUpload extends React.Component {
 		reader.onload = (reader) => this.handleLoadTable(reader)	
 	 }
 
+	 handleManualEarnings(input) {
+	 	const [type, key] = input.target.id.split('_')
+	 	var rowStore = this.state.rowValues
+
+	 	if (rowStore[key]) {
+	 		rowStore[key][type] = input.target.value
+	 	} else {
+	 		rowStore[key] = {}
+	 		rowStore[key][type] = input.target.value
+	 	}
+	 	
+	 	this.setState({
+	 		rowValues: rowStore
+	 	})
+ 	 }
+
+ 	 handleSave() {
+ 	 	var tempRecord = this.state.earningsRecord ? this.state.earningsRecord : this.state.defaultRecord
+
+	 	this.state.rowValues.map((earnings, i) => {
+	 		var newrecord = {
+		 	 	 '@_startYear': earnings['year'],
+		 	 	 '@_endYear': earnings['year'], 
+				 'osss:FicaEarnings': earnings['value']
+			}
+
+			tempRecord['osss:OnlineSocialSecurityStatementData']['osss:EarningsRecord']['osss:Earnings'].push(newrecord)
+	 	})
+
+	 	var rowsJSON = JSON.stringify(this.state.rowValues)
+	 	SessionStore.push('tableRows', rowsJSON)
+
+	 	var earningsJSON = JSON.stringify(tempRecord)
+	 	SessionStore.push('earnings', earningsJSON)
+
+	 	this.setState({
+	 		earningsRecord: tempRecord
+	 	})
+
+ 	 }
+
+	 addTableRow() {
+	 	var rowkey = this.state.manualTable.length
+	 	var newRow = <TableRow key={rowkey}>
+			    		<td><input type="text" id={'year_' + rowkey} defaultValue="0" onChange={this.handleManualEarnings}></input></td>
+			    		<td><input type="text" id={'value_' + rowkey} defaultValue="0" onChange={this.handleManualEarnings}></input></td>
+			    	</TableRow>
+		var updateTable = this.state.manualTable
+		updateTable.push(newRow)
+
+		this.setState({
+			manualTable: updateTable
+		})
+	 }
+
 	render() {
 		return (
 			<div className ='upload-form'>
-					<UploadButton>
-						<UploadLabel htmlFor="inputfile" className="btn">Upload Earnings Record</UploadLabel>
-						<UploadInput type='file' id='inputfile' ref={this.fileInput} onChange={this.handleSubmit}></UploadInput>
+					<UploadButton style={{display: this.props.manual ? 'none' : true}}>
+						<UploadLabel htmlFor="inputfile" className="btn">{this.state.buttonText}</UploadLabel>
+						<UploadInput type={this.state.buttonType} id='inputfile' ref={this.fileInput} onChange={this.state.buttonFunction}></UploadInput>
 					</UploadButton>
-					<GenerateTable parsedXml={this.state.earningsRecord} handleInputEarnings={this.handleInputEarnings} />
+					<GenerateTable parsedXml={this.state.earningsRecord} handleInputEarnings={this.handleInputEarnings} manual={this.props.manual} manualTable={this.state.manualTable} addTableRow={this.addTableRow} />
+					<UploadButton onClick={this.handleSave} style={{display: this.props.manual ? true : 'none'}}>
+						Save
+					</UploadButton>
 					<div><ObservableCell cellname="mutable parsedXmlFileText" customObserver={this.customObserver}/></div>
         			<div style={{display: 'none'}}><ObservableCell cellname='calculationDisplay' /></div>
 			</div>

@@ -92,7 +92,7 @@ export const Hamburger= styled('div')`
   	}
 `;
 
-export default class HamburgerHelper extends React.Component {
+export default class InfoWidget extends React.Component {
 	render() {
 		return(
 			<nav role="navigation">
