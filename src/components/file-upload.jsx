@@ -84,10 +84,17 @@ export class GenerateTable extends React.Component {
 
 		    });
 	   } else if (this.props.manual) {
-	   	header = <tr><TableHeader>Year</TableHeader ><TableHeader>Amount</TableHeader><td><AddRow onClick={this.props.addTableRow}>+</AddRow></td></tr>;
-	   	tableRows = this.props.manualTable.map((tableRow) => {
-	   		return(tableRow)
-	   	})
+	   	header = <tr><TableHeader>Year</TableHeader ><TableHeader>Amount</TableHeader></tr>;
+	   	tableRows = this.props.manualTable.map((record, key) => {
+		    	return(
+		    		<TableRow key={key}>
+			    		<td><label>{record['year']}</label></td>
+			    		<td><input type="text" id={'value_' + record['year'] +'_' + key} defaultValue={record['value']} onChange={this.props.handleManualEarnings}></input></td>
+			    	</TableRow>
+		    	)
+
+		    })
+		
 	   } else {
 	   	header = <tr></tr>;
 	   	tableRows = <tr></tr>;
@@ -114,9 +121,9 @@ export default class FileUpload extends React.Component {
 	    this.handleInputEarnings = this.handleInputEarnings.bind(this);
 	    this.handleManualEarnings = this.handleManualEarnings.bind(this);
 	    this.handleSave = this.handleSave.bind(this);
-	    this.addTableRow = this.addTableRow.bind(this);
 	    this.assertLoad = this.assertLoad.bind(this);
 	    this.customObserver = this.customObserver.bind(this);
+	    this.dateObserver = this.dateObserver.bind(this);
 	    this.fileInput = React.createRef();
 
 	    this.state = {
@@ -128,6 +135,9 @@ export default class FileUpload extends React.Component {
 	    				'osss:Earnings': []
 	    			}
 	    	}},
+	    	userBirthDate: undefined,
+	    	userRetireDate: undefined,
+	    	estimatedYears: [],
 	    	rowValues: [],
 	    	manualTable: [],
 		    displayTable: false,
@@ -141,6 +151,22 @@ export default class FileUpload extends React.Component {
 		if (this.state.elementLoaded) {
 			this.parseXML.value = this.state.earningsRecord
 		}
+
+		if ((this.state.userBirthDate) && (this.state.userRetireDate) && (!this.state.manualTable.length)) {
+	 		var tempTable = []
+	 		
+	 		for (var i = this.state.userBirthDate; i <= this.state.userRetireDate; i++) {
+	 			var record = {}
+	 			record['year'] = i
+	 			record['value'] = 0
+			    tempTable.push(record);
+			}
+
+
+			this.setState({
+				manualTable: tempTable
+			})
+	 	}
 	 }
 
 	 componentDidMount() {
@@ -151,22 +177,10 @@ export default class FileUpload extends React.Component {
 	 		})
 	 	}
 	 	
-	 	if (SessionStore.get('tableRows')) {
-	 		var tableJSON = JSON.parse(SessionStore.get('tableRows'))
-	 		var updateTable = this.state.manualTable
-	 		var table = tableJSON.map((row, i) => {
-	 			return (
-	 				updateTable.push(
-	 				<TableRow key={i}>
-			    		<td><input type="text" id={'year_' + i} defaultValue={row['year']} onChange={this.handleManualEarnings}></input></td>
-			    		<td><input type="text" id={'value_' + i} defaultValue={row['value']} onChange={this.handleManualEarnings}></input></td>
-			    	</TableRow>
-			    	)
-			    )
-	 		})
+	 	if (SessionStore.get('tableArray')) {
+	 		var tableArray = JSON.parse(SessionStore.get('tableArray'))
 	 		this.setState({
-	 			rowValues: tableJSON,
-	 			manualTable: updateTable
+	 			manualTable: tableArray 
 	 		})
 	 	}
 	 	
@@ -184,6 +198,21 @@ export default class FileUpload extends React.Component {
 	    return {fulfilled: (value) => {
 	        this.parseXML = value
 	        this.assertLoad()
+	    }}
+ 	 }
+
+ 	 //Customer Observer to find users birthdate and retiredate
+ 	 dateObserver(name) {
+	    return {fulfilled: (value) => {
+	    	var dateYear = Number(value.split('-')[0])
+	        if (name === 'birthDatePicked') {
+	        	this.setState({
+	        		userBirthDate: dateYear + 18
+	       		})
+	        } else if (name === 'retireDatePicked')
+	       		this.setState({
+	        		userRetireDate: dateYear
+	       		})
 	    }}
  	 }
 
@@ -243,37 +272,45 @@ export default class FileUpload extends React.Component {
 
 	 //Stores users input for manually entered table to allow for persistence across page changes
 	 handleManualEarnings(input) {
-	 	const [type, key] = input.target.id.split('_')
-	 	var rowStore = this.state.rowValues
+	 	const [type, year, key] = input.target.id.split('_')
 
-	 	if (rowStore[key]) {
-	 		rowStore[key][type] = input.target.value
-	 	} else {
-	 		rowStore[key] = {}
-	 		rowStore[key][type] = input.target.value
+	 	var tempManualTable = this.state.manualTable
+
+	 	if (tempManualTable[key]) {
+	 		tempManualTable[key]['value'] = input.target.value
 	 	}
-	 	
+
 	 	this.setState({
-	 		rowValues: rowStore
+	 		manualTable: tempManualTable
 	 	})
  	 }
 
  	 //Saves manually entered record to this.state.earningsRecord object, becomes noticable to Observable API
  	 handleSave() {
- 	 	var tempRecord = this.state.earningsRecord ? this.state.earningsRecord : this.state.defaultRecord
+ 	 	var tempRecord = this.state.earningsRecord ? 
+ 	 	this.state.earningsRecord['osss:OnlineSocialSecurityStatementData']['osss:EarningsRecord']['osss:Earnings'].length === this.state.manualTable.length
+ 	 	? this.state.earningsRecord : this.state.defaultRecord
+ 	 	:
+ 	 	this.state.defaultRecord
 
-	 	this.state.rowValues.map((earnings, i) => {
+	 	this.state.manualTable.map((record, i) => {
+	 		var currentRecord = tempRecord['osss:OnlineSocialSecurityStatementData']['osss:EarningsRecord']['osss:Earnings']
 	 		var newrecord = {
-		 	 	 '@_startYear': earnings['year'],
-		 	 	 '@_endYear': earnings['year'], 
-				 'osss:FicaEarnings': earnings['value']
+		 	 	 '@_startYear': record['year'],
+		 	 	 '@_endYear': record['year'], 
+				 'osss:FicaEarnings': record['value']
 			}
 
-			tempRecord['osss:OnlineSocialSecurityStatementData']['osss:EarningsRecord']['osss:Earnings'].push(newrecord)
+			if (!currentRecord[i]) {
+				currentRecord.push(newrecord)
+			} else {
+				currentRecord[i] = newrecord
+			}
+			
 	 	})
 
-	 	var rowsJSON = JSON.stringify(this.state.rowValues)
-	 	SessionStore.push('tableRows', rowsJSON)
+	 	var arrayJSON = JSON.stringify(this.state.manualTable)
+	 	SessionStore.push('tableArray', arrayJSON)
 
 	 	var earningsJSON = JSON.stringify(tempRecord)
 	 	SessionStore.push('earnings', earningsJSON)
@@ -284,20 +321,6 @@ export default class FileUpload extends React.Component {
 
  	 }
 
-	 addTableRow() {
-	 	var rowkey = this.state.manualTable.length
-	 	var newRow = <TableRow key={rowkey}>
-			    		<td><input type="text" id={'year_' + rowkey} defaultValue="0" onChange={this.handleManualEarnings}></input></td>
-			    		<td><input type="text" id={'value_' + rowkey} defaultValue="0" onChange={this.handleManualEarnings}></input></td>
-			    	</TableRow>
-		var updateTable = this.state.manualTable
-		updateTable.push(newRow)
-
-		this.setState({
-			manualTable: updateTable
-		})
-	 }
-
 	render() {
 		return (
 			<div className ='upload-form'>
@@ -305,12 +328,20 @@ export default class FileUpload extends React.Component {
 						<UploadLabel htmlFor="inputfile" className="btn">{this.state.buttonText}</UploadLabel>
 						<UploadInput type={this.state.buttonType} id='inputfile' ref={this.fileInput} onChange={this.state.buttonFunction}></UploadInput>
 					</UploadButton>
-					<GenerateTable parsedXml={this.state.earningsRecord} handleInputEarnings={this.handleInputEarnings} manual={this.props.manual} manualTable={this.state.manualTable} addTableRow={this.addTableRow} />
+					<GenerateTable 
+						parsedXml={this.state.earningsRecord} 
+						handleInputEarnings={this.handleInputEarnings} 
+						manual={this.props.manual} 
+						manualTable={this.state.manualTable}
+						handleManualEarnings={this.handleManualEarnings}
+					/>
 					<UploadButton onClick={this.handleSave} style={{display: this.props.manual ? true : 'none'}}>
 						Save
 					</UploadButton>
 					<div><ObservableCell cellname="mutable parsedXmlFileText" customObserver={this.customObserver}/></div>
         			<div style={{display: 'none'}}><ObservableCell cellname='calculationDisplay' /></div>
+        			<div style={{display: 'none'}}><ObservableCell cellname='birthDatePicked' customObserver={this.dateObserver} /></div>
+        			<div style={{display: 'none'}}><ObservableCell cellname='retireDatePicked' customObserver={this.dateObserver} /></div>
 			</div>
 		)
 	}
