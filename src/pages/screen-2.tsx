@@ -1,7 +1,6 @@
 import React from "react"
 import { ButtonLink, ButtonLinkRed, Form, SEO, ObservableCell, Card, Message } from "../components";
 
-
 export default () => (
     <>
         <SEO title="Screen 2" />
@@ -39,6 +38,7 @@ export default () => (
             </Message>
         </Form>
         <ButtonLinkRed to="/screen-1/">Go back!</ButtonLinkRed>
+        <ButtonLink to='/explain/'>Explain</ButtonLink>
         <ButtonLink to="/screen-3/">Submit</ButtonLink>
     </>
 );
