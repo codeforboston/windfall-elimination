@@ -63,8 +63,9 @@ export default class Prescreen1b extends React.Component {
               Did you work in “non-covered” employment?
             </QuestionText>
             <HelperText>
-              “Non-covered” employment is employment where your employer did not withhold Social Security taxes from your wages.
-               These earnings will not show up on your Social Security earnings statement.
+              “Non-covered” employment is employment where your employer did not
+              withhold Social Security taxes from your wages. These earnings
+              will not show up on your Social Security earnings statement.
             </HelperText>
             <label>
               {" "}
@@ -99,9 +100,11 @@ export default class Prescreen1b extends React.Component {
                 If yes: Do you have a pension or retirement account?
               </QuestionText>
               <HelperText>
-              This can be either a monthly pension or a lump sum like a $401K. 
-              It can be an employee-contribution-only plan or an employer/employee-matching contribution plan. 
-              The important thing is whether you paid Social Security taxes on the money that went into this resource.
+                This can be either a monthly pension or a lump sum like a $401K.
+                It can be an employee-contribution-only plan or an
+                employer/employee-matching contribution plan. The important
+                thing is whether you paid Social Security taxes on the money
+                that went into this resource.
               </HelperText>
               <label>
                 {" "}
@@ -133,7 +136,8 @@ export default class Prescreen1b extends React.Component {
           )}
           {haveAllRequiredQuestionsBeenAnswered && (
             <Message>
-              {this.state.coveredEmployment && this.state.pensionOrRetirementAccount
+              {this.state.coveredEmployment &&
+              this.state.pensionOrRetirementAccount
                 ? "You are probably affected by WEP. Proceed to the next screen."
                 : "Congratulations! You’re probably not affected by WEP. Make sure that your earnings record is correct with the SSA to make sure you get the right amount of SSA benefits you’re entitled to, and report any significant changes in your income."}
             </Message>
@@ -141,7 +145,12 @@ export default class Prescreen1b extends React.Component {
         </Form>
         <ButtonLinkRed to="/prescreen-1/">Go back!</ButtonLinkRed>
         <ButtonLink
-          to={this.state.coveredEmployment && this.state.pensionOrRetirementAccount ? "/prescreen-1c/" : "/congrats/"}
+          to={
+            this.state.coveredEmployment &&
+            this.state.pensionOrRetirementAccount
+              ? "/prescreen-1c/"
+              : "/congrats/"
+          }
           name="submitButton"
           disabled={!haveAllRequiredQuestionsBeenAnswered}
         >
