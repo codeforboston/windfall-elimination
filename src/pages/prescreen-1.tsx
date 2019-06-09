@@ -9,10 +9,12 @@ import {
   TextBlockHeader
 } from "../components";
 
-export default () => (
-  <>
-    <SEO title="Prescreen 1" keywords={[`gatsby`, `application`, `react`]} />
-    <h2>Pre-Screen</h2>
+export default class Prescreen1 extends React.Component {
+  render() {
+    return(
+      <>
+        <SEO title="Prescreen 1" keywords={[`gatsby`, `application`, `react`]} />
+        <h2>Pre-Screen</h2>
 
         <TextBlock>
             <strong>This app will:</strong>
@@ -26,4 +28,7 @@ export default () => (
         <ButtonLinkRed to="/">Go back!</ButtonLinkRed>
         <ButtonLink to="/prescreen-1b/">Start</ButtonLink>
     </>
-)
+    )
+  }
+}
+

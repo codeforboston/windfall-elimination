@@ -25,6 +25,7 @@ import { ObservableRuntime } from "./observable-runtime";
 import HamburgerHelper from "./hamburger-menu";
 import { generateRuntime } from "./generate-runtime";
 import SessionStore from "./session-store";
+import InfoWidget from "./info-widget";
 
 export {
     ButtonLink,
@@ -53,5 +54,6 @@ export {
     ObservableCell,
     ObservableRuntime,
     generateRuntime,
-    SessionStore
+    SessionStore,
+    InfoWidget
 };
