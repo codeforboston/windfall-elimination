@@ -226,7 +226,9 @@ export default class FileUpload extends React.Component {
  	 		if (element['@_startYear'] === modifiedyear) {
  	 			element['osss:FicaEarnings'] = input.target.value
  	 			return true
- 	 		}
+			  } else {
+				return false
+			  }
  	 	})
 
  	 	if (findValue) {
@@ -272,6 +274,7 @@ export default class FileUpload extends React.Component {
 
 	 //Stores users input for manually entered table to allow for persistence across page changes
 	 handleManualEarnings(input) {
+		// eslint-disable-next-line
 	 	const [type, year, key] = input.target.id.split('_')
 
 	 	var tempManualTable = this.state.manualTable
@@ -293,7 +296,7 @@ export default class FileUpload extends React.Component {
  	 	:
  	 	this.state.defaultRecord
 
-	 	this.state.manualTable.map((record, i) => {
+	 	this.state.manualTable.forEach((record, i) => {
 	 		var currentRecord = tempRecord['osss:OnlineSocialSecurityStatementData']['osss:EarningsRecord']['osss:Earnings']
 	 		var newrecord = {
 		 	 	 '@_startYear': record['year'],
