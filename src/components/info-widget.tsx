@@ -1,6 +1,6 @@
-import React from 'react';
+import React from "react";
 import { Link } from "gatsby";
-import styled from "@emotion/styled"
+import styled from "@emotion/styled";
 import { colors, radii } from "../constants";
 
 //Hamburger buns
@@ -24,7 +24,7 @@ export const HamburgerBuns= styled('span')`
 `;
 
 //Hamburger menu
-export const HamburgerMenu = styled('ul')`
+export const HamburgerMenu = styled("ul")`
   position: absolute;
   width: 100px;
   margin: 30px 0 0 -1px;
@@ -92,7 +92,7 @@ export const Hamburger= styled('div')`
   	}
 `;
 
-export default class HamburgerHelper extends React.Component {
+export default class InfoWidget extends React.Component {
 	render() {
 		return(
 			<nav role="navigation">
