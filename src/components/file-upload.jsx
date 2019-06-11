@@ -21,6 +21,12 @@ export const UploadButton = styled("div")`
     &:hover {
         background-color: ${colors.lightblue};
     }
+
+    &:disabled{
+    	border: 1px solid #999999;
+		background-color: #cccccc;
+		color: #666666
+    }
 `;
 
 export const UploadInput = styled("input")`
@@ -58,7 +64,7 @@ export const TableRow= styled("tr")`
 `;
 
 export const AddRow = styled("button")`
-  border: 1px solid #dddddd;
+  	border: 1px solid #dddddd;
 `;
 //-------------------------------------------------
 
@@ -89,7 +95,15 @@ export class GenerateTable extends React.Component {
 		    	return(
 		    		<TableRow key={key}>
 			    		<td><label>{record['year']}</label></td>
-			    		<td><input type="text" id={'value_' + record['year'] +'_' + key} defaultValue={record['value']} onChange={this.props.handleManualEarnings}></input></td>
+			    		<td>
+			    		<input 
+			    			type="text" 
+			    			id={'value_' + record['year'] +'_' + key} 
+			    			defaultValue={record['value']} 
+			    			onChange={this.props.handleManualEarnings} 
+			    			onBlur={this.props.handleSave}>
+			    		</input>
+			    		</td>
 			    	</TableRow>
 		    	)
 
@@ -143,7 +157,8 @@ export default class FileUpload extends React.Component {
 		    displayTable: false,
 		    buttonText: this.props.manual ? "Enter Earnings Record" :"Upload Earnings Record",
 		    buttonFunction: this.props.manual ? this.handleEnter : this.handleUpload,
-		    buttonType: this.props.manual ? "button" : "file"
+		    buttonType: this.props.manual ? "button" : "file",
+		    saveDisable: false
 	    };
 	 }
 
@@ -185,7 +200,6 @@ export default class FileUpload extends React.Component {
 	 	}
 	 	
 	 }
-
 
 	 assertLoad() {
 	 	this.setState({
@@ -319,6 +333,13 @@ export default class FileUpload extends React.Component {
 	 		earningsRecord: tempRecord
 	 	})
 
+	 	//Display autosave message, 3 second timeout
+	 	var savediv = document.getElementById('AutoSave')
+	 	savediv.style.display = 'grid'
+        setTimeout(function(){
+           savediv.style.display = 'none';
+        }, 3000)
+
  	 }
 
 	render() {
@@ -334,10 +355,9 @@ export default class FileUpload extends React.Component {
 						manual={this.props.manual} 
 						manualTable={this.state.manualTable}
 						handleManualEarnings={this.handleManualEarnings}
+						handleSave={this.handleSave}
 					/>
-					<UploadButton onClick={this.handleSave} style={{display: this.props.manual ? true : 'none'}}>
-						Save
-					</UploadButton>
+					<div id='AutoSave' style={{display:"none"}}>Record has been saved.</div>
 					<div><ObservableCell cellname="mutable parsedXmlFileText" customObserver={this.customObserver}/></div>
         			<div style={{display: 'none'}}><ObservableCell cellname='calculationDisplay' /></div>
         			<div style={{display: 'none'}}><ObservableCell cellname='birthDatePicked' customObserver={this.dateObserver} /></div>
