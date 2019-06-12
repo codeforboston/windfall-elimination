@@ -1,15 +1,16 @@
 import React from "react";
 import styled from "@emotion/styled";
 import { StaticQuery, graphql, Link } from "gatsby";
+import { Location } from "@reach/router";
 import { Header, QuestionProvider } from "../components";
 import "./layout.css";
 import { colors, fonts, spacing } from "../constants";
 import { ObservableRuntime } from "../components";
-import { Stepper } from "../components/stepper";
+import { ProgressTracker } from "../components/progress-tracker";
 
 const Wrapper = styled("div")`
   display: grid;
-  grid-template-rows: auto 1fr auto;
+  grid-template-rows: auto auto 1fr auto;
   grid-template-columns: auto;
   gap: ${spacing[2]};
   font-family: ${fonts.sansSerif};
@@ -60,18 +61,23 @@ const Layout: React.FC = ({ children }) => (
     render={data => (
       <Wrapper>
         <Header />
-        <Stepper
-          paths={[
-            "/",
-            "/prescreen-1/",
-            "/prescreen-1b/",
-            "/prescreen-1c/",
-            "/prescreen-2/",
-            "/screen-1/",
-            "/screen-2/",
-            "/screen-3/"
-          ]}
-        />
+        <Location>
+          {({ location }) => (
+            <ProgressTracker
+              paths={[
+                "/",
+                "/prescreen-1/",
+                "/prescreen-1b/",
+                "/prescreen-1c/",
+                "/prescreen-2/",
+                "/screen-1/",
+                "/screen-2/",
+                "/screen-3/"
+              ]}
+              activePath={location.pathname}
+            />
+          )}
+        </Location>
         <ObservableRuntime children={children}>
           <Main>
             <ChildrenWrapper>
