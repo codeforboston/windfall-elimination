@@ -4,6 +4,6 @@ import { fontSizes, spacing } from "../constants";
 export const HelperText = styled("div")`
   font-size: ${fontSizes[0]};
   max-width: 500px;
-  text-align: justify;
+  text-align: left;
   margin: ${spacing[1]} auto;
 `;
