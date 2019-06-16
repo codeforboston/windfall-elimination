@@ -1,7 +1,7 @@
 import styled from "@emotion/styled";
 import { fontSizes, spacing } from "../constants";
 
-export const QuestionText = styled("h2")`
+export const QuestionText = styled("h3")`
   font-size: ${fontSizes[1]};
   margin-top: ${spacing[1]};
   width: 75vw;
