@@ -21,12 +21,6 @@ export const UploadButton = styled("div")`
     &:hover {
         background-color: ${colors.lightblue};
     }
-
-    &:disabled{
-    	border: 1px solid #999999;
-		background-color: #cccccc;
-		color: #666666
-    }
 `;
 
 export const UploadInput = styled("input")`
@@ -61,10 +55,6 @@ export const TableHeader = styled("th")`
 
 export const TableRow= styled("tr")`
 	border: 1px solid #dddddd;
-`;
-
-export const AddRow = styled("button")`
-  	border: 1px solid #dddddd;
 `;
 //-------------------------------------------------
 
@@ -200,6 +190,7 @@ export default class FileUpload extends React.Component {
 	 	}
 	 	
 	 }
+
 
 	 assertLoad() {
 	 	this.setState({
