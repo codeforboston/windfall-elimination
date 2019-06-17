@@ -56,10 +56,6 @@ export const TableHeader = styled("th")`
 export const TableRow= styled("tr")`
 	border: 1px solid #dddddd;
 `;
-
-export const AddRow = styled("button")`
-  	border: 1px solid #dddddd;
-`;
 //-------------------------------------------------
 
 // Generates earning records table from uploaded XML file, XML parsing adapted from Amrutha

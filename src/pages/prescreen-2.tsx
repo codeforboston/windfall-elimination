@@ -1,6 +1,6 @@
 import React from "react";
 import styled from "@emotion/styled";
-import { ButtonLink, ButtonLinkRed, Card, Form, HelperText, Message, QuestionText, SEO, TextBlock, FileUpload, ObservableCell, SessionStore } from "../components";
+import { ButtonLink, ButtonLinkRed, Card, Form, HelperText, Message, QuestionText, SEO, TextBlock, FileUpload, ObservableCell, SessionStore, FontControl } from "../components";
 
 export const SsaImage= styled("img")`
     border: 1px solid #dddddd;
@@ -23,6 +23,10 @@ export default class Prescreen2 extends React.Component {
                 displayImage: SessionStore.get('displayImage')
             })
         }
+    }
+
+    componentDidUpdate() {
+        FontControl.loadFont()
     }
 
     handleOption(e) {
