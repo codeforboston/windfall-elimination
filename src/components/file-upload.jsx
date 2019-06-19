@@ -1,6 +1,6 @@
 import React from 'react';
 import styled from "@emotion/styled";
-import fastXml from 'fast-xml-parser';
+import fastXml from "fast-xml-parser";
 import { spacing, colors, fontSizes, radii } from "../constants";
 import { ObservableCell, SessionStore } from "../components";
 
