@@ -25,21 +25,19 @@
     "gatsby-plugin-typescript": "^2.0.11",
     "gatsby-source-filesystem": "^2.0.28",
     "gatsby-transformer-sharp": "^2.1.17",
-    "how-to-embed-a-notebook-in-a-react-app": "https://api.observablehq.com/@jashkenas/how-to-embed-a-notebook-in-a-react-app.tgz?key=188f50f6a5f19b89",
     "prop-types": "^15.7.2",
     "react": "^16.8.5",
     "react-dom": "^16.8.5",
     "react-helmet": "^5.2.0",
     "tesseract.js": "^1.0.14",
     "typescript": "^3.3.4000",
-    "windfall-awareness-notebook-prototype": "https://api.observablehq.com/@thadk/windfall-awareness-notebook-prototype.tgz"
+    "windfall-awareness-notebook-prototype": "https://api.observablehq.com/@thadk/windfall-awareness-notebook-prototype.tgz?v=1"
   },
   "devDependencies": {
     "@types/react": "^16.8.8",
     "@types/react-dom": "^16.8.3",
     "babel-plugin-emotion": "^10.0.9",
-    "prettier": "^1.16.4",
-    "react-redux": "^7.0.2"
+    "prettier": "^1.16.4"
   },
   "keywords": [
     "gatsby"

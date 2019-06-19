@@ -14,7 +14,6 @@ import {
 export default () => (
   <>
     <SEO title="Home" keywords={[`gatsby`, `application`, `react`]} />
-
     <TextBlockHeader>
       What is the Windfall Elimination Provision?
     </TextBlockHeader>

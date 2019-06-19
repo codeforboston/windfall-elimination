@@ -8,7 +8,9 @@ import {
   HelperText,
   Message,
   QuestionText,
-  SEO
+  SEO,
+  SessionStore,
+  FontControl
 } from "../components";
 
 export default class Prescreen1b extends React.Component {
@@ -23,14 +25,30 @@ export default class Prescreen1b extends React.Component {
     };
   }
 
-  handleSelection(e) {
-    if (e.target.name === "coveredEmployment") {
+  componentDidMount() {
+    if (SessionStore.get("pensionOrRetirementAccount")) {
       this.setState({
-        coveredEmployment: e.target.value === "true"
+        coveredEmployment: SessionStore.get("coveredEmployment") === "true",
+        pensionOrRetirementAccount: SessionStore.get("pensionOrRetirementAccount") === "true"
+      })
+    }
+  }
+
+  componentDidUpdate() {
+        FontControl.loadFont()
+    }
+
+  handleSelection(e) {
+    var selectValue = e.target.value === "true"
+    if (e.target.name === "coveredEmployment") {
+      SessionStore.push("coveredEmployment", selectValue)
+      this.setState({
+        coveredEmployment: selectValue
       });
     } else if (e.target.name === "pensionOrRetirementAccount") {
+      SessionStore.push("pensionOrRetirementAccount", selectValue)
       this.setState({
-        pensionOrRetirementAccount: e.target.value === "true"
+        pensionOrRetirementAccount: selectValue
       });
     }
   }
@@ -87,7 +105,7 @@ export default class Prescreen1b extends React.Component {
                 name="coveredEmployment"
                 id="ce2"
                 value="false"
-                {...(this.state.checkedEmployment === false
+                {...(this.state.coveredEmployment === false
                   ? { checked: true }
                   : {})}
                 onChange={this.handleSelection}

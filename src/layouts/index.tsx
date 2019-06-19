@@ -5,8 +5,8 @@ import { Location } from "@reach/router";
 import { Header, QuestionProvider } from "../components";
 import "./layout.css";
 import { colors, fonts, spacing } from "../constants";
-import { ObservableRuntime } from "../components";
 import { ProgressTracker } from "../components/progress-tracker";
+import { ObservableRuntime, FontLayout } from "../components";
 
 const Wrapper = styled("div")`
   display: grid;
@@ -80,12 +80,15 @@ const Layout: React.FC = ({ children }) => (
         </Location>
         <ObservableRuntime children={children}>
           <Main>
-            <ChildrenWrapper>
+          <FontLayout>
+            <ChildrenWrapper id='child-wrapper'>
               {/* TODO test out this provider */}
               <QuestionProvider>{children}</QuestionProvider>
             </ChildrenWrapper>
+           </FontLayout>
           </Main>
         </ObservableRuntime>
+        
         <Footer>
           © {new Date().getFullYear()} |{" "}
           {data.author ? data.author : "Windfall Elimination Project"}
