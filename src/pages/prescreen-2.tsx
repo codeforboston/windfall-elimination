@@ -2,20 +2,20 @@ import React from "react";
 import styled from "@emotion/styled";
 import { ButtonLink, ButtonLinkRed, Card, Form, HelperText, Message, QuestionText, SEO, TextBlock, FileUpload, ObservableCell, SessionStore, FontControl } from "../components";
 
-export const SsaImage= styled("img")`
-    border: 1px solid #dddddd;
-    width: 500px;
-`; 
+export const SsaImage = styled("img")`
+  border: 1px solid #dddddd;
+  width: 500px;
+`;
 
 export default class Prescreen2 extends React.Component {
-    constructor(props, context) {
-        super(props)
-        this.handleOption = this.handleOption.bind(this);
+  constructor(props, context) {
+    super(props);
+    this.handleOption = this.handleOption.bind(this);
 
-        this.state = {
-            displayImage: false
-        }
-    }
+    this.state = {
+      displayImage: false
+    };
+  }
 
     componentDidMount() {
         if (SessionStore.get('displayImage')) {
@@ -36,14 +36,18 @@ export default class Prescreen2 extends React.Component {
         })
     }
 
-    render() {
-        return(
-            <>
-                <SEO title="Prescreen 2" keywords={[`gatsby`, `application`, `react`]} />
+  render() {
+    return (
+      <>
+        <SEO
+          title="Prescreen 2"
+          keywords={[`gatsby`, `application`, `react`]}
+        />
 
-                <Message>
-                    Based on your answers, you are probably affected by WEP. Please enter your information below.
-                </Message>
+        <Message>
+          Based on your answers, you are probably affected by WEP. Please enter
+          your information below.
+        </Message>
 
                 <h2>Getting your earnings record</h2>
                 <div>To calculate your Social Security retirement benefits, you will need a record of your earnings from Social Security. There are a few ways to get this earnings record:</div>
