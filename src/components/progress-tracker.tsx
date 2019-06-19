@@ -68,6 +68,11 @@ const StyledProgressTracker = styled(ProgressTracker)`
     border-radius: 0 1.5em 1.5em 0;
     padding-right: 1em;
   }
+
+  @media screen and (max-width: 600px) {
+    flex-wrap: wrap;
+  }
+
 `;
 
 export { StyledProgressTracker as ProgressTracker };
