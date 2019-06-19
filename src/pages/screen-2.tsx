@@ -1,44 +1,27 @@
 import React from "react"
-import { ButtonLink, ButtonLinkRed, Form, SEO, ObservableCell, Card, Message } from "../components";
+import { ButtonLink, ButtonLinkRed, SEO, ObservableCell, Card, Message } from "../components";
 
 export default () => (
     <>
-        <SEO title="Screen 2" />
-        <h2>WEP-Adjusted Benefits</h2>
-        <Form>
+        <SEO title="Screen 3" />
+        <h2>Further Information</h2>
         <Card>
-            <h3>Your Retirement</h3>
             <label>
-                Averaged Indexed Monthly Earnings (AIME)
-                <ObservableCell cellname='AIMEPicked'/>
+                    <ObservableCell cellname='viewof ageToRetirePicked'/>
+                    <ObservableCell cellname='viewof ageToRetireExtraMonthsPicked'/>
             </label>
             <label>
-                Birthdate
-                <ObservableCell cellname='birthDatePicked' />
+                    Select years of substantial earnings
+                    <ObservableCell cellname='viewof yearsSubstantialEarningsPicked' />
             </label>
-            <label>
-               Retirement Date
-                <ObservableCell cellname='retireDatePicked'/>            
-            </label>
-            <label>
-                Years of Substantial Earnings
-                <ObservableCell cellname='yearsSubstantialEarningsPicked' />
-            </label>
-            <label>
-            <h3>Low-Pension Guarantee</h3>
-            Enter the amount of your noncovered pension:
-                <ObservableCell cellname='viewof pensionNonCoveredMonthly'/>
-            </label>
-         </Card>
-            <Message>
-                <label>
-                    <h2>Results</h2>
-                    <ObservableCell cellname='calculationDisplay' />
-                </label>
-            </Message>
-        </Form>
+        </Card>
+        <Message>
+        <label>
+            WEP calculated values
+                <ObservableCell cellname='calculationDisplay'/>
+         </label>
+        </Message>
         <ButtonLinkRed to="/screen-1/">Go back!</ButtonLinkRed>
-        <ButtonLink to='/explain/'>Explain</ButtonLink>
-        <ButtonLink to="/screen-3/">Submit</ButtonLink>
+        <ButtonLink to="/">Go Home</ButtonLink>
     </>
 );

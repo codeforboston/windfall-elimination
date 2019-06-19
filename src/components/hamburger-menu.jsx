@@ -97,7 +97,7 @@ export default class HamburgerHelper extends React.Component {
 		return(
 			<nav role="navigation">
 			  <Hamburger>
-			  	<HamburgerButton type='checkbox' ></HamburgerButton>
+			  	<HamburgerButton type='checkbox' label="hamburger-layers"></HamburgerButton>
 			  	<HamburgerBuns></HamburgerBuns>
   				<HamburgerBuns></HamburgerBuns>
   				<HamburgerBuns></HamburgerBuns>
