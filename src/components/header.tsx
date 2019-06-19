@@ -1,8 +1,8 @@
 import { Link } from "gatsby";
 import React from "react";
 import styled from "@emotion/styled";
-import { colors } from "../constants";
-import { HamburgerHelper } from "../components";
+import { colors, spacing, fontSizes } from "../constants";
+import { HamburgerHelper, FontPad } from "../components";
 
 const Wrapper = styled("header")`
   background: ${colors.darkGreen};
@@ -37,5 +37,6 @@ export const Header: React.FC<Props> = ({ siteTitle }) => (
         </Link>
       </h1>
     </div>
+    <FontPad />
   </Wrapper>
 );

@@ -26,6 +26,9 @@ import HamburgerHelper from "./hamburger-menu";
 import { generateRuntime } from "./generate-runtime";
 import SessionStore from "./session-store";
 import InfoWidget from "./info-widget";
+import FontControl from "./font-control";
+import FontLayout from "./font-layout";
+import FontPad from "./font-pad";
 
 export {
     ButtonLink,
@@ -55,5 +58,8 @@ export {
     ObservableRuntime,
     generateRuntime,
     SessionStore,
-    InfoWidget
+    InfoWidget,
+    FontControl,
+    FontLayout,
+    FontPad
 };

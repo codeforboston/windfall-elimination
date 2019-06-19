@@ -9,7 +9,8 @@ import {
   Message,
   QuestionText,
   SEO,
-  SessionStore
+  SessionStore,
+  FontControl
 } from "../components";
 
 export default class Prescreen1b extends React.Component {
@@ -32,6 +33,10 @@ export default class Prescreen1b extends React.Component {
       })
     }
   }
+
+  componentDidUpdate() {
+        FontControl.loadFont()
+    }
 
   handleSelection(e) {
     var selectValue = e.target.value === "true"
