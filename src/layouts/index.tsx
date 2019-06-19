@@ -64,15 +64,15 @@ const Layout: React.FC = ({ children }) => (
         <Location>
           {({ location }) => (
             <ProgressTracker
-              paths={[
-                "/",
-                "/prescreen-1/",
-                "/prescreen-1b/",
-                "/prescreen-1c/",
-                "/prescreen-2/",
-                "/screen-1/",
-                "/screen-2/",
-                "/screen-3/"
+              linkProps={[
+                {path: "/", label: "Home"},
+                {path: "/prescreen-1/", label: "Prescreen"},
+                {path: "/prescreen-1b/", label: "Qualification"},
+                {path: "/prescreen-1c/", label: "Background Info"},
+                {path: "/prescreen-2/", label: "Input Earnings"},
+                {path: "/screen-1/", label: "Input Pension"},
+                {path: "/screen-2/", label: "Results"},
+                {path: "/screen-3/", label: "Further Info"}
               ]}
               activePath={location.pathname}
             />

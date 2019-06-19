@@ -10,7 +10,7 @@ const StyledSeparator = styled.div`
 function Step(props) {
   return (
     <Link to={props.path} className={props.className}>
-      {props.path}
+      {props.label}
     </Link>
   );
 }
@@ -41,12 +41,12 @@ const StyledStep = styled(Step)`
 
 // FIXME: does not check for duplicate paths
 function ProgressTracker(props) {
-  const indexOfActivePath = props.paths.indexOf(props.activePath);
+  const indexOfActivePath = props.linkProps.findIndex(element => element.path === props.activePath);
 
-  const links = props.paths.map((path, index) => (
-    <React.Fragment key={path}>
+  const links = props.linkProps.map((element, index) => (
+    <React.Fragment key={element}>
       {index ? <StyledSeparator /> : false}
-      <StyledStep path={path} status={Math.sign(index - indexOfActivePath)} />
+      <StyledStep path={element.path} label={element.label} status={Math.sign(index - indexOfActivePath)} />
     </React.Fragment>
   ));
   return <div className={props.className}>{links}</div>;
