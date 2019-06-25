@@ -16,7 +16,9 @@ export default class ObservableCell extends React.Component {
     if (this.props.customObserver) {
       main.variable(this.props.customObserver(this.props.cellname)).define([this.props.cellname], widget => widget)
     } else {
-      main.variable(this.context.observer(this.defaultRef.current)).define([this.props.cellname], widget => widget)
+      main
+        .variable(this.context.observer(this.defaultRef.current))
+        .define([this.props.cellname], widget => widget);
     }
   }
 
