@@ -29,8 +29,8 @@ export const HamburgerMenu = styled('ul')`
   position: absolute;
   width: 100px;
   height: 100%;
-  margin: -50px 0 0 -1px;
-  padding: 100px 50px 0px 50px;
+  margin: 73px 0 0 -1px;
+  padding: 50px 0px 0px 50px;
 
   background: ${colors.lightgray};
   list-style-type: circle;
@@ -78,17 +78,19 @@ export const Hamburger= styled('div')`
     border-size: 1px;
     border-color: ${colors.darkGreen};
     margin-top: 25px;
+    z-index:-1;
 
-   	input:checked ~ ${HamburgerBuns} {opacity: 1; background:black;
+   	input:checked ~ ${HamburgerBuns} {opacity: 1; background:${colors.black};
   	transform: rotate(45deg) translate(-3px, -3px);}
 
-  input:checked ~ ${HamburgerBuns}:nth-of-type(2) {
+    input:checked ~ ${HamburgerBuns}:nth-of-type(2) {
     opacity: 0;
     transform: rotate(0deg) scale(0.2, 0.2);
-  }
+    }
 
 	  input:checked ~ ${HamburgerBuns}:nth-of-type(3) {opacity: 1; background:black;
-  	transform: rotate(-45deg) translate(0, -3px);}
+  	transform: rotate(-45deg) translate(0, -3px);
+    background:${colors.black};}
 
     input:checked ~ ul
   	{
