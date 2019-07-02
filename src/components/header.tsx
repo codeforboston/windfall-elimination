@@ -7,6 +7,7 @@ import { HamburgerHelper, FontPad } from "../components";
 const Wrapper = styled("header")`
   background: ${colors.darkGreen};
   display: flex;
+  flex: 0 0 auto;
   justify-content: center;
 `;
 
