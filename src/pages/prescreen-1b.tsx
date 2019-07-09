@@ -111,6 +111,19 @@ export default class Prescreen1b extends React.Component {
                 onChange={this.handleSelection}
               />
             </label>
+            <label>
+              {" "}
+              I'm not sure
+              <input
+                type="radio"
+                name="coveredEmployment"
+                value="true"
+                {...(this.state.coveredEmployment
+                  ? { checked: true }
+                  : {})}
+                onClick={this.handleSelection}
+              />
+            </label>
           </Card>
           {this.state.coveredEmployment && (
             <Card>
@@ -118,11 +131,9 @@ export default class Prescreen1b extends React.Component {
                 If yes: Do you have a pension or retirement account?
               </QuestionText>
               <HelperText>
-                This can be either a monthly pension or a lump sum like a $401K.
-                It can be an employee-contribution-only plan or an
-                employer/employee-matching contribution plan. The important
-                thing is whether you paid Social Security taxes on the money
-                that went into this resource.
+              This can be either a monthly pension or a lump sum like a $401K.
+              It can be an employee-contribution-only plan or an employer/employee-matching contribution plan.
+              The important thing is whether you paid Social Security taxes on the money that went into this resource.
               </HelperText>
               <label>
                 {" "}
