@@ -128,7 +128,7 @@ export default class Prescreen1b extends React.Component {
           {this.state.coveredEmployment && (
             <Card>
               <QuestionText>
-                If yes: Do you have a pension or retirement account?
+                Do you have a pension or retirement account from that job?
               </QuestionText>
               <HelperText>
               This can be either a monthly pension or a lump sum like a $401K.
