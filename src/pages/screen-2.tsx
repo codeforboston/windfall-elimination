@@ -31,7 +31,7 @@ export default () => (
             </label>
             <label>
                     Years of substantial earnings
-                    <ObservableCell cellname='yearsSubstantialEarningsPicked' />
+                    <div><ObservableCell cellname='yearsSubstantialEarningsPicked' /></div>
             </label>
         </Card>
         <ButtonLinkRed to="/screen-1/">Go back!</ButtonLinkRed>

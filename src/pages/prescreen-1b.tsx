@@ -20,6 +20,7 @@ export default class Prescreen1b extends React.Component {
     this.handleSelection = this.handleSelection.bind(this);
 
     this.state = {
+      noncovered: undefined,
       coveredEmployment: undefined,
       pensionOrRetirementAccount: undefined
     };
@@ -40,7 +41,12 @@ export default class Prescreen1b extends React.Component {
 
   handleSelection(e) {
     var selectValue = e.target.value === "true"
-    if (e.target.name === "coveredEmployment") {
+    if (e.target.name === "noncovered") {
+      SessionStore.push("noncovered", selectValue)
+      this.setState({
+        noncovered: selectValue
+      });
+    } else if (e.target.name === "coveredEmployment") {
       SessionStore.push("coveredEmployment", selectValue)
       this.setState({
         coveredEmployment: selectValue
@@ -78,6 +84,45 @@ export default class Prescreen1b extends React.Component {
         <Form>
           <Card>
             <QuestionText>
+              Do you know if you worked in "non-covered" employmet?
+            </QuestionText>
+            <label>
+              {" "}
+              Yes
+              <input
+                type="radio"
+                name="noncovered"
+                value="true"
+                {...(this.state.checkedEmployment ? { checked: true } : {})}
+                onChange={this.handleSelection}
+              />
+            </label>
+            <label>
+              {" "}
+              No
+              <input
+                type="radio"
+                name="noncovered"
+                value="false"
+                {...(this.state.coveredEmployment === false
+                  ? { checked: true }
+                  : {})}
+                onChange={this.handleSelection}
+              />
+            </label>
+          </Card>
+          {!this.state.noncovered
+
+            ? (<Message> You can contact your state’s Social Security Administrator
+              to find out if your employment was covered. Find your state at
+              this <a href='http://www.ncsssa.org/statessadminmenu.html'>link</a>.
+              You should have your Social Security number ready when you call.
+              </Message>)
+            : <div></div>
+            }
+          {this.state.noncovered && (
+          <Card>
+            <QuestionText>
               Did you work in “non-covered” employment?
             </QuestionText>
             <HelperText>
@@ -111,20 +156,8 @@ export default class Prescreen1b extends React.Component {
                 onChange={this.handleSelection}
               />
             </label>
-            <label>
-              {" "}
-              I'm not sure
-              <input
-                type="radio"
-                name="coveredEmployment"
-                value="true"
-                {...(this.state.coveredEmployment
-                  ? { checked: true }
-                  : {})}
-                onClick={this.handleSelection}
-              />
-            </label>
           </Card>
+        )}
           {this.state.coveredEmployment && (
             <Card>
               <QuestionText>
