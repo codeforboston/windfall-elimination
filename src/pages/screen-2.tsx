@@ -1,6 +1,14 @@
 import React from "react"
-import { ButtonLink, ButtonLinkRed, SEO, ObservableCell, Card, Message } from "../components";
-
+import { ButtonLink, ButtonLinkRed, SEO, ObservableCell, Card, Message, HelperText } from "../components";
+        const unquotedObserverFn = function (name) {
+            return {fulfilled: (value) => {
+                const node = document.getElementById(name);
+                node.innerHTML = value;
+                return true
+                }
+            }
+            
+        }
 export default () => (
     <>
         <SEO title="Screen 3" />
@@ -8,12 +16,12 @@ export default () => (
         <Message>
         <label>
             WEP calculated values
-                <div>If you were NOT affected by the Windfall Elimination Provision, and retired at Full Retirement Age, your benefits would be: </div>
-                <div>$<ObservableCell cellname='standardPIA'/> per month</div>
-                <div>However, because you are affected by the Windfall Elimination Provision, if you retire at Full Retirement Age, your monthly benefits will be: </div>
-                <div>$<ObservableCell cellname='wepPIA'/> per month</div>
-                <div>This is a difference of: </div>
-                <div>$<ObservableCell cellname='wepDifference'/> per month</div>
+                <HelperText>If you were NOT affected by the Windfall Elimination Provision, and retired at Full Retirement Age, your benefits would be: </HelperText>
+                <strong><code>$<ObservableCell cellname='standardPIA' customObserver={unquotedObserverFn} /> per month</code></strong>
+                <HelperText>However, because you are affected by the Windfall Elimination Provision, if you retire at Full Retirement Age, your monthly benefits will be: </HelperText>
+                <strong><code>$<ObservableCell cellname='wepPIA' customObserver={unquotedObserverFn}/> per month</code></strong>
+                <HelperText>This is a difference of: </HelperText>
+                <strong><code>$<ObservableCell cellname='wepDifference' customObserver={unquotedObserverFn}/> per month</code></strong>
          </label>
         </Message>
         <Card>
@@ -23,7 +31,7 @@ export default () => (
         </Card>
         <Card>
             <div>Windfall Elimination Maximum Payable Benefit calculated: </div>
-            <div>$<ObservableCell cellname='wepMPB'/> per month</div>
+            <code>$<ObservableCell cellname='wepMPB'  customObserver={unquotedObserverFn}/> per month</code>
             <label>
                     <ObservableCell cellname='viewof ageToRetirePicked'/>
                     <ObservableCell cellname='viewof ageToRetireExtraMonthsPicked'/>

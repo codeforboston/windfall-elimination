@@ -84,7 +84,7 @@ export default class Prescreen1b extends React.Component {
         <Form>
           <Card>
             <QuestionText>
-              Do you know if you worked in "non-covered" employmet?
+              Do you know if you worked in "non-covered" employment?
             </QuestionText>
             <label>
               {" "}
@@ -111,12 +111,15 @@ export default class Prescreen1b extends React.Component {
               />
             </label>
           </Card>
-          {!this.state.noncovered
+          {this.state.noncovered === false
 
-            ? (<Message> You can contact your state’s Social Security Administrator
-              to find out if your employment was covered. Find your state at
-              this <a href='http://www.ncsssa.org/statessadminmenu.html'>link</a>.
-              You should have your Social Security number ready when you call.
+            ? (<Message> 
+                <HelperText><div>You can contact your state’s Social Security Administrator
+                to find out if your employment was covered.</div> 
+                <div>Find your state at&nbsp;
+                <a href='http://www.ncsssa.org/statessadminmenu.html'>this website</a>.</div>
+                <div>You should have your Social Security number ready when you call.</div>
+                </HelperText>
               </Message>)
             : <div></div>
             }
