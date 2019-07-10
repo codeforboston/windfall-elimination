@@ -57,7 +57,7 @@ const StyledProgressTracker = styled(ProgressTracker)`
   justify-content: center;
   flex-wrap: wrap;
   /* override html, body font-size CSS rule (was set to 130%) */
-  font-size: 80%;
+  font-size: 100%;
 
   *:first-child {
     border-radius: 1.5em 0 0 1.5em;
