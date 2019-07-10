@@ -67,6 +67,7 @@ export default class Prescreen2 extends React.Component {
                         </label>
                     </Card>
                 </Form>
+                <Card>
                 <div>To download your earnings record, click on “Download Your Statement Data” in the red box in the photo below. Save the XML file somewhere you can easily access it.</div>
                 <div style={{display: this.state.displayImage === "true" ? true : 'none'}}><SsaImage src='https://user-images.githubusercontent.com/50156013/56998273-bcd78800-6b78-11e9-86b5-9db06d292a4c.jpg'></SsaImage></div>
                 {this.state.displayImage === false ?
@@ -85,8 +86,9 @@ export default class Prescreen2 extends React.Component {
                         :
                         <div>
                             <TextBlock>
-                                If no: Write to the SSA to request that a copy of your earnings record be mailed to you:
-                    The SSA will send you a free copy of your earnings record. To request the earnings record, print and complete this form and mail it to the address listed.
+                                To request a copy of your earnings record from the Social Security Administration, please complete the form at this <a href="https://www.ssa.gov/myaccount/materials/pdfs/SSA-7004.pdf">link</a> and mail it to the address on the form. You should receive your earnings record in 4-6 weeks.
+
+                                Once you have a copy of your form, you can scan and upload it, or enter your earnings manually in the table below.
                             </TextBlock>
                             <TextBlock>
                                 Once you have a copy of your earnings record, you can manually enter the values below.
@@ -97,6 +99,7 @@ export default class Prescreen2 extends React.Component {
                             </TextBlock>
                         </div>
                 }
+              </Card>
                 <ButtonLinkRed to="/prescreen-1c/">Go back!</ButtonLinkRed>
                 <ButtonLink to="/screen-1/">Submit</ButtonLink>
             </>

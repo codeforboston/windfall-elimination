@@ -6,39 +6,15 @@ export default () => (
         <SEO title="Screen 2" />
         <h2>WEP-Adjusted Benefits</h2>
         <Form>
-        <Card>
-            <h3>Your Retirement</h3>
-            <label>
-                Averaged Indexed Monthly Earnings (AIME)
-                <ObservableCell cellname='AIMEPicked'/>
-            </label>
-            <label>
-                Birthdate
-                <ObservableCell cellname='birthDatePicked' />
-            </label>
-            <label>
-               Retirement Date
-                <ObservableCell cellname='retireDatePicked'/>            
-            </label>
-            <label>
-                Years of Substantial Earnings
-                <ObservableCell cellname='yearsSubstantialEarningsPicked' />
-            </label>
+          <Card>
             <label>
             <h3>Low-Pension Guarantee</h3>
             Enter the amount of your noncovered pension:
                 <ObservableCell cellname='viewof pensionNonCoveredMonthly'/>
             </label>
-         </Card>
-            <Message>
-                <label>
-                    <h2>Results</h2>
-                    <ObservableCell cellname='calculationDisplay' />
-                </label>
-            </Message>
+          </Card>
         </Form>
         <ButtonLinkRed to="/prescreen-2/">Go back!</ButtonLinkRed>
-        <ButtonLink to='/explain/'>Explain</ButtonLink>
-        <ButtonLink to="/screen-2/">Calculate</ButtonLink>
+        <ButtonLink to="/screen-2/">Submit</ButtonLink>
     </>
 );
