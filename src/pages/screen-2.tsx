@@ -9,12 +9,11 @@ export default () => (
         <label>
             WEP calculated values
                 <div>If you were NOT affected by the Windfall Elimination Provision, and retired at Full Retirement Age, your benefits would be: </div>
-                <div>$911.10 per month</div>
+                <div>$<ObservableCell cellname='standardPIA'/> per month</div>
                 <div>However, because you are affected by the Windfall Elimination Provision, if you retire at Full Retirement Age, your monthly benefits will be: </div>
-                <div>$463.60 per month</div>
+                <div>$<ObservableCell cellname='wepPIA'/> per month</div>
                 <div>This is a difference of: </div>
-                <div>$XXX.YY per month</div>
-                <ObservableCell cellname='calculationDisplay'/>
+                <div>$<ObservableCell cellname='wepDifference'/> per month</div>
          </label>
         </Message>
         <Card>
@@ -24,7 +23,7 @@ export default () => (
         </Card>
         <Card>
             <div>Windfall Elimination Maximum Payable Benefit calculated: </div>
-            <div>$668.14 per month</div>
+            <div>$<ObservableCell cellname='wepMPB'/> per month</div>
             <label>
                     <ObservableCell cellname='viewof ageToRetirePicked'/>
                     <ObservableCell cellname='viewof ageToRetireExtraMonthsPicked'/>
