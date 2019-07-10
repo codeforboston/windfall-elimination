@@ -27,6 +27,6 @@ export default class ObservableCell extends React.Component {
   }
 
   render() {
-    return <div id={this.props.cellname} ref={this.defaultRef} />;
+    return <span id={this.props.cellname} ref={this.defaultRef} />;
   }
 }

@@ -98,7 +98,7 @@ export class GenerateTable extends React.Component {
 		    	)
 
 		    })
-		
+
 	   } else {
 	   	header = <tr></tr>;
 	   	tableRows = <tr></tr>;
@@ -159,7 +159,7 @@ export default class FileUpload extends React.Component {
 
 		if ((this.state.userBirthDate) && (this.state.userRetireDate) && (!this.state.manualTable.length)) {
 	 		var tempTable = []
-	 		
+
 	 		for (var i = this.state.userBirthDate; i <= this.state.userRetireDate; i++) {
 	 			var record = {}
 	 			record['year'] = i
@@ -181,14 +181,14 @@ export default class FileUpload extends React.Component {
 	 			earningsRecord: earningsValue
 	 		})
 	 	}
-	 	
+
 	 	if (SessionStore.get('tableArray')) {
 	 		var tableArray = JSON.parse(SessionStore.get('tableArray'))
 	 		this.setState({
-	 			manualTable: tableArray 
+	 			manualTable: tableArray
 	 		})
 	 	}
-	 	
+
 	 }
 
 
@@ -274,7 +274,7 @@ export default class FileUpload extends React.Component {
 		var reader = new FileReader()
 		reader.readAsText(file);
 
-		reader.onload = (reader) => this.handleLoadTable(reader)	
+		reader.onload = (reader) => this.handleLoadTable(reader)
 	 }
 
 	 //Stores users input for manually entered table to allow for persistence across page changes
@@ -295,7 +295,7 @@ export default class FileUpload extends React.Component {
 
  	 //Saves manually entered record to this.state.earningsRecord object, becomes noticable to Observable API
  	 handleSave() {
- 	 	var tempRecord = this.state.earningsRecord ? 
+ 	 	var tempRecord = this.state.earningsRecord ?
  	 	this.state.earningsRecord['osss:OnlineSocialSecurityStatementData']['osss:EarningsRecord']['osss:Earnings'].length === this.state.manualTable.length
  	 	? this.state.earningsRecord : this.state.defaultRecord
  	 	:
@@ -305,7 +305,7 @@ export default class FileUpload extends React.Component {
 	 		var currentRecord = tempRecord['osss:OnlineSocialSecurityStatementData']['osss:EarningsRecord']['osss:Earnings']
 	 		var newrecord = {
 		 	 	 '@_startYear': record['year'],
-		 	 	 '@_endYear': record['year'], 
+		 	 	 '@_endYear': record['year'],
 				 'osss:FicaEarnings': record['value']
 			}
 
@@ -314,7 +314,7 @@ export default class FileUpload extends React.Component {
 			} else {
 				currentRecord[i] = newrecord
 			}
-			
+
 	 	})
 
 	 	var arrayJSON = JSON.stringify(this.state.manualTable)
@@ -343,10 +343,10 @@ export default class FileUpload extends React.Component {
 						<UploadLabel htmlFor="inputfile" className="btn">{this.state.buttonText}</UploadLabel>
 						<UploadInput type={this.state.buttonType} id='inputfile' ref={this.fileInput} onChange={this.state.buttonFunction}></UploadInput>
 					</UploadButton>
-					<GenerateTable 
-						parsedXml={this.state.earningsRecord} 
-						handleInputEarnings={this.handleInputEarnings} 
-						manual={this.props.manual} 
+					<GenerateTable
+						parsedXml={this.state.earningsRecord}
+						handleInputEarnings={this.handleInputEarnings}
+						manual={this.props.manual}
 						manualTable={this.state.manualTable}
 						handleManualEarnings={this.handleManualEarnings}
 						handleSave={this.handleSave}
