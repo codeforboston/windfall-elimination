@@ -1,6 +1,7 @@
 import React from 'react';
 import styled from "@emotion/styled";
 import fastXml from "fast-xml-parser";
+import pdfJS from "pdfjs-dist";
 import { spacing, colors, fontSizes, radii } from "../constants";
 import { ObservableCell, SessionStore } from "../components";
 
@@ -120,8 +121,11 @@ export default class FileUpload extends React.Component {
 	constructor(props, context) {
 	    super(props, context);
 
+	    pdfJS.GlobalWorkerOptions.workerSrc = 'https://cdn.jsdelivr.net/npm/pdfjs-dist@2.1.266/build/pdf.worker.js';
+
 	    this.handleUpload = this.handleUpload.bind(this);
-	    this.handleLoadTable = this.handleLoadTable.bind(this);
+	    this.handleXMLFile = this.handleXMLFile.bind(this);
+	    this.handlePDFFile = this.handlePDFFile.bind(this);
 	    this.handleInputEarnings = this.handleInputEarnings.bind(this);
 	    this.handleManualEarnings = this.handleManualEarnings.bind(this);
 	    this.handleSave = this.handleSave.bind(this);
@@ -250,7 +254,7 @@ export default class FileUpload extends React.Component {
  	 }
 
  	 //Parse XML file
-	 handleLoadTable(reader) {
+	 handleXMLFile(reader) {
 	 	 if (fastXml.validate(reader.target.result) === true) {
 				var parsedText = fastXml.parse(reader.target.result, {ignoreAttributes: false})
 				var earningsJSON = JSON.stringify(parsedText)
@@ -261,20 +265,82 @@ export default class FileUpload extends React.Component {
 	 	}
 	}
 
+	//Parse PDF file
+	 handlePDFFile(reader) {
+	 	//Returns first page of document
+	 	var combinedValues = []
+		pdfJS.getDocument(reader.target.result).promise
+		.then(
+			ssaDoc => ssaDoc.getPage(3)).then(earningsPage => earningsPage.getTextContent())
+		.then( (doc) => {
+			doc.items.forEach((item) => {
+
+			  var filter = Number(item.str.replace(",", "").replace(" ",""))
+			  if (!(Number.isNaN(filter))) {
+			    combinedValues.push(filter)
+			  }
+			})
+		})
+		.then(() => {
+		
+		var tempRecord = this.state.defaultRecord
+		do {
+			var newvalue = combinedValues.shift()
+			console.log(newvalue)
+			if (newvalue > 1900) {
+				var currentRecord =  tempRecord['osss:OnlineSocialSecurityStatementData']['osss:EarningsRecord']['osss:Earnings']
+				var newrecord = {
+		 	 	 '@_startYear': newvalue,
+		 	 	 '@_endYear': newvalue,
+				 'osss:FicaEarnings': combinedValues.shift(),
+				 'osss:MedicafreEarnings': combinedValues.shift()
+				}
+				
+				 currentRecord.push(newrecord)
+				 console.log(newrecord)
+			}
+		} while (combinedValues.length > 0)})
+		.then(() => {
+			var earningsJSON = JSON.stringify(this.state.defaultRecord)
+			SessionStore.push('earnings', earningsJSON)
+			this.setState({
+			 	earningsRecord: this.state.defaultRecord
+			 })
+		})
+		console.log(this.state.defaultRecord)
+	}
+
 	 handleUpload(formResponse) {
 	 	this.setState({
 	 		displayTable: true
 	 	});
 	 	formResponse.preventDefault();
 	 	const file = this.fileInput.current.files[0]
-	 	const name = this.fileInput.current.files[0].name
-	 	const formData = new FormData();
-		formData.append(name, file)
-
+	 	var name = this.fileInput.current.files[0].name
+		name = name.split('.')
+	 	const extension = name[name.length - 1]
 		var reader = new FileReader()
-		reader.readAsText(file);
 
-		reader.onload = (reader) => this.handleLoadTable(reader)
+		switch (extension) {
+			case 'xml':
+				reader.onload = (reader) => this.handleXMLFile(reader)
+				reader.readAsText(file);
+				break;
+			
+			case 'pdf':
+				reader.onload = (reader) => this.handlePDFFile(reader)
+				reader.readAsArrayBuffer(file)
+				console.log('pdf')
+				break;
+
+			default:
+				alert("I'm sorry, that file was not recognized.")
+				break;
+		}
+		
+		
+
+		
 	 }
 
 	 //Stores users input for manually entered table to allow for persistence across page changes
