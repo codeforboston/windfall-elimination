@@ -286,7 +286,6 @@ export default class FileUpload extends React.Component {
 		var tempRecord = this.state.defaultRecord
 		do {
 			var newvalue = combinedValues.shift()
-			console.log(newvalue)
 			if (newvalue > 1900) {
 				var currentRecord =  tempRecord['osss:OnlineSocialSecurityStatementData']['osss:EarningsRecord']['osss:Earnings']
 				var newrecord = {
@@ -297,7 +296,6 @@ export default class FileUpload extends React.Component {
 				}
 				
 				 currentRecord.push(newrecord)
-				 console.log(newrecord)
 			}
 		} while (combinedValues.length > 0)})
 		.then(() => {
@@ -307,7 +305,6 @@ export default class FileUpload extends React.Component {
 			 	earningsRecord: this.state.defaultRecord
 			 })
 		})
-		console.log(this.state.defaultRecord)
 	}
 
 	 handleUpload(formResponse) {
@@ -330,7 +327,6 @@ export default class FileUpload extends React.Component {
 			case 'pdf':
 				reader.onload = (reader) => this.handlePDFFile(reader)
 				reader.readAsArrayBuffer(file)
-				console.log('pdf')
 				break;
 
 			default:
