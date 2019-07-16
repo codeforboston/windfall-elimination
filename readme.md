@@ -9,4 +9,3 @@ Join the Slack channel #windfall-elimination for more information.
 Install the gatsby-cli with `npm install -g gatsby-cli`
 
 Run `npm install && gatsby develop` to launch the project.
-

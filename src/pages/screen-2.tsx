@@ -1,44 +1,47 @@
 import React from "react"
-import { ButtonLink, ButtonLinkRed, Form, SEO, ObservableCell, Card, Message } from "../components";
-
+import { ButtonLink, ButtonLinkRed, SEO, ObservableCell, Card, Message, HelperText } from "../components";
+        const unquotedObserverFn = function (name) {
+            return {fulfilled: (value) => {
+                const node = document.getElementById(name);
+                node.innerHTML = value;
+                return true
+                }
+            }
+            
+        }
 export default () => (
     <>
-        <SEO title="Screen 2" />
-        <h2>WEP-Adjusted Benefits</h2>
-        <Form>
+        <SEO title="Screen 3" />
+        <h2>Further Information</h2>
+        <Message>
+        <label>
+            WEP calculated values
+                <HelperText>If you were NOT affected by the Windfall Elimination Provision, and retired at Full Retirement Age, your benefits would be: </HelperText>
+                <strong><code>$<ObservableCell cellname='standardPIA' customObserver={unquotedObserverFn} /> per month</code></strong>
+                <HelperText>However, because you are affected by the Windfall Elimination Provision, if you retire at Full Retirement Age, your monthly benefits will be: </HelperText>
+                <strong><code>$<ObservableCell cellname='wepPIA' customObserver={unquotedObserverFn}/> per month</code></strong>
+                <HelperText>This is a difference of: </HelperText>
+                <strong><code>$<ObservableCell cellname='wepDifference' customObserver={unquotedObserverFn}/> per month</code></strong>
+         </label>
+        </Message>
         <Card>
-            <h3>Your Retirement</h3>
+          However, the Social Security Administration allows you to start taking retirement benefits any time between age 62 and age 70. If you retire before your Full Retirement Age, the Social Security Administration reduces your benefit. If you retire after your Full Retirement Age, the Social Security Administration increases your benefit.
+
+          Use the sliders below to see how when you retire will affect your retirement benefits.
+        </Card>
+        <Card>
+            <div>Windfall Elimination Maximum Payable Benefit calculated: </div>
+            <code>$<ObservableCell cellname='wepMPB'  customObserver={unquotedObserverFn}/> per month</code>
             <label>
-                Averaged Indexed Monthly Earnings (AIME)
-                <ObservableCell cellname='AIMEPicked'/>
+                    <ObservableCell cellname='viewof ageToRetirePicked'/>
+                    <ObservableCell cellname='viewof ageToRetireExtraMonthsPicked'/>
             </label>
             <label>
-                Birthdate
-                <ObservableCell cellname='birthDatePicked' />
+                    Years of substantial earnings
+                    <div><ObservableCell cellname='yearsSubstantialEarningsPicked' /></div>
             </label>
-            <label>
-               Retirement Date
-                <ObservableCell cellname='retireDatePicked'/>            
-            </label>
-            <label>
-                Years of Substantial Earnings
-                <ObservableCell cellname='yearsSubstantialEarningsPicked' />
-            </label>
-            <label>
-            <h3>Low-Pension Guarantee</h3>
-            Enter the amount of your noncovered pension:
-                <ObservableCell cellname='viewof pensionNonCoveredMonthly'/>
-            </label>
-         </Card>
-            <Message>
-                <label>
-                    <h2>Results</h2>
-                    <ObservableCell cellname='calculationDisplay' />
-                </label>
-            </Message>
-        </Form>
+        </Card>
         <ButtonLinkRed to="/screen-1/">Go back!</ButtonLinkRed>
-        <ButtonLink to='/explain/'>Explain</ButtonLink>
-        <ButtonLink to="/screen-3/">Submit</ButtonLink>
+        <ButtonLink to="/">Go Home</ButtonLink>
     </>
 );
