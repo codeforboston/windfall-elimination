@@ -18,18 +18,12 @@ export default () => (
       What is the Windfall Elimination Provision?
     </TextBlockHeader>
     <TextBlock>
-      The Windfall Elimination Provision (WEP) is a policy that lowers Social Security benefits for people who worked in a job where they:
-      <UnorderedList>
-        <ListItem>Did not pay into Social Security AND</ListItem>
-        <ListItem>Paid into a separate retirement fund</ListItem>
-      </UnorderedList>
+      If you worked in a job that did not pay Social Security taxes, you may be affected by the Windfall Elimination Provision (WEP). WEP is a Social Security rule which may reduce your Social Security retirement benefits by up to 50%.
     </TextBlock>
 
     <TextBlockHeader>Who is affected?</TextBlockHeader>
     <TextBlock>
-      People who worked in state and local government in Massachusetts, Kentucky, Ohio, Indiana, and Texas are most likely to be affected.
-
-      Continue to see how your retirement benefits will be impacted by WEP.
+      People who worked in state and local government in Massachusetts, Kentucky, Ohio, Indiana, and Texas are most likely to be affected. Continue to see how your retirement benefits will be impacted by WEP.
     </TextBlock>
 
     <TextBlock>

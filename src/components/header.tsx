@@ -5,9 +5,10 @@ import { colors, spacing, fontSizes } from "../constants";
 import { HamburgerHelper, FontPad } from "../components";
 
 const Wrapper = styled("header")`
-  background: ${colors.darkGreen};
+  background: ${colors.white};
   display: flex;
   justify-content: center;
+  border-bottom: 2px solid black;
 `;
 
 type Props = {
@@ -29,7 +30,7 @@ export const Header: React.FC<Props> = ({ siteTitle }) => (
         <Link
           to="/"
           style={{
-            color: `white`,
+            color: `black`,
             textDecoration: `none`
           }}
         >

@@ -1,7 +1,7 @@
 import React from 'react';
 import { Link } from "gatsby";
 import styled from "@emotion/styled"
-import { colors, radii } from "../constants";
+import { colors, radii, fontSizes } from "../constants";
 
 //Hamburger buns
 export const HamburgerBuns = styled("span")`
@@ -9,7 +9,7 @@ export const HamburgerBuns = styled("span")`
   display: block;
   width: 33px;
   height: 4px;
-  background: #cdcdcd;
+  background: ${colors.lightblack};
   border-size: 1px;
   border-color: ${colors.black};
   border-radius: ${radii[2]};
@@ -71,7 +71,7 @@ export const HamburgerButton = styled("input")`
 
 //Outlying div, controls transformations of spans/menu
 export const Hamburger= styled('div')`
-    background: ${colors.darkGreen};
+    background: ${colors.white};
     border-size: 1px;
     border-color: ${colors.darkGreen};
     margin-top: 25px;
@@ -110,6 +110,7 @@ export default class HamburgerHelper extends React.Component {
 							<li><a href="https://github.com/codeforboston/windfall-elimination" target="__blank" style={{ textDecoration: `none`,}}>Github</a></li>
 							<li><Link to="/about/" style={{ textDecoration: `none`,}}>About</Link></li>
 				</HamburgerMenu>
+        Menu
 			  </Hamburger>
 			</nav>
 		)

@@ -13,7 +13,7 @@ const Wrapper = styled("div")`
   grid-template-rows: auto auto 1fr auto;
   grid-template-columns: auto;
   gap: ${spacing[2]};
-  font-family: ${fonts.sansSerif};
+  font-family: ${fonts.Helvetica};
   height: 100%;
 `;
 
@@ -31,8 +31,9 @@ const ChildrenWrapper = styled("div")`
 `;
 
 const Footer = styled("footer")`
-  background-color: ${colors.darkGreen};
-  color: ${colors.white};
+  background-color: ${colors.white};
+  color: ${colors.black};
+  border-top: 1px solid black;
   width: 100%;
   bottom: 0;
   verical-align: baseline;
@@ -88,20 +89,10 @@ const Layout: React.FC = ({ children }) => (
            </FontLayout>
           </Main>
         </ObservableRuntime>
-        
+
         <Footer>
           © {new Date().getFullYear()} |{" "}
           {data.author ? data.author : "Windfall Elimination Project"}
-          <FooterLink>
-            <Link to="https://observablehq.com/@thadk/windfall-awareness-notebook-prototype">
-              Admin
-            </Link>
-          </FooterLink>
-          <FooterLink>
-            <a href="https://github.com/codeforboston/windfall-elimination">
-              Github Repo
-            </a>
-          </FooterLink>
         </Footer>
       </Wrapper>
     )}

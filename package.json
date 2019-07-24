@@ -9,6 +9,7 @@
     "@emotion/styled": "^10.0.10",
     "@observablehq/runtime": "^4.0.1",
     "@reach/router": "^1.2.1",
+    "@rebass/grid": "^6.0.0",
     "@types/react-helmet": "^5.0.8",
     "babel-preset-gatsby": "^0.1.11",
     "core-js": "^2.6.5",
