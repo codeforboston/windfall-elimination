@@ -333,10 +333,6 @@ export default class FileUpload extends React.Component {
 				alert("I'm sorry, that file was not recognized.")
 				break;
 		}
-		
-		
-
-		
 	 }
 
 	 //Stores users input for manually entered table to allow for persistence across page changes
