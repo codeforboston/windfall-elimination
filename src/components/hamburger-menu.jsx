@@ -14,6 +14,7 @@ export const HamburgerBuns= styled('span')`
     border-color: ${colors.black};
     border-radius: ${radii[2]};
     margin: 4px;
+    margin-left: 1rem;
     z-index: 1;
 
   	transform-origin: 4px 0px;
@@ -74,7 +75,7 @@ export const HamburgerButton = styled("input")`
 
 //Outlying div, controls transformations of spans/menu
 export const Hamburger= styled('div')`
-    background: ${colors.darkGreen};
+    background: ${colors.white};
     border-size: 1px;
     border-color: ${colors.darkGreen};
     margin-top: 25px;
@@ -113,6 +114,7 @@ export default class HamburgerHelper extends React.Component {
 							<li><a href="https://github.com/codeforboston/windfall-elimination" target="__blank" style={{ textDecoration: `none`,}}>Github</a></li>
 							<li><Link to="/about/" style={{ textDecoration: `none`,}}>About</Link></li>
 				</HamburgerMenu>
+        <span style={{'margin-left': '0.75rem'}}>Menu</span>
 			  </Hamburger>
 			</nav>
 		)

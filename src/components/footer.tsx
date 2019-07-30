@@ -4,7 +4,7 @@ import styled from "@emotion/styled";
 import { colors } from "../constants";
 
 const Wrapper = styled("footer")`
-  background: ${colors.darkGreen};
+  background: ${colors.white};
   display: flex;
   justify-content: center;
 `;

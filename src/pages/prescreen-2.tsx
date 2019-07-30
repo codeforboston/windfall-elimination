@@ -2,9 +2,9 @@ import React from "react";
 import styled from "@emotion/styled";
 import { ButtonLink, ButtonLinkRed, Card, Form, HelperText, Message, QuestionText, SEO, TextBlock, FileUpload, ObservableCell, SessionStore, FontControl } from "../components";
 
-export const SsaImage = styled("img")`
-  border: 1px solid #dddddd;
-  width: 500px;
+export const SsaImage= styled("img")`
+    border: 1px solid #dddddd;
+    width: 500px;
 `;
 
 export default class Prescreen2 extends React.Component {
@@ -50,16 +50,14 @@ export default class Prescreen2 extends React.Component {
         </Message>
 
                 <h2>Getting your earnings record</h2>
-                <div>To calculate your Social Security retirement benefits, you will need a record of your earnings from Social Security. There are a few ways to get this earnings record:</div>
+                <div>Your Social Security retirement benefits are calculated based on your earnings in covered employment.</div>
+                <div>To calculate your Social Security retirement benefits, you will need a record of your earnings from Social Security.</div>
+                <div>Follow the steps below to get your earning record.</div>
                 <Form>
                     <Card>
                         <QuestionText>Do you have a MySocialSecurity account?</QuestionText>
                         <HelperText>
-                            If no: you can easily sign up online at this <a href="https://www.ssa.gov/myaccount/" target="__blank">link</a>. 
-                            Your MySocialSecurity account will let you change your address, change your direct deposit, 
-                            request an earnings statement or a 1099 form, or apply for a replacement SSA card.
-
-                            If yes: once you are logged in to your MySSA account, download your earnings record as a file (XML or PDF).
+                            Your MySocialSecurity account will let you download a copy of your earnings record. You can sign up online at this <a href="https://www.ssa.gov/myaccount/" target="__blank">link</a>.
                         </HelperText>
                         <label> Yes
                             <input type="radio" name="mySocialSecurityAccount" value="true" onChange={this.handleOption} checked={this.state.displayImage === 'true' ? true : false }></input>
@@ -69,14 +67,16 @@ export default class Prescreen2 extends React.Component {
                         </label>
                     </Card>
                 </Form>
+                <Card>
+                <div>To download your earnings record, click on “Download Your Statement Data” in the red box in the photo below. Save the XML file somewhere you can easily access it.</div>
                 <div style={{display: this.state.displayImage === "true" ? true : 'none'}}><SsaImage src='https://user-images.githubusercontent.com/50156013/56998273-bcd78800-6b78-11e9-86b5-9db06d292a4c.jpg'></SsaImage></div>
-                {this.state.displayImage === false ? 
-                    <div></div> 
+                {this.state.displayImage === false ?
+                    <div></div>
                     :
                     this.state.displayImage === "true" ?
                         <div>
                             <TextBlock>
-                                Once you have a copy of your earnings record, upload the XML or PDF below.
+                                Upload the XML or PDF below.
                             </TextBlock>
                             <FileUpload manual={false}/>
                             <TextBlock>
@@ -86,8 +86,9 @@ export default class Prescreen2 extends React.Component {
                         :
                         <div>
                             <TextBlock>
-                                If no: Write to the SSA to request that a copy of your earnings record be mailed to you:
-                    The SSA will send you a free copy of your earnings record. To request the earnings record, print and complete this form and mail it to the address listed.
+                                To request a copy of your earnings record from the Social Security Administration, please complete the form at this <a href="https://www.ssa.gov/myaccount/materials/pdfs/SSA-7004.pdf">link</a> and mail it to the address on the form. You should receive your earnings record in 4-6 weeks.
+
+                                Once you have a copy of your form, you can scan and upload it, or enter your earnings manually in the table below.
                             </TextBlock>
                             <TextBlock>
                                 Once you have a copy of your earnings record, you can manually enter the values below.
@@ -98,8 +99,9 @@ export default class Prescreen2 extends React.Component {
                             </TextBlock>
                         </div>
                 }
+              </Card>
                 <ButtonLinkRed to="/prescreen-1c/">Go back!</ButtonLinkRed>
-                <ButtonLink to="/screen-1/">Next</ButtonLink>
+                <ButtonLink to="/screen-1/">Submit</ButtonLink>
             </>
 
             )
