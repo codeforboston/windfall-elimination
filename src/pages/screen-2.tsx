@@ -3,8 +3,12 @@ import { ButtonLink, ButtonLinkRed, SEO, ObservableCell, Card, Message, HelperTe
         const unquotedObserverFn = function (name) {
             return {fulfilled: (value) => {
                 const node = document.getElementById(name);
-                node.innerHTML = value;
-                return true
+                if (node !== null) {
+                    node.innerHTML = value;
+                    return true;
+                } else {
+                    return false;
+                }
                 }
             }
             
