@@ -50,9 +50,8 @@ const StyledStep = styled(Step)`
     }
   }};
   padding: 1em 0.5em;
-  border: 1px solid black;
-  padding-left: 25px;
-
+  box-shadow: 1px 1px 2px;
+  
   @media (max-width: ${breakPoints[3]}) {
     .label {
       display: ${({ status }) => {
@@ -70,34 +69,36 @@ const StyledStep = styled(Step)`
       }};
     }
   }
-
+  
   position: relative;
-  :before {
-    content: "";
-    width: 0;
-    height: 0;
-
-    position: absolute;
-    right: -26px;
-    bottom: 0;
-
-    border-left: 25px solid red;
-    border-top: 25px solid transparent;
-    border-bottom: 25px solid transparent;
-  }
-
   :after {
     content: "";
     width: 0;
     height: 0;
 
-    position: absolute;
-    left: 0;
-    bottom: 0;
+    /* FIXME: current border-width is a magic number */
+    /*
+    border-left: 1.5em solid ${props => {
+      switch (props.status) {
+        case stepStatus.complete: {
+          return colors.gray;
+        }
+        case stepStatus.active: {
+          return colors.blue;
+        }
+        case stepStatus.ongoing: {
+          return colors.white;
+        }
+      }
+    }};
+    */
+    border-left: 1.5em solid red;
+    border-top: 1.5em solid transparent;
+    border-bottom: 1.5em solid transparent;
 
-    border-left: 25px solid white;
-    border-top: 25px solid transparent;
-    border-bottom: 25px solid transparent;
+    position: absolute;
+    bottom: calc(0.25em - 4px);
+    right: -1em;
   }
 `;
 
