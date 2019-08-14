@@ -4,8 +4,7 @@ import styled from "@emotion/styled";
 import { colors, breakPoints } from "../constants";
 
 const StyledSeparator = styled.div`
-  width: 1px;
-  display: none;
+  width: calc(1.5em + 0.5em);
 `;
 
 function Step(props) {
@@ -26,13 +25,13 @@ const StyledStep = styled(Step)`
   background-color: ${props => {
     switch (props.status) {
       case stepStatus.complete: {
-        return colors.gray;
+        return '#06315e';
       }
       case stepStatus.active: {
         return colors.blue;
       }
       case stepStatus.ongoing: {
-        return colors.white;
+        return '#fafafa';
       }
     }
   }};
@@ -51,6 +50,7 @@ const StyledStep = styled(Step)`
   }};
   padding: 1em 0.5em;
   box-shadow: 1px 1px 2px;
+  text-decoration-line: none;
   
   @media (max-width: ${breakPoints[3]}) {
     .label {
@@ -71,34 +71,65 @@ const StyledStep = styled(Step)`
   }
   
   position: relative;
-  :after {
+  :before {
     content: "";
-    width: 0;
-    height: 0;
 
     /* FIXME: current border-width is a magic number */
-    /*
-    border-left: 1.5em solid ${props => {
+    border-left: 1.5em solid transparent;
+    border-top: 1.5em solid ${props => {
       switch (props.status) {
         case stepStatus.complete: {
-          return colors.gray;
+          return '#06315e';
         }
         case stepStatus.active: {
           return colors.blue;
         }
         case stepStatus.ongoing: {
-          return colors.white;
+          return '#fafafa';
         }
       }
     }};
-    */
-    border-left: 1.5em solid red;
+    border-bottom: 1.5em solid ${props => {
+      switch (props.status) {
+        case stepStatus.complete: {
+          return '#06315e';
+        }
+        case stepStatus.active: {
+          return colors.blue;
+        }
+        case stepStatus.ongoing: {
+          return '#fafafa';
+        }
+      }
+    }};
+
+    position: absolute;
+    bottom: 0;
+    left: -1.5em;
+  }
+  :after {
+    content: "";
+
+    /* FIXME: current border-width is a magic number */
+    border-left: 1.5em solid ${props => {
+      switch (props.status) {
+        case stepStatus.complete: {
+          return '#06315e';
+        }
+        case stepStatus.active: {
+          return colors.blue;
+        }
+        case stepStatus.ongoing: {
+          return '#fafafa';
+        }
+      }
+    }};
     border-top: 1.5em solid transparent;
     border-bottom: 1.5em solid transparent;
 
     position: absolute;
-    bottom: calc(0.25em - 4px);
-    right: -1em;
+    bottom: 0;
+    right: -1.5em;
   }
 `;
 
