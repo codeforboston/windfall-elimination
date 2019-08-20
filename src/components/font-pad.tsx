@@ -44,12 +44,12 @@ const FontButtonLeft= styled("div")`
   padding: ${spacing[0]} ${spacing[1]};
   background-color: ${colors.white};
   color: ${colors.black};
-  border: 2px solid ${colors.black};
   border-radius: 1.5em 0 0 1.5em;
   padding-left: 1em;
+  box-shadow: 0px 2px 4px #000000;
   &:hover {
-        border-color: ${colors.lime};
-        background-color: ${colors.lime};
+        border-color: ${colors.black};
+        background-color: ${colors.black};
         color: ${colors.white}
   }
 
@@ -64,12 +64,12 @@ const FontButtonRight= styled("div")`
   padding: ${spacing[0]} ${spacing[1]};
   background-color: ${colors.white};
   color: ${colors.black};
-  border: 2px solid ${colors.black};
   border-radius: 0 1.5em 1.5em 0;
   padding-right: 1em;
+  box-shadow: 0px 2px 4px #000000;
   &:hover {
-        border-color: ${colors.lime};
-        background-color: ${colors.lime};
+        border-color: ${colors.black};
+        background-color: ${colors.black};
         color: ${colors.white}
   }
 
