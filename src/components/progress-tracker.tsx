@@ -4,7 +4,6 @@ import styled from "@emotion/styled";
 import { colors, breakPoints } from "../constants";
 
 const StyledSeparator = styled.div`
-  width: calc(1.5em + 0.5em);
 `;
 
 function Step(props) {
@@ -25,13 +24,13 @@ const StyledStep = styled(Step)`
   background-color: ${props => {
     switch (props.status) {
       case stepStatus.complete: {
-        return '#06315e';
+        return colors.lightblue;
       }
       case stepStatus.active: {
         return colors.blue;
       }
       case stepStatus.ongoing: {
-        return '#fafafa';
+        return colors.gray;
       }
     }
   }};
@@ -44,11 +43,18 @@ const StyledStep = styled(Step)`
         return colors.white;
       }
       case stepStatus.ongoing: {
-        return colors.black;
+        return colors.white;
       }
     }
   }};
-  padding: 1em 0.5em;
+  padding-left: 10px;
+  padding-right: 10px;
+  margin-left: 15px;
+  margin-right: 15px;
+  height: 48px;
+  line-height: 48px;
+  vertical-align: middle;
+  text-align: center;
   box-shadow: 1px 1px 2px;
   text-decoration-line: none;
   
@@ -73,32 +79,30 @@ const StyledStep = styled(Step)`
   position: relative;
   :before {
     content: "";
-
-    /* FIXME: current border-width is a magic number */
     border-left: 1.5em solid transparent;
     border-top: 1.5em solid ${props => {
       switch (props.status) {
         case stepStatus.complete: {
-          return '#06315e';
+          return colors.lightblue;
         }
         case stepStatus.active: {
           return colors.blue;
         }
         case stepStatus.ongoing: {
-          return '#fafafa';
+          return colors.gray;
         }
       }
     }};
     border-bottom: 1.5em solid ${props => {
       switch (props.status) {
         case stepStatus.complete: {
-          return '#06315e';
+          return colors.lightblue;
         }
         case stepStatus.active: {
           return colors.blue;
         }
         case stepStatus.ongoing: {
-          return '#fafafa';
+          return colors.gray;
         }
       }
     }};
@@ -109,18 +113,16 @@ const StyledStep = styled(Step)`
   }
   :after {
     content: "";
-
-    /* FIXME: current border-width is a magic number */
     border-left: 1.5em solid ${props => {
       switch (props.status) {
         case stepStatus.complete: {
-          return '#06315e';
+          return colors.lightblue;
         }
         case stepStatus.active: {
           return colors.blue;
         }
         case stepStatus.ongoing: {
-          return '#fafafa';
+          return colors.gray;
         }
       }
     }};
