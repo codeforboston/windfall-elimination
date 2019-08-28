@@ -2,7 +2,7 @@
 //Presented in order of call
 import dayjs from "dayjs";
 import React from "react";
-import { getWepTables } from "../components";
+import { getWepTables } from "./wep-tables";
 
 
 ///////////////////
@@ -362,7 +362,6 @@ async function getBenefitReduction(dob, retireDate) {
 ////////////////////////////////
 // Final Calculation Display //
 ///////////////////////////////
-
 
 function finalCalculation(packedValues, rawEarnings, indexingYear, birthDatePicked, retireDatePicked, yearsSubstantialEarningsPicked, pensionNonCoveredMonthly) {
 

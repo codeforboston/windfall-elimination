@@ -29,8 +29,6 @@ import InfoWidget from "./info-widget";
 import FontControl from "./font-control";
 import FontLayout from "./font-layout";
 import FontPad from "./font-pad";
-import * as ObsFuncs from "./observable-functions";
-import { getWepTables } from "./wep-tables";
 
 export {
     ButtonLink,
@@ -63,7 +61,5 @@ export {
     InfoWidget,
     FontControl,
     FontLayout,
-    FontPad,
-    ObsFuncs,
-    getWepTables
+    FontPad
 };
