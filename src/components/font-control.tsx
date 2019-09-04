@@ -7,9 +7,9 @@ var FontControl = (function() {
 	var getFontSize = function () {
 		let textsize;
 		if (SessionStore.get('FontSize')) {
-			textsize = SessionStore.get('FontSize')	
+			textsize = SessionStore.get('FontSize')
 		} else {
-			textsize = fontSizes[1]
+			textsize = fontSizes[2]
 		}
 		return textsize
 	}
@@ -39,7 +39,7 @@ var FontControl = (function() {
 		    })
     	})
 	}
-	
+
 	return {
 		getFontSize: getFontSize,
 	    setFont: setFont,

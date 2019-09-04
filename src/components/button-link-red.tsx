@@ -7,8 +7,9 @@ export const ButtonLinkRed = styled(ButtonLink)`
   color: ${colors.black};
   border: 2px solid ${colors.lightblue};
   &:hover {
-    border-color: ${colors.lightblue};
-    background-color: ${colors.lightblue};
+    background-color: ${colors.darkBlue};
     color: ${colors.white};
+    cursor: pointer;
+    box-shadow: 0px -1px 15px ${colors.gray};
   }
 `;

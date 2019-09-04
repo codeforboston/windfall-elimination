@@ -4,7 +4,7 @@ import { ButtonLink, ButtonLinkRed, Form, SEO, ObservableCell, Card, Message } f
 export default () => (
     <>
         <SEO title="Screen 2" />
-        <h2>WEP-Adjusted Benefits</h2>
+        <h2>Step 3: WEP-Adjusted Benefits</h2>
         <Form>
           <Card>
             <label>
@@ -15,6 +15,6 @@ export default () => (
           </Card>
         </Form>
         <ButtonLinkRed to="/prescreen-2/">Go back!</ButtonLinkRed>
-        <ButtonLink to="/screen-2/">Submit</ButtonLink>
+        <ButtonLink to="/prescreen-1b/">Submit</ButtonLink>
     </>
 );

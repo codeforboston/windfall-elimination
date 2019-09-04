@@ -17,9 +17,6 @@ type Props = {
 };
 export const Header: React.FC<Props> = ({ siteTitle }) => (
   <Wrapper>
-    <div style={{ float: "left" }}>
-      <HamburgerHelper />
-    </div>
     <div
       style={{
         margin: `0 auto`,

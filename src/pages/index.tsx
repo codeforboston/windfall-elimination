@@ -27,6 +27,16 @@ export default () => (
     </TextBlock>
 
     <TextBlock>
+        <strong>This app will:</strong>
+        <UnorderedList>
+          <ListItem>walk you through how the formula works</ListItem>
+          <ListItem>help you estimate how WEP will affect you when you retire</ListItem>
+          <ListItem>help you handle an overpayment</ListItem>
+          <ListItem>give you some starting points to take political action</ListItem>
+        </UnorderedList>
+    </TextBlock>
+
+    <TextBlock>
       This site is for informational purposes only, and should not be taken as
       legal, tax, investment, financial, or other advice. You should consult
       with a financial advisor or attorney to determine what is best for your
@@ -38,7 +48,7 @@ export default () => (
       calculated today.
     </TextBlock>
     <LinkWrapper>
-      <ButtonLink to="/prescreen-1/">Get Started</ButtonLink>
+      <ButtonLink to="/prescreen-1c/">Get Started</ButtonLink>
     </LinkWrapper>
   </>
 );

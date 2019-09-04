@@ -17,17 +17,12 @@ export default class Prescreen1c extends React.Component {
         return (
             <>
                 <SEO title="Pre-Screen" keywords={[`gatsby`, `application`, `react`]} />
-                <h2>Background Information</h2>
+                <h2>Step 1: Background Information</h2>
                 <TextBlock>
-                    To calculate your WEP-adjusted retirement benefit, we will need your
-                    assistance in providing relevant Social Security information.
-                </TextBlock>
-                <TextBlock>
-                    Before you begin, please provide the following:
+                    To calculate your Social Security benefit, please input the following dates.
                 </TextBlock>
                 <Card>
                         <label>
-                            What year were you born?
                             {/* <Input type="date"/> */}
                             <ObservableCell cellname='viewof birthDatePicked' />
                         </label>

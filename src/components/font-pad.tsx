@@ -28,8 +28,8 @@ const FontButton= styled("div")`
   border: 1px solid ${colors.black};
   border-radius: 50%;
   &:hover {
-        border-color: ${colors.lime};
-        background-color: ${colors.lime};
+        border-color: ${colors.darkBlue};
+        background-color: ${colors.darkBlue};
         color: ${colors.white}
   }
 
@@ -48,8 +48,8 @@ const FontButtonLeft= styled("div")`
   border-radius: 1.5em 0 0 1.5em;
   padding-left: 1em;
   &:hover {
-        border-color: ${colors.lime};
-        background-color: ${colors.lime};
+        border-color: ${colors.darkBlue};
+        background-color: ${colors.darkBlue};
         color: ${colors.white}
   }
 
@@ -68,8 +68,8 @@ const FontButtonRight= styled("div")`
   border-radius: 0 1.5em 1.5em 0;
   padding-right: 1em;
   &:hover {
-        border-color: ${colors.lime};
-        background-color: ${colors.lime};
+        border-color: ${colors.darkBlue};
+        background-color: ${colors.darkBlue};
         color: ${colors.white}
   }
 

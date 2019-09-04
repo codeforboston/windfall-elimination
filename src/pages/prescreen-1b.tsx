@@ -90,7 +90,7 @@ export default class Prescreen1b extends React.Component {
           title="Prescreen 1b"
           keywords={[`gatsby`, `application`, `react`]}
         />
-        <h2>Am I affected by WEP?</h2>
+        <h2>Step 4: Am I affected by WEP?</h2>
         <Form>
           <Card>
             <QuestionText>
@@ -100,6 +100,8 @@ export default class Prescreen1b extends React.Component {
               “Non-covered” employment is employment where your employer did not
               withhold Social Security taxes from your wages. These earnings
               will not show up on your Social Security earnings statement.
+              If you don't have your Social Security earnings statement, we
+              will show you how to find it in the next step.
             </HelperText>
             <label>
               {" "}
@@ -144,9 +146,9 @@ export default class Prescreen1b extends React.Component {
           </Card>
           {this.state.coveredEmployment === null
 
-            ? (<Message> 
+            ? (<Message>
                 <HelperText><div>You can contact your state’s Social Security Administrator
-                to find out if your employment was covered.</div> 
+                to find out if your employment was covered.</div>
                 <div>Find your state at&nbsp;
                 <a href='http://www.ncsssa.org/statessadminmenu.html'>this website</a>.</div>
                 <div>You should have your Social Security number ready when you call.</div>
@@ -157,12 +159,11 @@ export default class Prescreen1b extends React.Component {
           {this.state.coveredEmployment && (
             <Card>
               <QuestionText>
-                Do you have a pension or retirement account from that job?
+                Do you have a monthly pension, a 401(k), or
+                other lump sum pension from that job?
               </QuestionText>
               <HelperText>
-              This can be either a monthly pension or a lump sum like a $401K.
               It can be an employee-contribution-only plan or an employer/employee-matching contribution plan.
-              The important thing is whether you paid Social Security taxes on the money that went into this resource.
               </HelperText>
               <label>
                 {" "}
@@ -197,22 +198,17 @@ export default class Prescreen1b extends React.Component {
               {this.state.coveredEmployment &&
               this.state.pensionOrRetirementAccount
                 ? "You are probably affected by WEP. Proceed to the next screen."
-                : "Congratulations! You’re probably not affected by WEP. Make sure that your earnings record is correct with the SSA to make sure you get the right amount of SSA benefits you’re entitled to, and report any significant changes in your income."}
+                : "Congratulations! You’re probably not affected by WEP. Click 'Next' to calculate your Social Secuirty benefit."}
             </Message>
           )}
         </Form>
-        <ButtonLinkRed to="/prescreen-1/">Go back!</ButtonLinkRed>
+        <ButtonLinkRed to="/prescreen-2/">Go back!</ButtonLinkRed>
         <ButtonLink
-          to={
-            this.state.coveredEmployment &&
-            this.state.pensionOrRetirementAccount
-              ? "/prescreen-1c/"
-              : "/congrats/"
-          }
+          to={"/screen-2/"}
           name="submitButton"
           disabled={!haveAllRequiredQuestionsBeenAnswered}
         >
-          Submit
+          Next
         </ButtonLink>
       </>
     );

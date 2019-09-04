@@ -44,15 +44,14 @@ export default class Prescreen2 extends React.Component {
           keywords={[`gatsby`, `application`, `react`]}
         />
 
-        <Message>
-          Based on your answers, you are probably affected by WEP. Please enter
-          your information below.
-        </Message>
-
-                <h2>Getting your earnings record</h2>
-                <div>Your Social Security retirement benefits are calculated based on your earnings in covered employment.</div>
-                <div>To calculate your Social Security retirement benefits, you will need a record of your earnings from Social Security.</div>
-                <div>Follow the steps below to get your earning record.</div>
+                <h2>Step 2: Getting your earnings record</h2>
+                <TextBlock>
+                Your Social Security retirement benefits are calculated based on your earnings in covered employment.
+              </TextBlock>
+              <TextBlock>
+                To calculate your Social Security retirement benefits, you will need a record of your earnings from Social Security.
+                Follow the steps below to get your earning record.
+              </TextBlock>
                 <Form>
                     <Card>
                         <QuestionText>Do you have a MySocialSecurity account?</QuestionText>
@@ -68,7 +67,7 @@ export default class Prescreen2 extends React.Component {
                     </Card>
                 </Form>
                 <Card>
-                <div>To download your earnings record, click on “Download Your Statement Data” in the red box in the photo below. Save the XML file somewhere you can easily access it.</div>
+                <div style={{display: this.state.displayImage === "true" ? true : 'none'}}>To download your earnings record, click on “Download Your Statement Data” in the red box in the photo below. Save the XML file somewhere you can easily access it.</div>
                 <div style={{display: this.state.displayImage === "true" ? true : 'none'}}><SsaImage src='https://user-images.githubusercontent.com/50156013/56998273-bcd78800-6b78-11e9-86b5-9db06d292a4c.jpg'></SsaImage></div>
                 {this.state.displayImage === false ?
                     <div></div>
@@ -101,7 +100,7 @@ export default class Prescreen2 extends React.Component {
                 }
               </Card>
                 <ButtonLinkRed to="/prescreen-1c/">Go back!</ButtonLinkRed>
-                <ButtonLink to="/screen-1/">Submit</ButtonLink>
+                <ButtonLink to="/prescreen-1b/">Submit</ButtonLink>
             </>
 
             )
