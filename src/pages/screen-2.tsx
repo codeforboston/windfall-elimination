@@ -45,5 +45,6 @@ export default () => (
         </Card>
         <ButtonLinkRed to="/prescreen-1b/">Go back!</ButtonLinkRed>
         <ButtonLink to="/">Go Home</ButtonLink>
+        <ButtonLink to="/">Further Info</ButtonLink>
     </>
 );

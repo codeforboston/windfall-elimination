@@ -100,7 +100,7 @@ export default class Prescreen2 extends React.Component {
                 }
               </Card>
                 <ButtonLinkRed to="/prescreen-1c/">Go back!</ButtonLinkRed>
-                <ButtonLink to="/prescreen-1b/">Submit</ButtonLink>
+                <ButtonLink to="/screen-1/">Submit</ButtonLink>
             </>
 
             )

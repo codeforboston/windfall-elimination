@@ -71,8 +71,7 @@ const Layout: React.FC = ({ children }) => (
                 {path: "/prescreen-2/", label: "Input Earnings"},
                 {path: "/screen-1/", label: "Input Pension"},
                 {path: "/prescreen-1b/", label: "Qualification"},
-                {path: "/screen-2/", label: "Results"},
-                {path: "/screen-3/", label: "Further Info"}
+                {path: "/screen-2/", label: "Results"}
               ]}
               activePath={location.pathname}
             />
