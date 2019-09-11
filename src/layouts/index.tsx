@@ -42,9 +42,11 @@ const Footer = styled("footer")`
 `;
 
 const FooterLink = styled("footer")`
+  background-color: ${colors.white};
   display: inline;
-  color: ${colors.white};
-  padding: ${spacing[1]};
+  color: ${colors.black};
+  float: left;
+  padding-left: 10px;
 `;
 
 const Layout: React.FC = ({ children }) => (
@@ -88,9 +90,15 @@ const Layout: React.FC = ({ children }) => (
           </Main>
         </ObservableRuntime>
 
+
         <Footer>
-          <Link to="/admin/" style={{ textDecoration: `none`, justify: 'left'}}>Admin Page</Link>
-          <a href="https://github.com/codeforboston/windfall-elimination" target="__blank" style={{ textDecoration: `none`,}}>Github</a>
+          <FooterLink>
+            <Link to="/admin/" style={{ textDecoration: `none`, justify: 'left'}}>Admin Page</Link>
+          </FooterLink>
+          <FooterLink>
+            <a href="https://github.com/codeforboston/windfall-elimination" target="__blank" style={{ textDecoration: `none`,}}>Github</a>
+          </FooterLink>
+
           © {new Date().getFullYear()} | {data.author ? data.author : "Windfall Elimination Project"}
         </Footer>
       </Wrapper>
