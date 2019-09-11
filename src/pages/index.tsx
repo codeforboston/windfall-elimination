@@ -36,6 +36,15 @@ export default () => (
         </UnorderedList>
     </TextBlock>
 
+    <TextBlockHeader>Privacy Disclaimer</TextBlockHeader>
+    <TextBlock>
+      This application is intended as a tool for users to calculate their
+      Social Security benefits. No data is saved, stored, or passed along
+      to third-party services and/or gorvenmental enteties. All data is
+      deleted after use.
+    </TextBlock> 
+
+    <TextBlockHeader>Legal Disclaimer</TextBlockHeader>
     <TextBlock>
       This site is for informational purposes only, and should not be taken as
       legal, tax, investment, financial, or other advice. You should consult
