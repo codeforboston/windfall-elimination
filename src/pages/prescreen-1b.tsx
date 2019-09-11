@@ -90,7 +90,7 @@ export default class Prescreen1b extends React.Component {
           title="Prescreen 1b"
           keywords={[`gatsby`, `application`, `react`]}
         />
-        <h2>Step 4: Am I affected by WEP?</h2>
+        <h2>Step 3: Am I affected by WEP?</h2>
         <Form>
           <Card>
             <QuestionText>
@@ -204,7 +204,7 @@ export default class Prescreen1b extends React.Component {
         </Form>
         <ButtonLinkRed to="/prescreen-2/">Go back!</ButtonLinkRed>
         <ButtonLink
-          to={"/screen-2/"}
+          to={"/screen-1/"}
           name="submitButton"
           disabled={!haveAllRequiredQuestionsBeenAnswered}
         >

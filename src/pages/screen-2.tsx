@@ -43,7 +43,7 @@ export default () => (
                     <div><ObservableCell cellname='yearsSubstantialEarningsPicked' /></div>
             </label>
         </Card>
-        <ButtonLinkRed to="/prescreen-1b/">Go back!</ButtonLinkRed>
+        <ButtonLinkRed to="/screen-1/">Go back!</ButtonLinkRed>
         <ButtonLink to="/">Go Home</ButtonLink>
         <ButtonLink to="/">Further Info</ButtonLink>
     </>

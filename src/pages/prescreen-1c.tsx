@@ -30,7 +30,7 @@ export default class Prescreen1c extends React.Component {
 
                         <div><ObservableCell cellname='viewof retireDatePicked'/> </div>
                 </Card>
-                <ButtonLinkRed to="/prescreen-1b/">Go back!</ButtonLinkRed>
+                <ButtonLinkRed to="/">Go back!</ButtonLinkRed>
                 <ButtonLink to="/prescreen-2/">Start</ButtonLink>
             </>
          )
