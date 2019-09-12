@@ -29,6 +29,7 @@ import InfoWidget from "./info-widget";
 import FontControl from "./font-control";
 import FontLayout from "./font-layout";
 import FontPad from "./font-pad";
+import { PrintButton } from "./print-button";
 
 export {
     ButtonLink,
@@ -61,5 +62,6 @@ export {
     InfoWidget,
     FontControl,
     FontLayout,
-    FontPad
+    FontPad,
+    PrintButton
 };

@@ -46,6 +46,7 @@ export default () => (
             </label>
         </Card>
         <ButtonLinkRed to="/screen-1/">Go back!</ButtonLinkRed>
+        <ButtonLink to="/print/">Print Results</ButtonLink>
         <ButtonLink to="/">Go Home</ButtonLink>
     </>
 );

@@ -1,6 +1,8 @@
-import * as ObsFuncs from "../library/observable-functions";
+import { getPIA } from "../library/observable-functions";
 describe("Header", () => {
-  it("renders correctly", () => {
-    expect("1639.10").toBe("1639.10")
+  it("renders correctly", async () => {
+  	expect.assertions(1);
+  	var value = await getPIA(3500, "1956-01-02", null, false)
+    expect(value).toBe(Number("1639.1"))
   })
 })
