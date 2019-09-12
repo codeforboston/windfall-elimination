@@ -70,7 +70,7 @@ export default class Prescreen2 extends React.Component {
                 <div style={{display: this.state.displayImage === "true" ? true : 'none'}}>To download your earnings record, click on “Download Your Statement Data” in the red box in the photo below. Save the XML file somewhere you can easily access it.</div>
                 <div style={{display: this.state.displayImage === "true" ? true : 'none'}}><SsaImage src='https://user-images.githubusercontent.com/50156013/56998273-bcd78800-6b78-11e9-86b5-9db06d292a4c.jpg'></SsaImage></div>
                 {this.state.displayImage === false ?
-                    <div></div>
+                    <div>Further instructions will be given based on your answer.</div>
                     :
                     this.state.displayImage === "true" ?
                         <div>
