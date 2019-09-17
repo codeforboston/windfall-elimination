@@ -8,10 +8,20 @@ import {
   HelperText,
   Message,
   QuestionText,
-  SEO,
-  SessionStore,
-  FontControl
+  SEO
 } from "../components";
+import { SessionStore } from "../library/session-store";
+import { FontControl } from "../library/font-control";
+
+function trileanFromString(s:string|null) {
+  if (s === null) {
+    return undefined
+  } else if (s === "null") {
+    return null
+  } else {
+    return s === "true"
+  }
+}
 
 export default class Prescreen1b extends React.Component {
   constructor(props, context) {
@@ -20,7 +30,6 @@ export default class Prescreen1b extends React.Component {
     this.handleSelection = this.handleSelection.bind(this);
 
     this.state = {
-      noncovered: undefined,
       coveredEmployment: undefined,
       pensionOrRetirementAccount: undefined
     };
@@ -29,9 +38,10 @@ export default class Prescreen1b extends React.Component {
   componentDidMount() {
     if (SessionStore.get("pensionOrRetirementAccount")) {
       this.setState({
-        coveredEmployment: SessionStore.get("coveredEmployment") === "true",
+        coveredEmployment: trileanFromString(SessionStore.get("coveredEmployment")),
         pensionOrRetirementAccount: SessionStore.get("pensionOrRetirementAccount") === "true"
       })
+      console.log(this);
     }
   }
 
@@ -40,18 +50,15 @@ export default class Prescreen1b extends React.Component {
     }
 
   handleSelection(e) {
-    var selectValue = e.target.value === "true"
-    if (e.target.name === "noncovered") {
-      SessionStore.push("noncovered", selectValue)
-      this.setState({
-        noncovered: selectValue
-      });
-    } else if (e.target.name === "coveredEmployment") {
+    let selectValueString = e.target.value
+    if (e.target.name === "coveredEmployment") {
+      let selectValue = trileanFromString(selectValueString)
       SessionStore.push("coveredEmployment", selectValue)
       this.setState({
         coveredEmployment: selectValue
       });
     } else if (e.target.name === "pensionOrRetirementAccount") {
+      let selectValue = selectValueString === "true"
       SessionStore.push("pensionOrRetirementAccount", selectValue)
       this.setState({
         pensionOrRetirementAccount: selectValue
@@ -69,6 +76,9 @@ export default class Prescreen1b extends React.Component {
       case false:
         haveAllRequiredQuestionsBeenAnswered = true;
         break;
+      case null:
+          haveAllRequiredQuestionsBeenAnswered = false;
+          break;
       case undefined:
         haveAllRequiredQuestionsBeenAnswered = false;
         break;
@@ -82,48 +92,6 @@ export default class Prescreen1b extends React.Component {
         />
         <h2>Am I affected by WEP?</h2>
         <Form>
-          <Card>
-            <QuestionText>
-              Do you know if you worked in "non-covered" employment?
-            </QuestionText>
-            <label>
-              {" "}
-              Yes
-              <input
-                type="radio"
-                name="noncovered"
-                value="true"
-                {...(this.state.checkedEmployment ? { checked: true } : {})}
-                onChange={this.handleSelection}
-              />
-            </label>
-            <label>
-              {" "}
-              No
-              <input
-                type="radio"
-                name="noncovered"
-                value="false"
-                {...(this.state.coveredEmployment === false
-                  ? { checked: true }
-                  : {})}
-                onChange={this.handleSelection}
-              />
-            </label>
-          </Card>
-          {this.state.noncovered === false
-
-            ? (<Message> 
-                <HelperText><div>You can contact your state’s Social Security Administrator
-                to find out if your employment was covered.</div> 
-                <div>Find your state at&nbsp;
-                <a href='http://www.ncsssa.org/statessadminmenu.html'>this website</a>.</div>
-                <div>You should have your Social Security number ready when you call.</div>
-                </HelperText>
-              </Message>)
-            : <div></div>
-            }
-          {this.state.noncovered && (
           <Card>
             <QuestionText>
               Did you work in “non-covered” employment?
@@ -141,7 +109,7 @@ export default class Prescreen1b extends React.Component {
                 name="coveredEmployment"
                 id="ce1"
                 value="true"
-                {...(this.state.checkedEmployment ? { checked: true } : {})}
+                {...(this.state.coveredEmployment ? { checked: true } : { checked: false })}
                 onChange={this.handleSelection}
               />
             </label>
@@ -155,12 +123,37 @@ export default class Prescreen1b extends React.Component {
                 value="false"
                 {...(this.state.coveredEmployment === false
                   ? { checked: true }
-                  : {})}
+                  : { checked: false })}
                 onChange={this.handleSelection}
               />
-            </label>
+              </label>
+              <label>
+              {" "}
+              Not Sure
+              <input
+                type="radio"
+                name="coveredEmployment"
+                id="ce3"
+                value="null"
+                {...(this.state.coveredEmployment === null
+                  ? { checked: true }
+                  : { checked: false })}
+                onChange={this.handleSelection}
+              />
+              </label>
           </Card>
-        )}
+          {this.state.coveredEmployment === null
+
+            ? (<Message> 
+                <HelperText><div>You can contact your state’s Social Security Administrator
+                to find out if your employment was covered.</div> 
+                <div>Find your state at&nbsp;
+                <a href='http://www.ncsssa.org/statessadminmenu.html'>this website</a>.</div>
+                <div>You should have your Social Security number ready when you call.</div>
+                </HelperText>
+              </Message>)
+            : <div></div>
+            }
           {this.state.coveredEmployment && (
             <Card>
               <QuestionText>

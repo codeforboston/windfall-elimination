@@ -1,6 +1,20 @@
 import React from "react";
 import styled from "@emotion/styled";
-import { ButtonLink, ButtonLinkRed, Card, Form, HelperText, Message, QuestionText, SEO, TextBlock, FileUpload, ObservableCell, SessionStore, FontControl } from "../components";
+import {
+  ButtonLink,
+  ButtonLinkRed,
+  Card,
+  Form,
+  HelperText,
+  Message,
+  QuestionText,
+  SEO,
+  TextBlock,
+  FileUpload,
+  ObservableCell
+} from "../components";
+import { SessionStore } from "../library/session-store";
+import { FontControl } from "../library/font-control";
 
 export const SsaImage= styled("img")`
     border: 1px solid #dddddd;
@@ -17,7 +31,7 @@ export default class Prescreen2 extends React.Component {
     };
   }
 
-    componentDidMount() {
+   componentDidMount() {
         if (SessionStore.get('displayImage')) {
             this.setState({
                 displayImage: SessionStore.get('displayImage')
@@ -48,7 +62,6 @@ export default class Prescreen2 extends React.Component {
           Based on your answers, you are probably affected by WEP. Please enter
           your information below.
         </Message>
-
                 <h2>Getting your earnings record</h2>
                 <div>Your Social Security retirement benefits are calculated based on your earnings in covered employment.</div>
                 <div>To calculate your Social Security retirement benefits, you will need a record of your earnings from Social Security.</div>

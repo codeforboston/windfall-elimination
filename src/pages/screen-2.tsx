@@ -3,12 +3,18 @@ import { ButtonLink, ButtonLinkRed, SEO, ObservableCell, Card, Message, HelperTe
         const unquotedObserverFn = function (name) {
             return {fulfilled: (value) => {
                 const node = document.getElementById(name);
-                node.innerHTML = value;
-                return true
+                if (node !== null) {
+                    node.innerHTML = value;
+                    return true;
+                } else {
+                    return false;
                 }
-            }
-            
+                }
+               }
+           }
+           
         }
+
 export default () => (
     <>
         <SEO title="Screen 3" />
@@ -42,6 +48,7 @@ export default () => (
             </label>
         </Card>
         <ButtonLinkRed to="/screen-1/">Go back!</ButtonLinkRed>
+        <ButtonLink to="/print/">Print Results</ButtonLink>
         <ButtonLink to="/">Go Home</ButtonLink>
     </>
 );

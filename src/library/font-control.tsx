@@ -1,6 +1,6 @@
 import React from 'react';
 import { fontSizes } from "../constants";
-import { SessionStore } from "../components";
+import { SessionStore } from "../library/session-store";
 
 var FontControl = (function() {
 
@@ -49,4 +49,4 @@ var FontControl = (function() {
 
 })();
 
-export default FontControl;
+export { FontControl };
