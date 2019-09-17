@@ -1,7 +1,7 @@
 import React from "react";
 import { Runtime, Inspector } from "@observablehq/runtime";
 import notebook from "windfall-awareness-notebook-prototype";
-import { generateRuntime } from "./generate-runtime";
+import { generateRuntime } from "../library/generate-runtime";
 
 export const ObservableContext = React.createContext();
 

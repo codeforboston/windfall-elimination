@@ -3,7 +3,8 @@ import styled from "@emotion/styled";
 import fastXml from "fast-xml-parser";
 import pdfJS from "pdfjs-dist";
 import { spacing, colors, fontSizes, radii } from "../constants";
-import { ObservableCell, SessionStore } from "../components";
+import { ObservableCell } from "../components";
+import { SessionStore } from "../library/session-store";
 
 //Upload page specific css/html
 export const UploadButton = styled("div")`

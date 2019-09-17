@@ -8,10 +8,10 @@ import {
   HelperText,
   Message,
   QuestionText,
-  SEO,
-  SessionStore,
-  FontControl
+  SEO
 } from "../components";
+import { SessionStore } from "../library/session-store";
+import { FontControl } from "../library/font-control";
 
 export default class Prescreen1b extends React.Component {
   constructor(props, context) {

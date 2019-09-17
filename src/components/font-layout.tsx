@@ -1,5 +1,6 @@
 import React from 'react';
-import { SessionStore, FontControl } from "../components";
+import { SessionStore } from "../library/session-store";
+import { FontControl } from "../library/font-control";
 import { fontSizes } from "../constants";
 
 

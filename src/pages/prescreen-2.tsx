@@ -1,6 +1,8 @@
 import React from "react";
 import styled from "@emotion/styled";
-import { ButtonLink, ButtonLinkRed, Card, Form, HelperText, Message, QuestionText, SEO, TextBlock, FileUpload, ObservableCell, SessionStore, FontControl } from "../components";
+import { ButtonLink, ButtonLinkRed, Card, Form, HelperText, Message, QuestionText, SEO, TextBlock, FileUpload, ObservableCell } from "../components";
+import { SessionStore } from "../library/session-store";
+import { FontControl } from "../library/font-control";
 
 export const SsaImage= styled("img")`
     border: 1px solid #dddddd;
