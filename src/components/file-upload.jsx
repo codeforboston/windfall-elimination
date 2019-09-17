@@ -346,7 +346,11 @@ export default class FileUpload extends React.Component {
 			default:
 				alert("I'm sorry, that file was not recognized.")
 				break;
+<<<<<<< HEAD
 		}
+=======
+		}	
+>>>>>>> a6d19153... Refined Jest testing for ObsFuncs, added cache file for WEP tables, added rough print page
 	 }
 
 	 //Stores users input for manually entered table to allow for persistence across page changes

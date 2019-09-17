@@ -95,7 +95,6 @@ const Layout: React.FC = ({ children }) => (
           <FooterLink>
             <a href="https://github.com/codeforboston/windfall-elimination" target="__blank" style={{ textDecoration: `none`,}}>Github</a>
           </FooterLink>
-
           © {new Date().getFullYear()} | {data.author ? data.author : "Windfall Elimination Project"}
         </Footer>
       </Wrapper>
