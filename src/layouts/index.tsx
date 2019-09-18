@@ -19,9 +19,6 @@ const Wrapper = styled("div")`
 const Main = styled("main")`
   margin: ${spacing[1]};
   display: flex;
-  justify-content: center;
-  align-content: baseline;
-  text-align: center;
 `;
 
 const ChildrenWrapper = styled("div")`
