@@ -4,7 +4,13 @@ import styled from "@emotion/styled";
 import { colors, fontSizes } from "../constants";
 
 const StyledSeparator = styled.div`
-  width: 1px;
+  display: flex;
+  width: 100%;
+  background: #FAFAFA;
+  vertical-align: middle;
+  padding: 1em 0.5em;
+  border-right: 1px solid black;
+  height: 100%;
 `;
 
 function Step(props) {
@@ -36,20 +42,30 @@ const StyledStep = styled(Step)`
       }
     }
   }};
-  padding: 1em 0.5em;
-  border-right: 1px solid black;
   text-decoration: none;
-  background-color: #FAFAFA;
+  width: 100%;
+  background: #FAFAFA;
+`;
+
+const Circle = styled.div`
+  border-radius: 50px;
+  background-color: ${props => props.status ? `#433A74`: `#787878`};
+  color: white;
+  min-width: 25px;
+  height: 25px;
+  display: block;
+  text-align: center;
 `;
 
 // FIXME: does not check for duplicate paths
 function ProgressTracker(props) {
   const indexOfActivePath = props.linkProps.findIndex(element => element.path === props.activePath);
-
   const links = props.linkProps.map((element, index) => (
     <React.Fragment key={element}>
-      {index ? <StyledSeparator /> : false}
-      <StyledStep path={element.path} label={element.label} status={Math.sign(index - indexOfActivePath)} />
+      <StyledSeparator> 
+      {index>0 && index<5? <Circle status={index <= indexOfActivePath}>{index}</Circle>: null}
+      <StyledStep path={element.path} label={element.label} status={index <= indexOfActivePath} />
+      </StyledSeparator> 
     </React.Fragment>
   ));
   return <div className={props.className}>{links}</div>;
@@ -58,13 +74,12 @@ function ProgressTracker(props) {
 const StyledProgressTracker = styled(ProgressTracker)`
   display: flex;
   flex-direction: column;
-  width: 200px;
+  width: 260px;
   height: 100%;
   justify-content: center;
   flex-wrap: wrap;
   /* override html, body font-size CSS rule (was set to 130%) */
-  font-size: ${fontSizes[2]};
-  padding: 0 15px;
+  font-size: ${fontSizes[1]};
 
 
   *:first-child {

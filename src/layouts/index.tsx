@@ -14,6 +14,7 @@ const Wrapper = styled("div")`
   flex-direction: row;
   flex-wrap: wrap;
   font-family: ${fonts.Helvetica};
+  height: 100%;
 `;
 
 const Main = styled("main")`
@@ -45,7 +46,7 @@ const FooterLink = styled("footer")`
   padding-left: 10px;
 `;
 
-const Layout: React.FC = ({ children }) => (
+const Layout: React.FC = ({ children, location }) => (
   <StaticQuery
     query={graphql`
       query SiteTitleQuery {
@@ -61,7 +62,8 @@ const Layout: React.FC = ({ children }) => (
       <Wrapper>
         <Header />
         <Location>
-          {({ location }) => (
+          <div>
+          { location  => (
             <ProgressTracker
               linkProps={[
                 {path: "/", label: "HOME"},
@@ -74,6 +76,7 @@ const Layout: React.FC = ({ children }) => (
               activePath={location.pathname}
             />
           )}
+          </div>
         </Location>
         <ObservableRuntime children={children}>
           <Main>
