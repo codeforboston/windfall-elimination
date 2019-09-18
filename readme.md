@@ -7,4 +7,4 @@ Join the Slack channel #windfall-elimination for more information.
 
 ## Launching Gatsby Site
 
-Run `npm install && npx gatsby develop` to launch the project.
+Run `npm install && npm start` to launch the project.
