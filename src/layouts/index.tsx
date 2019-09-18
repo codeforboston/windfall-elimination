@@ -5,7 +5,6 @@ import { Location } from "@reach/router";
 import { Header, QuestionProvider } from "../components";
 import "./layout.css";
 import { colors, fonts, spacing } from "../constants";
-import { ObservableRuntime } from "../components";
 import { ProgressTracker } from "../components/progress-tracker";
 import { ObservableRuntime, FontLayout } from "../components";
 import { Flex, Box } from '@rebass/grid/emotion';
@@ -40,14 +39,6 @@ const Footer = styled("footer")`
   verical-align: baseline;
   text-align: center;
   padding: ${spacing[1]} 0;
-`;
-
-const FooterLink = styled("footer")`
-  background-color: ${colors.white};
-  display: inline;
-  color: ${colors.black};
-  float: left;
-  padding-left: 10px;
 `;
 
 const FooterLink = styled("footer")`

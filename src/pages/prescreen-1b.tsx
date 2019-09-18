@@ -23,16 +23,6 @@ function trileanFromString(s:string|null) {
   }
 }
 
-function trileanFromString(s:string|null) {
-  if (s === null) {
-    return undefined
-  } else if (s === "null") {
-    return null
-  } else {
-    return s === "true"
-  }
-}
-
 export default class Prescreen1b extends React.Component {
   constructor(props, context) {
     super(props, context);
