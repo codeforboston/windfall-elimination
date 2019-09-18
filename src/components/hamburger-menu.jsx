@@ -33,7 +33,7 @@ export const HamburgerMenu = styled('ul')`
   margin: 73px 0 0 -1px;
   padding: 50px 0px 0px 50px;
 
-  background: ${colors.lightgray};
+  background: ${colors.lightGray};
   list-style-type: circle;
   -webkit-font-smoothing: antialiased;
   /* to stop flickering of text in safari */

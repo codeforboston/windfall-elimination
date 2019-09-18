@@ -7,7 +7,7 @@
   "dependencies": {
     "@emotion/core": "^10.0.10",
     "@emotion/styled": "^10.0.10",
-    "@observablehq/runtime": "^4.0.1",
+    "@observablehq/runtime": "4.2.1",
     "@reach/router": "^1.2.1",
     "@rebass/grid": "^6.0.0",
     "@types/react-helmet": "^5.0.8",
@@ -31,8 +31,7 @@
     "react-dom": "^16.8.5",
     "react-helmet": "^5.2.0",
     "tesseract.js": "^2.0.0-alpha.11",
-    "typescript": "^3.3.4000",
-    "windfall-awareness-notebook-prototype": "https://api.observablehq.com/@thadk/windfall-awareness-notebook-prototype.tgz?v=1"
+    "typescript": "^3.3.4000"
   },
   "devDependencies": {
     "@types/react": "^16.8.8",

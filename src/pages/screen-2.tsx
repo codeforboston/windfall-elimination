@@ -38,10 +38,6 @@ export default () => (
                     <ObservableCell cellname='viewof ageToRetirePicked'/>
                     <ObservableCell cellname='viewof ageToRetireExtraMonthsPicked'/>
             </label>
-            <label>
-                    Years of substantial earnings
-                    <div><ObservableCell cellname='yearsSubstantialEarningsPicked' /></div>
-            </label>
         </Card>
         <ButtonLinkRed to="/screen-1/">Go back!</ButtonLinkRed>
         <ButtonLink to="/">Go Home</ButtonLink>
