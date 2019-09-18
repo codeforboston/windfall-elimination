@@ -46,7 +46,7 @@ export const HamburgerMenu = styled('ul')`
   li {
     display: inline-block;
     padding: 10px 0;
-    font-size: ${fontSizes[2]};
+    font-size: ${fontSizes[1]};
   }
 `;
 
