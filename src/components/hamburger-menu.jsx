@@ -33,7 +33,7 @@ export const HamburgerMenu = styled('ul')`
   margin: 73px 0 0 -1px;
   padding: 50px 0px 0px 50px;
 
-  background: ${colors.lightgray};
+  background: ${colors.lightGray};
   list-style-type: circle;
   -webkit-font-smoothing: antialiased;
   /* to stop flickering of text in safari */
@@ -46,7 +46,7 @@ export const HamburgerMenu = styled('ul')`
   li {
     display: inline-block;
     padding: 10px 0;
-    font-size: ${fontSizes[2]};
+    font-size: ${fontSizes[1]};
   }
 `;
 
@@ -100,6 +100,7 @@ export const Hamburger= styled('div')`
 `;
 
 export default class HamburgerHelper extends React.Component {
+
 	render() {
 		return(
 			<nav role="navigation">

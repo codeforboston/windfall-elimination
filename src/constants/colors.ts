@@ -1,12 +1,9 @@
 export const colors = {
     gray: "#696969",
-    lightgray: "lightgray",
+    lightGray: "lightgray",
     black: "#000",
-    lightblack: "rgb(0,0,0,0.7)",
     white: "#fff",
-    ghostWhite: "#f8f8ff",
     whiteSmoke: "#f5f5f5",
-    snow: "#fffafa",
     blue: "#4381c1",
     darkBlue: "#00003D",
     lightblue: "#274c70",
