@@ -1,9 +1,9 @@
 {
-  "name": "gatsby-starter-default",
+  "name": "windfall-awareness",
   "private": true,
-  "description": "A simple starter to get up and developing quickly with Gatsby",
+  "description": "a tool to help retirees affected by the Social Security Windfall Elimination Provision",
   "version": "0.1.0",
-  "author": "Kyle Mathews <mathews.kyle@gmail.com>",
+  "author": "Code for Boston <hello@codeforboston.org>",
   "dependencies": {
     "@emotion/core": "^10.0.10",
     "@emotion/styled": "^10.0.10",
@@ -54,9 +54,9 @@
   },
   "repository": {
     "type": "git",
-    "url": "https://github.com/gatsbyjs/gatsby-starter-default"
+    "url": "https://github.com/codeforboston/windfall-elimination"
   },
   "bugs": {
-    "url": "https://github.com/gatsbyjs/gatsby/issues"
+    "url": "https://github.com/codeforboston/windfall-elimination/issues"
   }
 }
