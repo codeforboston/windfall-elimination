@@ -24,6 +24,7 @@ export default () => (
     <TextBlockHeader>Who is affected?</TextBlockHeader>
     <TextBlock>
       People who worked in state and local government in Massachusetts, Kentucky, Ohio, Indiana, and Texas are most likely to be affected. Continue to see how your retirement benefits will be impacted by WEP.
+
     </TextBlock>
 
     <TextBlock>

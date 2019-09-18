@@ -3,7 +3,8 @@ import styled from "@emotion/styled";
 import fastXml from "fast-xml-parser";
 import pdfJS from "pdfjs-dist";
 import { spacing, colors, fontSizes, radii } from "../constants";
-import { ObservableCell, SessionStore } from "../components";
+import { ObservableCell } from "../components";
+import { SessionStore } from "../library/session-store";
 
 //Upload page specific css/html
 export const UploadButton = styled("div")`
@@ -121,6 +122,7 @@ export default class FileUpload extends React.Component {
 	constructor(props, context) {
 	    super(props, context);
 
+	    //Make sure that the worker version matches package.json pdfjs-dist version.
 	    pdfJS.GlobalWorkerOptions.workerSrc = 'https://cdn.jsdelivr.net/npm/pdfjs-dist@2.1.266/build/pdf.worker.js';
 
 	    this.handleUpload = this.handleUpload.bind(this);
@@ -257,6 +259,7 @@ export default class FileUpload extends React.Component {
 	 handleXMLFile(reader) {
 	 	 if (fastXml.validate(reader.target.result) === true) {
 				var parsedText = fastXml.parse(reader.target.result, {ignoreAttributes: false})
+				console.log(parsedText)
 				var earningsJSON = JSON.stringify(parsedText)
 	 	 		SessionStore.push('earnings', earningsJSON)
 			 	this.setState({
@@ -266,23 +269,36 @@ export default class FileUpload extends React.Component {
 	}
 
 	//Parse PDF file
-	 handlePDFFile(reader) {
+	async handlePDFFile(reader) {
 	 	//Returns first page of document
 	 	var combinedValues = []
-		pdfJS.getDocument(reader.target.result).promise
-		.then(
-			ssaDoc => ssaDoc.getPage(3)).then(earningsPage => earningsPage.getTextContent())
-		.then( (doc) => {
-			doc.items.forEach((item) => {
+		await pdfJS.getDocument(reader.target.result).promise
+		.then(async ssaDoc => {
+			var earningsPage;
+			for (var page of Array(ssaDoc.numPages).keys()) {
+				var docPage = ssaDoc.getPage(page + 1)
+				await Promise.resolve(docPage)
+				.then(pageContent => pageContent.getTextContent())
+				.then(doc => {
+					var textheader = doc.items.slice(0,10)
+					for (var text of textheader) {
+						var textstr = text.str.replace(/ /g, "")
+						if (textstr === "YourEarningsRecord") {
+							earningsPage = doc
+							return
+						}
+					}
+				})
+			}
 
-			  var filter = Number(item.str.replace(",", "").replace(" ",""))
-			  if (!(Number.isNaN(filter))) {
-			    combinedValues.push(filter)
-			  }
+			earningsPage.items.forEach((item) => {
+				var filter = Number(item.str.replace(",", "").replace(" ",""))
+				if (!(Number.isNaN(filter))) {
+					combinedValues.push(filter)
+				}
 			})
 		})
-		.then(() => {
-		
+
 		var tempRecord = this.state.defaultRecord
 		do {
 			var newvalue = combinedValues.shift()
@@ -293,21 +309,19 @@ export default class FileUpload extends React.Component {
 		 	 	 '@_endYear': newvalue,
 				 'osss:FicaEarnings': combinedValues.shift(),
 				 'osss:MedicafreEarnings': combinedValues.shift()
-				}
-				
-				 currentRecord.push(newrecord)
+				}				
+				currentRecord.push(newrecord)
 			}
-		} while (combinedValues.length > 0)})
-		.then(() => {
-			var earningsJSON = JSON.stringify(this.state.defaultRecord)
-			SessionStore.push('earnings', earningsJSON)
-			this.setState({
-			 	earningsRecord: this.state.defaultRecord
-			 })
+		} while (combinedValues.length > 0)
+			
+		var earningsJSON = JSON.stringify(this.state.defaultRecord)
+		SessionStore.push('earnings', earningsJSON)
+		this.setState({
+			earningsRecord: this.state.defaultRecord
 		})
 	}
 
-	 handleUpload(formResponse) {
+	handleUpload(formResponse) {
 	 	this.setState({
 	 		displayTable: true
 	 	});
@@ -353,12 +367,14 @@ export default class FileUpload extends React.Component {
 
  	 //Saves manually entered record to this.state.earningsRecord object, becomes noticable to Observable API
  	 handleSave() {
+ 	 	//Load earnings record; if not present, set default record.
  	 	var tempRecord = this.state.earningsRecord ?
  	 	this.state.earningsRecord['osss:OnlineSocialSecurityStatementData']['osss:EarningsRecord']['osss:Earnings'].length === this.state.manualTable.length
  	 	? this.state.earningsRecord : this.state.defaultRecord
  	 	:
  	 	this.state.defaultRecord
 
+ 	 	//Update global earnings record with the manually inputed values
 	 	this.state.manualTable.forEach((record, i) => {
 	 		var currentRecord = tempRecord['osss:OnlineSocialSecurityStatementData']['osss:EarningsRecord']['osss:Earnings']
 	 		var newrecord = {
@@ -375,6 +391,7 @@ export default class FileUpload extends React.Component {
 
 	 	})
 
+	 	//Store earnings record and updated table
 	 	var arrayJSON = JSON.stringify(this.state.manualTable)
 	 	SessionStore.push('tableArray', arrayJSON)
 

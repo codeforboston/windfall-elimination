@@ -100,6 +100,7 @@ export const Hamburger= styled('div')`
 `;
 
 export default class HamburgerHelper extends React.Component {
+
 	render() {
 		return(
 			<nav role="navigation">
