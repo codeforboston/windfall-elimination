@@ -21,7 +21,7 @@ export const UploadButton = styled("div")`
     width: 300px;
     height: 20px;
     &:hover {
-        background-color: ${colors.lightblue};
+        background-color: ${colors.lightBlue};
     }
 `;
 
@@ -346,7 +346,7 @@ export default class FileUpload extends React.Component {
 			default:
 				alert("I'm sorry, that file was not recognized.")
 				break;
-		}	
+		}
 	 }
 
 	 //Stores users input for manually entered table to allow for persistence across page changes

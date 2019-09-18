@@ -10,9 +10,7 @@ import { ButtonLink, ButtonLinkRed, SEO, ObservableCell, Card, Message, HelperTe
                     return false;
                 }
                 }
-               }
-           }
-           
+            }
         }
 
 export default () => (
@@ -22,9 +20,7 @@ export default () => (
         <Message>
         <label>
             WEP calculated values
-                <HelperText>If you were NOT affected by the Windfall Elimination Provision, and retired at Full Retirement Age, your benefits would be: </HelperText>
-                <strong><code>$<ObservableCell cellname='standardPIA' customObserver={unquotedObserverFn} /> per month</code></strong>
-                <HelperText>However, because you are affected by the Windfall Elimination Provision, if you retire at Full Retirement Age, your monthly benefits will be: </HelperText>
+                <HelperText>If you retire at Full Retirement Age, your monthly benefits will be: </HelperText>
                 <strong><code>$<ObservableCell cellname='wepPIA' customObserver={unquotedObserverFn}/> per month</code></strong>
                 <HelperText>This is a difference of: </HelperText>
                 <strong><code>$<ObservableCell cellname='wepDifference' customObserver={unquotedObserverFn}/> per month</code></strong>
@@ -42,13 +38,10 @@ export default () => (
                     <ObservableCell cellname='viewof ageToRetirePicked'/>
                     <ObservableCell cellname='viewof ageToRetireExtraMonthsPicked'/>
             </label>
-            <label>
-                    Years of substantial earnings
-                    <div><ObservableCell cellname='yearsSubstantialEarningsPicked' /></div>
-            </label>
         </Card>
         <ButtonLinkRed to="/screen-1/">Go back!</ButtonLinkRed>
         <ButtonLink to="/print/">Print Results</ButtonLink>
         <ButtonLink to="/">Go Home</ButtonLink>
+        <ButtonLink to="/">Further Info</ButtonLink>
     </>
 );
