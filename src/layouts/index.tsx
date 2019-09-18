@@ -10,16 +10,15 @@ import { ObservableRuntime, FontLayout } from "../components";
 import { Flex, Box } from '@rebass/grid/emotion';
 
 const Wrapper = styled("div")`
-  display: grid;
-  grid-template-rows: auto auto 1fr auto;
-  grid-template-columns: auto;
+  display: flex;
+  flex-direction: row;
+  flex-wrap: wrap;
   font-family: ${fonts.Helvetica};
-  height: 100%;
 `;
 
 const Main = styled("main")`
   margin: ${spacing[1]};
-  display: grid;
+  display: flex;
   justify-content: center;
   align-content: baseline;
   text-align: center;
@@ -68,12 +67,12 @@ const Layout: React.FC = ({ children }) => (
           {({ location }) => (
             <ProgressTracker
               linkProps={[
-                {path: "/", label: "Home"},
-                {path: "/prescreen-1c/", label: "Background Info"},
-                {path: "/prescreen-2/", label: "Input Earnings"},
+                {path: "/", label: "HOME"},
+                {path: "/prescreen-1c/", label: "BACKGROUND"},
+                {path: "/prescreen-2/", label: "EARNINGS"},
                 {path: "/prescreen-1b/", label: "Qualification"},
                 {path: "/screen-1/", label: "Input Pension"},
-                {path: "/screen-2/", label: "Results"}
+                {path: "/screen-2/", label: "RESULTS"}
               ]}
               activePath={location.pathname}
             />

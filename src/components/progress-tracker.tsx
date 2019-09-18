@@ -22,34 +22,24 @@ enum stepStatus {
 }
 
 const StyledStep = styled(Step)`
-  background-color: ${props => {
-    switch (props.status) {
-      case stepStatus.complete: {
-        return colors.gray;
-      }
-      case stepStatus.active: {
-        return colors.blue;
-      }
-      case stepStatus.ongoing: {
-        return colors.white;
-      }
-    }
-  }};
+  background-color: ${colors.white};
   color: ${props => {
     switch (props.status) {
       case stepStatus.complete: {
-        return colors.white;
+        return `#433A74`;
       }
       case stepStatus.active: {
-        return colors.white;
+        return `#433A74`;
       }
       case stepStatus.ongoing: {
-        return colors.black;
+        return `#787878`;
       }
     }
   }};
   padding: 1em 0.5em;
-  border: 1px solid black;
+  border-right: 1px solid black;
+  text-decoration: none;
+  background-color: #FAFAFA;
 `;
 
 // FIXME: does not check for duplicate paths
@@ -67,20 +57,20 @@ function ProgressTracker(props) {
 
 const StyledProgressTracker = styled(ProgressTracker)`
   display: flex;
+  flex-direction: column;
+  width: 200px;
+  height: 100%;
   justify-content: center;
   flex-wrap: wrap;
   /* override html, body font-size CSS rule (was set to 130%) */
   font-size: ${fontSizes[2]};
-  margin-top: 30px;
 
 
   *:first-child {
-    border-radius: 1.5em 0 0 1.5em;
     padding-left: 1em;
   }
 
   *:last-child {
-    border-radius: 0 1.5em 1.5em 0;
     padding-right: 1em;
   }
 `;

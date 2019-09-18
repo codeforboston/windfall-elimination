@@ -1,15 +1,15 @@
 import { Link } from "gatsby";
 import React from "react";
 import styled from "@emotion/styled";
-import { colors, spacing, fontSizes } from "../constants";
-import { HamburgerHelper, FontPad } from "../components";
+import { FontPad } from "../components";
 
 const Wrapper = styled("header")`
-  background: ${colors.white};
+  background: #433A74;
+  color: #FFFFFF;
   display: flex;
-  flex: 0 0 auto;
-  justify-content: center;
-  border-bottom: 2px solid black;
+  justify-content: space-between;
+  width: 100%;
+  height: 75px;
 `;
 
 type Props = {
@@ -19,7 +19,6 @@ export const Header: React.FC<Props> = ({ siteTitle }) => (
   <Wrapper>
     <div
       style={{
-        margin: `0 auto`,
         maxWidth: 960,
         padding: `1.45rem 1.0875rem`
       }}
@@ -28,11 +27,11 @@ export const Header: React.FC<Props> = ({ siteTitle }) => (
         <Link
           to="/"
           style={{
-            color: `black`,
+            color: `white`,
             textDecoration: `none`
           }}
         >
-          {siteTitle || "Windfall Awareness"}
+          {siteTitle || "Windfall Awareness Calculator"}
         </Link>
       </h1>
     </div>
