@@ -1,7 +1,7 @@
 import React from "react";
 import { Link } from "gatsby";
 import styled from "@emotion/styled";
-import { colors } from "../constants";
+import { colors, fontSizes } from "../constants";
 
 const StyledSeparator = styled.div`
   width: 1px;
@@ -70,7 +70,8 @@ const StyledProgressTracker = styled(ProgressTracker)`
   justify-content: center;
   flex-wrap: wrap;
   /* override html, body font-size CSS rule (was set to 130%) */
-  font-size: 100;
+  font-size: ${fontSizes[1]};
+  margin-top: 30px;
 
 
   *:first-child {

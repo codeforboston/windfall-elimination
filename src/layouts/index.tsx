@@ -7,12 +7,12 @@ import "./layout.css";
 import { colors, fonts, spacing } from "../constants";
 import { ProgressTracker } from "../components/progress-tracker";
 import { ObservableRuntime, FontLayout } from "../components";
+import { Flex, Box } from '@rebass/grid/emotion';
 
 const Wrapper = styled("div")`
   display: grid;
   grid-template-rows: auto auto 1fr auto;
   grid-template-columns: auto;
-  gap: ${spacing[2]};
   font-family: ${fonts.Helvetica};
   height: 100%;
 `;
@@ -67,13 +67,11 @@ const Layout: React.FC = ({ children }) => (
             <ProgressTracker
               linkProps={[
                 {path: "/", label: "Home"},
-                {path: "/prescreen-1/", label: "Prescreen"},
-                {path: "/prescreen-1b/", label: "Qualification"},
                 {path: "/prescreen-1c/", label: "Background Info"},
                 {path: "/prescreen-2/", label: "Input Earnings"},
+                {path: "/prescreen-1b/", label: "Qualification"},
                 {path: "/screen-1/", label: "Input Pension"},
-                {path: "/screen-2/", label: "Results"},
-                {path: "/screen-3/", label: "Further Info"}
+                {path: "/screen-2/", label: "Results"}
               ]}
               activePath={location.pathname}
             />
@@ -91,6 +89,12 @@ const Layout: React.FC = ({ children }) => (
         </ObservableRuntime>
 
         <Footer>
+          <FooterLink>
+            <Link to="/admin/" style={{ textDecoration: `none`, justify: 'left'}}>Admin Page</Link>
+          </FooterLink>
+          <FooterLink>
+            <a href="https://github.com/codeforboston/windfall-elimination" target="__blank" style={{ textDecoration: `none`,}}>Github</a>
+          </FooterLink>
           © {new Date().getFullYear()} | {data.author ? data.author : "Windfall Elimination Project"}
         </Footer>
       </Wrapper>

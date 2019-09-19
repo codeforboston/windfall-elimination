@@ -21,7 +21,7 @@ export const UploadButton = styled("div")`
     width: 300px;
     height: 20px;
     &:hover {
-        background-color: ${colors.lightblue};
+        background-color: ${colors.lightBlue};
     }
 `;
 
