@@ -41,7 +41,6 @@ export default class Prescreen1b extends React.Component {
         coveredEmployment: trileanFromString(SessionStore.get("coveredEmployment")),
         pensionOrRetirementAccount: SessionStore.get("pensionOrRetirementAccount") === "true"
       })
-      console.log(this);
     }
   }
 

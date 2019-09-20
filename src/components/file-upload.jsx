@@ -64,57 +64,121 @@ export const TableRow= styled("tr")`
 // If user uploads: use Amru's table logic
 // If manual entering, use alternative table generation method.
 export class GenerateTable extends React.Component {
+	constructor(props, context) {
+		super(props, context)
+
+		this.alignColumns = this.alignColumns.bind(this)
+	}
+
+	alignColumns(tableRows, columnLength){
+		var sizedRows = []
+
+	    while (tableRows.length > 0)
+	      if (tableRows.length > columnLength) {
+	        sizedRows.push(tableRows.splice(0, columnLength))
+	      } else {
+	        var remLength = columnLength - tableRows.length
+	        var smallArr = tableRows.splice(0, tableRows.length)
+	        for (var i=0; i < remLength; i++) {
+	          smallArr.push(<></>)
+	        }
+	        sizedRows.push(smallArr)
+	        
+	      }
+
+	    var finalRows = sizedRows[0].map(function(record, index) {
+	    	var restofArray = sizedRows.slice(1, sizedRows.length)
+	      	var len = restofArray.length
+	      	var finalRecord = []
+	      	finalRecord.push(record)
+
+	      	for (var i=0; i < len; i++) {
+	        	finalRecord.push(restofArray[i][index])
+	     	};
+
+	      	var completeRow = <TableRow key={"row"+index}>{finalRecord}</TableRow>
+
+	      	return completeRow
+	    });
+
+	    return finalRows
+	}
 
 	render () {
-		var header;
 		var tableRows;
+		var finalRows;
+		var tablesize = 10;
+		var columnLength;
+		var earningsSize;
+		var header = <><TableHeader>Year</TableHeader ><TableHeader>Amount</TableHeader></>;
 		if ((this.props.parsedXml) && (this.props.manual === false))  {
 			const parsedXml = this.props.parsedXml;
-		    const earnings = parsedXml['osss:OnlineSocialSecurityStatementData']['osss:EarningsRecord']['osss:Earnings'];
-		    header = <tr><TableHeader>Year</TableHeader ><TableHeader>Amount</TableHeader></tr>;
+		    var earnings = parsedXml['osss:OnlineSocialSecurityStatementData']['osss:EarningsRecord']['osss:Earnings'];
 		    tableRows = earnings.map((earning, i) => {
 		    	return(
-		    		<TableRow key={i}>
+		    		<>
 			    		<td><label>{earning['@_startYear']}</label></td>
 			    		<td><input id={earning['@_startYear']} defaultValue={earning['osss:FicaEarnings']} onChange={this.props.handleInputEarnings}></input></td>
-			    	</TableRow>
+			    	</>
 		    	)
-
-		    });
-	   } else if (this.props.manual) {
-	   	header = <tr><TableHeader>Year</TableHeader ><TableHeader>Amount</TableHeader></tr>;
-	   	tableRows = this.props.manualTable.map((record, key) => {
-		    	return(
-		    		<TableRow key={key}>
-			    		<td><label>{record['year']}</label></td>
-			    		<td>
-			    		<input 
-			    			type="text" 
-			    			id={'value_' + record['year'] +'_' + key} 
-			    			defaultValue={record['value']} 
-			    			onChange={this.props.handleManualEarnings} 
-			    			onBlur={this.props.handleSave}>
-			    		</input>
-			    		</td>
-			    	</TableRow>
-		    	)
-
 		    })
+		    earningsSize = tableRows.length;
+		   	if (earningsSize / 10 > 5) {
+		   		columnLength = 20
+		      	tablesize = Math.ceil(earnings.length / columnLength)
+		    } else {
+		    	columnLength = 15
+		    	tablesize = Math.ceil(earnings.length / columnLength)
+		    }
+		    this.headers = Array(tablesize).fill(header)
+	   	} else if (this.props.manual) {
+		   	tableRows = this.props.manualTable.map((record, key) => {
+			    	return(
+			    		<>
+				    		<td><label>{record['year']}</label></td>
+				    		<td>
+				    		<input 
+				    			type="text" 
+				    			id={'value_' + record['year'] +'_' + key}
+				    			defaultValue={record['value']} 
+				    			onChange={this.props.handleManualEarnings} 
+				    			onBlur={this.props.handleSave}>
+				    		</input>
+				    		</td>
+				    	</>
+			    	)
 
-	   } else {
-	   	header = <tr></tr>;
-	   	tableRows = <tr></tr>;
-	   };
+			    })
+		   	earningsSize = tableRows.length;
+		   	if (earningsSize / 10 > 5) {
+		      	columnLength = 20
+		      	tablesize = Math.ceil(this.props.manualTable.length / columnLength)
+		    } else {
+		    	columnLength = 15
+		    	tablesize = Math.ceil(this.props.manualTable.length / columnLength)
+		    }
 
+		    this.headers = Array(tablesize).fill(header)
+
+		} else {
+			header = <tr></tr>;
+		   	tableRows = <tr></tr>;
+		};
+
+		if (tableRows.length > 0) {
+			finalRows = this.alignColumns(tableRows, columnLength)
+		} else {
+			finalRows = tableRows
+		}
+	  	
 		return (
 			<DisplayTable>
 			    <tbody>
-			    	{header}
-			    	{tableRows}
+			    	<tr>{this.headers}</tr>
+			    	{finalRows}
 			    </tbody>
 			</DisplayTable>
-
-			)
+		)
 	}
 }
 
@@ -165,7 +229,6 @@ export default class FileUpload extends React.Component {
 
 		if ((this.state.userBirthDate) && (this.state.userRetireDate) && (!this.state.manualTable.length)) {
 	 		var tempTable = []
-
 	 		for (var i = this.state.userBirthDate; i <= this.state.userRetireDate; i++) {
 	 			var record = {}
 	 			record['year'] = i
@@ -259,7 +322,6 @@ export default class FileUpload extends React.Component {
 	 handleXMLFile(reader) {
 	 	 if (fastXml.validate(reader.target.result) === true) {
 				var parsedText = fastXml.parse(reader.target.result, {ignoreAttributes: false})
-				console.log(parsedText)
 				var earningsJSON = JSON.stringify(parsedText)
 	 	 		SessionStore.push('earnings', earningsJSON)
 			 	this.setState({
