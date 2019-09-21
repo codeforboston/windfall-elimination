@@ -15,7 +15,7 @@ import { ButtonLink, ButtonLinkRed, SEO, ObservableCell, Card, Message, HelperTe
 
 export default () => (
     <>
-        <SEO title="Screen 3" />
+        <SEO title="Screen 2" />
         <h2>Further Information</h2>
         <Message>
         <label>
@@ -39,7 +39,7 @@ export default () => (
                     <ObservableCell cellname='viewof ageToRetireExtraMonthsPicked'/>
             </label>
         </Card>
-        <ButtonLinkRed to="/screen-1/">Go back!</ButtonLinkRed>
+        <ButtonLinkRed to="/prescreen-1c/">Go back!</ButtonLinkRed>
         <ButtonLink to="/print/">Print Results</ButtonLink>
         <ButtonLink to="/">Go Home</ButtonLink>
         <ButtonLink to="/">Further Info</ButtonLink>
