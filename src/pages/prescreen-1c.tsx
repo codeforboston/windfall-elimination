@@ -55,8 +55,7 @@ export default class Prescreen1c extends React.Component {
   handleSelection(e) {
     let selectValueString = e.target.value;
     let selectValue;
-    console.log(e.target.value)
-    console.log(e.target.name)
+
     switch (e.target.name) {
       case "coveredEmployment":
         selectValue = trileanFromString(selectValueString)
@@ -87,7 +86,6 @@ export default class Prescreen1c extends React.Component {
         });
         break;
       case "pensionAmount":
-      console.log(e.target.value)
         SessionStore.push("pensionAmount", e.target.value)
         this.setState({
           pensionAmount: e.target.value
@@ -260,7 +258,8 @@ export default class Prescreen1c extends React.Component {
               </label>
             </Card>
           )}
-          {this.state.pensionType && (
+          { this.state.pensionOrRetirementAccount &&
+            this.state.pensionType && (
             <Card>
                 <label>
                 <h3>Pension Amount</h3>

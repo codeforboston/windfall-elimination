@@ -80,7 +80,7 @@ export class GenerateTable extends React.Component {
 	        var remLength = columnLength - tableRows.length
 	        var smallArr = tableRows.splice(0, tableRows.length)
 	        for (var i=0; i < remLength; i++) {
-	          smallArr.push(<></>)
+	          smallArr.push(<React.Fragment key={"Filler" + i}></React.Fragment>)
 	        }
 	        sizedRows.push(smallArr)
 	        
@@ -110,16 +110,15 @@ export class GenerateTable extends React.Component {
 		var tablesize = 10;
 		var columnLength;
 		var earningsSize;
-		var header = <><TableHeader>Year</TableHeader ><TableHeader>Amount</TableHeader></>;
 		if ((this.props.parsedXml) && (this.props.manual === false))  {
 			const parsedXml = this.props.parsedXml;
 		    var earnings = parsedXml['osss:OnlineSocialSecurityStatementData']['osss:EarningsRecord']['osss:Earnings'];
 		    tableRows = earnings.map((earning, i) => {
 		    	return(
-		    		<>
+		    		<React.Fragment key={"earning" + i}>
 			    		<td><label>{earning['@_startYear']}</label></td>
 			    		<td><input id={earning['@_startYear']} defaultValue={earning['osss:FicaEarnings']} onChange={this.props.handleInputEarnings}></input></td>
-			    	</>
+			    	</React.Fragment>
 		    	)
 		    })
 		    earningsSize = tableRows.length;
@@ -130,7 +129,13 @@ export class GenerateTable extends React.Component {
 		    	columnLength = 15
 		    	tablesize = Math.ceil(earnings.length / columnLength)
 		    }
-		    this.headers = Array(tablesize).fill(header)
+		    this.headers = Array(tablesize).fill(null).map((header, index) => {
+		        return(
+		          <React.Fragment key={"header" + index}>
+		            <TableHeader>Year</TableHeader ><TableHeader>Amount</TableHeader>
+		          </React.Fragment>
+		          )
+		      })
 	   	} else if (this.props.manual) {
 		   	tableRows = this.props.manualTable.map((record, key) => {
 			    	return(
@@ -158,10 +163,16 @@ export class GenerateTable extends React.Component {
 		    	tablesize = Math.ceil(this.props.manualTable.length / columnLength)
 		    }
 
-		    this.headers = Array(tablesize).fill(header)
+		    this.headers = Array(tablesize).fill(null).map((header, index) => {
+		        return(
+		          <React.Fragment key={"header" + index}>
+		            <TableHeader>Year</TableHeader ><TableHeader>Amount</TableHeader>
+		          </React.Fragment>
+		          )
+		      })
 
 		} else {
-			header = <tr></tr>;
+			this.header = <tr></tr>;
 		   	tableRows = <tr></tr>;
 		};
 

@@ -120,20 +120,6 @@ var blankLines = {
   marginBottom: '20px'
 };
 
-const unquotedObserverFn = function (name) {
-            return {fulfilled: (value) => {
-                const node = document.getElementById(name);
-                if (node !== null) {
-                    node.innerHTML = value;
-                    return true;
-                } else {
-                    return false;
-                }
-                }
-            }
-            
-        }
-
 export class PrintEarnings extends React.Component {
   constructor(props, context) {
     super(props, context)
@@ -151,28 +137,32 @@ export class PrintEarnings extends React.Component {
 
   makeRows() {
     const earnings = this.earningsRecord['osss:OnlineSocialSecurityStatementData']['osss:EarningsRecord']['osss:Earnings'];
-    var testEarnings = earnings
+    var testEarnings = earnings;
     var earningsDict = {};
-    var tablesize = Math.ceil(earnings.length / 10)
-    var tableHeader = <><TableHeader>Year</TableHeader ><TableHeader>Amount</TableHeader></>;
+    var tablesize = Math.ceil(earnings.length / 10);
+    var columnLength = 10;
     var newRows = earnings.map((earning, i) => {
       return(
-        <>
-          <td><label>{earning['@_startYear']}</label></td>
-          <td><label id={earning['@_startYear']} >{earning['osss:FicaEarnings']}</label></td>
-        </>
+        <React.Fragment key={"earning" + i}>
+          <td key={"earningYear" + i}><label>{earning['@_startYear']}</label></td>
+          <td key={"earningAmount" + i}><label id={earning['@_startYear']} >{earning['osss:FicaEarnings']}</label></td>
+        </React.Fragment>
       )
     })
 
     if (tablesize >= 5) {
-      var tablesize = Math.ceil(earnings.length / 10)
-      this.headers = Array(tablesize).fill(tableHeader)
-      var columnLength = 10;
+      tablesize = Math.ceil(earnings.length / 15)
+      columnLength = 15;
 
-    } else {
-       this.headers = Array(tablesize).fill(tableHeader)
-       var columnLength = 10;
     }
+
+    this.headers = Array(tablesize).fill(null).map((header, index) => {
+        return(
+          <React.Fragment key={"header" + index}>
+            <TableHeader>Year</TableHeader ><TableHeader>Amount</TableHeader>
+          </React.Fragment>
+          )
+      })
 
     var sizedRows = []
 
@@ -183,7 +173,7 @@ export class PrintEarnings extends React.Component {
         var remLength = columnLength - newRows.length
         var smallArr = newRows.splice(0, newRows.length)
         for (var i=0; i < remLength; i++) {
-          smallArr.push(<></>)
+          smallArr.push(<React.Fragment key={"Filler" + i}></React.Fragment>)
         }
         sizedRows.push(smallArr)
         
@@ -199,7 +189,7 @@ export class PrintEarnings extends React.Component {
         finalRecord.push(restofArray[i][index])
       };
 
-      var completeRow = <TableRow>{finalRecord}</TableRow>
+      var completeRow = <TableRow key={"row" + index}>{finalRecord}</TableRow>
 
       return completeRow
     });
@@ -225,8 +215,34 @@ export default class Print extends React.Component {
   constructor(props, context) {
     super(props, context)
     this.printPage = this.printPage.bind(this);
+
+    this.state = {
+        userAIME: undefined,
+        userDOB: undefined,
+        userFRD: undefined,
+        userPension: undefined,
+        userStandardPIA: undefined,
+        userWEPPIA: undefined,
+        userMPB: undefined,
+        userYSE: undefined
+    }
   }
 
+  componentDidMount(){
+
+    var parsedProfile = JSON.parse(SessionStore.get("UserProfile"))
+
+    this.setState({
+      userAIME: parsedProfile["RawData"]["AIMEPicked"],
+      userDOB: parsedProfile["RawData"]["birthDatePicked"],
+      userFRD: parsedProfile["RawData"]["userFullRetireDate"],
+      userPension: parsedProfile["RawData"]["pensionNonCoveredMonthly"],
+      userStandardPIA: parsedProfile["Standard PIA"],
+      userWEPPIA: parsedProfile["WEP PIA"],
+      userMPB: parsedProfile["MPB"],
+      userYSE: parsedProfile["RawData"]["yearsSubstantialEarningsPicked"]
+    })
+  }
   printPage() {
      var printContents = document.getElementById("printArea").innerHTML;
      var originalContents = document.body.innerHTML;
@@ -260,15 +276,15 @@ export default class Print extends React.Component {
 
             <div style={field2}>Social Security Number: </div><div style={blankLines}>______-______-_________</div>
 
-            <div style={field3}>Date of Birth: </div><BoxDisplay><ObservableCell cellname='birthDatePicked'/></BoxDisplay>
+            <div style={field3}>Date of Birth: </div><BoxDisplay><strong>{this.state.userDOB}</strong></BoxDisplay>
 
           </ResultsCard>
           <ResultsCard>
             <h3 style={title}>Retirement information</h3>
             
-            <div style={field1}>Monthly non-covered pension amount:</div><BoxDisplay><ObservableCell cellname='retireDatePicked'/></BoxDisplay>
+            <div style={field1}>Monthly non-covered pension amount:</div><BoxDisplay><strong>${this.state.userPension}</strong></BoxDisplay>
 
-            <div style={field2}>Date of Full Retirement Age:</div><BoxDisplay><ObservableCell cellname='pensionNonCoveredMonthly'/></BoxDisplay>
+            <div style={field2}>Date of Full Retirement Age:</div><BoxDisplay><strong>{this.state.userFRD}</strong></BoxDisplay>
           </ResultsCard>
           <Card>
             <h3 style={{textAlign: 'center'}}>Earnings Record</h3>
@@ -277,13 +293,13 @@ export default class Print extends React.Component {
           <ResultsCard>
               <h3 style={title}>Calculation results</h3>
 
-              <div style={field1}>Average Indexed Monthly Earnings:</div><BoxDisplay><ObservableCell cellname='AIMEPicked'/></BoxDisplay>
+              <div style={field1}>Average Indexed Monthly Earnings:</div><BoxDisplay><strong>{this.state.userAIME}</strong></BoxDisplay>
 
-              <div style={field2}>Years of Substantial Earnings:</div><BoxDisplay><ObservableCell cellname='yearsSubstantialEarningsPicked'/></BoxDisplay>
+              <div style={field2}>Years of Substantial Earnings:</div><BoxDisplay><strong>{this.state.userYSE}</strong></BoxDisplay>
 
-              <div style={field3}>Primary Insurance Amount:</div><BoxDisplay><strong><code>$<ObservableCell cellname='wepPIA' customObserver={unquotedObserverFn}/> per month</code></strong></BoxDisplay>
+              <div style={field3}>Primary Insurance Amount:</div><BoxDisplay><strong>${this.state.isWEP ? this.state.userWEPPIA : this.state.userStandardPIA}</strong></BoxDisplay>
 
-              <div style={field4}>Maximum Payable Benefit at Full Retirement Age:</div><BoxDisplay><strong><code>$<ObservableCell cellname='wepMPB'  customObserver={unquotedObserverFn}/> per month</code></strong></BoxDisplay>
+              <div style={field4}>Maximum Payable Benefit at Full Retirement Age:</div><BoxDisplay><strong>${this.state.userMPB}</strong></BoxDisplay>
           </ResultsCard>
         </div>
         <ButtonLinkRed to="/screen-2/">Go back!</ButtonLinkRed>
