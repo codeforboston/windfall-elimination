@@ -4,6 +4,6 @@ import { breakPoints, fontSizes, spacing } from "../constants";
 export const TextBlock = styled("p")`
   text-align: justify;
   font-size: ${fontSizes[1]};
-  max-width: ${breakPoints[3]};
+  max-width: 45vw;
   margin: 0 auto ${spacing[2]};
 `;

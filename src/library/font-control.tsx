@@ -1,13 +1,13 @@
 import React from 'react';
 import { fontSizes } from "../constants";
-import { SessionStore } from "../components";
+import { SessionStore } from "../library/session-store";
 
 var FontControl = (function() {
 
 	var getFontSize = function () {
 		let textsize;
 		if (SessionStore.get('FontSize')) {
-			textsize = SessionStore.get('FontSize')	
+			textsize = SessionStore.get('FontSize')
 		} else {
 			textsize = fontSizes[1]
 		}
@@ -39,7 +39,7 @@ var FontControl = (function() {
 		    })
     	})
 	}
-	
+
 	return {
 		getFontSize: getFontSize,
 	    setFont: setFont,
@@ -49,4 +49,4 @@ var FontControl = (function() {
 
 })();
 
-export default FontControl;
+export { FontControl };

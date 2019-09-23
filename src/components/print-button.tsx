@@ -1,8 +1,7 @@
 import styled from "@emotion/styled";
-import { Link } from "gatsby";
 import { spacing, colors, fontSizes, radii } from "../constants";
 
-export const ButtonLink = styled(Link)`
+export const PrintButton = styled("button")`
   padding: ${spacing[1]} ${spacing[2]};
   margin: ${spacing[2]} ${spacing[2]};
   background-color: ${props =>
@@ -15,10 +14,9 @@ export const ButtonLink = styled(Link)`
   border: 2px solid ${colors.blue};
   box-shadow: 5px 5px 5px #424440;
   &:hover {
-    background-color: ${colors.darkBlue};
-    color: ${colors.white};
+    background-color: ${colors.white};
+    color: ${colors.blue};
     cursor: pointer;
-    box-shadow: 0px -1px 15px ${colors.gray};
   }
   pointer-events: ${props => props.disabled && "none"};
 `;

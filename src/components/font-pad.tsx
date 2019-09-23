@@ -1,7 +1,7 @@
 import React from "react";
 import styled from "@emotion/styled";
-import { colors, spacing, fontSizes } from "../constants";
-import { FontControl } from "../components";
+import { colors, spacing, fontSizes, radii } from "../constants";
+import { FontControl } from "../library/font-control";
 
 
 const FontButtonHolder = styled("div")`
@@ -10,9 +10,8 @@ const FontButtonHolder = styled("div")`
   right: -35px;
   margin-left: -200px;
   width: 150px;
-  background: ${colors.darkGreen};
-  border: 2px solid ${colors.black};
-  color: ${colors.white};
+  background: ${colors.white};
+  color: ${colors.black};
   font-size: ${fontSizes[1]};
   display: grid;
   justify-content: center;
@@ -25,11 +24,52 @@ const FontButton= styled("div")`
   width: 15px;
   padding: ${spacing[0]} ${spacing[1]};
   background-color: ${colors.white};
-  color: ${colors.black};
-  border: 2px solid ${colors.black};
+  color: ${colors.white};
+  border: 1px solid ${colors.black};
+  border-radius: 50%;
   &:hover {
-        border-color: ${colors.lime};
-        background-color: ${colors.lime};
+        border-color: ${colors.darkBlue};
+        background-color: ${colors.darkBlue};
+        color: ${colors.white}
+  }
+
+  pointer-events: ${props => props.disabled ? "none" : "false"};
+
+`;
+
+const FontButtonLeft= styled("div")`
+  display: inline-block;
+  text-align: center;
+  width: 15px;
+  padding: ${spacing[0]} ${spacing[1]};
+  background-color: ${colors.white};
+  color: ${colors.black};
+  border-radius: 1.5em 0 0 1.5em;
+  padding-left: 1em;
+  box-shadow: 0px 2px 4px #000000;
+  &:hover {
+        border-color: ${colors.darkBlue};
+        background-color: ${colors.darkBlue};
+        color: ${colors.white}
+  }
+
+  pointer-events: ${props => props.disabled ? "none" : "false"};
+
+`;
+
+const FontButtonRight= styled("div")`
+  display: inline-block;
+  text-align: center;
+  width: 15px;
+  padding: ${spacing[0]} ${spacing[1]};
+  background-color: ${colors.white};
+  color: ${colors.black};
+  border-radius: 0 1.5em 1.5em 0;
+  padding-right: 1em;
+  box-shadow: 0px 2px 4px #000000;
+  &:hover {
+        border-color: ${colors.darkBlue};
+        background-color: ${colors.darkBlue};
         color: ${colors.white}
   }
 
@@ -71,8 +111,8 @@ export default class FontPad extends React.Component {
       <FontButtonHolder>
           Font Size
           <div style={{ display: "block"}}>
-            <FontButton id="increase" onClick={this.checkDisable} disabled={this.state.IncDisable}>+</FontButton>
-            <FontButton id="decrease" onClick={this.checkDisable} disabled={this.state.DecDisable}>-</FontButton>
+            <FontButtonLeft id="decrease" onClick={this.checkDisable} disabled={this.state.DecDisable}>-</FontButtonLeft>
+            <FontButtonRight id="increase" onClick={this.checkDisable} disabled={this.state.IncDisable}>+</FontButtonRight>
           </div>
       </FontButtonHolder>
     </div>

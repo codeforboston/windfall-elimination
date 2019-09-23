@@ -18,35 +18,34 @@ export default () => (
       What is the Windfall Elimination Provision?
     </TextBlockHeader>
     <TextBlock>
-      The Windfall Elimination Provision is a policy intended to reduce Social
-      Security benefits for people who also have access to a pension or
-      retirement account from work where they did not pay into Social Security.
+      If you worked in a job that did not pay Social Security taxes, you may be affected by the Windfall Elimination Provision (WEP). WEP is a Social Security rule which may reduce your Social Security retirement benefits by up to 50%.
     </TextBlock>
 
-    <TextBlockHeader>Will I be affected by WEP?</TextBlockHeader>
+    <TextBlockHeader>Who is affected?</TextBlockHeader>
     <TextBlock>
-      <UnorderedList>
-        <ListItem>
-          <strong>Government workers:</strong> Most jobs that do not pay into
-          social security are jobs with state and local government. This means
-          that the majority of affected people are teachers, firefighters, city
-          hall employees, janitors, and other public servants.
-        </ListItem>
-        <ListItem>
-          <strong>State of residence:</strong> For some states (including
-          Massachusetts, Kentucky, Ohio, Indiana, and Texas), the majority of
-          state and local employees will be affected by WEP. In the majority of
-          the other states, some but not all retirees will be affected.
-        </ListItem>
-      </UnorderedList>
+      People who worked in state and local government in Massachusetts, Kentucky, Ohio, Indiana, and Texas are most likely to be affected. Continue to see how your retirement benefits will be impacted by WEP.
+
     </TextBlock>
 
-    <TextBlockHeader>Why is this app useful?</TextBlockHeader>
     <TextBlock>
-      While the Social Security administration provides some information on how
-      WEP is calculated, this information is often difficult to find and
-      understand.
+        <strong>This app will:</strong>
+        <UnorderedList>
+          <ListItem>walk you through how the formula works</ListItem>
+          <ListItem>help you estimate how WEP will affect you when you retire</ListItem>
+          <ListItem>help you handle an overpayment</ListItem>
+          <ListItem>give you some starting points to take political action</ListItem>
+        </UnorderedList>
     </TextBlock>
+
+    <TextBlockHeader>Privacy Disclaimer</TextBlockHeader>
+    <TextBlock>
+      This application is intended as a tool for users to calculate their
+      Social Security benefits. No data is saved, stored, or passed along
+      to third-party services and/or gorvenmental enteties. All data is
+      deleted after use.
+    </TextBlock> 
+
+    <TextBlockHeader>Legal Disclaimer</TextBlockHeader>
     <TextBlock>
       This site is for informational purposes only, and should not be taken as
       legal, tax, investment, financial, or other advice. You should consult
@@ -59,7 +58,7 @@ export default () => (
       calculated today.
     </TextBlock>
     <LinkWrapper>
-      <ButtonLink to="/prescreen-1/">Get Started!</ButtonLink>
+      <ButtonLink to="/prescreen-1c/">Get Started</ButtonLink>
     </LinkWrapper>
   </>
 );

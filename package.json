@@ -1,17 +1,19 @@
 {
-  "name": "gatsby-starter-default",
+  "name": "windfall-awareness",
   "private": true,
-  "description": "A simple starter to get up and developing quickly with Gatsby",
+  "description": "a tool to help retirees affected by the Social Security Windfall Elimination Provision",
   "version": "0.1.0",
-  "author": "Kyle Mathews <mathews.kyle@gmail.com>",
+  "author": "Code for Boston <hello@codeforboston.org>",
   "dependencies": {
     "@emotion/core": "^10.0.10",
     "@emotion/styled": "^10.0.10",
-    "@observablehq/runtime": "^4.0.1",
+    "@observablehq/runtime": "4.2.1",
     "@reach/router": "^1.2.1",
+    "@rebass/grid": "^6.0.0",
     "@types/react-helmet": "^5.0.8",
     "babel-preset-gatsby": "^0.1.11",
-    "core-js": "^2.6.5",
+    "d3": "^5.11.0",
+    "dayjs": "^1.8.15",
     "fast-xml-parser": "^3.12.16",
     "gatsby": "^2.4.2",
     "gatsby-cli": "^2.5.13",
@@ -25,19 +27,24 @@
     "gatsby-plugin-typescript": "^2.0.11",
     "gatsby-source-filesystem": "^2.0.28",
     "gatsby-transformer-sharp": "^2.1.17",
+    "pdfjs-dist": "2.1.266",
     "prop-types": "^15.7.2",
     "react": "^16.8.5",
     "react-dom": "^16.8.5",
     "react-helmet": "^5.2.0",
-    "tesseract.js": "^1.0.14",
+    "tesseract.js": "^2.0.0-alpha.11",
     "typescript": "^3.3.4000",
     "windfall-awareness-notebook-prototype": "https://api.observablehq.com/@thadk/windfall-awareness-notebook-prototype.tgz?v=1"
   },
   "devDependencies": {
     "@types/react": "^16.8.8",
     "@types/react-dom": "^16.8.3",
+    "babel-jest": "^24.9.0",
     "babel-plugin-emotion": "^10.0.9",
-    "prettier": "^1.16.4"
+    "identity-obj-proxy": "^3.0.0",
+    "jest": "^24.9.0",
+    "prettier": "^1.16.4",
+    "ts-jest": "^24.0.2"
   },
   "keywords": [
     "gatsby"
@@ -49,13 +56,13 @@
     "format": "prettier --write src/**/*.{js,jsx,tsx}",
     "start": "npm run develop",
     "serve": "gatsby serve",
-    "test": "echo \"Write tests! -> https://gatsby.dev/unit-testing\""
+    "test": "jest"
   },
   "repository": {
     "type": "git",
-    "url": "https://github.com/gatsbyjs/gatsby-starter-default"
+    "url": "https://github.com/codeforboston/windfall-elimination"
   },
   "bugs": {
-    "url": "https://github.com/gatsbyjs/gatsby/issues"
+    "url": "https://github.com/codeforboston/windfall-elimination/issues"
   }
 }

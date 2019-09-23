@@ -16,4 +16,4 @@ var SessionStore = (function() {
 
 })();
 
-export default SessionStore;
+export { SessionStore };

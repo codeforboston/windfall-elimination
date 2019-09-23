@@ -1,7 +1,7 @@
 import React from "react";
 import { Link } from "gatsby";
 import styled from "@emotion/styled";
-import { colors } from "../constants";
+import { colors, fontSizes } from "../constants";
 
 const StyledSeparator = styled.div`
   width: 1px;
@@ -25,18 +25,31 @@ const StyledStep = styled(Step)`
   background-color: ${props => {
     switch (props.status) {
       case stepStatus.complete: {
-        return colors.darkGreen;
+        return colors.gray;
       }
       case stepStatus.active: {
-        return colors.lime;
+        return colors.blue;
+      }
+      case stepStatus.ongoing: {
+        return colors.white;
+      }
+    }
+  }};
+  color: ${props => {
+    switch (props.status) {
+      case stepStatus.complete: {
+        return colors.white;
+      }
+      case stepStatus.active: {
+        return colors.white;
       }
       case stepStatus.ongoing: {
         return colors.black;
       }
     }
   }};
-  color: ${colors.white};
   padding: 1em 0.5em;
+  border: 1px solid black;
 `;
 
 // FIXME: does not check for duplicate paths
@@ -57,7 +70,9 @@ const StyledProgressTracker = styled(ProgressTracker)`
   justify-content: center;
   flex-wrap: wrap;
   /* override html, body font-size CSS rule (was set to 130%) */
-  font-size: 80%;
+  font-size: ${fontSizes[1]};
+  margin-top: 30px;
+
 
   *:first-child {
     border-radius: 1.5em 0 0 1.5em;
