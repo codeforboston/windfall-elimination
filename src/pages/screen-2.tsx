@@ -1,47 +1,75 @@
 import React from "react"
 import { ButtonLink, ButtonLinkRed, SEO, ObservableCell, Card, Message, HelperText } from "../components";
-        const unquotedObserverFn = function (name) {
-            return {fulfilled: (value) => {
-                const node = document.getElementById(name);
-                if (node !== null) {
-                    node.innerHTML = value;
-                    return true;
-                } else {
-                    return false;
-                }
-                }
-            }
+import * as ObsFuncs from "../library/observable-functions";
+import { SessionStore } from "../library/session-store";
+
+export default class Screen2 extends React.Component {
+    constructor(props, context){
+        super(props, context)
+
+        this.performCalc = this.performCalc.bind(this);
+
+        this.state = {
+            userProfile: {}
         }
+    }
 
-export default () => (
-    <>
-        <SEO title="Screen 3" />
-        <h2>Further Information</h2>
-        <Message>
-        <label>
-            WEP calculated values
-                <HelperText>If you retire at Full Retirement Age, your monthly benefits will be: </HelperText>
-                <strong><code>$<ObservableCell cellname='wepPIA' customObserver={unquotedObserverFn}/> per month</code></strong>
-                <HelperText>This is a difference of: </HelperText>
-                <strong><code>$<ObservableCell cellname='wepDifference' customObserver={unquotedObserverFn}/> per month</code></strong>
-         </label>
-        </Message>
-        <Card>
-          However, the Social Security Administration allows you to start taking retirement benefits any time between age 62 and age 70. If you retire before your Full Retirement Age, the Social Security Administration reduces your benefit. If you retire after your Full Retirement Age, the Social Security Administration increases your benefit.
+    componentDidMount(){
+        this.performCalc()
+    }
 
-          Use the sliders below to see how when you retire will affect your retirement benefits.
-        </Card>
-        <Card>
-            <div>Windfall Elimination Maximum Payable Benefit calculated: </div>
-            <code>$<ObservableCell cellname='wepMPB'  customObserver={unquotedObserverFn}/> per month</code>
-            <label>
-                    <ObservableCell cellname='viewof ageToRetirePicked'/>
-                    <ObservableCell cellname='viewof ageToRetireExtraMonthsPicked'/>
-            </label>
-        </Card>
-        <ButtonLinkRed to="/screen-1/">Go back!</ButtonLinkRed>
-        <ButtonLink to="/print/">Print Results</ButtonLink>
-        <ButtonLink to="/">Go Home</ButtonLink>
-        <ButtonLink to="/">Further Info</ButtonLink>
-    </>
-);
+    async performCalc(){
+        var earnings = JSON.parse(SessionStore.get("earnings"))['osss:OnlineSocialSecurityStatementData']['osss:EarningsRecord']['osss:Earnings']
+
+        var userYSE = ObsFuncs.getYearsSE(earnings)
+
+        var year62 = JSON.parse(SessionStore.get("Year62"))
+
+        var userDOB = new Date(JSON.parse(SessionStore.get("BirthDate"))).toLocaleDateString("en-US")
+
+        var userDOR = new Date(JSON.parse(SessionStore.get("RetireDate"))).toLocaleDateString("en-US")
+
+        if (SessionStore.get("coveredEmployment") && SessionStore.get("pensionOrRetirementAccount")) {
+            let userWEP = true;
+        } else {
+            let userWEP = false;
+        }
+        
+        var userPension = Number(SessionStore.get("pensionAmount"))
+
+        var userAIME = ObsFuncs.getAIMEFromEarnings(earnings, year62)
+
+        var userCalc = await ObsFuncs.finalCalculation(userDOB, userDOR, year62, userYSE, userPension, userAIME)
+
+        SessionStore.push("UserProfile", JSON.stringify(userCalc))
+
+        this.setState({
+            userProfile: userCalc
+        })
+    }
+
+    render() {
+        return(
+            <>
+                <SEO title="Screen 2" />
+                <h2>Results</h2>
+                <Message>
+                <label>
+                    WEP calculated values
+                        <HelperText>Based on the information you provided, your retirment benefits will be calculated by Social Security as follows: </HelperText>
+                        <strong><code>${this.state.userProfile["MPB"]} per month</code></strong>
+                 </label>
+                </Message>
+                <Card>
+                  However, Social Security changes your monthly benefit amount if you retire before or after your full retirement age. 
+                  Use the slider below to see how your planned date of retirement will affect your monthly benefit amount.
+                </Card>
+                <ButtonLinkRed to="/prescreen-1c/">Go back!</ButtonLinkRed>
+                <ButtonLink to="/print/">Print Results</ButtonLink>
+                <ButtonLink to="/">Go Home</ButtonLink>
+                <ButtonLink to="/">Further Info</ButtonLink>
+            </>       
+        )
+    }
+
+}

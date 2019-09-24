@@ -246,7 +246,32 @@ const cachedSocialSecTables = ({
 		{"year":2006,"averageWageIndex":38651.41},{"year":2007,"averageWageIndex":40405.48},{"year":2008,"averageWageIndex":41334.97},{"year":2009,"averageWageIndex":40711.61},
 		{"year":2010,"averageWageIndex":41673.83},{"year":2011,"averageWageIndex":42979.61},{"year":2012,"averageWageIndex":44321.67},{"year":2013,"averageWageIndex":44888.16},
 		{"year":2014,"averageWageIndex":46481.52},{"year":2015,"averageWageIndex":48098.63},{"year":2016,"averageWageIndex":48642.15},{"year":2017,"averageWageIndex":50321.89}
-	]
+	],
+	"fullRetirementAge": {
+		'1937': "65",
+		'1938': "65.2",
+		'1939': "65.4",
+		'1940':	"65.6",
+		'1941':	"65.8",
+		'1942':	"65.10",
+		'1943': "66",
+		'1944': "66",
+		'1945': "66",
+		'1946': "66",
+		'1947': "66",
+		'1948': "66",
+		'1949': "66",
+		'1950': "66",
+		'1951': "66",
+		'1952': "66",
+		'1953': "66",
+		'1954': "66",
+		'1955':	"66.2",
+		'1956':	"66.4",
+		'1957':	"66.6",
+		'1958':	"66.8",
+		'1959':	"66.10",
+		'1960': "67"}
 })
 
 function checkJSONCache (tablename) {
