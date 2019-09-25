@@ -33,7 +33,7 @@ export default class Prescreen1c extends React.Component {
       coveredEmployment: undefined,
       pensionOrRetirementAccount: undefined,
       pensionType: undefined,
-      pensionAmount: 0
+      pensionAmount: null
     };
   }
 

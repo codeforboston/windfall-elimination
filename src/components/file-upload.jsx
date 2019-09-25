@@ -206,9 +206,6 @@ export default class FileUpload extends React.Component {
 	    this.handleInputEarnings = this.handleInputEarnings.bind(this);
 	    this.handleManualEarnings = this.handleManualEarnings.bind(this);
 	    this.handleSave = this.handleSave.bind(this);
-	    this.assertLoad = this.assertLoad.bind(this);
-	    this.customObserver = this.customObserver.bind(this);
-	    this.dateObserver = this.dateObserver.bind(this);
 	    this.fileInput = React.createRef();
 
 	    this.state = {
@@ -233,12 +230,8 @@ export default class FileUpload extends React.Component {
 	    };
 	 }
 
-	componentDidUpdate(prevProps, prevState) {
-		if (this.state.elementLoaded) {
-			this.parseXML.value = this.state.earningsRecord
-		}
-
-		if ((this.state.userBirthDate) && (this.state.userRetireDate) && (!this.state.manualTable.length)) {
+	componentDidUpdate(prevProps, prevState) { 
+		if ((this.state.userBirthDate !== undefined) && (this.state.userRetireDate !== undefined ) && (!this.state.manualTable.length)) {
 	 		var tempTable = []
 	 		for (var i = this.state.userBirthDate; i <= this.state.userRetireDate; i++) {
 	 			var record = {}
@@ -246,7 +239,6 @@ export default class FileUpload extends React.Component {
 	 			record['value'] = 0
 			    tempTable.push(record);
 			}
-
 
 			this.setState({
 				manualTable: tempTable
@@ -269,37 +261,19 @@ export default class FileUpload extends React.Component {
 	 		})
 	 	}
 
+	 	if (SessionStore.get('BirthDate') && SessionStore.get('RetireDate')){
+	 		var birthdate = new Date(JSON.parse(SessionStore.get('BirthDate'))).getFullYear() + 18
+
+	 		var retiredate = new Date(JSON.parse(SessionStore.get('RetireDate'))).getFullYear()
+
+	 		this.setState({
+	 			userBirthDate: birthdate,
+	 			userRetireDate: retiredate
+	 		})
+	 	}
+
 	 }
 
-
-	 assertLoad() {
-	 	this.setState({
-	 		elementLoaded: true
-	 	})
-	 }
-
-	 //Customer Observer for Observable API; Instantiates synced parsedXML object for use throughout component
-	 customObserver(test) {
-	    return {fulfilled: (value) => {
-	        this.parseXML = value
-	        this.assertLoad()
-	    }}
- 	 }
-
- 	 //Customer Observer to find users birthdate and retiredate
- 	 dateObserver(name) {
-	    return {fulfilled: (value) => {
-	    	var dateYear = Number(value.split('-')[0])
-	        if (name === 'birthDatePicked') {
-	        	this.setState({
-	        		userBirthDate: dateYear + 18
-	       		})
-	        } else if (name === 'retireDatePicked')
-	       		this.setState({
-	        		userRetireDate: dateYear
-	       		})
-	    }}
- 	 }
 
 	//For uploaded records: handles the updating of stored earnings record to match inputed value
  	 handleInputEarnings(input) {
@@ -333,7 +307,6 @@ export default class FileUpload extends React.Component {
 	 handleXMLFile(reader) {
 	 	 if (fastXml.validate(reader.target.result) === true) {
 				var parsedText = fastXml.parse(reader.target.result, {ignoreAttributes: false})
-				console.log(parsedText)
 				var earningsJSON = JSON.stringify(parsedText)
 	 	 		SessionStore.push('earnings', earningsJSON)
 			 	this.setState({
@@ -501,10 +474,6 @@ export default class FileUpload extends React.Component {
 						handleSave={this.handleSave}
 					/>
 					<div id='AutoSave' style={{display:"none"}}>Record has been saved.</div>
-					<div><ObservableCell cellname="mutable parsedXmlFileText" customObserver={this.customObserver}/></div>
-        			<div style={{display: 'none'}}><ObservableCell cellname='calculationDisplay' /></div>
-        			<div style={{display: 'none'}}><ObservableCell cellname='birthDatePicked' customObserver={this.dateObserver} /></div>
-        			<div style={{display: 'none'}}><ObservableCell cellname='retireDatePicked' customObserver={this.dateObserver} /></div>
 			</div>
 		)
 	}
