@@ -16,7 +16,7 @@ export default class ObservableCell extends React.Component {
     //Gatsby API, imports the observable cell from the observable module namepsace passes it to Inspector to place in DOM
     if (this.props.customObserver) {
       main
-        .variable(this.props.customObserver())
+        .variable(this.props.customObserver(this.props.cellname))
         .define([this.props.cellname], widget => widget);
     } else {
       main

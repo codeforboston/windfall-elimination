@@ -7,14 +7,14 @@ import "./layout.css";
 import { colors, fonts, spacing } from "../constants";
 import { ProgressTracker } from "../components/progress-tracker";
 import { ObservableRuntime, FontLayout } from "../components";
-import { Flex, Box } from '@rebass/grid/emotion';
 
 const Wrapper = styled("div")`
-  display: flex;
-  flex-direction: row;
-  flex-wrap: wrap;
   font-family: ${fonts.Helvetica};
-  height: 100%;
+`;
+
+const Container = styled("div")`
+  font-family: ${fonts.Helvetica};
+  display: flex;
 `;
 
 const Main = styled("main")`
@@ -44,7 +44,7 @@ const FooterLink = styled("footer")`
   padding: ${spacing[1]};
 `;
 
-const Layout: React.FC = ({ children, location }) => (
+const Layout: React.FC = ({ children }) => (
   <StaticQuery
     query={graphql`
       query SiteTitleQuery {
@@ -59,22 +59,20 @@ const Layout: React.FC = ({ children, location }) => (
     render={data => (
       <Wrapper>
         <Header />
+        <Container>
         <Location>
-          <div>
-          { location  => (
+          {({ location }) => (
             <ProgressTracker
               linkProps={[
-                {path: "/", label: "HOME"},
-                {path: "/prescreen-1c/", label: "BACKGROUND"},
-                {path: "/prescreen-2/", label: "EARNINGS"},
-                {path: "/prescreen-1b/", label: "Qualification"},
-                {path: "/screen-1/", label: "Input Pension"},
-                {path: "/screen-2/", label: "RESULTS"}
+                {path: "/", label: "Home"},
+                {path: "/prescreen-1a/", label: "Background"},
+                {path: "/prescreen-1b/", label: "Earnings"},
+                {path: "/prescreen-1c/", label: "Employment History"},
+                {path: "/screen-2/", label: "Results"}
               ]}
               activePath={location.pathname}
             />
           )}
-          </div>
         </Location>
         <ObservableRuntime children={children}>
           <Main>
@@ -86,7 +84,7 @@ const Layout: React.FC = ({ children, location }) => (
            </FontLayout>
           </Main>
         </ObservableRuntime>
-
+        </Container>
         <Footer>
           <FooterLink>
             <Link to="/admin/" style={{ textDecoration: `none`, justify: 'left'}}>Admin Page</Link>
