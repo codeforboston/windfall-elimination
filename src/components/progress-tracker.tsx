@@ -3,21 +3,13 @@ import { Link } from "gatsby";
 import styled from "@emotion/styled";
 import { colors, fontSizes } from "../constants";
 
-function Step(props) {
-  return (
-    <Link to={props.path} className={props.className}>
-      {props.label}
-    </Link>
-  );
-}
-
 enum stepStatus {
   complete = -1,
   active,
   ongoing
 }
 
-const StyledStep = styled(Step)`
+const StyledStep = styled(Link)`
   background-color: ${colors.white};
   color: ${props => {
     switch (props.status) {
@@ -63,7 +55,9 @@ const StyledStepContainer = styled("div")`
 function ProgressTracker(props) {
   const indexOfActivePath = props.linkProps.findIndex(element => element.path === props.activePath);
   const links = props.linkProps.map((element, index) => (
-      <StyledStep key={element + index} path={element.path} label={element.label} status={Math.sign(index - indexOfActivePath)} />
+      <StyledStep key={element + index} to={element.path} label={element.label} status={Math.sign(index - indexOfActivePath)}>
+         {element.label}
+      </StyledStep>
   ));
   return <StyledStepContainer>{links}</StyledStepContainer>;
 }
