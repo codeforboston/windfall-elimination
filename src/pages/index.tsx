@@ -58,7 +58,7 @@ export default () => (
       calculated today.
     </TextBlock>
     <LinkWrapper>
-      <ButtonLink to="/prescreen-1c/">Get Started</ButtonLink>
+      <ButtonLink to="/prescreen-1a/">Get Started</ButtonLink>
     </LinkWrapper>
   </>
 );
