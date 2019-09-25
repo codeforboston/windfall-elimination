@@ -3,16 +3,6 @@ import { Link } from "gatsby";
 import styled from "@emotion/styled";
 import { colors, fontSizes } from "../constants";
 
-const StyledSeparator = styled.div`
-  display: flex;
-  width: 100%;
-  background: #FAFAFA;
-  vertical-align: middle;
-  padding: 1em 0.5em;
-  border-right: 1px solid black;
-  height: 100%;
-`;
-
 function Step(props) {
   return (
     <Link to={props.path} className={props.className}>
@@ -44,7 +34,9 @@ const StyledStep = styled(Step)`
   }};
   text-decoration: none;
   width: 100%;
-  background: #FAFAFA;
+  font-weight: 600px;
+  padding: 10px 15px;
+  font-size: ${fontSizes[1]};
 `;
 
 const Circle = styled.div`
@@ -57,34 +49,23 @@ const Circle = styled.div`
   text-align: center;
 `;
 
+const StyledStepContainer = styled("div")`
+  display: flex;
+  flex-direction: row;
+  flex-wrap: wrap;
+  width: 240px;
+  border-right: 1px solid black;
+  background: #FAFAFA;
+  justify-content: flex-start;
+`;
+
 // FIXME: does not check for duplicate paths
 function ProgressTracker(props) {
   const indexOfActivePath = props.linkProps.findIndex(element => element.path === props.activePath);
   const links = props.linkProps.map((element, index) => (
-    <React.Fragment key={element + index}>
-      {index ? <StyledSeparator /> : false}
-      <StyledStep path={element.path} label={element.label} status={Math.sign(index - indexOfActivePath)} />
-    </React.Fragment>
+      <StyledStep key={element + index} path={element.path} label={element.label} status={Math.sign(index - indexOfActivePath)} />
   ));
-  return <div className={props.className}>{links}</div>;
+  return <StyledStepContainer>{links}</StyledStepContainer>;
 }
 
-const StyledProgressTracker = styled(ProgressTracker)`
-  display: flex;
-  flex-direction: column;
-  width: 260px;
-  height: 100%;
-  justify-content: center;
-  flex-wrap: wrap;
-  /* override html, body font-size CSS rule (was set to 130%) */
-  font-size: ${fontSizes[1]};
-  padding: 0 15px;
-
-  *:first-child {
-  }
-
-  *:last-child {
-  }
-`;
-
-export { StyledProgressTracker as ProgressTracker };
+export { ProgressTracker };
