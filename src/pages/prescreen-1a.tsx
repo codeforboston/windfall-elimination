@@ -91,7 +91,7 @@ export default class Prescreen1c extends React.Component {
                   </div>
                 </Card>
                 <ButtonLinkRed to="/">Go back!</ButtonLinkRed>
-                <ButtonLink to="/prescreen-1b/" style={{disabled: 'disabled-link'}}>Start</ButtonLink>
+                <ButtonLink to="/prescreen-1b/" style={(this.state.birthDate && this.state.retireDate) ? {pointerEvents: ''}: {pointerEvents: 'none'}}>Start</ButtonLink>
             </>
          )
     }
