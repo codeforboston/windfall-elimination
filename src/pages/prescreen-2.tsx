@@ -1,6 +1,20 @@
 import React from "react";
 import styled from "@emotion/styled";
-import { ButtonLink, ButtonLinkRed, Card, Form, HelperText, Message, QuestionText, SEO, TextBlock, FileUpload, ObservableCell, SessionStore, FontControl } from "../components";
+import {
+  ButtonLink,
+  ButtonLinkRed,
+  Card,
+  Form,
+  HelperText,
+  Message,
+  QuestionText,
+  SEO,
+  TextBlock,
+  FileUpload,
+  ObservableCell
+} from "../components";
+import { SessionStore } from "../library/session-store";
+import { FontControl } from "../library/font-control";
 
 export const SsaImage= styled("img")`
     border: 1px solid #dddddd;
@@ -17,7 +31,7 @@ export default class Prescreen2 extends React.Component {
     };
   }
 
-    componentDidMount() {
+   componentDidMount() {
         if (SessionStore.get('displayImage')) {
             this.setState({
                 displayImage: SessionStore.get('displayImage')
@@ -43,7 +57,6 @@ export default class Prescreen2 extends React.Component {
           title="Prescreen 2"
           keywords={[`gatsby`, `application`, `react`]}
         />
-
                 <h2>Step 2: Getting your earnings record</h2>
                 <TextBlock>
                 Your Social Security retirement benefits are calculated based on your earnings in covered employment.
@@ -51,7 +64,7 @@ export default class Prescreen2 extends React.Component {
               <TextBlock>
                 To calculate your Social Security retirement benefits, you will need a record of your earnings from Social Security.
                 Follow the steps below to get your earning record.
-              </TextBlock>
+              </TextBlock> 
                 <Form>
                     <Card>
                         <QuestionText>Do you have a MySocialSecurity account?</QuestionText>

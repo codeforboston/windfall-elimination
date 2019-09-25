@@ -12,7 +12,7 @@ export const LinkButton = styled(Link)`
     color: ${colors.white};
     text-decoration: none;
     &:hover {
-        background-color: ${colors.lightblue};
+        background-color: ${colors.lightBlue};
         cursor: pointer;
     }
 `;

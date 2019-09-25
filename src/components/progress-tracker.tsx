@@ -80,7 +80,7 @@ const StyledProgressTracker = styled(ProgressTracker)`
   flex-wrap: wrap;
   /* override html, body font-size CSS rule (was set to 130%) */
   font-size: ${fontSizes[1]};
-
+  padding: 0 15px;
 
   *:first-child {
   }

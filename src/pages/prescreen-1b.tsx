@@ -8,10 +8,10 @@ import {
   HelperText,
   Message,
   QuestionText,
-  SEO,
-  SessionStore,
-  FontControl
+  SEO
 } from "../components";
+import { SessionStore } from "../library/session-store";
+import { FontControl } from "../library/font-control";
 
 function trileanFromString(s:string|null) {
   if (s === null) {
@@ -145,7 +145,6 @@ export default class Prescreen1b extends React.Component {
               </label>
           </Card>
           {this.state.coveredEmployment === null
-
             ? (<Message>
                 <HelperText><div>You can contact your state’s Social Security Administrator
                 to find out if your employment was covered.</div>
