@@ -4,14 +4,9 @@ import {
   ButtonLinkRed,
   TextBlock,
   SEO,
-  ListText,
-  LinkButton,
   Card,
-  ObservableCell,
-  HelperText
 } from "../components";
 import DatePicker from "react-datepicker";
-import moment from 'moment';
 import "react-datepicker/dist/react-datepicker.css";
 import { SessionStore } from "../library/session-store";
 
@@ -74,7 +69,6 @@ export default class Prescreen1c extends React.Component {
                     id="birthDatePicked"
                     placeholderText="Click to select a date"
                     selected={this.state.birthDate}
-                    onChange={this.handleDateChange}
                     onChange={(value) => this.handleDateChange("birthDatePicked", value)}
                     />
                     <label style={{marginLeft: '10px'}}>{this.state.birthDate !== null ? this.state.birthDate.toLocaleDateString("en-US") : null}</label>

@@ -1,5 +1,4 @@
-import React, { Component } from "react";
-import { Link } from "gatsby";
+import React from "react";
 import {
   LinkWrapper,
   SEO,
@@ -8,7 +7,6 @@ import {
   TextBlock,
   ListItem,
   UnorderedList,
-  HamburgerHelper
 } from "../components";
 
 export default () => (

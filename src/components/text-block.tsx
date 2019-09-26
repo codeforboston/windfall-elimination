@@ -1,5 +1,5 @@
 import styled from "@emotion/styled";
-import { breakPoints, fontSizes, spacing } from "../constants";
+import { fontSizes } from "../constants";
 
 export const TextBlock = styled("div")`
   text-align: justify;
