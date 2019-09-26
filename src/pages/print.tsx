@@ -1,20 +1,13 @@
 import React from "react";
 import {
   PrintButton,
-  ButtonLinkRed,
-  TextBlock,
-  SEO,
-  UnorderedList,
-  ListItem,
-  TextBlockHeader,
+  ButtonLinkGreen,
   Message,
-  HelperText,
   Card,
-  ObservableCell
 } from "../components";
 import { SessionStore } from "../library/session-store";
 import styled from "@emotion/styled";
-import { colors, fonts, fontSizes, radii, spacing } from "../constants";
+import { colors, fontSizes, radii, spacing } from "../constants";
 
 export const BoxDisplay = styled('div')`
   background-color: ${colors.whiteSmoke};
@@ -303,7 +296,7 @@ export default class Print extends React.Component {
               <div style={field4}>Maximum Payable Benefit at Full Retirement Age:</div><BoxDisplay><strong>${this.state.userMPB}</strong></BoxDisplay>
           </ResultsCard>
         </div>
-        <ButtonLink to="/screen-2/">Go back!</ButtonLink>
+        <ButtonLinkGreen to="/screen-2/">Go back!</ButtonLinkGreen>
         <PrintButton onClick={this.printPage}>Print Results</PrintButton>
       </>
     )
