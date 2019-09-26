@@ -41,6 +41,7 @@ const Circle = styled.div`
 
 const Label = styled.h4`
 margin: 10px 15px;
+font-family: 'Montserrat', sans-serif;
 `
 const LabelWrap = styled.div`
 display: flex;
@@ -68,7 +69,6 @@ function ProgressTracker(props) {
   const links = props.linkProps.map((element, index) => (
       <StyledStep key={element + index} to={element.path} label={element.label} status={Math.sign(index - indexOfActivePath)}>
         <LabelWrap>
-          {console.log(index, indexOfActivePath)}
         {index==0 || index==4? null: <Circle status={index > indexOfActivePath}>{index}</Circle>}
         <Label>{element.label}</Label>
         </LabelWrap>

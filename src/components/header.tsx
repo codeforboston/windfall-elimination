@@ -10,6 +10,7 @@ const Wrapper = styled("header")`
   justify-content: space-between;
   width: 100%;
   height: 75px;
+  font-family: 'Montserrat', sans-serif;
 `;
 
 type Props = {

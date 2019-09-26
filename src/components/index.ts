@@ -27,6 +27,7 @@ import InfoWidget from "./info-widget";
 import FontLayout from "./font-layout";
 import FontPad from "./font-pad";
 import { PrintButton } from "./print-button";
+import RadioButton from './radio-button';
 
 export {
     ButtonLink,
@@ -57,5 +58,6 @@ export {
     InfoWidget,
     FontLayout,
     FontPad,
-    PrintButton
+    PrintButton,
+    RadioButton 
 };

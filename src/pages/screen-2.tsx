@@ -19,7 +19,8 @@ export default class Screen2 extends React.Component {
     }
 
     async performCalc(){
-        var earnings = JSON.parse(SessionStore.get("earnings"))['osss:OnlineSocialSecurityStatementData']['osss:EarningsRecord']['osss:Earnings']
+        var earnings = JSON.parse(SessionStore.get("earnings"))
+        earnings = earnings ? earnings['osss:OnlineSocialSecurityStatementData']['osss:EarningsRecord']['osss:Earnings'] : 0;
 
         var userYSE = ObsFuncs.getYearsSE(earnings)
 
@@ -57,7 +58,7 @@ export default class Screen2 extends React.Component {
                 <label>
                     WEP calculated values
                         <HelperText>Based on the information you provided, your retirment benefits will be calculated by Social Security as follows: </HelperText>
-                        <strong><code>${this.state.userProfile["MPB"]} per month</code></strong>
+                        <strong><code>${this.state.userProfile["MPB"] || null} per month</code></strong>
                  </label>
                 </Message>
                 <Card>
