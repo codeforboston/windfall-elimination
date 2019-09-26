@@ -1,5 +1,5 @@
 import { ButtonLink } from "./button-link";
-import { ButtonLinkRed } from "./button-link-red";
+import { ButtonLinkGreen } from "./button-link-red";
 import { Card } from "./card";
 import { Form } from "./form";
 import { Header } from "./header";
@@ -30,7 +30,7 @@ import { PrintButton } from "./print-button";
 
 export {
     ButtonLink,
-    ButtonLinkRed,
+    ButtonLinkGreen,
     Card,
     Form,
     Header,

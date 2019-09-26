@@ -28,7 +28,7 @@ export default () => (
         <ObservableCell cellname="calculationDisplay" />
       </label>
     </Message>
-    <ButtonLinkRed to="/screen-2/">Go back!</ButtonLinkRed>
+    <ButtonLink to="/screen-2/">Go back!</ButtonLink>
     <ButtonLink to="/">Go Home</ButtonLink>
   </>
 );

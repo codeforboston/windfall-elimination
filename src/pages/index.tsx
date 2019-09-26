@@ -3,7 +3,6 @@ import {
   LinkWrapper,
   SEO,
   ButtonLink,
-  TextBlockHeader,
   TextBlock,
   ListItem,
   UnorderedList,
@@ -12,21 +11,21 @@ import {
 export default () => (
   <>
     <SEO title="Home" keywords={[`gatsby`, `application`, `react`]} />
-    <TextBlockHeader>
-      What is the Windfall Elimination Provision?
-    </TextBlockHeader>
     <TextBlock>
+    <h2>
+      What is the Windfall Elimination Provision?
+    </h2>
       If you worked in a job that did not pay Social Security taxes, you may be affected by the Windfall Elimination Provision (WEP). WEP is a Social Security rule which may reduce your Social Security retirement benefits by up to 50%.
     </TextBlock>
 
-    <TextBlockHeader>Who is affected?</TextBlockHeader>
     <TextBlock>
+    <h2>Who is affected?</h2>
       People who worked in state and local government in Massachusetts, Kentucky, Ohio, Indiana, and Texas are most likely to be affected. Continue to see how your retirement benefits will be impacted by WEP.
 
     </TextBlock>
 
     <TextBlock>
-        <strong>This app will:</strong>
+    <h2>This app will:</h2>
         <UnorderedList>
           <ListItem>walk you through how the formula works</ListItem>
           <ListItem>help you estimate how WEP will affect you when you retire</ListItem>
@@ -35,16 +34,16 @@ export default () => (
         </UnorderedList>
     </TextBlock>
 
-    <TextBlockHeader>Privacy Disclaimer</TextBlockHeader>
     <TextBlock>
+    <h2>Privacy Disclaimer</h2>
       This application is intended as a tool for users to calculate their
       Social Security benefits. No data is saved, stored, or passed along
       to third-party services and/or gorvenmental enteties. All data is
       deleted after use.
     </TextBlock> 
 
-    <TextBlockHeader>Legal Disclaimer</TextBlockHeader>
     <TextBlock>
+    <h2>Legal Disclaimer</h2>
       This site is for informational purposes only, and should not be taken as
       legal, tax, investment, financial, or other advice. You should consult
       with a financial advisor or attorney to determine what is best for your

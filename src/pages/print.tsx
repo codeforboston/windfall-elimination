@@ -303,7 +303,7 @@ export default class Print extends React.Component {
               <div style={field4}>Maximum Payable Benefit at Full Retirement Age:</div><BoxDisplay><strong>${this.state.userMPB}</strong></BoxDisplay>
           </ResultsCard>
         </div>
-        <ButtonLinkRed to="/screen-2/">Go back!</ButtonLinkRed>
+        <ButtonLink to="/screen-2/">Go back!</ButtonLink>
         <PrintButton onClick={this.printPage}>Print Results</PrintButton>
       </>
     )

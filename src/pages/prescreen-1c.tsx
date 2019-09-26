@@ -2,7 +2,7 @@ import React from "react";
 import { Link } from "gatsby";
 import {
   ButtonLink,
-  ButtonLinkRed,
+  ButtonLinkGreen,
   Card,
   Form,
   HelperText,
@@ -280,7 +280,7 @@ export default class Prescreen1c extends React.Component {
             </Message>
           )}
         </Form>
-        <ButtonLinkRed to="/prescreen-1b/">Go back!</ButtonLinkRed>
+        <ButtonLinkGreen to="/prescreen-1b/">Go back!</ButtonLinkGreen>
         <ButtonLink
           to={"/screen-2/"}
           name="submitButton"

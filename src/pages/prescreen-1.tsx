@@ -1,12 +1,11 @@
 import React from "react";
 import {
+  ButtonLinkGreen,
   ButtonLink,
-  ButtonLinkRed,
   TextBlock,
   SEO,
   UnorderedList,
   ListItem,
-  TextBlockHeader,
 } from "../components";
 
 export default class Prescreen1 extends React.Component {
@@ -29,7 +28,7 @@ export default class Prescreen1 extends React.Component {
         </ListItem>
       </UnorderedList>
     </TextBlock>
-    <ButtonLinkRed to="/">Go back!</ButtonLinkRed>
+    <ButtonLinkGreen to="/">Go back!</ButtonLinkGreen>
     <ButtonLink to="/prescreen-1b/">Start</ButtonLink>
   </>
   )

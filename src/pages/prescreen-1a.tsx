@@ -1,14 +1,24 @@
 import React from "react";
+import styled from "@emotion/styled";
+import DatePicker from "react-datepicker";
+import "react-datepicker/dist/react-datepicker.css";
+import { colors } from "../constants";
+import { SessionStore } from "../library/session-store";
 import {
   ButtonLink,
-  ButtonLinkRed,
+  ButtonLinkGreen,
   TextBlock,
   SEO,
   Card,
 } from "../components";
-import DatePicker from "react-datepicker";
-import "react-datepicker/dist/react-datepicker.css";
-import { SessionStore } from "../library/session-store";
+
+const StyledDatePicker = styled(DatePicker)`
+  border: 1px solid ${colors.purple};
+  height: 60px;
+  font-size: 25px;
+  min-width: 230px;
+  border-radius: 2px;
+`;
 
 export default class Prescreen1c extends React.Component {
   constructor(props, context){
@@ -62,29 +72,27 @@ export default class Prescreen1c extends React.Component {
                 <TextBlock>
                     To calculate your Social Security benefit, please input the following dates.
                 </TextBlock>
-                <Card>
+
                   <div style={{marginBottom: "10px"}}>
-                    <div>Birthdate</div>
-                    <DatePicker
+                    <h4>Birthdate</h4>
+                    <StyledDatePicker
                     id="birthDatePicked"
                     placeholderText="Click to select a date"
                     selected={this.state.birthDate}
                     onChange={(value) => this.handleDateChange("birthDatePicked", value)}
                     />
-                    <label style={{marginLeft: '10px'}}>{this.state.birthDate !== null ? this.state.birthDate.toLocaleDateString("en-US") : null}</label>
                   </div>
+                  
                   <div>
-                    <div>Retire Date</div>
-                    <DatePicker
+                    <h4>Retire Date</h4>
+                    <StyledDatePicker
                     id="retireDatePicked"
                     placeholderText="Click to select a date"
                     selected={this.state.retireDate}
                     onChange={(value) => this.handleDateChange("retireDatePicked", value)}
                     />
-                    <label style={{marginLeft: '10px'}}>{this.state.retireDate !== null ? this.state.retireDate.toLocaleDateString("en-US") : null}</label>
                   </div>
-                </Card>
-                <ButtonLinkRed to="/">Go back!</ButtonLinkRed>
+                <ButtonLinkGreen to="/">Go back!</ButtonLinkGreen>
                 <ButtonLink to="/prescreen-1b/" style={{disabled: 'disabled-link'}}>Start</ButtonLink>
             </>
          )

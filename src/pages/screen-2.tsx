@@ -64,7 +64,7 @@ export default class Screen2 extends React.Component {
                   However, Social Security changes your monthly benefit amount if you retire before or after your full retirement age. 
                   Use the slider below to see how your planned date of retirement will affect your monthly benefit amount.
                 </Card>
-                <ButtonLinkRed to="/prescreen-1c/">Go back!</ButtonLinkRed>
+                <ButtonLink to="/prescreen-1c/">Go back!</ButtonLink>
                 <ButtonLink to="/print/">Print Results</ButtonLink>
                 <ButtonLink to="/">Go Home</ButtonLink>
                 <ButtonLink to="/">Further Info</ButtonLink>

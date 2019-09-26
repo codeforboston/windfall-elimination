@@ -9,17 +9,18 @@ import { SessionStore } from "../library/session-store";
 //Upload page specific css/html
 export const UploadButton = styled("div")`
 	position: relative;
-    padding: ${spacing[0]} ${spacing[0]};
+	padding: 25px 0 0 0;
     margin: ${spacing[2]} ${spacing[0]};
     overflow: hidden;
-    background-color: ${colors.blue};
+    background-color: ${colors.white};
     font-size: ${fontSizes[1]};
-    border-radius: ${radii[2]};
-    color: ${colors.white};
+	border-radius: 25px;
+	border: 2px solid ${colors.black};
+    color: ${colors.purple};
     text-decoration: none;
-    display: inline-block;
+	display: block;
+	text-align: center;
     width: 300px;
-    height: 20px;
     &:hover {
         background-color: ${colors.lightBlue};
     }

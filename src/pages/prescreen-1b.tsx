@@ -1,8 +1,8 @@
 import React from "react";
 import styled from "@emotion/styled";
 import {
+  ButtonLinkGreen,
   ButtonLink,
-  ButtonLinkRed,
   Card,
   Form,
   HelperText,
@@ -59,6 +59,7 @@ export default class Prescreen1b extends React.Component {
                 <TextBlock>
                 Your Social Security retirement benefits are calculated based on your earnings in covered employment.
               </TextBlock>
+              <br/>
               <TextBlock>
                 To calculate your Social Security retirement benefits, you will need a record of your earnings from Social Security.
                 Follow the steps below to get your earning record.
@@ -67,7 +68,9 @@ export default class Prescreen1b extends React.Component {
                     <Card>
                         <QuestionText>Do you have a MySocialSecurity account?</QuestionText>
                         <HelperText>
-                            Your MySocialSecurity account will let you download a copy of your earnings record. You can sign up online at this <a href="https://www.ssa.gov/myaccount/" target="__blank">link</a>.
+                            Your MySocialSecurity account will let you download a copy of your earnings record.
+                            <br/>  
+                            You can sign up online at this <a href="https://www.ssa.gov/myaccount/" target="__blank">link</a>.
                         </HelperText>
                         <label> Yes
                             <input type="radio" name="mySocialSecurityAccount" value="true" onChange={this.handleOption} checked={this.state.displayImage === 'true' ? true : false }></input>
@@ -110,7 +113,7 @@ export default class Prescreen1b extends React.Component {
                         </div>
                 }
               </Card>
-                <ButtonLinkRed to="/prescreen-1a/">Go back!</ButtonLinkRed>
+                <ButtonLinkGreen to="/prescreen-1a/">Go back!</ButtonLinkGreen>
                 <ButtonLink to="/prescreen-1c/">Submit</ButtonLink>
             </>
 
