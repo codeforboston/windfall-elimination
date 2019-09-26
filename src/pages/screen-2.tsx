@@ -16,11 +16,11 @@ export default class Screen2 extends React.Component {
 
     componentDidMount(){
         this.performCalc()
+        .catch(err => this.setState({error: 'Missing Info'}))
     }
 
     async performCalc(){
-        var earnings = JSON.parse(SessionStore.get("earnings"))
-        earnings = earnings ? earnings['osss:OnlineSocialSecurityStatementData']['osss:EarningsRecord']['osss:Earnings'] : 0;
+        var earnings = JSON.parse(SessionStore.get("earnings"))['osss:OnlineSocialSecurityStatementData']['osss:EarningsRecord']['osss:Earnings']
 
         var userYSE = ObsFuncs.getYearsSE(earnings)
 
@@ -55,18 +55,18 @@ export default class Screen2 extends React.Component {
                 <SEO title="Screen 2" />
                 <h2>Results</h2>
                 <Message>
-                <label>
+                {this.state.error?<label>Please go back and fill out all information to calculate results. </label>: <label>
                     WEP calculated values
                         <HelperText>Based on the information you provided, your retirment benefits will be calculated by Social Security as follows: </HelperText>
                         <strong><code>${this.state.userProfile["MPB"] || null} per month</code></strong>
-                 </label>
+                 </label> }
                 </Message>
-                <Card>
+                {this.state.error ? null: <Card>
                   However, Social Security changes your monthly benefit amount if you retire before or after your full retirement age. 
                   Use the slider below to see how your planned date of retirement will affect your monthly benefit amount.
-                </Card>
+                </Card>}
                 <ButtonLinkGreen to="/prescreen-1c/">Go back!</ButtonLinkGreen>
-                <ButtonLink to="/print/">Print Results</ButtonLink>
+                <ButtonLink to="/print/" disabled={this.state.error}>Print Results</ButtonLink>
                 <ButtonLink to="/">Go Home</ButtonLink>
                 <ButtonLink to="/">Further Info</ButtonLink>
             </>       
