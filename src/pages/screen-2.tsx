@@ -1,5 +1,5 @@
 import React from "react"
-import { ButtonLink, ButtonLinkRed, SEO, ObservableCell, Card, Message, HelperText } from "../components";
+import { ButtonLink, ButtonLinkGreen, SEO, ObservableCell, Card, Message, HelperText } from "../components";
 import * as ObsFuncs from "../library/observable-functions";
 import { SessionStore } from "../library/session-store";
 
@@ -64,7 +64,7 @@ export default class Screen2 extends React.Component {
                   However, Social Security changes your monthly benefit amount if you retire before or after your full retirement age. 
                   Use the slider below to see how your planned date of retirement will affect your monthly benefit amount.
                 </Card>
-                <ButtonLink to="/prescreen-1c/">Go back!</ButtonLink>
+                <ButtonLinkGreen to="/prescreen-1c/">Go back!</ButtonLinkGreen>
                 <ButtonLink to="/print/">Print Results</ButtonLink>
                 <ButtonLink to="/">Go Home</ButtonLink>
                 <ButtonLink to="/">Further Info</ButtonLink>
