@@ -30,6 +30,7 @@ export default class Prescreen1c extends React.Component {
     this.handleSelection = this.handleSelection.bind(this);
 
     this.state = {
+      isLoaded: false,
       coveredEmployment: undefined,
       pensionOrRetirementAccount: undefined,
       pensionType: undefined,
@@ -38,8 +39,9 @@ export default class Prescreen1c extends React.Component {
   }
 
   componentDidMount() {
-    if (SessionStore.get("pensionOrRetirementAccount")) {
+    if (!this.state.isLoaded) {
       this.setState({
+        isLoaded: true,
         coveredEmployment: trileanFromString(SessionStore.get("coveredEmployment")),
         pensionOrRetirementAccount: SessionStore.get("pensionOrRetirementAccount") === "true",
         pensionType: SessionStore.get("pensionType") ? SessionStore.get("pensionType") : undefined,

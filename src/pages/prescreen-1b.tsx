@@ -26,17 +26,19 @@ export default class Prescreen1b extends React.Component {
     this.handleOption = this.handleOption.bind(this);
 
     this.state = {
+      isLoaded: false,
       displayImage: false
     };
   }
 
-   componentDidMount() {
-        if (SessionStore.get('displayImage')) {
-            this.setState({
-                displayImage: SessionStore.get('displayImage')
-            })
-        }
-    }
+  //  componentDidMount() {
+  //       if (!this.state.isLoaded) {
+  //           this.setState({
+  //             isLoaded: true,
+  //             displayImage: SessionStore.get('displayImage')
+  //           })
+  //       }
+  //   }
 
     componentDidUpdate() {
         FontControl.loadFont()
@@ -45,7 +47,8 @@ export default class Prescreen1b extends React.Component {
     handleOption(e) {
         SessionStore.push("displayImage", e.target.value)
         this.setState({
-            displayImage: e.target.value
+          isLoaded: true,
+          displayImage: e.target.value
         })
     }
 

@@ -10,13 +10,18 @@ export default class Screen2 extends React.Component {
         this.performCalc = this.performCalc.bind(this);
 
         this.state = {
+            isLoaded: false,
             userProfile: {}
         }
     }
 
     componentDidMount(){
-        this.performCalc()
-        .catch(err => this.setState({error: 'Missing Info'}))
+        if(!this.state.isLoaded){
+            this.performCalc()
+            .catch(err => this.setState({
+                isLoaded: true,
+                error: 'Missing Info'}))
+        }
     }
 
     async performCalc(){
@@ -45,6 +50,7 @@ export default class Screen2 extends React.Component {
         SessionStore.push("UserProfile", JSON.stringify(userCalc))
 
         this.setState({
+            isLoaded: true,
             userProfile: userCalc
         })
     }
