@@ -20,6 +20,10 @@ const StyledDatePicker = styled(DatePicker)`
   border-radius: 2px;
 `;
 
+const H4 = styled.h4`
+margin: 5px 0;
+`
+
 export default class Prescreen1c extends React.Component {
   constructor(props, context){
     super(props, context)
@@ -72,26 +76,25 @@ export default class Prescreen1c extends React.Component {
                 <TextBlock>
                     To calculate your Social Security benefit, please input the following dates.
                 </TextBlock>
-
-                  <div style={{marginBottom: "10px"}}>
-                    <h4>Birthdate</h4>
+                  <Card>
+                    <H4>Birthdate</H4>
                     <StyledDatePicker
                     id="birthDatePicked"
                     placeholderText="Click to select a date"
                     selected={this.state.birthDate}
                     onChange={(value) => this.handleDateChange("birthDatePicked", value)}
                     />
-                  </div>
+                  </Card>
                   
-                  <div>
-                    <h4>Retire Date</h4>
+                  <Card>
+                    <H4>Retire Date</H4>
                     <StyledDatePicker
                     id="retireDatePicked"
                     placeholderText="Click to select a date"
                     selected={this.state.retireDate}
                     onChange={(value) => this.handleDateChange("retireDatePicked", value)}
                     />
-                  </div>
+                  </Card>
                 <ButtonLinkGreen to="/">Go back!</ButtonLinkGreen>
                 <ButtonLink to="/prescreen-1b/" style={{disabled: 'disabled-link'}}>Start</ButtonLink>
             </>

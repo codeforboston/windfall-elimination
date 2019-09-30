@@ -1,5 +1,6 @@
 import React from "react";
 import styled from "@emotion/styled";
+import { colors } from "../constants";
 import {
   ButtonLinkGreen,
   ButtonLink,
@@ -20,8 +21,19 @@ export const SsaImage= styled("img")`
     width: 500px;
 `;
 
+const AnswerBox = styled.form`
+  border: 1px solid ${colors.purple};
+  height: 60px;
+  font-size: 30px;
+  min-width: 230px;
+  border-radius: 2px;
+`;
+
+const Label = styled.label`
+  font-size: 30px;
+`
 export default class Prescreen1b extends React.Component {
-  constructor(props, context) {
+  constructor(props) {
     super(props);
     this.handleOption = this.handleOption.bind(this);
 
@@ -31,14 +43,14 @@ export default class Prescreen1b extends React.Component {
     };
   }
 
-  //  componentDidMount() {
-  //       if (!this.state.isLoaded) {
-  //           this.setState({
-  //             isLoaded: true,
-  //             displayImage: SessionStore.get('displayImage')
-  //           })
-  //       }
-  //   }
+   componentDidMount() {
+        if (!this.state.isLoaded) {
+            this.setState({
+              isLoaded: true,
+              displayImage: SessionStore.get('displayImage')
+            })
+        }
+    }
 
     componentDidUpdate() {
         FontControl.loadFont()
@@ -67,20 +79,24 @@ export default class Prescreen1b extends React.Component {
                 To calculate your Social Security retirement benefits, you will need a record of your earnings from Social Security.
                 Follow the steps below to get your earning record.
               </TextBlock> 
-                <Form>
+                
                     <Card>
                         <QuestionText>Do you have a MySocialSecurity account?</QuestionText>
                         <HelperText>
                             Your MySocialSecurity account will let you download a copy of your earnings record. You can sign up online at this <a href="https://www.ssa.gov/myaccount/" target="__blank">link</a>.
                         </HelperText>
-                        <label> Yes
-                            <input type="radio" name="mySocialSecurityAccount" value="true" onChange={this.handleOption} checked={this.state.displayImage === 'true' ? true : false }></input>
-                        </label>
-                        <label> No
-                            <input type="radio" name="mySocialSecurityAccount" value="false" onChange={this.handleOption} checked={this.state.displayImage === 'false' ? true : false}></input>
-                        </label>
+                        <AnswerBox>
+                        <RadioButton type="radio" name="mySocialSecurityAccount" value="true" onChange={this.handleOption} checked={this.state.displayImage === 'true' ? true : false } />
+                        <Label>Yes</Label> 
+                        </AnswerBox>
+                        <AnswerBox>
+                        <Label> 
+                            <RadioButton type="radio" name="mySocialSecurityAccount" value="false" onChange={this.handleOption} checked={this.state.displayImage === 'false' ? true : false} />
+                            No
+                        </Label>
+                        </AnswerBox>
                     </Card>
-                </Form>
+              
                 <Card>
                 <div style={{display: this.state.displayImage === "true" ? true : 'none'}}>To download your earnings record, click on “Download Your Statement Data” in the red box in the photo below. Save the XML file somewhere you can easily access it.</div>
                 <div style={{display: this.state.displayImage === "true" ? true : 'none'}}><SsaImage src='https://user-images.githubusercontent.com/50156013/56998273-bcd78800-6b78-11e9-86b5-9db06d292a4c.jpg'></SsaImage></div>

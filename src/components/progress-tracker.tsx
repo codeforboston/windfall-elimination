@@ -32,7 +32,7 @@ const Circle = styled.div`
   border-radius: 50px;
   background-color: ${props => props.status ?`#787878`: `#433A74`};
   color: white;
-  width: 25px;
+  min-width: 25px;
   height: 25px;
   display: block;
   text-align: center;

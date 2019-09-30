@@ -2,8 +2,7 @@ import styled from "@emotion/styled";
 import { colors, radii, spacing } from "../constants";
 
 export const Card = styled("div")`
-  border: 1px solid ${colors.purple};
-  border-radius: ${radii[0]};
-  padding: ${spacing[1]};
+  border-left: 3px solid ${colors.purple};
+  padding: 0 ${spacing[1]};
   margin: ${spacing[1]};
 `;

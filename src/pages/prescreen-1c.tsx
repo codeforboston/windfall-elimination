@@ -8,7 +8,8 @@ import {
   HelperText,
   Message,
   QuestionText,
-  SEO
+  SEO,
+  RadioButton
 } from "../components";
 import { SessionStore } from "../library/session-store";
 import { FontControl } from "../library/font-control";
@@ -137,7 +138,7 @@ export default class Prescreen1c extends React.Component {
             <label>
               {" "}
               Yes
-              <input
+              <RadioButton
                 type="radio"
                 name="coveredEmployment"
                 id="ce1"
@@ -149,7 +150,7 @@ export default class Prescreen1c extends React.Component {
             <label>
               {" "}
               No
-              <input
+              <RadioButton
                 type="radio"
                 name="coveredEmployment"
                 id="ce2"
@@ -163,7 +164,7 @@ export default class Prescreen1c extends React.Component {
               <label>
               {" "}
               Not Sure
-              <input
+              <RadioButton
                 type="radio"
                 name="coveredEmployment"
                 id="ce3"
@@ -198,7 +199,7 @@ export default class Prescreen1c extends React.Component {
               <label>
                 {" "}
                 Yes
-                <input
+                <RadioButton
                   type="radio"
                   name="pensionOrRetirementAccount"
                   value="true"
@@ -211,7 +212,7 @@ export default class Prescreen1c extends React.Component {
               <label>
                 {" "}
                 No
-                <input
+                <RadioButton
                   type="radio"
                   name="pensionOrRetirementAccount"
                   value="false"
@@ -235,7 +236,7 @@ export default class Prescreen1c extends React.Component {
               <label>
                 {" "}
                 Monthly Pension
-                <input
+                <RadioButton
                   type="radio"
                   name="monthlyPension"
                   value="true"
@@ -248,7 +249,7 @@ export default class Prescreen1c extends React.Component {
               <label>
                 {" "}
                 Lump Sum
-                <input
+                <RadioButton
                   type="radio"
                   name="lumpSum"
                   value="false"
@@ -268,7 +269,7 @@ export default class Prescreen1c extends React.Component {
                 {this.state.pensionType === "monthlyPension"
                 ? "Enter the amount of your monthly noncovered pension: "
                 : "Enter the amount of your lump sum pension: "}
-                <input name="pensionAmount" defaultValue={this.state.pensionAmount} onChange={this.handleSelection}></input>
+                <RadioButton name="pensionAmount" defaultValue={this.state.pensionAmount} onChange={this.handleSelection}></RadioButton>
                 </label>
             </Card>
           )}

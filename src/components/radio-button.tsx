@@ -7,9 +7,18 @@ export const RadioButton = styled.input`
   background-color: ${colors.white};
   color: ${colors.black};
   border: 2px solid ${colors.lightblue};
-  height: 50px;
-  width: 50px;
-  font-size: 50px;
+  height: 40px;
+  width: 40px;
+  font-size: 30px;
   border-radius: 25px;
+  background-color: #eee;
+  border-radius: 50%;
+
+  &:checked {
+    border: 13px solid ${colors.purple};
+    border-radius: 100px;
+    color: ${colors.white};
+    background-color: ${colors.white};
+  }
 `;
 
