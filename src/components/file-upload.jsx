@@ -64,57 +64,132 @@ export const TableRow= styled("tr")`
 // If user uploads: use Amru's table logic
 // If manual entering, use alternative table generation method.
 export class GenerateTable extends React.Component {
+	constructor(props, context) {
+		super(props, context)
+
+		this.alignColumns = this.alignColumns.bind(this)
+	}
+
+	alignColumns(tableRows, columnLength){
+		var sizedRows = []
+
+	    while (tableRows.length > 0)
+	      if (tableRows.length > columnLength) {
+	        sizedRows.push(tableRows.splice(0, columnLength))
+	      } else {
+	        var remLength = columnLength - tableRows.length
+	        var smallArr = tableRows.splice(0, tableRows.length)
+	        for (var i=0; i < remLength; i++) {
+	          smallArr.push(<React.Fragment key={"Filler" + i}></React.Fragment>)
+	        }
+	        sizedRows.push(smallArr)
+	        
+	      }
+
+	    var finalRows = sizedRows[0].map(function(record, index) {
+	    	var restofArray = sizedRows.slice(1, sizedRows.length)
+	      	var len = restofArray.length
+	      	var finalRecord = []
+	      	finalRecord.push(record)
+
+	      	for (var i=0; i < len; i++) {
+	        	finalRecord.push(restofArray[i][index])
+	     	};
+
+	      	var completeRow = <TableRow key={"row"+index}>{finalRecord}</TableRow>
+
+	      	return completeRow
+	    });
+
+	    return finalRows
+	}
 
 	render () {
-		var header;
 		var tableRows;
+		var finalRows;
+		var tablesize = 10;
+		var columnLength;
+		var earningsSize;
 		if ((this.props.parsedXml) && (this.props.manual === false))  {
 			const parsedXml = this.props.parsedXml;
-		    const earnings = parsedXml['osss:OnlineSocialSecurityStatementData']['osss:EarningsRecord']['osss:Earnings'];
-		    header = <tr><TableHeader>Year</TableHeader ><TableHeader>Amount</TableHeader></tr>;
+		    var earnings = parsedXml['osss:OnlineSocialSecurityStatementData']['osss:EarningsRecord']['osss:Earnings'];
 		    tableRows = earnings.map((earning, i) => {
 		    	return(
-		    		<TableRow key={i}>
+		    		<React.Fragment key={"earning" + i}>
 			    		<td><label>{earning['@_startYear']}</label></td>
 			    		<td><input id={earning['@_startYear']} defaultValue={earning['osss:FicaEarnings']} onChange={this.props.handleInputEarnings}></input></td>
-			    	</TableRow>
+			    	</React.Fragment>
 		    	)
-
-		    });
-	   } else if (this.props.manual) {
-	   	header = <tr><TableHeader>Year</TableHeader ><TableHeader>Amount</TableHeader></tr>;
-	   	tableRows = this.props.manualTable.map((record, key) => {
-		    	return(
-		    		<TableRow key={key}>
-			    		<td><label>{record['year']}</label></td>
-			    		<td>
-			    		<input 
-			    			type="text" 
-			    			id={'value_' + record['year'] +'_' + key} 
-			    			defaultValue={record['value']} 
-			    			onChange={this.props.handleManualEarnings} 
-			    			onBlur={this.props.handleSave}>
-			    		</input>
-			    		</td>
-			    	</TableRow>
-		    	)
-
 		    })
+		    earningsSize = tableRows.length;
+		   	if (earningsSize / 10 > 5) {
+		   		columnLength = 20
+		      	tablesize = Math.ceil(earnings.length / columnLength)
+		    } else {
+		    	columnLength = 15
+		    	tablesize = Math.ceil(earnings.length / columnLength)
+		    }
+		    this.headers = Array(tablesize).fill(null).map((header, index) => {
+		        return(
+		          <React.Fragment key={"header" + index}>
+		            <TableHeader>Year</TableHeader ><TableHeader>Amount</TableHeader>
+		          </React.Fragment>
+		          )
+		      })
+	   	} else if (this.props.manual) {
+		   	tableRows = this.props.manualTable.map((record, key) => {
+			    	return(
+			    		<>
+				    		<td><label>{record['year']}</label></td>
+				    		<td>
+				    		<input 
+				    			type="text" 
+				    			id={'value_' + record['year'] +'_' + key}
+				    			defaultValue={record['value']} 
+				    			onChange={this.props.handleManualEarnings} 
+				    			onBlur={this.props.handleSave}>
+				    		</input>
+				    		</td>
+				    	</>
+			    	)
 
-	   } else {
-	   	header = <tr></tr>;
-	   	tableRows = <tr></tr>;
-	   };
+			    })
+		   	earningsSize = tableRows.length;
+		   	if (earningsSize / 10 > 5) {
+		      	columnLength = 20
+		      	tablesize = Math.ceil(this.props.manualTable.length / columnLength)
+		    } else {
+		    	columnLength = 15
+		    	tablesize = Math.ceil(this.props.manualTable.length / columnLength)
+		    }
 
+		    this.headers = Array(tablesize).fill(null).map((header, index) => {
+		        return(
+		          <React.Fragment key={"header" + index}>
+		            <TableHeader>Year</TableHeader ><TableHeader>Amount</TableHeader>
+		          </React.Fragment>
+		          )
+		      })
+
+		} else {
+			this.header = <tr></tr>;
+		   	tableRows = <tr></tr>;
+		};
+
+		if (tableRows.length > 0) {
+			finalRows = this.alignColumns(tableRows, columnLength)
+		} else {
+			finalRows = tableRows
+		}
+	  	
 		return (
 			<DisplayTable>
 			    <tbody>
-			    	{header}
-			    	{tableRows}
+			    	<tr>{this.headers}</tr>
+			    	{finalRows}
 			    </tbody>
 			</DisplayTable>
-
-			)
+		)
 	}
 }
 
@@ -131,9 +206,6 @@ export default class FileUpload extends React.Component {
 	    this.handleInputEarnings = this.handleInputEarnings.bind(this);
 	    this.handleManualEarnings = this.handleManualEarnings.bind(this);
 	    this.handleSave = this.handleSave.bind(this);
-	    this.assertLoad = this.assertLoad.bind(this);
-	    this.customObserver = this.customObserver.bind(this);
-	    this.dateObserver = this.dateObserver.bind(this);
 	    this.fileInput = React.createRef();
 
 	    this.state = {
@@ -158,21 +230,15 @@ export default class FileUpload extends React.Component {
 	    };
 	 }
 
-	componentDidUpdate(prevProps, prevState) {
-		if (this.state.elementLoaded) {
-			this.parseXML.value = this.state.earningsRecord
-		}
-
-		if ((this.state.userBirthDate) && (this.state.userRetireDate) && (!this.state.manualTable.length)) {
+	componentDidUpdate(prevProps, prevState) { 
+		if ((this.state.userBirthDate !== undefined) && (this.state.userRetireDate !== undefined ) && (!this.state.manualTable.length)) {
 	 		var tempTable = []
-
 	 		for (var i = this.state.userBirthDate; i <= this.state.userRetireDate; i++) {
 	 			var record = {}
 	 			record['year'] = i
 	 			record['value'] = 0
 			    tempTable.push(record);
 			}
-
 
 			this.setState({
 				manualTable: tempTable
@@ -195,37 +261,19 @@ export default class FileUpload extends React.Component {
 	 		})
 	 	}
 
+	 	if (SessionStore.get('BirthDate') && SessionStore.get('RetireDate')){
+	 		var birthdate = new Date(JSON.parse(SessionStore.get('BirthDate'))).getFullYear() + 18
+
+	 		var retiredate = new Date(JSON.parse(SessionStore.get('RetireDate'))).getFullYear()
+
+	 		this.setState({
+	 			userBirthDate: birthdate,
+	 			userRetireDate: retiredate
+	 		})
+	 	}
+
 	 }
 
-
-	 assertLoad() {
-	 	this.setState({
-	 		elementLoaded: true
-	 	})
-	 }
-
-	 //Customer Observer for Observable API; Instantiates synced parsedXML object for use throughout component
-	 customObserver(test) {
-	    return {fulfilled: (value) => {
-	        this.parseXML = value
-	        this.assertLoad()
-	    }}
- 	 }
-
- 	 //Customer Observer to find users birthdate and retiredate
- 	 dateObserver(name) {
-	    return {fulfilled: (value) => {
-	    	var dateYear = Number(value.split('-')[0])
-	        if (name === 'birthDatePicked') {
-	        	this.setState({
-	        		userBirthDate: dateYear + 18
-	       		})
-	        } else if (name === 'retireDatePicked')
-	       		this.setState({
-	        		userRetireDate: dateYear
-	       		})
-	    }}
- 	 }
 
 	//For uploaded records: handles the updating of stored earnings record to match inputed value
  	 handleInputEarnings(input) {
@@ -259,7 +307,6 @@ export default class FileUpload extends React.Component {
 	 handleXMLFile(reader) {
 	 	 if (fastXml.validate(reader.target.result) === true) {
 				var parsedText = fastXml.parse(reader.target.result, {ignoreAttributes: false})
-				console.log(parsedText)
 				var earningsJSON = JSON.stringify(parsedText)
 	 	 		SessionStore.push('earnings', earningsJSON)
 			 	this.setState({
@@ -346,7 +393,7 @@ export default class FileUpload extends React.Component {
 			default:
 				alert("I'm sorry, that file was not recognized.")
 				break;
-		}
+		}	
 	 }
 
 	 //Stores users input for manually entered table to allow for persistence across page changes
@@ -427,10 +474,6 @@ export default class FileUpload extends React.Component {
 						handleSave={this.handleSave}
 					/>
 					<div id='AutoSave' style={{display:"none"}}>Record has been saved.</div>
-					<div><ObservableCell cellname="mutable parsedXmlFileText" customObserver={this.customObserver}/></div>
-        			<div style={{display: 'none'}}><ObservableCell cellname='calculationDisplay' /></div>
-        			<div style={{display: 'none'}}><ObservableCell cellname='birthDatePicked' customObserver={this.dateObserver} /></div>
-        			<div style={{display: 'none'}}><ObservableCell cellname='retireDatePicked' customObserver={this.dateObserver} /></div>
 			</div>
 		)
 	}

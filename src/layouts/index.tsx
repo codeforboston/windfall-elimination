@@ -67,10 +67,9 @@ const Layout: React.FC = ({ children }) => (
             <ProgressTracker
               linkProps={[
                 {path: "/", label: "Home"},
-                {path: "/prescreen-1c/", label: "Background Info"},
-                {path: "/prescreen-2/", label: "Input Earnings"},
-                {path: "/prescreen-1b/", label: "Qualification"},
-                {path: "/screen-1/", label: "Input Pension"},
+                {path: "/prescreen-1a/", label: "Background"},
+                {path: "/prescreen-1b/", label: "Earnings"},
+                {path: "/prescreen-1c/", label: "Employment History"},
                 {path: "/screen-2/", label: "Results"}
               ]}
               activePath={location.pathname}

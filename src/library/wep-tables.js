@@ -71,13 +71,21 @@ var getWepTables = (function() {
 		return averageWageIndexTable
 	}
 
+	var fullRetirementAgeTable = function() {
+
+		const fullRetirementAge = checkJSONCache("fullRetirementAge")
+
+		return fullRetirementAge
+	}
+
 	return {
 		ColaTable: ColaTable,
 	    benefitReductionTable: benefitReductionTable,
 	    substantialEarningsMarks: substantialEarningsMarks,
 	    bendPoints: bendPoints,
 	    maximumEarningsCreditable: maximumEarningsCreditable,
-	    averageWageIndexTable: averageWageIndexTable
+	    averageWageIndexTable: averageWageIndexTable,
+	    fullRetirementAgeTable: fullRetirementAgeTable
   	}
 
 })();

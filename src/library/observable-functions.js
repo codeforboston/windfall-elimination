@@ -1,7 +1,6 @@
 //Observable Functions
 //Presented in order of call
 import dayjs from "dayjs";
-import React from "react";
 import { getWepTables } from "./wep-tables";
 
 
@@ -42,8 +41,9 @@ async function getPIA(aime, dob, yearsSubstantialEarnings=null, isWEP=true) {
 
 async function findBendPoints(dob) {
 	const bendPoints = await getWepTables.bendPoints()
-  	const yearOf62yo = dayjs(dob).add(62, 'years').year()
-  	return await bendPoints.find(d => d.year === yearOf62yo);
+  const yearOf62yo = dayjs(dob).add(62, 'years').year()
+
+  return await bendPoints.find(d => d.year === yearOf62yo);
 }
 
 /*
@@ -79,6 +79,36 @@ function firstPiaFactor(yse, isWEP) {
 
 //----------------------------------------------------------------------------------
 
+/////////////////////////////////////////////
+// Calculate Years of Substantial Earnings //
+/////////////////////////////////////////////
+
+function getYearsSE(earnings) {
+  var substantialEarnings = getWepTables.substantialEarningsMarks()
+  // NOTE: Assumption -  years of substantial earnings includes years where the earnings amount is equal to the substantial earnings value?
+  let years = 0;
+  let substantialEarningsMap = {};
+  if (Array.isArray(substantialEarnings)) {
+    substantialEarnings.forEach((earning) => {
+        substantialEarningsMap[earning.year]= earning.SubstantialEarnings;
+    });
+  }
+  let earningsYears = Object.keys(earnings);
+  if (Array.isArray(earningsYears)) {
+    earningsYears.forEach((earningsYear) => {
+      if (earnings[earningsYear] >= substantialEarningsMap[earningsYear]) {
+        years++;
+      }
+    });
+  }
+  if (years === 0) {
+    //MAYBE: default to 20 if no data
+    return 20
+  }
+  return years;
+}
+
+//----------------------------------------------------------------------------------
 
 ////////////////////
 // Calculate AIME //
@@ -98,8 +128,14 @@ Parameters:
 **Returns**: AIME, representing the user's AIME, which is rounded down to an integer
 */
 
-function getAIMEFromEarnings(rawEarnings, indexingYear, maxECTable, avgWageIndexTable) {
-  
+function getAIMEFromEarnings(earningsRecord, indexingYear) {
+
+  var maxECTable = getWepTables.maximumEarningsCreditable()
+
+  var avgWageIndexTable = getWepTables.averageWageIndexTable()
+
+  var rawEarnings = getRawEarnings(earningsRecord)
+
   //Determine # of calculation years
   let numCalculationYears = 0;
   if (indexingYear >= 1989) numCalculationYears = 35;
@@ -141,8 +177,9 @@ function getAIMEFromEarnings(rawEarnings, indexingYear, maxECTable, avgWageIndex
 
   //adjust each year's earning to match the indexing year, then add the modified yearly earnings to an array
   let earningsYears = earnings.map(n => n.year);
-  let validEarnings = []; //array of each year of valid earnings;
-                          //specific year or ordering ceases to be relevant
+
+  let validEarnings = []; //array of each year of valid earnings;                      //specific year or ordering ceases to be relevant
+
   let debugValidEarnings = [];
   if (Array.isArray(earningsYears)) {
     earningsYears.forEach((earningsYear) => {
@@ -213,6 +250,15 @@ function getAIMEFromEarnings(rawEarnings, indexingYear, maxECTable, avgWageIndex
   return Math.floor(AIME);
 }
 
+function getRawEarnings(earningsRecord) {
+  var rawearnings = {};
+
+  earningsRecord.map((record, i) => {
+    return rawearnings[record['@_startYear']] = record['osss:FicaEarnings']
+  })
+
+  return rawearnings
+}
 
 //----------------------------------------------------------------------------------
 
@@ -240,7 +286,6 @@ async function getAggregateColaFactor(eligibilityYear, retireYearDate) {
   	const reducer = (accumulator, current) => accumulator * (100 + current) * 0.01;
   	const aggColaIncRate = colaFactors.reduce(reducer, 100) * 0.01;
 
-  	console.log("Aggregate Cola: ",aggColaIncRate)
   	return aggColaIncRate;
 }
 
@@ -278,21 +323,15 @@ proposed "slider"
 // getWepMPB Main
 
 async function getWepMPB(aime, dob, retireDate, yearOf62yo, yearsSubstantialEarnings, pensionNonCoveredMonthly) {
+
   const standardPIA = await getPIA(aime, dob, null, false);
-  console.log("WepMPB StandardPIA: ", standardPIA)
   const wepPIA = await getPIA(aime, dob, yearsSubstantialEarnings, true);
-  console.log("WepMPB WEPPIA: ", wepPIA)
   const wepDiff = standardPIA - wepPIA;
-  console.log("WepMPB WEP Difference: ", wepDiff)
   const wepReduction = await getGuaranteeLimit(wepDiff, pensionNonCoveredMonthly);
-  console.log("WepMPB WEP Reduction: ", wepReduction)
   const finalPIA = standardPIA - wepReduction;
-  console.log("WepMPB Final PIA: ", finalPIA)
   const retireYear = dayjs(retireDate).year();
-  console.log("Retire Year ", retireYear)
   const mpb = finalPIA * (await getAggregateColaFactor(yearOf62yo, retireYear)) * (await getBenefitReduction(dob, retireDate));
 
-  console.log("mpb: ", mpb)
   return mpb;
 }
 
@@ -313,9 +352,11 @@ getGuaranteeLimit()** limits the amount of WEP benefit reduction to half of the 
 */
 
 function getGuaranteeLimit(wepDiff, pension) {
-	console.log("pension", pension)
-  const guaranteeLimit = pension / 2;
-  console.log("guaranteeLimit", guaranteeLimit)
+  var guaranteeLimit = 0
+  if (pension > 0) {
+    guaranteeLimit = pension / 2;
+  }
+  
   return Math.min(wepDiff, guaranteeLimit);
 }
 
@@ -342,7 +383,6 @@ async function getBenefitReduction(dob, retireDate) {
     if ((floatYearsAfter62yo - intYearsAfter62yo) !== 0) {
       const fractionOfYearMonths = (floatYearsAfter62yo - intYearsAfter62yo);
       extraMonthsCredit = (rowOfReduction.PctCreditForEachDelayYear*0.01) * fractionOfYearMonths;
-      //console.log("on ",rowOfReduction.yearsFrom62[intYearsAfter62yo]," give them ",extraMonthsCredit," because ", fractionOfYearMonths," and ", rowOfReduction.PctCreditForEachDelayYear*0.01)
     }
     //sum basic calculation and extra month's credit
     return rowOfReduction.yearsFrom62[intYearsAfter62yo] + extraMonthsCredit;
@@ -352,54 +392,91 @@ async function getBenefitReduction(dob, retireDate) {
 }
 
 
+//----------------------------------------------------------------------------------
 
+
+//////////////////////////////
+// Full Retirement Age Date //
+//////////////////////////////
+
+function getFullRetirementDate(dob) {
+  const fullRetireTable = getWepTables.fullRetirementAgeTable()
+
+  var birthYear = dob.getFullYear()
+
+  var fullAgeYear;
+
+  switch (birthYear) {
+    case birthYear < 1937:
+
+        fullAgeYear = new Date(dob.setFullYear(dob.getFullYear() + 65)).toLocaleDateString("en-US")
+
+      return fullAgeYear;
+
+    case birthYear > 1960:
+
+        fullAgeYear = new Date(dob.setFullYear(dob.getFullYear() + 67)).toLocaleDateString("en-US")
+
+      return fullAgeYear;
+
+    default:
+        var [ssaYears, ssaMonths] = fullRetireTable[birthYear].split(".")
+
+        var updatedDate = new Date(dob.setFullYear(dob.getFullYear() + Number(ssaYears)))
+
+        if (ssaMonths) {
+          updatedDate = new Date(dob.setMonth(dob.getMonth() + Number(ssaMonths)))
+        }
+
+        fullAgeYear = updatedDate.toLocaleDateString("en-US")
+
+        return fullAgeYear;
+  }
+}
 
 //----------------------------------------------------------------------------------
 
 
-
-
-////////////////////////////////
+///////////////////////////////
 // Final Calculation Display //
 ///////////////////////////////
 
-function finalCalculation(packedValues, rawEarnings, indexingYear, birthDatePicked, retireDatePicked, yearsSubstantialEarningsPicked, pensionNonCoveredMonthly) {
+async function finalCalculation(birthDatePicked, retireDatePicked, yearof62yo, yearsSubstantialEarningsPicked, pensionNonCoveredMonthly, AIMEPicked) {
 
-	const maxECTable = getWepTables.maximumEarningsCreditable()
-	const avgWageIndexTable = getWepTables.averageWageIndexTable()
+  var userCalc = {}
 
-	var AIMEPicked = getAIMEFromEarnings(rawEarnings, indexingYear, maxECTable, avgWageIndexTable)
+  const userFullRetireDate = getFullRetirementDate(new Date(birthDatePicked))
+	const standardPIA = await getPIA(AIMEPicked, birthDatePicked, null, false)
+	const wepPIA = await getPIA(AIMEPicked, birthDatePicked, yearsSubstantialEarningsPicked, true)
+	const wepDiff = (await getPIA(AIMEPicked, birthDatePicked, null, false) - await getPIA(AIMEPicked, birthDatePicked, yearsSubstantialEarningsPicked, true))
+	const wepMPB = await getWepMPB(AIMEPicked, birthDatePicked, retireDatePicked, yearof62yo, yearsSubstantialEarningsPicked, pensionNonCoveredMonthly)
 
-	const standardPIA = getPIA(AIMEPicked, birthDatePicked, null, false).toFixed(2)
-	const wepPIA = getPIA(AIMEPicked, birthDatePicked, yearsSubstantialEarningsPicked, true).toFixed(2)
-	const wepDiff = (getPIA(AIMEPicked, birthDatePicked, null, false) - getPIA(AIMEPicked, birthDatePicked, yearsSubstantialEarningsPicked, true)).toFixed(2)
-	const wepMPB = getWepMPB(AIMEPicked, birthDatePicked, retireDatePicked, yearsSubstantialEarningsPicked, pensionNonCoveredMonthly).toFixed(2)
+  userCalc["Standard PIA"] = standardPIA.toFixed(2)
+  userCalc["WEP PIA"] = wepPIA.toFixed(2)
+  userCalc["WEP Diff"] = wepDiff.toFixed(2)
+  userCalc["MPB"] = wepMPB.toFixed(2)
 
-	return(
-		<div>
-		Standard PIA: ${standardPIA} per month  
-		WEP PIA: ${wepPIA} per month  
-		WEP difference: ${wepDiff} per month
+  userCalc["RawData"] = {birthDatePicked, retireDatePicked, yearof62yo, yearsSubstantialEarningsPicked, pensionNonCoveredMonthly, AIMEPicked, userFullRetireDate}
 
-		Windfall Elimination Maximum Payable Benefit calculated:  
-		${wepMPB} per month
-		</div>
-	)
+  return userCalc
 }
 
 
+//----------------------------------------------------------------------------------
 
 
 export {
 	getPIA,
 	findBendPoints,
 	firstPiaFactor,
+  getYearsSE,
 	getAIMEFromEarnings,
 	getAggregateColaFactor,
 	getColaFactors,
 	getWepMPB,
 	getGuaranteeLimit,
 	getBenefitReduction,
+  getFullRetirementDate,
 	finalCalculation
 }
 

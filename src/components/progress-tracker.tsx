@@ -57,7 +57,7 @@ function ProgressTracker(props) {
   const indexOfActivePath = props.linkProps.findIndex(element => element.path === props.activePath);
 
   const links = props.linkProps.map((element, index) => (
-    <React.Fragment key={element}>
+    <React.Fragment key={element + index}>
       {index ? <StyledSeparator /> : false}
       <StyledStep path={element.path} label={element.label} status={Math.sign(index - indexOfActivePath)} />
     </React.Fragment>
