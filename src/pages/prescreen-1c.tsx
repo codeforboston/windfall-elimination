@@ -269,7 +269,7 @@ export default class Prescreen1c extends React.Component {
                 {this.state.pensionType === "monthlyPension"
                 ? "Enter the amount of your monthly noncovered pension: "
                 : "Enter the amount of your lump sum pension: "}
-                <RadioButton name="pensionAmount" defaultValue={this.state.pensionAmount} onChange={this.handleSelection}></RadioButton>
+                <input name="pensionAmount" defaultValue={this.state.pensionAmount} onChange={this.handleSelection}></input>
                 </label>
             </Card>
           )}
