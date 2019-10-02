@@ -140,7 +140,7 @@ export class GenerateTable extends React.Component {
 	   	} else if (this.props.manual) {
 		   	tableRows = this.props.manualTable.map((record, key) => {
 			    	return(
-			    		<>
+			    		<React.Fragment key={"earning" + key}>
 				    		<td><label>{record['year']}</label></td>
 				    		<td>
 				    		<input 
@@ -151,7 +151,7 @@ export class GenerateTable extends React.Component {
 				    			onBlur={this.props.handleSave}>
 				    		</input>
 				    		</td>
-				    	</>
+				    	</React.Fragment>
 			    	)
 
 			    })
