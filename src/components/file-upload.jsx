@@ -231,20 +231,7 @@ export default class FileUpload extends React.Component {
 	    };
 	 }
 
-	componentDidUpdate(prevProps, prevState) { 
-		if ((this.state.userBirthDate !== undefined) && (this.state.userRetireDate !== undefined ) && (!this.state.manualTable.length)) {
-	 		var tempTable = []
-	 		for (var i = this.state.userBirthDate; i <= this.state.userRetireDate; i++) {
-	 			var record = {}
-	 			record['year'] = i
-	 			record['value'] = 0
-			    tempTable.push(record);
-			}
-
-			this.setState({
-				manualTable: tempTable
-			})
-	 	}
+	componentDidUpdate(prevProps, prevState) {
 	 }
 
 	 componentDidMount() {
@@ -271,6 +258,20 @@ export default class FileUpload extends React.Component {
 	 			userBirthDate: birthdate,
 	 			userRetireDate: retiredate
 	 		})
+	 	}
+
+		if ((this.state.userBirthDate !== undefined) && (this.state.userRetireDate !== undefined ) && (!this.state.manualTable.length)) {
+			var tempTable = []
+	 		for (var i = this.state.userBirthDate; i <= this.state.userRetireDate; i++) {
+	 			var record = {}
+	 			record['year'] = i
+	 			record['value'] = 0
+			    tempTable.push(record);
+			}
+
+			this.setState({
+				manualTable: tempTable
+			})
 	 	}
 
 	 }
