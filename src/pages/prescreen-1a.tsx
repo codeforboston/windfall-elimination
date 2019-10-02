@@ -17,7 +17,7 @@ const StyledDatePicker = styled(DatePicker)`
   height: 60px;
   font-size: 25px;
   min-width: 230px;
-  border-radius: 2px;
+  border-radius: 3px;
 `;
 
 const H4 = styled.h4`
@@ -84,8 +84,7 @@ export default class Prescreen1c extends React.Component {
                     selected={this.state.birthDate}
                     onChange={(value) => this.handleDateChange("birthDatePicked", value)}
                     />
-                  </Card>
-                  
+                  </Card>                  
                   <Card>
                     <H4>Retire Date</H4>
                     <StyledDatePicker

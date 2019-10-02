@@ -9,7 +9,8 @@ import {
   Message,
   QuestionText,
   SEO,
-  RadioButton
+  RadioButton,
+  AnswerBox
 } from "../components";
 import { SessionStore } from "../library/session-store";
 import { FontControl } from "../library/font-control";
@@ -135,9 +136,7 @@ export default class Prescreen1c extends React.Component {
               If you don't have your Social Security earnings statement, we
               will show you how to find it in the next step.
             </HelperText>
-            <label>
-              {" "}
-              Yes
+            <AnswerBox>                 
               <RadioButton
                 type="radio"
                 name="coveredEmployment"
@@ -146,10 +145,9 @@ export default class Prescreen1c extends React.Component {
                 {...(this.state.coveredEmployment ? { checked: true } : { checked: false })}
                 onChange={this.handleSelection}
               />
-            </label>
-            <label>
-              {" "}
-              No
+              Yes
+            </AnswerBox>
+            <AnswerBox>
               <RadioButton
                 type="radio"
                 name="coveredEmployment"
@@ -160,10 +158,9 @@ export default class Prescreen1c extends React.Component {
                   : { checked: false })}
                 onChange={this.handleSelection}
               />
-              </label>
-              <label>
-              {" "}
-              Not Sure
+              No  
+              </AnswerBox>
+              <AnswerBox>        
               <RadioButton
                 type="radio"
                 name="coveredEmployment"
@@ -174,7 +171,8 @@ export default class Prescreen1c extends React.Component {
                   : { checked: false })}
                 onChange={this.handleSelection}
               />
-              </label>
+              Not Sure         
+              </AnswerBox>
           </Card>
           {this.state.coveredEmployment === null
             ? (<Message>
@@ -196,9 +194,7 @@ export default class Prescreen1c extends React.Component {
               <HelperText>
               It can be an employee-contribution-only plan or an employer/employee-matching contribution plan.
               </HelperText>
-              <label>
-                {" "}
-                Yes
+              <AnswerBox>
                 <RadioButton
                   type="radio"
                   name="pensionOrRetirementAccount"
@@ -208,10 +204,10 @@ export default class Prescreen1c extends React.Component {
                     : { checked: false })}
                   onChange={this.handleSelection}
                 />
-              </label>
-              <label>
-                {" "}
-                No
+                Yes
+                </AnswerBox>
+                <AnswerBox>
+                
                 <RadioButton
                   type="radio"
                   name="pensionOrRetirementAccount"
@@ -221,7 +217,8 @@ export default class Prescreen1c extends React.Component {
                     : { checked: false })}
                   onChange={this.handleSelection}
                 />
-              </label>
+                No
+                </AnswerBox>
             </Card>
           )}
           { this.state.coveredEmployment &&
@@ -233,9 +230,7 @@ export default class Prescreen1c extends React.Component {
               <HelperText>
               It can be an employee-contribution-only plan or an employer/employee-matching contribution plan.
               </HelperText>
-              <label>
-                {" "}
-                Monthly Pension
+              <AnswerBox>    
                 <RadioButton
                   type="radio"
                   name="monthlyPension"
@@ -245,10 +240,9 @@ export default class Prescreen1c extends React.Component {
                     : { checked: false })}
                   onChange={this.handleSelection}
                 />
-              </label>
-              <label>
-                {" "}
-                Lump Sum
+                Monthly Pension
+              </AnswerBox>
+              <AnswerBox>
                 <RadioButton
                   type="radio"
                   name="lumpSum"
@@ -258,7 +252,8 @@ export default class Prescreen1c extends React.Component {
                     : { checked: false })}
                   onChange={this.handleSelection}
                 />
-              </label>
+                Lump Sum
+                </AnswerBox>
             </Card>
           )}
           { this.state.pensionOrRetirementAccount &&

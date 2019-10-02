@@ -5,13 +5,13 @@ import {
   ButtonLinkGreen,
   ButtonLink,
   Card,
-  Form,
   HelperText,
   QuestionText,
   SEO,
   TextBlock,
   FileUpload,
-  RadioButton
+  RadioButton,
+  AnswerBox
 } from "../components";
 import { SessionStore } from "../library/session-store";
 import { FontControl } from "../library/font-control";
@@ -19,14 +19,6 @@ import { FontControl } from "../library/font-control";
 export const SsaImage= styled("img")`
     border: 1px solid #dddddd;
     width: 500px;
-`;
-
-const AnswerBox = styled.form`
-  border: 1px solid ${colors.purple};
-  height: 60px;
-  font-size: 30px;
-  min-width: 230px;
-  border-radius: 2px;
 `;
 
 const Label = styled.label`
@@ -90,8 +82,8 @@ export default class Prescreen1b extends React.Component {
                         <Label>Yes</Label> 
                         </AnswerBox>
                         <AnswerBox>
-                        <Label> 
-                            <RadioButton type="radio" name="mySocialSecurityAccount" value="false" onChange={this.handleOption} checked={this.state.displayImage === 'false' ? true : false} />
+                        <RadioButton type="radio" name="mySocialSecurityAccount" value="false" onChange={this.handleOption} checked={this.state.displayImage === 'false' ? true : false} />
+                          <Label> 
                             No
                         </Label>
                         </AnswerBox>
