@@ -260,9 +260,9 @@ export default class FileUpload extends React.Component {
 	 		})
 	 	}
 
-		if ((this.state.userBirthDate !== undefined) && (this.state.userRetireDate !== undefined ) && (!this.state.manualTable.length)) {
+		if ((birthdate !== undefined) && (retiredate !== undefined )) {
 			var tempTable = []
-	 		for (var i = this.state.userBirthDate; i <= this.state.userRetireDate; i++) {
+	 		for (var i = birthdate; i <= retiredate; i++) {
 	 			var record = {}
 	 			record['year'] = i
 	 			record['value'] = 0
