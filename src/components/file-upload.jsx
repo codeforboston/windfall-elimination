@@ -140,7 +140,7 @@ export class GenerateTable extends React.Component {
 	   	} else if (this.props.manual) {
 		   	tableRows = this.props.manualTable.map((record, key) => {
 			    	return(
-			    		<>
+			    		<React.Fragment key={"earning" + key}>
 				    		<td><label>{record['year']}</label></td>
 				    		<td>
 				    		<input 
@@ -151,7 +151,7 @@ export class GenerateTable extends React.Component {
 				    			onBlur={this.props.handleSave}>
 				    		</input>
 				    		</td>
-				    	</>
+				    	</React.Fragment>
 			    	)
 
 			    })
@@ -242,13 +242,6 @@ export default class FileUpload extends React.Component {
 	 		})
 	 	}
 
-	 	if (SessionStore.get('tableArray')) {
-	 		var tableArray = JSON.parse(SessionStore.get('tableArray'))
-	 		this.setState({
-	 			manualTable: tableArray
-	 		})
-	 	}
-
 	 	if (SessionStore.get('BirthDate') && SessionStore.get('RetireDate')){
 	 		var birthdate = new Date(JSON.parse(SessionStore.get('BirthDate'))).getFullYear() + 18
 
@@ -260,20 +253,33 @@ export default class FileUpload extends React.Component {
 	 		})
 	 	}
 
-		if ((this.state.userBirthDate !== undefined) && (this.state.userRetireDate !== undefined ) && (!this.state.manualTable.length)) {
-			var tempTable = []
-	 		for (var i = this.state.userBirthDate; i <= this.state.userRetireDate; i++) {
-	 			var record = {}
-	 			record['year'] = i
-	 			record['value'] = 0
-			    tempTable.push(record);
-			}
+		var tempTable = [];
+		var yearToRecord = {};
 
-			this.setState({
-				manualTable: tempTable
-			})
-	 	}
+	 	if (SessionStore.get('tableArray')) {
+			var tableArray = JSON.parse(SessionStore.get('tableArray'));
+			tableArray.forEach(function(record) {
+				yearToRecord[record.year] = record;
+			});
+		}
 
+		if ((birthdate !== undefined) && (retiredate !== undefined )) {
+			for (var i = birthdate; i <= retiredate; i++) {
+				if (i in yearToRecord) {
+					var record = yearToRecord[i];
+				} else {
+					record = {};
+					record['year'] = i;
+					record['value'] = 0;
+				}
+				tempTable.push(record);
+		   }
+		}
+
+		this.setState({
+			manualTable: tempTable
+		})
+		 
 	 }
 
 
