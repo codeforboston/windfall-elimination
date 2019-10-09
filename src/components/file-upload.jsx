@@ -242,13 +242,6 @@ export default class FileUpload extends React.Component {
 	 		})
 	 	}
 
-	 	if (SessionStore.get('tableArray')) {
-	 		var tableArray = JSON.parse(SessionStore.get('tableArray'))
-	 		this.setState({
-	 			manualTable: tableArray
-	 		})
-	 	}
-
 	 	if (SessionStore.get('BirthDate') && SessionStore.get('RetireDate')){
 	 		var birthdate = new Date(JSON.parse(SessionStore.get('BirthDate'))).getFullYear() + 18
 
@@ -260,20 +253,33 @@ export default class FileUpload extends React.Component {
 	 		})
 	 	}
 
+		var tempTable = [];
+		var yearToRecord = {};
+
+	 	if (SessionStore.get('tableArray')) {
+			var tableArray = JSON.parse(SessionStore.get('tableArray'));
+			tableArray.forEach(function(record) {
+				yearToRecord[record.year] = record;
+			});
+		}
+
 		if ((birthdate !== undefined) && (retiredate !== undefined )) {
-			var tempTable = []
-	 		for (var i = birthdate; i <= retiredate; i++) {
-	 			var record = {}
-	 			record['year'] = i
-	 			record['value'] = 0
-			    tempTable.push(record);
-			}
+			for (var i = birthdate; i <= retiredate; i++) {
+				if (i in yearToRecord) {
+					var record = yearToRecord[i];
+				} else {
+					record = {};
+					record['year'] = i;
+					record['value'] = 0;
+				}
+				tempTable.push(record);
+		   }
+		}
 
-			this.setState({
-				manualTable: tempTable
-			})
-	 	}
-
+		this.setState({
+			manualTable: tempTable
+		})
+		 
 	 }
 
 
