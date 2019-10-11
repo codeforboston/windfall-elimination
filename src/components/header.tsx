@@ -13,10 +13,12 @@ const Wrapper = styled("header")`
   font-family: 'Montserrat', sans-serif;
 `;
 
-type Props = {
-  siteTitle?: string;
-};
-export const Header: React.FC<Props> = ({ siteTitle }) => (
+const StyledLink = styled(Link)`
+  color: white;
+  textDecoration: none;
+`;
+
+export const Header = () => (
   <Wrapper>
     <div
       style={{
@@ -25,17 +27,12 @@ export const Header: React.FC<Props> = ({ siteTitle }) => (
       }}
     >
       <h1 style={{ margin: 0 }}>
-        <Link
+        <StyledLink
           to="/"
-          style={{
-            color: `white`,
-            textDecoration: `none`
-          }}
         >
-          {siteTitle || "Windfall Awareness Calculator"}
-        </Link>
+          "Windfall Awareness Calculator"
+        </StyledLink>
       </h1>
     </div>
-    <FontPad />
   </Wrapper>
 );
