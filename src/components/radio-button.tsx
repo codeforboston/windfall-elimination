@@ -23,13 +23,23 @@ export const RadioButton = styled.input`
 `;
 
 export const AnswerBox = styled.div`
-  border: 1px solid ${colors.purple};
+  border: 2px solid ${colors.purple};
   height: 60px;
+  font-size: 30px;
+  width: 250px;
+  border-radius: 3px;
+  padding: 5px;
+  display: flex;
+  align-items: center;
+  margin: 10px 0;
+`;
+
+export const AnswerInput = styled.input`
+  border: 2px solid ${colors.purple};
+  height: 50px;
   font-size: 30px;
   width: 200px;
   border-radius: 3px;
-  padding: 10px;
   display: flex;
-  align-items: center;
   margin: 10px 0;
 `;

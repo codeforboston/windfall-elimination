@@ -10,7 +10,9 @@ import {
   QuestionText,
   SEO,
   RadioButton,
-  AnswerBox
+  AnswerBox, 
+  Glossary,
+  AnswerInput
 } from "../components";
 import { SessionStore } from "../library/session-store";
 import { FontControl } from "../library/font-control";
@@ -129,13 +131,6 @@ export default class Prescreen1c extends React.Component {
             <QuestionText>
               Did you work in “non-covered” employment?
             </QuestionText>
-            <HelperText>
-              “Non-covered” employment is employment where your employer did not
-              withhold Social Security taxes from your wages. These earnings
-              will not show up on your Social Security earnings statement.
-              If you don't have your Social Security earnings statement, we
-              will show you how to find it in the next step.
-            </HelperText>
             <AnswerBox>                 
               <RadioButton
                 type="radio"
@@ -160,40 +155,12 @@ export default class Prescreen1c extends React.Component {
               />
               No  
               </AnswerBox>
-              <AnswerBox>        
-              <RadioButton
-                type="radio"
-                name="coveredEmployment"
-                id="ce3"
-                value="null"
-                {...(this.state.coveredEmployment === null
-                  ? { checked: true }
-                  : { checked: false })}
-                onChange={this.handleSelection}
-              />
-              Not Sure         
-              </AnswerBox>
           </Card>
-          {this.state.coveredEmployment === null
-            ? (<Message>
-                <HelperText><div>You can contact your state’s Social Security Administrator
-                to find out if your employment was covered.</div>
-                <div>Find your state at&nbsp;
-                <a href='http://www.ncsssa.org/statessadminmenu.html'>this website</a>.</div>
-                <div>You should have your Social Security number ready when you call.</div>
-                </HelperText>
-              </Message>)
-            : <div></div>
-            }
           {this.state.coveredEmployment && (
             <Card>
               <QuestionText>
-                Do you have a monthly pension, a 401(k), or
-                other lump sum pension from that job?
+              Do you have a pension from your non-covered job?
               </QuestionText>
-              <HelperText>
-              It can be an employee-contribution-only plan or an employer/employee-matching contribution plan.
-              </HelperText>
               <AnswerBox>
                 <RadioButton
                   type="radio"
@@ -225,11 +192,8 @@ export default class Prescreen1c extends React.Component {
             this.state.pensionOrRetirementAccount && (
             <Card>
               <QuestionText>
-                Are you receiving a:
+              Do you have a monthly pension or a lump sum?
               </QuestionText>
-              <HelperText>
-              It can be an employee-contribution-only plan or an employer/employee-matching contribution plan.
-              </HelperText>
               <AnswerBox>    
                 <RadioButton
                   type="radio"
@@ -260,22 +224,10 @@ export default class Prescreen1c extends React.Component {
             this.state.pensionType && (
             <Card>
                 <label>
-                <h3>Pension Amount</h3>
-                {this.state.pensionType === "monthlyPension"
-                ? "Enter the amount of your monthly noncovered pension: "
-                : "Enter the amount of your lump sum pension: "}
-                <input name="pensionAmount" defaultValue={this.state.pensionAmount} onChange={this.handleSelection}></input>
+                <h3>Please enter the amount of your pension or lump sum.</h3>
+                <AnswerInput name="pensionAmount" defaultValue={this.state.pensionAmount} onChange={this.handleSelection}></AnswerInput>
                 </label>
             </Card>
-          )}
-          {haveAllRequiredQuestionsBeenAnswered && (
-            <Message>
-              {this.state.coveredEmployment &&
-              this.state.pensionOrRetirementAccount &&
-              this.state.pensionType
-                ? "You are probably affected by WEP. Proceed to the next screen."
-                : "Congratulations! You’re probably not affected by WEP. Click 'Next' to calculate your Social Secuirty benefit."}
-            </Message>
           )}
         </Form>
         <ButtonLinkGreen to="/prescreen-1b/">Go back!</ButtonLinkGreen>
