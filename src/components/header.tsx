@@ -15,7 +15,7 @@ const Wrapper = styled("header")`
 
 const StyledLink = styled(Link)`
   color: white;
-  textDecoration: none;
+  text-decoration: none;
 `;
 
 export const Header = () => (
@@ -30,7 +30,7 @@ export const Header = () => (
         <StyledLink
           to="/"
         >
-          "Windfall Awareness Calculator"
+          Windfall Awareness Calculator
         </StyledLink>
       </h1>
     </div>
