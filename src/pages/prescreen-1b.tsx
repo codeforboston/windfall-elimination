@@ -11,7 +11,8 @@ import {
   TextBlock,
   FileUpload,
   RadioButton,
-  AnswerBox
+  AnswerBox,
+  Glossary
 } from "../components";
 import { SessionStore } from "../library/session-store";
 import { FontControl } from "../library/font-control";
@@ -36,6 +37,11 @@ const WarningBox = styled.div`
   padding: 10px;
 `;
 
+const PageContainer = styled.div`
+  display: flex;
+  padding-right: 100px;
+`;
+
 export default class Prescreen1b extends React.Component {
   constructor(props) {
     super(props);
@@ -43,7 +49,7 @@ export default class Prescreen1b extends React.Component {
 
     this.state = {
       isLoaded: false,
-      displayImage: false
+      displayImage: null,
     };
   }
 
@@ -64,14 +70,17 @@ export default class Prescreen1b extends React.Component {
         SessionStore.push("displayImage", e.target.value)
         this.setState({
           isLoaded: true,
-          displayImage: e.target.value
+          displayImage: e.target.value,
         })
     }
 
   render() {
+    console.log(this.state.displayImage);
     return (
       <>
         <SEO title="Prescreen 1b" keywords={[`social security`, `government`, `retirement`]} />
+        <PageContainer>
+          <div>
             <h2>Step 2: Getting your earnings record</h2>
             <TextBlock>
                 Your Social Security retirement benefits are calculated based on your earnings in covered employment.
@@ -96,11 +105,7 @@ export default class Prescreen1b extends React.Component {
                 </Card>
               
                 
-                {this.state.displayImage === false ?
-                  (<Card>
-                      <div>Further instructions will be given based on your answer.</div>
-                  </Card>)
-                    :
+                {this.state.displayImage === "true" ?
                     (<HowToContainer>
                     <Card>
                       <h2>
@@ -132,10 +137,21 @@ the red box in the photo below.</ol>
                       </TextBlock>
                   </Card>
                   </HowToContainer>)
-                    
+                  : (<Card>
+                    <div>Further instructions will be given based on your answer.</div>
+                </Card>)                  
                 }
           <ButtonLinkGreen to="/prescreen-1a/">Go back!</ButtonLinkGreen>
           <ButtonLink to="/prescreen-1c/">Submit</ButtonLink>
+          </div>
+          <Glossary 
+          title="MYSOCIALSECURITY"
+          link=""
+          linkText="Sign up online for a MySocialSecurity using this link."
+          >
+          MySocialSecurity is the Social Security Administrations online service. With a MySocialSecurity account , you can download a copy of your earnings record to use for this question.
+          </Glossary>
+          </PageContainer>
       </>
     )
   }

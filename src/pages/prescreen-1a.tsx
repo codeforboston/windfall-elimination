@@ -13,7 +13,7 @@ import {
 } from "../components";
 
 const StyledDatePicker = styled(DatePicker)`
-  border: 1px solid ${colors.purple};
+  border: 2px solid ${colors.purple};
   height: 60px;
   font-size: 25px;
   min-width: 230px;
