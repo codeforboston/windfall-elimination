@@ -332,7 +332,7 @@ function getAIMEFromEarningsSimple(rawEarnings, indexingYear, maxECTable, avgWag
 
   if (Array.isArray(earningsYears)) {
     earningsYears.forEach((earningsYear) => {
-      if (earningsYear =< lastRealEarningYear) {
+      if (earningsYear <= lastRealEarningYear) {
       	return;
       }
 
