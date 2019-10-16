@@ -41,25 +41,32 @@ const PageContainer = styled.div`
   display: flex;
   padding-right: 100px;
 `;
+enum EarningsEnum {
+	XML = "XML",
+	PDF = "PDF",
+	PDFPRINT = "PDFPRINT",
+	PAPER = "PAPER"
+}
 
 export default class Prescreen1b extends React.Component {
   constructor(props) {
     super(props);
     this.handleOption = this.handleOption.bind(this);
-
+    this.showFileUpload = this.showFileUpload.bind(this);
+    this.showManualTable = this.showManualTable.bind(this);
     this.state = {
-      isLoaded: false,
-      displayImage: null,
+      haveEarnings: null,
+      earningsFormat: null,
+      haveSSAccount: null,
     };
   }
 
    componentDidMount() {
-        if (!this.state.isLoaded) {
-            this.setState({
-              isLoaded: true,
-              displayImage: SessionStore.get('displayImage')
-            })
-        }
+        this.setState({
+          haveEarnings: SessionStore.get('haveEarnings'),
+          earningsFormat: SessionStore.get('earningsFormat'),
+          haveSSAccount: SessionStore.get('haveSSAccount')
+        })
     }
 
     componentDidUpdate() {
@@ -67,15 +74,20 @@ export default class Prescreen1b extends React.Component {
     }
 
     handleOption(e) {
-        SessionStore.push("displayImage", e.target.value)
-        this.setState({
-          isLoaded: true,
-          displayImage: e.target.value,
-        })
+        SessionStore.push(e.target.name, e.target.value)
+        this.setState({[e.target.name]: e.target.value})
+    }
+
+    showFileUpload() {
+      return (this.state.haveEarnings === 'false' && this.state.haveSSAccount === 'true') ||
+      (this.state.haveEarnings === 'true' && (this.state.earningsFormat === EarningsEnum.XML || this.state.earningsFormat === EarningsEnum.PDF))
+    }
+
+    showManualTable() {
+      return (this.state.haveEarnings === 'true' && (this.state.earningsFormat === EarningsEnum.PDFPRINT || this.state.earningsFormat === EarningsEnum.PAPER))
     }
 
   render() {
-    console.log(this.state.displayImage);
     return (
       <>
         <SEO title="Prescreen 1b" keywords={[`social security`, `government`, `retirement`]} />
@@ -93,20 +105,54 @@ export default class Prescreen1b extends React.Component {
                 <Card>
                     <QuestionText>Do you have a copy of your earnings record?</QuestionText>
                     <AnswerBox>
-                    <RadioButton type="radio" name="mySocialSecurityAccount" value="true" onChange={this.handleOption} checked={this.state.displayImage === 'true' ? true : false } />
+                    <RadioButton type="radio" name="haveEarnings" value="true" onChange={this.handleOption} checked={this.state.haveEarnings === 'true' } />
                     <Label>Yes</Label> 
                     </AnswerBox>
                     <AnswerBox>
-                    <RadioButton type="radio" name="mySocialSecurityAccount" value="false" onChange={this.handleOption} checked={this.state.displayImage === 'false' ? true : false} />
-                        <Label> 
-                        No
-                    </Label>
+                    <RadioButton type="radio" name="haveEarnings" value="false" onChange={this.handleOption} checked={this.state.haveEarnings === 'false' } />
+                    <Label>No</Label>
                     </AnswerBox>
                 </Card>
-              
-                
-                {this.state.displayImage === "true" ?
-                    (<HowToContainer>
+
+            {this.state.haveEarnings === 'true' ?
+              <Card>
+                <QuestionText>What format is the copy of your earnings record?</QuestionText>
+                <AnswerBox>
+                  <RadioButton type="radio" name="earningsFormat" value={EarningsEnum.XML} onChange={this.handleOption} checked={this.state.earningsFormat === EarningsEnum.XML} />
+                  <Label>XML file (MySocialSecurity)</Label>
+                </AnswerBox>
+                <AnswerBox>
+                  <RadioButton type="radio" name="earningsFormat" value={EarningsEnum.PDF} onChange={this.handleOption} checked={this.state.earningsFormat === EarningsEnum.PDF} />
+                  <Label>PDF (MySocialSecurity)</Label>
+                </AnswerBox>
+                <AnswerBox>
+                  <RadioButton type="radio" name="earningsFormat" value={EarningsEnum.PDFPRINT} onChange={this.handleOption} checked={this.state.earningsFormat === EarningsEnum.PDFPRINT} />
+                  <Label>PDF (scanned from print)</Label>
+                </AnswerBox>
+                <AnswerBox>
+                  <RadioButton type="radio" name="earningsFormat" value={EarningsEnum.PAPER} onChange={this.handleOption} checked={this.state.earningsFormat === EarningsEnum.PAPER} />
+                  <Label>Paper (mailed from SSA)</Label>
+                </AnswerBox>
+              </Card> : null
+            }
+
+            {this.state.haveEarnings === 'false' ?
+              <Card>
+                <QuestionText>Do you have a MySocialSecurity account?</QuestionText>
+                <AnswerBox>
+                  <RadioButton type="radio" name="haveSSAccount" value="true" onChange={this.handleOption} checked={this.state.haveSSAccount === 'true'} />
+                  <Label>Yes</Label>
+                </AnswerBox>
+                <AnswerBox>
+                  <RadioButton type="radio" name="haveSSAccount" value="false" onChange={this.handleOption} checked={this.state.haveSSAccount === 'false'} />
+                  <Label>No</Label>
+                </AnswerBox>
+              </Card> : null
+            }
+
+                {this.state.haveEarnings === 'false' && this.state.haveSSAccount === 'true' ?
+                  (
+                    <HowToContainer>
                     <Card>
                       <h2>
                         HOW-TO
@@ -127,20 +173,63 @@ the red box in the photo below.</ol>
 <ol>4) Upload the XML file using the tool below.</ol>
 </ul>
                     </Card>
-                  <Card>
-                      <TextBlock>
-                        Please upload your earnings record file
-                      </TextBlock>
-                      <FileUpload manual={false}/>
-                      <TextBlock>
-                        Once you have uploaded your earnings record, click "Submit".
-                      </TextBlock>
-                  </Card>
-                  </HowToContainer>)
-                  : (<Card>
-                    <div>Further instructions will be given based on your answer.</div>
-                </Card>)                  
+                    </HowToContainer>
+                  ):null
                 }
+
+          {this.showFileUpload() ?
+            <HowToContainer>
+              <Card>
+                <TextBlock>
+                  Please upload your earnings record file
+                  </TextBlock>
+                <FileUpload manual={false} />
+                <TextBlock>
+                  Once you have uploaded your earnings record, click "Submit".
+                  </TextBlock>
+              </Card>
+            </HowToContainer> : null
+          }
+
+          {this.showManualTable() ?
+            <>
+              <TextBlock>
+                Please enter the “Taxed Social Security Earnings” amounts from your earnings record.
+              </TextBlock>
+              <FileUpload manual={true} />
+            </> : null     
+          }
+
+          {this.state.haveEarnings === 'false' && this.state.haveSSAccount === 'false' ?
+            <>
+              <Card>
+                <TextBlock>
+                  We cannot estimate your WEP without a copy of your earnings record.
+                  The How-to’s below will tell you how to get your earnings record through the mail, or by signing up for a MySocialSecurity account online.
+                  </TextBlock>
+              </Card>
+              <HowToContainer>
+                <Card>
+                  <h2>HOW-TO</h2>
+                  <h3>Request a copy of your earnings report through the mail</h3>
+                  <TextBlock>
+                    We cannot estimate your WEP without a copy of your earnings record.
+                    The How-to’s below will tell you how to get your earnings record through the mail, or by signing up for a MySocialSecurity account online.
+                  </TextBlock>
+                </Card>
+              </HowToContainer>
+              <HowToContainer>
+                <Card>
+                  <h2>HOW-TO</h2>
+                  <h3>Sign up for an online account at MySocialSecurity</h3>
+                  <TextBlock>
+                    [Instructions for how to do this go here]
+                  </TextBlock>
+                </Card>
+              </HowToContainer>
+            </> : null
+          }
+
           <ButtonLinkGreen to="/prescreen-1a/">Go back!</ButtonLinkGreen>
           <ButtonLink to="/prescreen-1c/">Submit</ButtonLink>
           </div>
