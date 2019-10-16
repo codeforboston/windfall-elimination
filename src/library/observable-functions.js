@@ -385,7 +385,7 @@ function getAIMEFromEarningsSimple(rawEarnings, indexingYear, maxECTable, avgWag
         });
       }
     });
-    for (int i = lastRealEarningYear+1; i < finalWorkYear+1; i++) {
+    for (var i = lastRealEarningYear+1; i < finalWorkYear+1; i++) {
       debugValidEarnings.push({
         'yr': i,
         'specialIndexingYear': i == indexingYear,
