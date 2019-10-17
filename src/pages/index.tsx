@@ -1,8 +1,6 @@
 import React from "react";
 import {
-  LinkWrapper,
   SEO,
-  ButtonLink,
   TextBlock,
   ListItem,
   UnorderedList,
@@ -11,7 +9,7 @@ import {
 
 
 export default () => (
-  <>
+  <div>
     <SEO title="Home" keywords={[`gatsby`, `application`, `react`]} />
     <H3>
       What is the Windfall Elimination Provision?
@@ -55,5 +53,5 @@ export default () => (
       likely that your benefit estimates in the future will differ from those
       calculated today.
     </TextBlock>
-  </>
+  </div>
 );

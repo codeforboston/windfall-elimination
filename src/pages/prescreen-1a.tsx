@@ -71,7 +71,7 @@ export default class Prescreen1c extends React.Component {
 
     render() {
         return (
-            <>
+            <div>
                 <SEO title="Pre-Screen 1a" keywords={[`gatsby`, `application`, `react`]} />
                 <H2>Step 1: Background Information</H2>
                 <TextBlock>
@@ -95,7 +95,7 @@ export default class Prescreen1c extends React.Component {
                     onChange={(value) => this.handleDateChange("retireDatePicked", value)}
                     />
                   </Card>
-            </>
+            </div>
          )
     }
 }

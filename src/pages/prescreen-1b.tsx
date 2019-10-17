@@ -37,10 +37,6 @@ const WarningBox = styled.div`
   padding: 10px;
 `;
 
-const PageContainer = styled.div`
-  display: flex;
-  flex-direction: row;
-`;
 
 const ContentContainer = styled.div`
   max-width: 70%;
@@ -94,7 +90,7 @@ export default class Prescreen1b extends React.Component {
 
   render() {
     return (
-    <PageContainer>
+    <React.Fragment>
         <SEO title="Prescreen 1b" keywords={[`social security`, `government`, `retirement`]} />
         <ContentContainer>
             <H2>Step 2: Getting your earnings record</H2>
@@ -242,7 +238,7 @@ the red box in the photo below.</ol>
           >
           MySocialSecurity is the Social Security Administrations online service. With a MySocialSecurity account , you can download a copy of your earnings record to use for this question.
           </Glossary>
-      </PageContainer>
+      </React.Fragment>
     )
   }
 }

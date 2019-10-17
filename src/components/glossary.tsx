@@ -3,10 +3,10 @@ import styled from "@emotion/styled";
 import { colors, spacing, fontSizes } from "../constants";
 
 const GlossaryContainer = styled.div`
-position:fixed; 
-right: 5px;
-width: 20%;
-color: ${colors.gray};
+  right: 5px;
+  width: 20vw;
+  margin-top: 15px;
+  color: ${colors.gray};
 `;
 
 const Term = styled.h5`
@@ -22,9 +22,9 @@ const Explanation = styled.div`
   margin: 15px 0;
 `;
 const Link = styled.a`
-color: black;
-font-weight: 600;
-overflow-wrap: break-word;
+  color: black;
+  font-weight: 600;
+  overflow-wrap: break-word;
 `;
 
 const ContentBox = styled.div`

@@ -1,6 +1,6 @@
 import React from "react"
 import styled from "@emotion/styled";
-import { ButtonLink, ButtonLinkGreen, SEO, H2, Card, Message, HelperText, Glossary } from "../components";
+import { ButtonLink, SEO, H2, Card, Message, HelperText, Glossary } from "../components";
 import * as ObsFuncs from "../library/observable-functions";
 import { SessionStore } from "../library/session-store";
 
@@ -19,6 +19,7 @@ const ButtonContainer = styled.div`
   justify-content: space-between;
   flex-wrap: wrap;
   width: 330px;
+  margin-top: 30px;
 `;
 
 export default class Screen2 extends React.Component {
@@ -75,17 +76,15 @@ export default class Screen2 extends React.Component {
 
     render() {
         return(
-            <PageContainer>
+            <React.Fragment>
                 <SEO title="Screen 2" />
                 <ContentContainer>
-                <H2>Results</H2>
-                <Message>
+                <H2>Results</H2>  
                 {this.state.error?<label>Please go back and fill out all information to calculate results. </label>: <label>
                     WEP calculated values
                         <HelperText>Based on the information you provided, your retirment benefits will be calculated by Social Security as follows: </HelperText>
                         <strong><code>${this.state.userProfile["MPB"] || null} per month</code></strong>
                  </label> }
-                </Message>
                 {this.state.error ? null: <Card>
                   However, Social Security changes your monthly benefit amount if you retire before or after your full retirement age. 
                   Use the slider below to see how your planned date of retirement will affect your monthly benefit amount.
@@ -101,7 +100,7 @@ export default class Screen2 extends React.Component {
                 >
                   Your Full Retirement Age for Social Security is based on when you were born.
                 </Glossary>
-          </PageContainer>       
+          </React.Fragment>       
         )
     }
 

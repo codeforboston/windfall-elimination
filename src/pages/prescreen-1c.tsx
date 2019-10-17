@@ -2,8 +2,6 @@ import React from "react";
 import styled from "@emotion/styled";
 import { Link } from "gatsby";
 import {
-  ButtonLink,
-  ButtonLinkGreen,
   Card,
   Form,
   QuestionText,
@@ -24,6 +22,7 @@ const ContentContainer = styled.div`
 const PageContainer = styled.div`
   display: flex;
   flex-direction: row;
+  justify-content: space-between;
 `;
 
 const ButtonContainer = styled.div`
@@ -137,7 +136,7 @@ export default class Prescreen1c extends React.Component {
     }
 
     return (
-      <PageContainer>
+      <React.Fragment>
         <SEO
           title="Prescreen 1c"
           keywords={[`gatsby`, `application`, `react`]}
@@ -256,7 +255,7 @@ export default class Prescreen1c extends React.Component {
         >
         “Non-covered” employment is a job where your employer did not pay Social Security taxes. This includes many state and local government jobs, as well as federal jobs that paid into CSRS instead of FERS.
         </Glossary>
-      </PageContainer>
+      </React.Fragment>
     );
   }
 }
