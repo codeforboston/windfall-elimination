@@ -1,5 +1,6 @@
 import styled from "@emotion/styled";
 import { colors } from "../constants";
+import { ClassNames } from "@emotion/core";
 
 export const RadioButton = styled.input`
   -webkit-appearance: none;
@@ -15,14 +16,60 @@ export const RadioButton = styled.input`
   border-radius: 50%;
 
   &:checked {
-    border: 13px solid ${colors.purple};
+    border: 3px solid ${colors.white};
     border-radius: 100px;
     color: ${colors.white};
-    background-color: ${colors.white};
+    background-color: ${colors.purple};
+
+    &:after {
+      content: ' ';
+      height: 15px;
+      width: 10px;
+      background-color: #fff;
+      padding-left: 5px;
+      margin-left: 8px;
+      border: 2px solid #FFF;
+      border-radius: 100px;
+      margin-top: 7px;
+      display: inline-block;
+   }
   }
+
 `;
 
-export const AnswerBox = styled.div`
+/* Look for radiobuttons inside this component that have checked children and set a special class */
+export const AnswerBoxBasic = ({ className, children, ...props }) => {
+  const hasCheckedChildren =
+    children.filter(n => n.props.checked === "true" || n.props.checked === true)
+      .length > 0;
+
+  return (
+    <ClassNames>
+      {({ css, cx }) => (
+        <label
+          {...props}
+          className={[
+            className || "",
+            hasCheckedChildren &&
+              css`
+                background-color: ${colors.purple};
+                color: #FFF;
+              `
+          ].join(" ")}
+        >
+          {children}
+        </label>
+      )}
+    </ClassNames>
+  );
+};
+
+export const LabelText = styled.span`
+  font-size: 30px;
+`;
+
+
+export const AnswerBox = styled(AnswerBoxBasic)`
   border: 2px solid ${colors.purple};
   height: 60px;
   font-size: 30px;

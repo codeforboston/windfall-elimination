@@ -82,6 +82,8 @@ export default class Prescreen1c extends React.Component {
                     id="birthDatePicked"
                     placeholderText="Click to select a date"
                     selected={this.state.birthDate}
+                    showYearDropdown
+                    openToDate={new Date("1960/01/01")}
                     onChange={(value) => this.handleDateChange("birthDatePicked", value)}
                     />
                   </Card>                  
@@ -91,6 +93,8 @@ export default class Prescreen1c extends React.Component {
                     id="retireDatePicked"
                     placeholderText="Click to select a date"
                     selected={this.state.retireDate}
+                    showMonthYearPicker
+                    openToDate={new Date("2018/01/01")}
                     onChange={(value) => this.handleDateChange("retireDatePicked", value)}
                     />
                   </Card>
