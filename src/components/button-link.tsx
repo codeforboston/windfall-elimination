@@ -4,7 +4,6 @@ import { spacing, colors, fontSizes, radii } from "../constants";
 
 export const ButtonLink = styled(Link)`
   padding: ${spacing[1]} ${spacing[2]};
-  margin: ${spacing[2]} ${spacing[2]};
   background-color: ${props =>
     props.disabled ? colors.gray : colors.purple};
   border-radius: 5px;
