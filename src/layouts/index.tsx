@@ -59,7 +59,7 @@ const Layout: React.FC = ({ children }) => (
     render={data => (
       <Wrapper>
         <Header />
-        <link href="https://fonts.googleapis.com/css?family=Montserrat|Oswald|Raleway|Roboto&display=swap" rel="stylesheet"/>
+        <link href="https://fonts.googleapis.com/css?family=Merriweather|Montserrat&display=swap" rel="stylesheet"/>
         <Container>
         <Location>
           {({ location }) => (

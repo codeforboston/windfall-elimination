@@ -39,7 +39,11 @@ const WarningBox = styled.div`
 
 const PageContainer = styled.div`
   display: flex;
-  padding-right: 100px;
+  flex-direction: row;
+`;
+
+const ContentContainer = styled.div`
+  max-width: 70%;
 `;
 enum EarningsEnum {
 	XML = "XML",
@@ -89,14 +93,14 @@ export default class Prescreen1b extends React.Component {
 
   render() {
     return (
-      <>
+    <PageContainer>
         <SEO title="Prescreen 1b" keywords={[`social security`, `government`, `retirement`]} />
-        <PageContainer>
-          <div>
+        <ContentContainer>
             <h2>Step 2: Getting your earnings record</h2>
             <TextBlock>
                 Your Social Security retirement benefits are calculated based on your earnings in covered employment.
             </TextBlock>
+            <br/>
             <TextBlock>
                 To calculate your Social Security retirement benefits, you will need a record of your earnings from Social Security.
                 Follow the steps below to get your earning record.
@@ -232,7 +236,7 @@ the red box in the photo below.</ol>
 
           <ButtonLinkGreen to="/prescreen-1a/">Go back!</ButtonLinkGreen>
           <ButtonLink to="/prescreen-1c/">Submit</ButtonLink>
-          </div>
+          </ContentContainer>
           <Glossary 
           title="MYSOCIALSECURITY"
           link=""
@@ -240,8 +244,7 @@ the red box in the photo below.</ol>
           >
           MySocialSecurity is the Social Security Administrations online service. With a MySocialSecurity account , you can download a copy of your earnings record to use for this question.
           </Glossary>
-          </PageContainer>
-      </>
+      </PageContainer>
     )
   }
 }

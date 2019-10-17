@@ -1,7 +1,7 @@
 import styled from "@emotion/styled";
 import { fontSizes } from "../constants";
 
-export const TextBlock = styled("div")`
+export const TextBlock = styled.div`
   font-size: ${fontSizes[1]};
-  font-family: 'Raleway', sans-serif;
+  font-family: 'Montserrat', sans-serif;
 `;

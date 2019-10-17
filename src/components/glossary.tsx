@@ -4,15 +4,18 @@ import { colors, spacing, fontSizes } from "../constants";
 
 const GlossaryContainer = styled.div`
 position:fixed; 
-right:0;
-width: 250px;
+right: 5px;
+width: 20%;
 color: ${colors.gray};
 `;
 
-const Term = styled.div`
+const Term = styled.h5`
   border-left: 5px solid ${colors.gray};
   padding: 0px 5px;
   font-weight: 600;
+  font-size: 16px;
+  overflow-wrap: break-word;
+  margin: 0;
 `;
 const Explanation = styled.div`
   font-size: 16px;
@@ -21,10 +24,11 @@ const Explanation = styled.div`
 const Link = styled.a`
 color: black;
 font-weight: 600;
+overflow-wrap: break-word;
 `;
 
 const ContentBox = styled.div`
-  padding: 10px;
+  padding: 0 10px;
 `;
 
 
