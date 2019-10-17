@@ -5,7 +5,7 @@ import {
   ButtonLinkGreen,
   ButtonLink,
   Card,
-  HelperText,
+  H2,
   QuestionText,
   SEO,
   TextBlock,
@@ -45,6 +45,7 @@ const PageContainer = styled.div`
 const ContentContainer = styled.div`
   max-width: 70%;
 `;
+
 enum EarningsEnum {
 	XML = "XML",
 	PDF = "PDF",
@@ -96,7 +97,7 @@ export default class Prescreen1b extends React.Component {
     <PageContainer>
         <SEO title="Prescreen 1b" keywords={[`social security`, `government`, `retirement`]} />
         <ContentContainer>
-            <h2>Step 2: Getting your earnings record</h2>
+            <H2>Step 2: Getting your earnings record</H2>
             <TextBlock>
                 Your Social Security retirement benefits are calculated based on your earnings in covered employment.
             </TextBlock>
@@ -158,9 +159,9 @@ export default class Prescreen1b extends React.Component {
                   (
                     <HowToContainer>
                     <Card>
-                      <h2>
+                      <H2>
                         HOW-TO
-                      </h2>
+                      </H2>
                         <h3>Download your earnings record from MySocialSecurity</h3>
                         <WarningBox>
                         This how-to will show you how to download your personal Social Security information. Only follow these steps if you are using a private computer.
@@ -214,7 +215,7 @@ the red box in the photo below.</ol>
               </Card>
               <HowToContainer>
                 <Card>
-                  <h2>HOW-TO</h2>
+                  <H2>HOW-TO</H2>
                   <h3>Request a copy of your earnings report through the mail</h3>
                   <TextBlock>
                     We cannot estimate your WEP without a copy of your earnings record.
@@ -224,7 +225,7 @@ the red box in the photo below.</ol>
               </HowToContainer>
               <HowToContainer>
                 <Card>
-                  <h2>HOW-TO</h2>
+                  <H2>HOW-TO</H2>
                   <h3>Sign up for an online account at MySocialSecurity</h3>
                   <TextBlock>
                     [Instructions for how to do this go here]

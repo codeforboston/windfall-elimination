@@ -10,6 +10,7 @@ import {
   TextBlock,
   SEO,
   Card,
+  H2,
 } from "../components";
 
 const StyledDatePicker = styled(DatePicker)`
@@ -72,7 +73,7 @@ export default class Prescreen1c extends React.Component {
         return (
             <>
                 <SEO title="Pre-Screen 1a" keywords={[`gatsby`, `application`, `react`]} />
-                <h2>Step 1: Background Information</h2>
+                <H2>Step 1: Background Information</H2>
                 <TextBlock>
                     To calculate your Social Security benefit, please input the following dates.
                 </TextBlock>

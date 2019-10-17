@@ -13,7 +13,7 @@ import { QuestionConsumer } from "./question-context";
 import { QuestionProvider } from "./question-context";
 import { QuestionText } from "./question-text";
 import { SEO } from "./seo";
-import { TextBlock } from "./text-block";
+import { TextBlock, H3, H2 } from "./text-block";
 import { ListText } from "./list-text";
 import { DisplayTable } from "./display-table";
 import FileUpload from "./file-upload";
@@ -47,6 +47,8 @@ export {
     QuestionText,
     SEO,
     TextBlock,
+    H3,
+    H2,
     ListText,
     DisplayTable,
     FileUpload,

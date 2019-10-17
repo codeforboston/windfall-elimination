@@ -5,12 +5,11 @@ import {
   ButtonLinkGreen,
   Card,
   Form,
-  HelperText,
-  Message,
   QuestionText,
   SEO,
   RadioButton,
   AnswerBox, 
+  H2,
   Glossary,
   AnswerInput
 } from "../components";
@@ -125,7 +124,7 @@ export default class Prescreen1c extends React.Component {
           title="Prescreen 1c"
           keywords={[`gatsby`, `application`, `react`]}
         />
-        <h2>Step 3: Employment History</h2>
+        <H2>Step 3: Employment History</H2>
         <Form>
           <Card>
             <QuestionText>
