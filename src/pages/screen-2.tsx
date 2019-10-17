@@ -1,7 +1,25 @@
 import React from "react"
-import { ButtonLink, ButtonLinkGreen, SEO, ObservableCell, Card, Message, HelperText } from "../components";
+import styled from "@emotion/styled";
+import { ButtonLink, ButtonLinkGreen, SEO, H2, Card, Message, HelperText, Glossary } from "../components";
 import * as ObsFuncs from "../library/observable-functions";
 import { SessionStore } from "../library/session-store";
+
+const ContentContainer = styled.div`
+  max-width: 70%;
+`;
+
+const PageContainer = styled.div`
+  display: flex;
+  flex-direction: row;
+`;
+
+const ButtonContainer = styled.div`
+  display:flex;
+  flex-direction: row;
+  justify-content: space-between;
+  flex-wrap: wrap;
+  width: 330px;
+`;
 
 export default class Screen2 extends React.Component {
     constructor(props, context){
@@ -57,9 +75,10 @@ export default class Screen2 extends React.Component {
 
     render() {
         return(
-            <>
+            <PageContainer>
                 <SEO title="Screen 2" />
-                <h2>Results</h2>
+                <ContentContainer>
+                <H2>Results</H2>
                 <Message>
                 {this.state.error?<label>Please go back and fill out all information to calculate results. </label>: <label>
                     WEP calculated values
@@ -71,11 +90,18 @@ export default class Screen2 extends React.Component {
                   However, Social Security changes your monthly benefit amount if you retire before or after your full retirement age. 
                   Use the slider below to see how your planned date of retirement will affect your monthly benefit amount.
                 </Card>}
-                <ButtonLinkGreen to="/prescreen-1c/">Go back!</ButtonLinkGreen>
+                <ButtonContainer>
                 <ButtonLink to="/print/" disabled={this.state.error}>Print Results</ButtonLink>
-                <ButtonLink to="/">Go Home</ButtonLink>
-                <ButtonLink to="/">Further Info</ButtonLink>
-            </>       
+                </ButtonContainer>
+                </ContentContainer>
+                <Glossary 
+                  title='“NON-COVERED” EMPLOYMENT'
+                  link=""
+                  linkText=""
+                >
+                  Your Full Retirement Age for Social Security is based on when you were born.
+                </Glossary>
+          </PageContainer>       
         )
     }
 

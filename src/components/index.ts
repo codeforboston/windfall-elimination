@@ -29,6 +29,7 @@ import FontPad from "./font-pad";
 import { PrintButton } from "./print-button";
 import { RadioButton, AnswerBox, AnswerInput } from './radio-button';
 import Glossary from './glossary';
+import {Footer} from "./footer";
 
 export {
     ButtonLink,
@@ -65,5 +66,6 @@ export {
     RadioButton,
     AnswerBox,
     AnswerInput,
-    Glossary 
+    Glossary,
+    Footer, 
 };

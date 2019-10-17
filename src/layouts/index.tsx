@@ -2,7 +2,7 @@ import React from "react";
 import styled from "@emotion/styled";
 import { StaticQuery, graphql, Link } from "gatsby";
 import { Location } from "@reach/router";
-import { Header, QuestionProvider } from "../components";
+import { Header, QuestionProvider, Footer, ButtonLink, ButtonLinkGreen } from "../components";
 import "./layout.css";
 import { colors, fonts, spacing } from "../constants";
 import { ProgressTracker } from "../components/progress-tracker";
@@ -27,24 +27,24 @@ const ChildrenWrapper = styled("div")`
   justify-content: center;
 `;
 
-const Footer = styled("footer")`
-  background-color: ${colors.white};
-  color: ${colors.black};
-  border-top: 1px solid black;
-  width: 100%;
-  bottom: 0;
-  verical-align: baseline;
-  text-align: center;
-  padding: ${spacing[1]} 0;
-`;
-
 const FooterLink = styled("footer")`
   display: inline;
   color: ${colors.white};
   padding: ${spacing[1]};
 `;
 
-const Layout: React.FC = ({ children }) => (
+const ButtonContainer = styled.div`
+`;
+
+const LINKSPATH = [
+  {path: "/", label: "HOME"},
+  {path: "/prescreen-1a/", label: "BACKGROUND"},
+  {path: "/prescreen-1b/", label: "EARNINGS"},
+  {path: "/prescreen-1c/", label: "EMPLOYMENT STATUS"},
+  {path: "/screen-2/", label: "RESULTS"}
+]
+
+const Layout = ({ children }) => (
   <StaticQuery
     query={graphql`
       query SiteTitleQuery {
@@ -64,13 +64,7 @@ const Layout: React.FC = ({ children }) => (
         <Location>
           {({ location }) => (
             <ProgressTracker
-              linkProps={[
-                {path: "/", label: "HOME"},
-                {path: "/prescreen-1a/", label: "BACKGROUND"},
-                {path: "/prescreen-1b/", label: "EARNINGS"},
-                {path: "/prescreen-1c/", label: "EMPLOYMENT STATUS"},
-                {path: "/screen-2/", label: "RESULTS"}
-              ]}
+              linkProps={LINKSPATH}
               activePath={location.pathname}
             />
           )}
@@ -87,13 +81,34 @@ const Layout: React.FC = ({ children }) => (
         </ObservableRuntime>
         </Container>
         <Footer>
-          <FooterLink>
-            <Link to="/admin/" style={{ textDecoration: `none`, justify: 'left'}}>Admin Page</Link>
-          </FooterLink>
-          <FooterLink>
-            <a href="https://github.com/codeforboston/windfall-elimination" target="__blank" style={{ textDecoration: `none`,}}>Github</a>
-          </FooterLink>
-          © {new Date().getFullYear()} | {data.author ? data.author : "Windfall Elimination Project"}
+        <Location>
+          {({ location }) => {
+            const index = LINKSPATH.findIndex(path => path.path === location.pathname)
+            if(index === -1){
+              return null;
+            }
+            if(index === LINKSPATH.length -1){
+              return (
+              <ButtonContainer>
+              <ButtonLinkGreen to={LINKSPATH[index -1].path}>
+               {`Previous: ${LINKSPATH[index -1].label[0] + LINKSPATH[index -1].label.slice(1).toLowerCase()}`}
+              </ButtonLinkGreen>
+              <ButtonLink to="/">Go Home</ButtonLink>
+              </ButtonContainer>
+              )
+            }
+            if(index === 0 ){
+              return <ButtonLink to="/prescreen-1a/">Get Started</ButtonLink>
+
+            }
+            return (
+            <React.Fragment>
+            <ButtonLinkGreen to={LINKSPATH[index -1].path}>{`Previous: ${LINKSPATH[index -1].label[0] + LINKSPATH[index -1].label.slice(1).toLowerCase()}`}</ButtonLinkGreen>
+            <ButtonLink to={LINKSPATH[index +1].path}>{`Next: ${LINKSPATH[index +1].label[0] + LINKSPATH[index +1].label.slice(1).toLowerCase()}` }</ButtonLink>
+            </React.Fragment>
+          )
+          }}
+        </Location>
         </Footer>
       </Wrapper>
     )}

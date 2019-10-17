@@ -95,8 +95,6 @@ export default class Prescreen1c extends React.Component {
                     onChange={(value) => this.handleDateChange("retireDatePicked", value)}
                     />
                   </Card>
-                <ButtonLinkGreen to="/">Go back!</ButtonLinkGreen>
-                <ButtonLink to="/prescreen-1b/" style={{disabled: 'disabled-link'}}>Start</ButtonLink>
             </>
          )
     }

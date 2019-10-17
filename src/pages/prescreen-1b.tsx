@@ -234,9 +234,6 @@ the red box in the photo below.</ol>
               </HowToContainer>
             </> : null
           }
-
-          <ButtonLinkGreen to="/prescreen-1a/">Go back!</ButtonLinkGreen>
-          <ButtonLink to="/prescreen-1c/">Submit</ButtonLink>
           </ContentContainer>
           <Glossary 
           title="MYSOCIALSECURITY"

@@ -55,8 +55,5 @@ export default () => (
       likely that your benefit estimates in the future will differ from those
       calculated today.
     </TextBlock>
-    <LinkWrapper>
-      <ButtonLink to="/prescreen-1a/">Get Started</ButtonLink>
-    </LinkWrapper>
   </>
 );
