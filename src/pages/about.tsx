@@ -1,14 +1,18 @@
 import React from "react";
+import styled from "@emotion/styled";
 import {
   TextBlock,
-  SEO,
-  Card,
-  TextBlockHeader
+  H3
 } from "../components";
 
+const AboutContainer = styled.div`
+  display: block;
+`;
+
+
 export default () => (
-  <>
-    <TextBlockHeader>How did this project come about?</TextBlockHeader>
+  <AboutContainer>
+    <H3>How did this project come about?</H3>
     <TextBlock>
       On Congressman Moulton’s constituent services team, we believe that
       government should be easy to use, easy to access, and easy to understand.
@@ -18,11 +22,11 @@ export default () => (
       for themselves with the Social Security Administration.
     </TextBlock>
 
-    <h4>[LEGAL DISCLAIMER]</h4>
+    <H3>[LEGAL DISCLAIMER]</H3>
       <TextBlock>
         It will not ask you for any information that could put your identity at
         risk. This app will also not store your data, although you can save or
         print out your results at the end.
       </TextBlock>
-  </>
+  </AboutContainer>
 );
