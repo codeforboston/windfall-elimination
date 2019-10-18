@@ -10,6 +10,7 @@ const Wrapper = styled("footer")`
   width: 100%;
   z-index: 2;
   position: absolute;
+  min-width: 760px;
 `;
 
 type Props = {

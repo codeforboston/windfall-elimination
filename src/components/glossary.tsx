@@ -7,6 +7,7 @@ const GlossaryContainer = styled.div`
   width: 20vw;
   margin-top: 15px;
   color: ${colors.gray};
+  min-width: 150px;
 `;
 
 const Term = styled.h5`
