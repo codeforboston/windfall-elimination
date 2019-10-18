@@ -241,7 +241,7 @@ export default class Prescreen1c extends React.Component {
             this.state.pensionType && (
             <Card>
                 <label>
-                <h3>Please enter the amount of your pension or lump sum.</h3>
+                <QuestionText>Please enter the amount of your pension or lump sum.</QuestionText>
                 <AnswerInput name="pensionAmount" defaultValue={this.state.pensionAmount} onChange={this.handleSelection}></AnswerInput>
                 </label>
             </Card>

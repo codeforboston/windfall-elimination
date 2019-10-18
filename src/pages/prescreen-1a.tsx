@@ -19,6 +19,11 @@ const StyledDatePicker = styled(DatePicker)`
   font-size: 25px;
   min-width: 230px;
   border-radius: 3px;
+  padding-left: 10px;
+  &::placeholder {
+    font-size: 18px;
+    font-family: 'Montserrat',sans-serif;
+  }
 `;
 
 const H4 = styled.h4`

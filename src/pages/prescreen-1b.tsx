@@ -193,12 +193,12 @@ the red box in the photo below.</ol>
           }
 
           {this.showManualTable() ?
-            <>
+            <Card>
               <TextBlock>
                 Please enter the “Taxed Social Security Earnings” amounts from your earnings record.
               </TextBlock>
               <FileUpload manual={true} />
-            </> : null     
+            </Card> : null     
           }
 
           {this.state.haveEarnings === 'false' && this.state.haveSSAccount === 'false' ?
