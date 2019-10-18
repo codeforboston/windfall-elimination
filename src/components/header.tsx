@@ -1,16 +1,14 @@
 import { Link } from "gatsby";
 import React from "react";
 import styled from "@emotion/styled";
-import { FontPad } from "../components";
 
 const Wrapper = styled("header")`
   background: #433A74;
   color: #FFFFFF;
   display: flex;
   justify-content: space-between;
-  width: 100%;
-  height: 75px;
-  font-family: 'Montserrat', sans-serif;
+  padding: .75rem 1rem;
+  font-family: 'Merriweather', serif;
 `;
 
 const StyledLink = styled(Link)`
@@ -18,14 +16,16 @@ const StyledLink = styled(Link)`
   text-decoration: none;
 `;
 
+const AboutLink = styled(Link)`
+  color: white;
+  text-decoration: none;
+  font-size: 20px;
+  line-height: 2;
+  vertical-align: middle;
+`;
+
 export const Header = () => (
   <Wrapper>
-    <div
-      style={{
-        maxWidth: 960,
-        padding: `1.45rem 1.0875rem`
-      }}
-    >
       <h1 style={{ margin: 0 }}>
         <StyledLink
           to="/"
@@ -33,6 +33,6 @@ export const Header = () => (
           Windfall Awareness Calculator
         </StyledLink>
       </h1>
-    </div>
+      <AboutLink to="/about">About</AboutLink>
   </Wrapper>
 );

@@ -1,22 +1,38 @@
 import React from "react";
+import styled from "@emotion/styled";
 import { Link } from "gatsby";
 import {
-  ButtonLink,
-  ButtonLinkGreen,
   Card,
   Form,
-  HelperText,
-  Message,
   QuestionText,
   SEO,
   RadioButton,
   AnswerBox, 
   LabelText,
+  H2,
   Glossary,
   AnswerInput
 } from "../components";
 import { SessionStore } from "../library/session-store";
 import { FontControl } from "../library/font-control";
+
+const ContentContainer = styled.div`
+  max-width: 70%;
+`;
+
+const PageContainer = styled.div`
+  display: flex;
+  flex-direction: row;
+  justify-content: space-between;
+`;
+
+const ButtonContainer = styled.div`
+display:flex;
+flex-direction: row;
+justify-content: space-between;
+flex-wrap: wrap;
+width: 270px;
+`;
 
 function trileanFromString(s:string|null) {
   if (s === null) {
@@ -121,12 +137,13 @@ export default class Prescreen1c extends React.Component {
     }
 
     return (
-      <>
+      <React.Fragment>
         <SEO
           title="Prescreen 1c"
           keywords={[`gatsby`, `application`, `react`]}
         />
-        <h2>Step 3: Employment History</h2>
+        <ContentContainer>
+        <H2>Step 3: Employment History</H2>
         <Form>
           <Card>
             <QuestionText>
@@ -231,15 +248,15 @@ export default class Prescreen1c extends React.Component {
             </Card>
           )}
         </Form>
-        <ButtonLinkGreen to="/prescreen-1b/">Go back!</ButtonLinkGreen>
-        <ButtonLink
-          to={"/screen-2/"}
-          name="submitButton"
-          disabled={!haveAllRequiredQuestionsBeenAnswered}
+        </ContentContainer>
+        <Glossary 
+          title='“NON-COVERED” EMPLOYMENT'
+          link=""
+          linkText="Contact your state’s Social Security Administrator to find out if your job was “non- covered.” You should have your Social Security number ready when you call."
         >
-          Next
-        </ButtonLink>
-      </>
+        “Non-covered” employment is a job where your employer did not pay Social Security taxes. This includes many state and local government jobs, as well as federal jobs that paid into CSRS instead of FERS.
+        </Glossary>
+      </React.Fragment>
     );
   }
 }

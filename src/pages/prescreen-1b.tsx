@@ -5,7 +5,7 @@ import {
   ButtonLinkGreen,
   ButtonLink,
   Card,
-  HelperText,
+  H2,
   QuestionText,
   SEO,
   TextBlock,
@@ -34,10 +34,11 @@ const WarningBox = styled.div`
   padding: 10px;
 `;
 
-const PageContainer = styled.div`
-  display: flex;
-  padding-right: 100px;
+
+const ContentContainer = styled.div`
+  max-width: 70%;
 `;
+
 enum EarningsEnum {
 	XML = "XML",
 	PDF = "PDF",
@@ -87,14 +88,14 @@ export default class Prescreen1b extends React.Component {
 
   render() {
     return (
-      <>
+    <React.Fragment>
         <SEO title="Prescreen 1b" keywords={[`social security`, `government`, `retirement`]} />
-        <PageContainer>
-          <div>
-            <h2>Step 2: Getting your earnings record</h2>
+        <ContentContainer>
+            <H2>Step 2: Getting your earnings record</H2>
             <TextBlock>
                 Your Social Security retirement benefits are calculated based on your earnings in covered employment.
             </TextBlock>
+            <br/>
             <TextBlock>
                 To calculate your Social Security retirement benefits, you will need a record of your earnings from Social Security.
                 Follow the steps below to get your earning record.
@@ -152,9 +153,9 @@ export default class Prescreen1b extends React.Component {
                   (
                     <HowToContainer>
                     <Card>
-                      <h2>
+                      <H2>
                         HOW-TO
-                      </h2>
+                      </H2>
                         <h3>Download your earnings record from MySocialSecurity</h3>
                         <WarningBox>
                         This how-to will show you how to download your personal Social Security information. Only follow these steps if you are using a private computer.
@@ -208,7 +209,7 @@ the red box in the photo below.</ol>
               </Card>
               <HowToContainer>
                 <Card>
-                  <h2>HOW-TO</h2>
+                  <H2>HOW-TO</H2>
                   <h3>Request a copy of your earnings report through the mail</h3>
                   <TextBlock>
                     We cannot estimate your WEP without a copy of your earnings record.
@@ -218,7 +219,7 @@ the red box in the photo below.</ol>
               </HowToContainer>
               <HowToContainer>
                 <Card>
-                  <h2>HOW-TO</h2>
+                  <H2>HOW-TO</H2>
                   <h3>Sign up for an online account at MySocialSecurity</h3>
                   <TextBlock>
                     [Instructions for how to do this go here]
@@ -227,10 +228,7 @@ the red box in the photo below.</ol>
               </HowToContainer>
             </> : null
           }
-
-          <ButtonLinkGreen to="/prescreen-1a/">Go back!</ButtonLinkGreen>
-          <ButtonLink to="/prescreen-1c/">Submit</ButtonLink>
-          </div>
+          </ContentContainer>
           <Glossary 
           title="MYSOCIALSECURITY"
           link=""
@@ -238,8 +236,7 @@ the red box in the photo below.</ol>
           >
           MySocialSecurity is the Social Security Administrations online service. With a MySocialSecurity account , you can download a copy of your earnings record to use for this question.
           </Glossary>
-          </PageContainer>
-      </>
+      </React.Fragment>
     )
   }
 }

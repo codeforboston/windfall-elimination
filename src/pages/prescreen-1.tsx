@@ -6,6 +6,7 @@ import {
   SEO,
   UnorderedList,
   ListItem,
+  H2,
 } from "../components";
 
 export default class Prescreen1 extends React.Component {
@@ -13,7 +14,7 @@ export default class Prescreen1 extends React.Component {
     return(
       <>
         <SEO title="Prescreen 1" keywords={[`gatsby`, `application`, `react`]} />
-        <h2>Pre-Screen</h2>
+        <H2>Pre-Screen</H2>
 
     <TextBlock>
       <strong>This app will:</strong>

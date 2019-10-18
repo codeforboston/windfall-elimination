@@ -4,12 +4,14 @@ import DatePicker from "react-datepicker";
 import "react-datepicker/dist/react-datepicker.css";
 import { colors } from "../constants";
 import { SessionStore } from "../library/session-store";
+import dayjs from "dayjs";
 import {
   ButtonLink,
   ButtonLinkGreen,
   TextBlock,
   SEO,
   Card,
+  H2,
 } from "../components";
 
 const StyledDatePicker = styled(DatePicker)`
@@ -70,9 +72,9 @@ export default class Prescreen1c extends React.Component {
 
     render() {
         return (
-            <>
+            <div>
                 <SEO title="Pre-Screen 1a" keywords={[`gatsby`, `application`, `react`]} />
-                <h2>Step 1: Background Information</h2>
+                <H2>Step 1: Background Information</H2>
                 <TextBlock>
                     To calculate your Social Security benefit, please input the following dates.
                 </TextBlock>
@@ -83,7 +85,7 @@ export default class Prescreen1c extends React.Component {
                     placeholderText="Click to select a date"
                     selected={this.state.birthDate}
                     showYearDropdown
-                    openToDate={new Date("1960/01/01")}
+                    openToDate={dayjs().subtract(64, 'years').toDate()}
                     onChange={(value) => this.handleDateChange("birthDatePicked", value)}
                     />
                   </Card>                  
@@ -93,14 +95,12 @@ export default class Prescreen1c extends React.Component {
                     id="retireDatePicked"
                     placeholderText="Click to select a date"
                     selected={this.state.retireDate}
-                    showMonthYearPicker
-                    openToDate={new Date("2018/01/01")}
+                    showYearDropdown
+                    openToDate={dayjs().subtract(2, 'years').toDate()}
                     onChange={(value) => this.handleDateChange("retireDatePicked", value)}
                     />
                   </Card>
-                <ButtonLinkGreen to="/">Go back!</ButtonLinkGreen>
-                <ButtonLink to="/prescreen-1b/" style={{disabled: 'disabled-link'}}>Start</ButtonLink>
-            </>
+            </div>
          )
     }
 }

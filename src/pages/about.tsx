@@ -1,12 +1,8 @@
 import React from "react";
 import {
-  ButtonLink,
-  ButtonLinkRed,
   TextBlock,
   SEO,
   Card,
-  UnorderedList,
-  ListItem,
   TextBlockHeader
 } from "../components";
 
@@ -22,13 +18,11 @@ export default () => (
       for themselves with the Social Security Administration.
     </TextBlock>
 
-    <Card>
+    <h4>[LEGAL DISCLAIMER]</h4>
       <TextBlock>
         It will not ask you for any information that could put your identity at
         risk. This app will also not store your data, although you can save or
         print out your results at the end.
       </TextBlock>
-      <TextBlock>[LEGAL DISCLAIMER]</TextBlock>
-    </Card>
   </>
 );

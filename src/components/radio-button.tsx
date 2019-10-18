@@ -27,10 +27,10 @@ export const RadioButton = styled.input`
       width: 10px;
       background-color: #fff;
       padding-left: 5px;
-      margin-left: 8px;
+      margin-left: 7.5px;
       border: 2px solid #FFF;
       border-radius: 100px;
-      margin-top: 7px;
+      margin-top: 7.5px;
       display: inline-block;
    }
   }
@@ -38,6 +38,8 @@ export const RadioButton = styled.input`
 `;
 
 /* Look for radiobuttons inside this component that have checked children and set a special class */
+/* this might be refactorable to use style with https://stackoverflow.com/a/44646995/272018 
+ *  but I couldn't get it to work */
 export const AnswerBoxBasic = ({ className, children, ...props }) => {
   const hasCheckedChildren =
     children.filter(n => n.props.checked === "true" || n.props.checked === true)
@@ -73,7 +75,7 @@ export const AnswerBox = styled(AnswerBoxBasic)`
   border: 2px solid ${colors.purple};
   height: 60px;
   font-size: 30px;
-  width: 250px;
+  width: 300px;
   border-radius: 3px;
   padding: 5px;
   display: flex;
