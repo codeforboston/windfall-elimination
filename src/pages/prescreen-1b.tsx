@@ -11,6 +11,7 @@ import {
   TextBlock,
   FileUpload,
   RadioButton,
+  LabelText,
   AnswerBox,
   Glossary
 } from "../components";
@@ -21,10 +22,6 @@ export const SsaImage= styled("img")`
   border: 1px solid #dddddd;
   width: 500px;
   margin-top: 25px;
-`;
-
-const Label = styled.label`
-  font-size: 30px;
 `;
 
 const HowToContainer = styled.div`
@@ -75,6 +72,7 @@ export default class Prescreen1b extends React.Component {
     }
 
     handleOption(e) {
+    
         SessionStore.push(e.target.name, e.target.value)
         this.setState({[e.target.name]: e.target.value})
     }
@@ -107,11 +105,11 @@ export default class Prescreen1b extends React.Component {
                     <QuestionText>Do you have a copy of your earnings record?</QuestionText>
                     <AnswerBox>
                     <RadioButton type="radio" name="haveEarnings" value="true" onChange={this.handleOption} checked={this.state.haveEarnings === 'true' } />
-                    <Label>Yes</Label> 
+                    <LabelText>Yes</LabelText> 
                     </AnswerBox>
                     <AnswerBox>
                     <RadioButton type="radio" name="haveEarnings" value="false" onChange={this.handleOption} checked={this.state.haveEarnings === 'false' } />
-                    <Label>No</Label>
+                    <LabelText>No</LabelText>
                     </AnswerBox>
                 </Card>
 
@@ -120,19 +118,19 @@ export default class Prescreen1b extends React.Component {
                 <QuestionText>What format is the copy of your earnings record?</QuestionText>
                 <AnswerBox>
                   <RadioButton type="radio" name="earningsFormat" value={EarningsEnum.XML} onChange={this.handleOption} checked={this.state.earningsFormat === EarningsEnum.XML} />
-                  <Label>XML file (MySocialSecurity)</Label>
+                  <LabelText>XML file (MySocialSecurity)</LabelText>
                 </AnswerBox>
                 <AnswerBox>
                   <RadioButton type="radio" name="earningsFormat" value={EarningsEnum.PDF} onChange={this.handleOption} checked={this.state.earningsFormat === EarningsEnum.PDF} />
-                  <Label>PDF (MySocialSecurity)</Label>
+                  <LabelText>PDF (MySocialSecurity)</LabelText>
                 </AnswerBox>
                 <AnswerBox>
                   <RadioButton type="radio" name="earningsFormat" value={EarningsEnum.PDFPRINT} onChange={this.handleOption} checked={this.state.earningsFormat === EarningsEnum.PDFPRINT} />
-                  <Label>PDF (scanned from print)</Label>
+                  <LabelText>PDF (scanned from print)</LabelText>
                 </AnswerBox>
                 <AnswerBox>
                   <RadioButton type="radio" name="earningsFormat" value={EarningsEnum.PAPER} onChange={this.handleOption} checked={this.state.earningsFormat === EarningsEnum.PAPER} />
-                  <Label>Paper (mailed from SSA)</Label>
+                  <LabelText>Paper (mailed from SSA)</LabelText>
                 </AnswerBox>
               </Card> : null
             }
@@ -142,11 +140,11 @@ export default class Prescreen1b extends React.Component {
                 <QuestionText>Do you have a MySocialSecurity account?</QuestionText>
                 <AnswerBox>
                   <RadioButton type="radio" name="haveSSAccount" value="true" onChange={this.handleOption} checked={this.state.haveSSAccount === 'true'} />
-                  <Label>Yes</Label>
+                  <LabelText>Yes</LabelText>
                 </AnswerBox>
                 <AnswerBox>
                   <RadioButton type="radio" name="haveSSAccount" value="false" onChange={this.handleOption} checked={this.state.haveSSAccount === 'false'} />
-                  <Label>No</Label>
+                  <LabelText>No</LabelText>
                 </AnswerBox>
               </Card> : null
             }
