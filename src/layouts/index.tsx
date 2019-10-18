@@ -18,6 +18,11 @@ const Container = styled("div")`
   display: block;
   width: 100vw;
   min-height: 100vh;
+  @media (max-width: 767px) {
+    overflow: scroll;
+    width: 767px;
+  }
+
 `;
 
 const Main = styled("main")`
@@ -26,6 +31,10 @@ const Main = styled("main")`
   flex-direction: row;
   justify-content: space-between;
   padding: 0 15px 95px 15px;
+  @media (max-width: 767px) {
+    overflow: scroll;
+    width: 530px;
+  }
 
 `;
 
