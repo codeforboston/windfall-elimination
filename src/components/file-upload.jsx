@@ -148,7 +148,9 @@ export class GenerateTable extends React.Component {
 				    			id={'value_' + record['year'] +'_' + key}
 				    			defaultValue={record['value']} 
 				    			onChange={this.props.handleManualEarnings} 
-				    			onBlur={this.props.handleSave}>
+				    			onBlur={this.props.handleSave}
+									tabindex={parseInt(key, 10) + 1}
+									>
 				    		</input>
 				    		</td>
 				    	</React.Fragment>
