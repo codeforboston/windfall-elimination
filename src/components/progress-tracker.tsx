@@ -52,15 +52,20 @@ margin: 0;
 width: 100%;
 max-height:65px;
 font-weight: 600px;
-padding: 10px 15px;
 `
 
 const StyledStepContainer = styled("div")`
   display: block;
-  width: 240px;
-  border-right: 1px solid black;
-  background: #FAFAFA;
+  width: 20vw;
+  background: #eee;
   justify-content: space-around;
+  padding: 10px 15px;
+  min-height: 90vh;
+  @media (max-width: 768px) {
+    min-height: 60vh;
+    width: 195px;
+    padding: 10px 5px;
+  }
 `;
 
 // FIXME: does not check for duplicate paths

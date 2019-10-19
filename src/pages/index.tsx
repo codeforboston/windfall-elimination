@@ -1,29 +1,29 @@
 import React from "react";
 import {
-  LinkWrapper,
   SEO,
-  ButtonLink,
   TextBlock,
   ListItem,
   UnorderedList,
+  H3
 } from "../components";
 
+
 export default () => (
-  <>
+  <div>
     <SEO title="Home" keywords={[`gatsby`, `application`, `react`]} />
-    <h2>
+    <H3>
       What is the Windfall Elimination Provision?
-    </h2>
+    </H3>
     <TextBlock>
       If you worked in a job that did not pay Social Security taxes, you may be affected by the Windfall Elimination Provision (WEP). WEP is a Social Security rule which may reduce your Social Security retirement benefits by up to 50%.
     </TextBlock>
 
-    <h2>Who is affected?</h2>
+    <H3>Who is affected?</H3>
     <TextBlock>
       People who worked in state and local government in Massachusetts, Kentucky, Ohio, Indiana, and Texas are most likely to be affected. Continue to see how your retirement benefits will be impacted by WEP.
 
     </TextBlock>
-    <h2>This app will:</h2>
+    <H3>This app will:</H3>
     <TextBlock>
         <UnorderedList>
           <ListItem>walk you through how the formula works</ListItem>
@@ -33,7 +33,7 @@ export default () => (
         </UnorderedList>
     </TextBlock>
 
-    <h2>Privacy Disclaimer</h2>
+    <H3>Privacy Disclaimer</H3>
     <TextBlock>
       This application is intended as a tool for users to calculate their
       Social Security benefits. No data is saved, stored, or passed along
@@ -41,7 +41,7 @@ export default () => (
       deleted after use.
     </TextBlock> 
     
-    <h2>Legal Disclaimer</h2>
+    <H3>Legal Disclaimer</H3>
     <TextBlock>
       This site is for informational purposes only, and should not be taken as
       legal, tax, investment, financial, or other advice. You should consult
@@ -53,8 +53,5 @@ export default () => (
       likely that your benefit estimates in the future will differ from those
       calculated today.
     </TextBlock>
-    <LinkWrapper>
-      <ButtonLink to="/prescreen-1a/">Get Started</ButtonLink>
-    </LinkWrapper>
-  </>
+  </div>
 );

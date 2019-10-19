@@ -4,10 +4,10 @@ import { colors, spacing, fontSizes } from "../constants";
 
 export const ButtonLinkGreen = styled(ButtonLink)`
   padding: ${spacing[1]} ${spacing[2]};
-  margin: ${spacing[2]} ${spacing[2]};
   background-color: ${props =>
     props.disabled ? colors.gray : colors.darkGreen};
   border-radius: 5px;
+  margin-right: 25px;
   font-size: ${fontSizes[1]};
   color: ${colors.white};
   text-decoration: none;

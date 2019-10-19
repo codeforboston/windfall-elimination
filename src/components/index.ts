@@ -13,7 +13,7 @@ import { QuestionConsumer } from "./question-context";
 import { QuestionProvider } from "./question-context";
 import { QuestionText } from "./question-text";
 import { SEO } from "./seo";
-import { TextBlock } from "./text-block";
+import { TextBlock, H3, H2 } from "./text-block";
 import { ListText } from "./list-text";
 import { DisplayTable } from "./display-table";
 import FileUpload from "./file-upload";
@@ -27,8 +27,9 @@ import InfoWidget from "./info-widget";
 import FontLayout from "./font-layout";
 import FontPad from "./font-pad";
 import { PrintButton } from "./print-button";
-import { RadioButton, AnswerBox, AnswerInput } from './radio-button';
+import { RadioButton, AnswerBox, LabelText, AnswerInput } from './radio-button';
 import Glossary from './glossary';
+import {Footer} from "./footer";
 
 export {
     ButtonLink,
@@ -47,6 +48,8 @@ export {
     QuestionText,
     SEO,
     TextBlock,
+    H3,
+    H2,
     ListText,
     DisplayTable,
     FileUpload,
@@ -61,7 +64,9 @@ export {
     FontPad,
     PrintButton,
     RadioButton,
+    LabelText,
     AnswerBox,
     AnswerInput,
-    Glossary 
+    Glossary,
+    Footer, 
 };
