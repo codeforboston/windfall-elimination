@@ -41,9 +41,9 @@ export default () => (
     <TextBlock>
       This application is intended as a tool for users to calculate their
       Social Security benefits. No data is saved, stored, or passed along
-      to third-party services and/or gorvenmental enteties. All data is
+      to third-party services and/or governmental entities. All data is
       deleted after use.
-    </TextBlock> 
+    </TextBlock>
 
     <TextBlockHeader>Legal Disclaimer</TextBlockHeader>
     <TextBlock>

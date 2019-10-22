@@ -34,7 +34,7 @@ export default class Screen2 extends React.Component {
         } else {
             let userWEP = false;
         }
-        
+
         var userPension = Number(SessionStore.get("pensionAmount"))
 
         var userAIME = ObsFuncs.getAIMEFromEarnings(earnings, year62)
@@ -56,19 +56,19 @@ export default class Screen2 extends React.Component {
                 <Message>
                 <label>
                     WEP calculated values
-                        <HelperText>Based on the information you provided, your retirment benefits will be calculated by Social Security as follows: </HelperText>
+                        <HelperText>Based on the information you provided, your retirement benefits will be calculated by Social Security as follows: </HelperText>
                         <strong><code>${this.state.userProfile["MPB"]} per month</code></strong>
                  </label>
                 </Message>
                 <Card>
-                  However, Social Security changes your monthly benefit amount if you retire before or after your full retirement age. 
+                  However, Social Security changes your monthly benefit amount if you retire before or after your full retirement age.
                   Use the slider below to see how your planned date of retirement will affect your monthly benefit amount.
                 </Card>
                 <ButtonLinkRed to="/prescreen-1c/">Go back!</ButtonLinkRed>
                 <ButtonLink to="/print/">Print Results</ButtonLink>
                 <ButtonLink to="/">Go Home</ButtonLink>
                 <ButtonLink to="/">Further Info</ButtonLink>
-            </>       
+            </>
         )
     }
 
