@@ -6,4 +6,5 @@ export const TextBlock = styled("p")`
   font-size: ${fontSizes[1]};
   max-width: 45vw;
   margin: 0 auto ${spacing[2]};
+  font: 'Merriweather', serif;
 `;

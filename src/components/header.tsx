@@ -10,6 +10,7 @@ const Wrapper = styled("header")`
   flex: 0 0 auto;
   justify-content: center;
   border-bottom: 2px solid black;
+  font: 'Merriweather', serif;
 `;
 
 type Props = {

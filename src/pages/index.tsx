@@ -24,11 +24,11 @@ export default () => (
     <TextBlockHeader>Who is affected?</TextBlockHeader>
     <TextBlock>
       People who worked in state and local government in Massachusetts, Kentucky, Ohio, Indiana, and Texas are most likely to be affected. Continue to see how your retirement benefits will be impacted by WEP.
-
     </TextBlock>
 
+    <TextBlockHeader>How will this app help you?</TextBlockHeader>
     <TextBlock>
-        <strong>This app will:</strong>
+        This app will:
         <UnorderedList>
           <ListItem>walk you through how the formula works</ListItem>
           <ListItem>help you estimate how WEP will affect you when you retire</ListItem>
@@ -43,7 +43,7 @@ export default () => (
       Social Security benefits. No data is saved, stored, or passed along
       to third-party services and/or gorvenmental enteties. All data is
       deleted after use.
-    </TextBlock> 
+    </TextBlock>
 
     <TextBlockHeader>Legal Disclaimer</TextBlockHeader>
     <TextBlock>
