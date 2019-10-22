@@ -74,7 +74,7 @@ const StyledProgressTracker = styled(ProgressTracker)`
   margin-top: 30px;
 
 
-  *:first-child {
+  *:first-of-type {
     border-radius: 1.5em 0 0 1.5em;
     padding-left: 1em;
   }
