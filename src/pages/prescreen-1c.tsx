@@ -8,6 +8,7 @@ import {
   SEO,
   RadioButton,
   AnswerBox, 
+  LabelText,
   H2,
   Glossary,
   AnswerInput
@@ -157,7 +158,7 @@ export default class Prescreen1c extends React.Component {
                 {...(this.state.coveredEmployment ? { checked: true } : { checked: false })}
                 onChange={this.handleSelection}
               />
-              Yes
+              <LabelText>Yes</LabelText>
             </AnswerBox>
             <AnswerBox>
               <RadioButton
@@ -170,7 +171,7 @@ export default class Prescreen1c extends React.Component {
                   : { checked: false })}
                 onChange={this.handleSelection}
               />
-              No  
+              <LabelText>No</LabelText>
               </AnswerBox>
           </Card>
           {this.state.coveredEmployment && (
@@ -188,7 +189,7 @@ export default class Prescreen1c extends React.Component {
                     : { checked: false })}
                   onChange={this.handleSelection}
                 />
-                Yes
+                <LabelText>Yes</LabelText>
                 </AnswerBox>
                 <AnswerBox>
                 
@@ -201,7 +202,7 @@ export default class Prescreen1c extends React.Component {
                     : { checked: false })}
                   onChange={this.handleSelection}
                 />
-                No
+                <LabelText>No</LabelText>
                 </AnswerBox>
             </Card>
           )}
@@ -221,7 +222,7 @@ export default class Prescreen1c extends React.Component {
                     : { checked: false })}
                   onChange={this.handleSelection}
                 />
-                Monthly Pension
+                <LabelText>Monthly Pension</LabelText>
               </AnswerBox>
               <AnswerBox>
                 <RadioButton
@@ -233,7 +234,7 @@ export default class Prescreen1c extends React.Component {
                     : { checked: false })}
                   onChange={this.handleSelection}
                 />
-                Lump Sum
+                <LabelText>Lump Sum</LabelText>
                 </AnswerBox>
             </Card>
           )}

@@ -27,7 +27,7 @@ import InfoWidget from "./info-widget";
 import FontLayout from "./font-layout";
 import FontPad from "./font-pad";
 import { PrintButton } from "./print-button";
-import { RadioButton, AnswerBox, AnswerInput } from './radio-button';
+import { RadioButton, AnswerBox, LabelText, AnswerInput } from './radio-button';
 import Glossary from './glossary';
 import {Footer} from "./footer";
 
@@ -64,6 +64,7 @@ export {
     FontPad,
     PrintButton,
     RadioButton,
+    LabelText,
     AnswerBox,
     AnswerInput,
     Glossary,

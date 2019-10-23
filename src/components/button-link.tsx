@@ -15,8 +15,8 @@ export const ButtonLink = styled(Link)`
     props.disabled ? colors.gray : colors.purple};;
   box-shadow: 2px 2px 2px #424440;
   &:hover {
-    background-color: ${colors.gray};
-    border: 2px solid ${colors.gray};
+    background-color: ${colors.lightPurple};
+    border: 2px solid ${colors.lightPurple};
     color: ${colors.white};
     cursor: pointer;
   }
