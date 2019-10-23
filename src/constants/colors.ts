@@ -11,7 +11,7 @@ export const colors = {
     red: "red",
     lightred: "pink",
     darkGreen: "#323529",
-    green: "#535945",
+    green: "#606750",
     grass: "#486B00",
     earth: "#7D4427",
     lime: "#A2c523",
