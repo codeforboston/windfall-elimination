@@ -75,6 +75,8 @@ const indexToSessionStorageKeys = {
   3: ['coveredEmployment', 'pensionOrRetirementAccount'],
   4: [],
   5: [],
+  6: [],
+  7: [],
 }
 
 const checkMark = (index, indexOfActivePath) => {

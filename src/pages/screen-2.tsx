@@ -3,12 +3,14 @@ import styled from "@emotion/styled";
 import { ButtonLink, SEO, H2, Card, Message, HelperText, Glossary } from "../components";
 import * as ObsFuncs from "../library/observable-functions";
 import { SessionStore } from "../library/session-store";
-import { colors } from "../constants";
+import { colors, fontSizes } from "../constants";
 
-
-import Slider, { Range } from 'rc-slider';
+import AgeSlider from '../components/age-slider'
+import MonthlyBenefit from '../components/monthly-benefit'
 import 'rc-slider/assets/index.css';
 import dayjs from "dayjs";
+import ResultError from '../components/result-error'
+import Result from '../components/result-component'
 
 
 const ContentContainer = styled.div`
@@ -28,6 +30,16 @@ const ButtonContainer = styled.div`
   width: 330px;
   margin-top: 30px;
 `;
+
+const Flex = styled.div`
+  display: flex;
+  flex-direction: column;
+`
+
+const Text = styled.div`
+  margin: 10px 5px 40px; 
+  font-size: ${fontSizes[1]};
+`
 
 export default class Screen2 extends React.Component {
     constructor(props, context){
@@ -104,70 +116,24 @@ export default class Screen2 extends React.Component {
                 <ContentContainer>
                 <H2>Results</H2>  
                 {this.state.error?<label>Please go back and fill out all information to calculate results. </label>:
-                <>
-                 <HelperText>Based on the information you provided, your retirement benefits will be calculated by Social Security as follows: </HelperText>
-                 <Card>
-                  Monthly benefit at full retirement age:
-                  <p><strong><code>${this.state.userProfile["MPB"] || null} per month</code></strong></p>
-                  </Card>
-                 </>
-                 }
-                {this.state.testAge ?
-                <>
-                <HelperText>
-                  However, Social Security changes your monthly benefit amount if you retire before or after your full retirement age. 
-                  Use the slider below to see how your planned date of retirement will affect your monthly benefit amount.
-                </HelperText>
-                <Slider
-                  style = {{
-                    marginTop: 60,
-                    marginBottom: 60
-                  }}
-                  defaultValue = {this.state.testAge}
-                  min={62} max={70}
-                  marks=
-                  {{
-                    62:{
-                      label: <strong>62</strong>,
-                      style: {
-                        color: colors.black,
-                      }
-                    },
-                    70:{
-                      label: <strong>70</strong>,
-                      style: {
-                        color: colors.black,
-                      }
+                  <Flex>
+                    <Text>Based on the information you provided, your retirement benefits will be calculated by Social Security as follows: </Text>
+                    <MonthlyBenefit text={'full retirement age'} number={this.state.userProfile["MPB"]} />
+                    {this.state.testAge ?
+                    <><Text>However, Social Security changes your monthly benefit amount if you retire before or after your full retirement age. 
+                    Use the slider below to see how your planned date of retirement will affect your monthly benefit amount.
+                    </Text>   
+                    <AgeSlider testAge={this.state.testAge} handleRetireChange={this.handleRetireChange} />
+                    <MonthlyBenefit text={`age ${this.state.testAge}`} number={this.state.testProfile && this.state.testProfile["MPB"]}/></>: null
                     }
-                  }}
-                  step={1}
-                  trackStyle={{ backgroundColor: colors.gray }}
-                  handleStyle={{
-                    borderRadius: 0,
-                    height: 24,
-                    width: 15,
-                    marginTop: -10,
-                    backgroundColor: colors.purple,
-                    boxShadow: '0 0 0 0',
-                    borderColor: 'transparent'
-                  }}
-                  dotStyle={{ visibility: 'hidden' }}
-                  activeDotStyle={{ visibility: 'hidden' }}
-                  railStyle={{ backgroundColor: colors.gray }}
-                  onAfterChange={this.handleRetireChange}
-                />
-                <Card>
-                Monthly benefit at age { this.state.testAge }:
-                <p><strong><code>${this.state.testProfile && this.state.testProfile["MPB"]} per month</code></strong></p>
-                </Card>
-                </> : null
+                    <ButtonContainer>
+                    <ButtonLink to="/print/" disabled={this.state.error}>Print Results</ButtonLink>
+                    </ButtonContainer>
+                  </Flex>
                 }
-                <ButtonContainer>
-                <ButtonLink to="/print/" disabled={this.state.error}>Print Results</ButtonLink>
-                </ButtonContainer>
                 </ContentContainer>
                 <Glossary 
-                  title='“NON-COVERED” EMPLOYMENT'
+                  title='FULL RETIREMENT AGE'
                   link="https://www.ssa.gov/planners/retire/retirechart.html"
                   linkText=""
                 >
