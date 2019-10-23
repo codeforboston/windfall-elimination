@@ -59,6 +59,7 @@ export default class Prescreen1c extends React.Component {
 
   handleDateChange(name, value){
     if (name === "birthDatePicked") {
+      console.log('this')
       SessionStore.push("BirthDate", JSON.stringify(value))
       var year62 = new Date(value).getFullYear() + 62;
       SessionStore.push("Year62", year62)
@@ -66,6 +67,7 @@ export default class Prescreen1c extends React.Component {
         birthDate: value
       })
     } else {
+      console.log('that')
       SessionStore.push("RetireDate", JSON.stringify(value))
       this.setState({
         retireDate: value
@@ -75,6 +77,7 @@ export default class Prescreen1c extends React.Component {
 
 
     render() {
+      console.log(this.state)
         return (
             <div>
                 <SEO title="Pre-Screen 1a" keywords={[`gatsby`, `application`, `react`]} />
