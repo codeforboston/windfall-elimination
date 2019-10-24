@@ -59,7 +59,7 @@ export default class Screen2 extends React.Component {
         } else {
             let userWEP = false;
         }
-        
+
         var userPension = Number(SessionStore.get("pensionAmount"))
 
         var userAIME = ObsFuncs.getAIMEFromEarnings(earnings, year62)
@@ -82,7 +82,7 @@ export default class Screen2 extends React.Component {
                 <H2>Results</H2>  
                 {this.state.error?<label>Please go back and fill out all information to calculate results. </label>: <label>
                     WEP calculated values
-                        <HelperText>Based on the information you provided, your retirment benefits will be calculated by Social Security as follows: </HelperText>
+                        <HelperText>Based on the information you provided, your retirement benefits will be calculated by Social Security as follows: </HelperText>
                         <strong><code>${this.state.userProfile["MPB"] || null} per month</code></strong>
                  </label> }
                 {this.state.error ? null: <Card>
@@ -100,7 +100,7 @@ export default class Screen2 extends React.Component {
                 >
                   Your Full Retirement Age for Social Security is based on when you were born.
                 </Glossary>
-          </React.Fragment>       
+          </React.Fragment>
         )
     }
 
