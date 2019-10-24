@@ -14,7 +14,7 @@ export const H3 = styled.h3`
 export const H2 = styled.h2`
   font-family: 'Merriweather', serif;
   color: black;
-  font-size: ${fontSizes[4]};
+  font-size: ${fontSizes[3]};
 `;
 
 
