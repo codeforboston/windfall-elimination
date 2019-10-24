@@ -96,7 +96,6 @@ const Layout = ({ children }) => (
           <Footer>
         <Location>
           {({ location }) => {
-            console.log(location.pathname)
             const index = LINKSPATH.findIndex(path => path.path === location.pathname)
             if(location.pathname === "/print/"){
               return (
