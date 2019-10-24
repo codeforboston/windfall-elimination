@@ -33,11 +33,12 @@ const Circle = styled.div`
   border-radius: 50px;
   background-color: ${props => props.status ?`#787878`: `#433A74`};
   color: white;
-  min-width: 25px;
-  height: 25px;
-  display: block;
-  text-align: center;
+  min-width: 30px;
+  height: 30px;
+  display: flex;
   margin-left: 10px;
+  align-items: center;
+  justify-content: center;
 `;
 
 const Label = styled.h4`
