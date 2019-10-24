@@ -2,7 +2,7 @@ import styled from "@emotion/styled";
 import { spacing, colors, fontSizes, radii } from "../constants";
 
 export const PrintButton = styled("button")`
-padding: ${spacing[1]} ${spacing[2]};
+padding: 20px 60px;
 background-color: ${props =>
   props.disabled ? colors.gray : colors.purple};
 border-radius: 5px;

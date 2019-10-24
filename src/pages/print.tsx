@@ -3,7 +3,6 @@ import {
   PrintButton,
   ButtonLinkGreen,
   Message,
-  Card,
   H3,
   H2
 } from "../components";
@@ -70,7 +69,9 @@ export const TableRow= styled("tr")`
 `;
 
 const PageContainer = styled.div`
-  display: block;
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
   width: 60vw;
   @media (max-width: 768px) {
     width: 70vw;
@@ -229,6 +230,7 @@ export default class Print extends React.Component {
 
     return(
       <PageContainer>
+        <PrintArea id="printArea">
           <H2>Retirement benefit factors</H2>
           <Message>
             Please review the information below for accuracy. If the information you provided does not match
@@ -241,7 +243,6 @@ export default class Print extends React.Component {
             To find your local Social Security Office, please call the Social Security Administration at
             1-800-772-1213 or go to https://secure.ssa.gov/ICON/main.jsp.
           </Message>
-          <PrintArea id="printArea">
           <ResultsCard >
             <Title><H3>Beneficiary Information</H3></Title>
             
@@ -292,8 +293,7 @@ export default class Print extends React.Component {
               </Row>
           </ResultsCard>
           </PrintArea>
-        <ButtonLinkGreen to="/screen-2/">Go back!</ButtonLinkGreen>
-        <PrintButton onClick={this.printPage}>Print Results</PrintButton>
+        <PrintButton onClick={this.printPage}>PRINT RESULTS</PrintButton>
       </PageContainer>
     )
   }
