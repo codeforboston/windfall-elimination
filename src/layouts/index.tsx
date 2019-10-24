@@ -1,12 +1,11 @@
 import React from "react";
 import styled from "@emotion/styled";
-import { StaticQuery, graphql, Link } from "gatsby";
+import { StaticQuery, graphql } from "gatsby";
 import { Location } from "@reach/router";
 import { Header, QuestionProvider, Footer, ButtonLink, ButtonLinkGreen } from "../components";
 import "./layout.css";
-import { colors, fonts, spacing } from "../constants";
 import { ProgressTracker } from "../components/progress-tracker";
-import { ObservableRuntime, FontLayout } from "../components";
+import { FontLayout } from "../components";
 
 const Wrapper = styled("div")`
   display: block;
@@ -36,12 +35,6 @@ const Main = styled("main")`
     width: 530px;
   }
 
-`;
-
-const FooterLink = styled("footer")`
-  display: inline;
-  color: ${colors.white};
-  padding: ${spacing[1]};
 `;
 
 const ContentContainer = styled.div`
@@ -119,11 +112,10 @@ const Layout = ({ children }) => (
             }
             if(index === 0 ){
               return (
-              <ButtonContainer>
-              <ButtonLink to="/prescreen-1a/">Get Started</ButtonLink>
-              </ButtonContainer>
-            )
-
+                <ButtonContainer>
+                <ButtonLink to="/prescreen-1a/">Get Started</ButtonLink>
+                </ButtonContainer>
+              )
             }
             return (
             <ButtonContainer>

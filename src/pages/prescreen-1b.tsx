@@ -2,8 +2,6 @@ import React from "react";
 import styled from "@emotion/styled";
 import { colors } from "../constants";
 import {
-  ButtonLinkGreen,
-  ButtonLink,
   Card,
   H2,
   QuestionText,
