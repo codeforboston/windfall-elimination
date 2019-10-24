@@ -232,7 +232,7 @@ the red box in the photo below.</ol>
           </ContentContainer>
           <Glossary 
           title="MYSOCIALSECURITY"
-          link=""
+          link="https://www.ssa.gov/myaccount/"
           linkText="Sign up online for a MySocialSecurity using this link."
           >
           MySocialSecurity is the Social Security Administrations online service. With a MySocialSecurity account , you can download a copy of your earnings record to use for this question.

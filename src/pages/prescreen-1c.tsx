@@ -20,20 +20,6 @@ const ContentContainer = styled.div`
   max-width: 70%;
 `;
 
-const PageContainer = styled.div`
-  display: flex;
-  flex-direction: row;
-  justify-content: space-between;
-`;
-
-const ButtonContainer = styled.div`
-display:flex;
-flex-direction: row;
-justify-content: space-between;
-flex-wrap: wrap;
-width: 270px;
-`;
-
 function trileanFromString(s:string|null) {
   if (s === null) {
     return undefined
@@ -52,9 +38,9 @@ export default class Prescreen1c extends React.Component {
 
     this.state = {
       isLoaded: false,
-      coveredEmployment: undefined,
-      pensionOrRetirementAccount: undefined,
-      pensionType: undefined,
+      coveredEmployment: null,
+      pensionOrRetirementAccount: null,
+      pensionType: null,
       pensionAmount: null
     };
   }
@@ -63,9 +49,9 @@ export default class Prescreen1c extends React.Component {
     if (!this.state.isLoaded) {
       this.setState({
         isLoaded: true,
-        coveredEmployment: trileanFromString(SessionStore.get("coveredEmployment")),
-        pensionOrRetirementAccount: SessionStore.get("pensionOrRetirementAccount") === "true",
-        pensionType: SessionStore.get("pensionType") ? SessionStore.get("pensionType") : undefined,
+        coveredEmployment: trileanFromString(SessionStore.get("coveredEmployment")) || null,
+        pensionOrRetirementAccount: SessionStore.get("pensionOrRetirementAccount") === "true" || null,
+        pensionType: SessionStore.get("pensionType") ? SessionStore.get("pensionType") : null,
         pensionAmount: SessionStore.get("pensionAmount") ? SessionStore.get("pensionAmount") : 0
       })
     }
@@ -94,13 +80,6 @@ export default class Prescreen1c extends React.Component {
           pensionOrRetirementAccount: selectValue
         });
         break;
-      case "pensionOrRetirementAccount":
-        selectValue = selectValueString === "true"
-        SessionStore.push("pensionOrRetirementAccount", selectValue)
-        this.setState({
-          pensionOrRetirementAccount: selectValue
-        });
-        break;
       case "monthlyPension":
       case "lumpSum":
         SessionStore.push("pensionType", e.target.name)
@@ -118,24 +97,6 @@ export default class Prescreen1c extends React.Component {
   }
 
   render() {
-    let haveAllRequiredQuestionsBeenAnswered;
-    switch (this.state.coveredEmployment) {
-      case true:
-        haveAllRequiredQuestionsBeenAnswered =
-          this.state.pensionOrRetirementAccount !== undefined &&
-          this.state.pensionType !== undefined ;
-        break;
-      case false:
-        haveAllRequiredQuestionsBeenAnswered = true;
-        break;
-      case null:
-          haveAllRequiredQuestionsBeenAnswered = false;
-          break;
-      case undefined:
-        haveAllRequiredQuestionsBeenAnswered = false;
-        break;
-    }
-
     return (
       <React.Fragment>
         <SEO
@@ -153,9 +114,11 @@ export default class Prescreen1c extends React.Component {
               <RadioButton
                 type="radio"
                 name="coveredEmployment"
-                id="ce1"
                 value="true"
-                {...(this.state.coveredEmployment ? { checked: true } : { checked: false })}
+                {...(this.state.coveredEmployment
+                  ? { checked: true }
+                  : { checked: false })
+                }
                 onChange={this.handleSelection}
               />
               <LabelText>Yes</LabelText>
@@ -164,7 +127,6 @@ export default class Prescreen1c extends React.Component {
               <RadioButton
                 type="radio"
                 name="coveredEmployment"
-                id="ce2"
                 value="false"
                 {...(this.state.coveredEmployment === false
                   ? { checked: true }
@@ -186,7 +148,8 @@ export default class Prescreen1c extends React.Component {
                   value="true"
                   {...(this.state.pensionOrRetirementAccount
                     ? { checked: true }
-                    : { checked: false })}
+                    : { checked: false })
+                  }
                   onChange={this.handleSelection}
                 />
                 <LabelText>Yes</LabelText>
@@ -199,7 +162,8 @@ export default class Prescreen1c extends React.Component {
                   value="false"
                   {...(this.state.pensionOrRetirementAccount === false
                     ? { checked: true }
-                    : { checked: false })}
+                    : { checked: false })
+                  }
                   onChange={this.handleSelection}
                 />
                 <LabelText>No</LabelText>
@@ -219,7 +183,8 @@ export default class Prescreen1c extends React.Component {
                   value="true"
                   {...(this.state.pensionType === "monthlyPension"
                     ? { checked: true }
-                    : { checked: false })}
+                    : { checked: false })
+                  }
                   onChange={this.handleSelection}
                 />
                 <LabelText>Monthly Pension</LabelText>
@@ -231,7 +196,8 @@ export default class Prescreen1c extends React.Component {
                   value="false"
                   {...(this.state.pensionType === "lumpSum"
                     ? { checked: true }
-                    : { checked: false })}
+                    : { checked: false })
+                  }
                   onChange={this.handleSelection}
                 />
                 <LabelText>Lump Sum</LabelText>
