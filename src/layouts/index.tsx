@@ -53,6 +53,16 @@ const ButtonContainer = styled.div`
     width: 100%;
     margin: 10px 10px 10px 28vw;
   }
+  @media (max-width: 768px) {
+    display: flex;
+    width: 100%;
+    margin: 10px 10px 10px 28vw;
+  }
+  @media (max-width: 767px) {
+    display: flex;
+    width: 100vw;
+    justify-content: center;
+  }
 `;
 
 const LINKSPATH = [
