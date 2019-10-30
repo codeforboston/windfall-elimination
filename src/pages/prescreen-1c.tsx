@@ -22,13 +22,7 @@ export default class Prescreen1c extends React.Component {
                     To calculate your Social Security benefit, please input the following dates.
                 </TextBlock>
                 <Card>
-                        <label>
-                            {/* <Input type="date"/> */}
-                            <ObservableCell cellname='viewof birthDatePicked' />
-                        </label>
-                        <div style={display: 'none'; font-size: '16px';}><ObservableCell cellname='calculationDisplay' /></div>
-
-                        <div><ObservableCell cellname='viewof retireDatePicked'/> </div>
+                      
                 </Card>
                 <ButtonLinkRed to="/">Go back!</ButtonLinkRed>
                 <ButtonLink to="/prescreen-2/">Start</ButtonLink>
