@@ -74,7 +74,6 @@ export default class Prescreen1c extends React.Component {
 
 
     render() {
-      console.log(this.state)
         return (
             <div>
                 <SEO title="Pre-Screen 1a" keywords={[`gatsby`, `application`, `react`]} />
