@@ -168,7 +168,7 @@ Social Security record?
                 </AnswerBox>
               </Card>
             )}
-            {this.state.pensionOrRetirementAccount !== PensionEnum.NONEOFABOVE && (
+            {this.state.coveredEmployment &&  this.state.pensionOrRetirementAccount && this.state.pensionOrRetirementAccount !== PensionEnum.NONEOFABOVE && (
               <Card>
                 <label>
                   <QuestionText>
