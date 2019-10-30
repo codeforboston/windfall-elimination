@@ -6,8 +6,6 @@ import { colors } from "../constants";
 import { SessionStore } from "../library/session-store";
 import dayjs from "dayjs";
 import {
-  ButtonLink,
-  ButtonLinkGreen,
   TextBlock,
   SEO,
   Card,
@@ -20,6 +18,11 @@ const StyledDatePicker = styled(DatePicker)`
   font-size: 25px;
   min-width: 230px;
   border-radius: 3px;
+  padding-left: 10px;
+  &::placeholder {
+    font-size: 18px;
+    font-family: 'Montserrat',sans-serif;
+  }
 `;
 
 const H4 = styled.h4`
@@ -71,6 +74,7 @@ export default class Prescreen1c extends React.Component {
 
 
     render() {
+      console.log(this.state)
         return (
             <div>
                 <SEO title="Pre-Screen 1a" keywords={[`gatsby`, `application`, `react`]} />

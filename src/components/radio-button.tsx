@@ -86,9 +86,11 @@ export const AnswerBox = styled(AnswerBoxBasic)`
 export const AnswerInput = styled.input`
   border: 2px solid ${colors.purple};
   height: 50px;
-  font-size: 30px;
   width: 200px;
   border-radius: 3px;
   display: flex;
   margin: 10px 0;
+  padding: 0 10px;
+  font-size: 18px;
+  font-family: 'Montserrat',sans-serif;
 `;

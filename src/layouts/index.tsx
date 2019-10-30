@@ -57,7 +57,7 @@ const LINKSPATH = [
   {path: "/prescreen-1a/", label: "BACKGROUND"},
   {path: "/prescreen-1b/", label: "EARNINGS"},
   {path: "/prescreen-1c/", label: "EMPLOYMENT STATUS"},
-  {path: "/screen-2/", label: "RESULTS"}
+  {path: "/screen-2/", label: "RESULTS"},
 ]
 
 const Layout = ({ children }) => (
@@ -97,6 +97,14 @@ const Layout = ({ children }) => (
         <Location>
           {({ location }) => {
             const index = LINKSPATH.findIndex(path => path.path === location.pathname)
+            if(location.pathname === "/print/"){
+              return (
+                <ButtonContainer>
+                 <ButtonLinkGreen to="/prescreen-1c/">Previous: Employment Status</ButtonLinkGreen>
+                 <ButtonLink to="/">Go Home</ButtonLink>
+                </ButtonContainer>
+              )
+            }
             if(index === -1){
               return null;
             }
@@ -112,9 +120,9 @@ const Layout = ({ children }) => (
             }
             if(index === 0 ){
               return (
-                <ButtonContainer>
-                <ButtonLink to="/prescreen-1a/">Get Started</ButtonLink>
-                </ButtonContainer>
+              <ButtonContainer>
+              <ButtonLink to="/prescreen-1a/">Get Started</ButtonLink>
+              </ButtonContainer>
               )
             }
             return (

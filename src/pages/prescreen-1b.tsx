@@ -85,6 +85,7 @@ export default class Prescreen1b extends React.Component {
     }
 
   render() {
+    console.log(this.state)
     return (
     <React.Fragment>
         <SEO title="Prescreen 1b" keywords={[`social security`, `government`, `retirement`]} />
@@ -189,12 +190,12 @@ the red box in the photo below.</ol>
           }
 
           {this.showManualTable() ?
-            <>
+            <Card>
               <TextBlock>
                 Please enter the “Taxed Social Security Earnings” amounts from your earnings record.
               </TextBlock>
               <FileUpload manual={true} />
-            </> : null     
+            </Card> : null     
           }
 
           {this.state.haveEarnings === 'false' && this.state.haveSSAccount === 'false' ?
@@ -229,7 +230,7 @@ the red box in the photo below.</ol>
           </ContentContainer>
           <Glossary 
           title="MYSOCIALSECURITY"
-          link=""
+          link="https://www.ssa.gov/myaccount/"
           linkText="Sign up online for a MySocialSecurity using this link."
           >
           MySocialSecurity is the Social Security Administrations online service. With a MySocialSecurity account , you can download a copy of your earnings record to use for this question.
