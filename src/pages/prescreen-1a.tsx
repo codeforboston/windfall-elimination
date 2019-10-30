@@ -10,6 +10,7 @@ import {
   ObservableCell,
   HelperText
 } from "../components";
+import dayjs from "dayjs";
 import DatePicker from "react-datepicker";
 import moment from 'moment';
 import "react-datepicker/dist/react-datepicker.css";
@@ -75,6 +76,8 @@ export default class Prescreen1c extends React.Component {
                     placeholderText="Click to select a date"
                     selected={this.state.birthDate}
                     onChange={this.handleDateChange}
+                    showYearDropdown
+                    openToDate={dayjs().subtract(65, 'years').toDate()}
                     onChange={(value) => this.handleDateChange("birthDatePicked", value)}
                     />
                     <label style={{marginLeft: '10px'}}>{this.state.birthDate !== null ? this.state.birthDate.toLocaleDateString("en-US") : null}</label>
@@ -85,6 +88,8 @@ export default class Prescreen1c extends React.Component {
                     id="retireDatePicked"
                     placeholderText="Click to select a date"
                     selected={this.state.retireDate}
+                    showYearDropdown
+                    openToDate={dayjs().subtract(3, 'years').toDate()}
                     onChange={(value) => this.handleDateChange("retireDatePicked", value)}
                     />
                     <label style={{marginLeft: '10px'}}>{this.state.retireDate !== null ? this.state.retireDate.toLocaleDateString("en-US") : null}</label>
