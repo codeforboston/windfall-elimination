@@ -16,7 +16,7 @@ const Container = styled("div")`
   font-family: 'Montserrat', sans-serif;
   display: block;
   width: 100vw;
-  min-height: 100vh;
+  min-height: 95vh;
   @media (max-width: 767px) {
     overflow: scroll;
     width: 767px;
@@ -41,14 +41,17 @@ const ContentContainer = styled.div`
 min-height: 90vh;
 display: flex;
 width: 100%;
+@media (max-width: 1024px) {
+  min-height: 94vh;
+}
 `;
 
 const ButtonContainer = styled.div`
-  margin: 10px auto 10px 22.5vw;
+  margin: 10px auto 10px 22.3vw;
   @media (max-width: 768px) {
     display: flex;
     width: 100%;
-    margin: 10px auto 10px 30vw;
+    margin: 10px 10px 10px 28vw;
   }
 `;
 

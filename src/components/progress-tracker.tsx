@@ -58,12 +58,11 @@ font-weight: 600px;
 
 const StyledStepContainer = styled("div")`
   display: block;
-  width: 20vw;
   background: #eee;
   justify-content: space-around;
   padding: 10px 15px;
   min-height: 90vh;
-  @media (max-width: 768px) {
+  @media (max-width: 1024px) {
     min-height: 60vh;
     width: 195px;
     padding: 10px 5px;
