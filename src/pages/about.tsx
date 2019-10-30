@@ -2,7 +2,8 @@ import React from "react";
 import styled from "@emotion/styled";
 import {
   TextBlock,
-  H3
+  H3,
+  PrintButton
 } from "../components";
 
 const AboutContainer = styled.div`
@@ -28,5 +29,12 @@ export default () => (
         risk. This app will also not store your data, although you can save or
         print out your results at the end.
       </TextBlock>
+
+	 <br></br>
+	<PrintButton onClick={() => window.open("https://github.com/codeforboston/windfall-elimination")}>
+		See Our Work on GitHub
+	</PrintButton>
+
   </AboutContainer>
+
 );
