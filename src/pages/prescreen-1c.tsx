@@ -13,6 +13,47 @@ import {
 } from "../components";
 
 export default class Prescreen1c extends React.Component {
+  constructor(props, context){
+    super(props, context)
+    this.handleDateChange = this.handleDateChange.bind(this);
+    this.state = {
+      birthDate: null,
+      retireDate: null
+    };
+  }
+
+  componentDidMount() {
+    if (SessionStore.get("BirthDate") && (this.state.birthDate === null)){
+      var birthdate = new Date(JSON.parse(SessionStore.get("BirthDate")))
+      this.setState({
+        birthDate: birthdate
+      })
+
+    }
+
+    if (SessionStore.get("RetireDate") && (this.state.retireDate === null)){
+      var retiredate = new Date(JSON.parse(SessionStore.get("RetireDate")))
+      this.setState({
+        retireDate: retiredate
+      })
+    }
+  }
+
+  handleDateChange(name, value){
+    if (name === "birthDatePicked") {
+      SessionStore.push("BirthDate", JSON.stringify(value))
+      var year62 = new Date(value).getFullYear() + 62;
+      SessionStore.push("Year62", year62)
+      this.setState({
+        birthDate: value
+      })
+    } else {
+      SessionStore.push("RetireDate", JSON.stringify(value))
+      this.setState({
+        retireDate: value
+      })
+    }
+  }
 
     render() {
         return (
