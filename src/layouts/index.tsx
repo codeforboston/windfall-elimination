@@ -13,7 +13,7 @@ const Wrapper = styled("div")`
   display: grid;
   grid-template-rows: auto auto 1fr auto;
   grid-template-columns: auto;
-  font-family: ${fonts.Helvetica};
+  font-family: ${fonts.Merriweather};
   height: 100%;
 `;
 

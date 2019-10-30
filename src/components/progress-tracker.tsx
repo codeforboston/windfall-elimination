@@ -28,7 +28,7 @@ const StyledStep = styled(Step)`
         return colors.gray;
       }
       case stepStatus.active: {
-        return colors.blue;
+        return colors.darkBlue;
       }
       case stepStatus.ongoing: {
         return colors.white;
