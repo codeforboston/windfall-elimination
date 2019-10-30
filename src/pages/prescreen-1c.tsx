@@ -28,7 +28,7 @@ margin: auto 0;
 
 const TopQuestionAndTitle = styled.div`
 width: 70%;
-margin-bottom: 100px;
+margin-bottom: 75px;
 `;
 
 function trileanFromString(s: string | null) {
@@ -171,6 +171,7 @@ export default class Prescreen1c extends React.Component {
         </Glossary>
             </CardGlossaryContainer>
             {this.state.coveredEmployment && (
+            <CardGlossaryContainer>
               <Card>
                 <QuestionText>
                 Do you have a pension or retirement account from
@@ -190,8 +191,15 @@ Social Security record?
                   <LabelText>None of the above</LabelText>
                 </AnswerBox>
               </Card>
+              <Glossary
+              title="WHAT COUNTS AS A PENSION?"
+              link=""
+              linkText="Read the Social Security Administration’s guidance on what counts as a pension here."
+              >
+              A pension can be a monthly pension paid our of your employer’s retirement fund, or a lump sum like a 401(k) or other retirement account based on non-covered employment.
+              </Glossary>
+            </CardGlossaryContainer>
             )}
-            <CardGlossaryContainer>
             {this.state.pensionOrRetirementAccount !== PensionEnum.NONEOFABOVE && (
               <Card>
                 <label>
@@ -206,14 +214,6 @@ Social Security record?
                 </label>
               </Card>
             )}
-            <Glossary
-          title="WHAT COUNTS AS A PENSION?"
-          link=""
-          linkText="Read the Social Security Administration’s guidance on what counts as a pension here."
-        >
-          A pension can be a monthly pension paid our of your employer’s retirement fund, or a lump sum like a 401(k) or other retirement account based on non-covered employment.
-        </Glossary>
-        </CardGlossaryContainer>
         </ContentContainer>
       </React.Fragment>
     );
