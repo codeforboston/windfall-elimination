@@ -56,8 +56,9 @@ const LINKSPATH = [
   {path: "/", label: "HOME"},
   {path: "/prescreen-1a/", label: "BACKGROUND"},
   {path: "/prescreen-1b/", label: "EARNINGS"},
-  {path: "/prescreen-1c/", label: "EMPLOYMENT STATUS"},
+  {path: "/prescreen-1c/", label: "EMPLOYMENT"},
   {path: "/screen-2/", label: "RESULTS"},
+  {path: "/screen-2/", label: "BENEFIT FORMULA"},
 ]
 
 const Layout = ({ children }) => (

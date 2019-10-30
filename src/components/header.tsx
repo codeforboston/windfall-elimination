@@ -30,7 +30,7 @@ export const Header = () => (
         <StyledLink
           to="/"
         >
-          Windfall Awareness Calculator
+          Social Security Benefit Calculator
         </StyledLink>
       </h1>
       <AboutLink to="/about">About</AboutLink>
