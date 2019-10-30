@@ -73,17 +73,19 @@ const indexToSessionStorageKeys = {
   1: ["Year62", "BirthDate", "RetireDate"],
   2: ['haveEarnings'],
   3: ['coveredEmployment', 'pensionOrRetirementAccount'],
+  4: [],
+  5: [],
 }
 
 const checkMark = (index, indexOfActivePath) => {
   const sessionKeys = Object.keys(sessionStorage);
   const indexValues = indexToSessionStorageKeys[index];
-    for(var i = 0; i < indexValues.length; i ++ ){
+    for(var i = 0; i < indexValues.length; i++ ){
       if(!sessionKeys.includes(indexValues[i])){
         return <Circle status={index > indexOfActivePath}>{index}</Circle>;
       }
     }
-    return <Circle> ✔</Circle>;
+    return <Circle>✓</Circle>;
 
  }
 
