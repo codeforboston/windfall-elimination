@@ -26,7 +26,7 @@ export default class Prescreen1c extends React.Component {
                             {/* <Input type="date"/> */}
                             <ObservableCell cellname='viewof birthDatePicked' />
                         </label>
-                        <div style={{display: 'none'}}><ObservableCell cellname='calculationDisplay' /></div>
+                        <div style={display: 'none'; font-size: '16px';}><ObservableCell cellname='calculationDisplay' /></div>
 
                         <div><ObservableCell cellname='viewof retireDatePicked'/> </div>
                 </Card>

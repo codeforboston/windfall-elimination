@@ -30,6 +30,7 @@
     "pdfjs-dist": "2.1.266",
     "prop-types": "^15.7.2",
     "react": "^16.8.5",
+    "react-datepicker": "^2.9.6",
     "react-dom": "^16.8.5",
     "react-helmet": "^5.2.0",
     "tesseract.js": "^2.0.0-alpha.11",
