@@ -90,7 +90,7 @@ export default class Prescreen1b extends React.Component {
     <React.Fragment>
         <SEO title="Prescreen 1b" keywords={[`social security`, `government`, `retirement`]} />
         <ContentContainer>
-            <H2>Step 2: Getting your earnings record</H2>
+            <H2>Step 2: Earnings</H2>
             <TextBlock>
                 Your Social Security retirement benefits are calculated based on your earnings in covered employment.
             </TextBlock>

@@ -7,7 +7,7 @@ import {
   QuestionText,
   SEO,
   RadioButton,
-  AnswerBox, 
+  AnswerBox,
   LabelText,
   H2,
   Glossary,
@@ -20,14 +20,20 @@ const ContentContainer = styled.div`
   max-width: 70%;
 `;
 
-function trileanFromString(s:string|null) {
+function trileanFromString(s: string | null) {
   if (s === null) {
-    return undefined
+    return undefined;
   } else if (s === "null") {
-    return null
+    return null;
   } else {
-    return s === "true"
+    return s === "true";
   }
+}
+
+enum PensionEnum {
+	PENSION = "MONTHLYPENSION",
+	LUMPSUM = "LUMPSUMRETIREMENTACCOUNT",
+	NONEOFABOVE = "NONEOFABOVE",
 }
 
 export default class Prescreen1c extends React.Component {
@@ -49,17 +55,23 @@ export default class Prescreen1c extends React.Component {
     if (!this.state.isLoaded) {
       this.setState({
         isLoaded: true,
-        coveredEmployment: trileanFromString(SessionStore.get("coveredEmployment")) || null,
-        pensionOrRetirementAccount: SessionStore.get("pensionOrRetirementAccount") === "true" || null,
-        pensionType: SessionStore.get("pensionType") ? SessionStore.get("pensionType") : null,
-        pensionAmount: SessionStore.get("pensionAmount") ? SessionStore.get("pensionAmount") : 0
-      })
+        coveredEmployment:
+          trileanFromString(SessionStore.get("coveredEmployment")) || null,
+        pensionOrRetirementAccount:
+          SessionStore.get("pensionOrRetirementAccount") === "true" || null,
+        pensionType: SessionStore.get("pensionType")
+          ? SessionStore.get("pensionType")
+          : null,
+        pensionAmount: SessionStore.get("pensionAmount")
+          ? SessionStore.get("pensionAmount")
+          : 0
+      });
     }
   }
 
   componentDidUpdate() {
-        FontControl.loadFont()
-    }
+    FontControl.loadFont();
+  }
 
   handleSelection(e) {
     let selectValueString = e.target.value;
@@ -67,28 +79,27 @@ export default class Prescreen1c extends React.Component {
 
     switch (e.target.name) {
       case "coveredEmployment":
-        selectValue = trileanFromString(selectValueString)
-        SessionStore.push("coveredEmployment", selectValue)
+        selectValue = trileanFromString(selectValueString);
+        SessionStore.push("coveredEmployment", selectValue);
         this.setState({
           coveredEmployment: selectValue
         });
         break;
       case "pensionOrRetirementAccount":
-        selectValue = selectValueString === "true"
-        SessionStore.push("pensionOrRetirementAccount", selectValue)
+        SessionStore.push("pensionOrRetirementAccount", selectValueString);
         this.setState({
-          pensionOrRetirementAccount: selectValue
+          pensionOrRetirementAccount: selectValueString
         });
         break;
       case "monthlyPension":
       case "lumpSum":
-        SessionStore.push("pensionType", e.target.name)
+        SessionStore.push("pensionType", e.target.name);
         this.setState({
           pensionType: e.target.name
         });
         break;
       case "pensionAmount":
-        SessionStore.push("pensionAmount", e.target.value)
+        SessionStore.push("pensionAmount", e.target.value);
         this.setState({
           pensionAmount: e.target.value
         });
@@ -104,124 +115,94 @@ export default class Prescreen1c extends React.Component {
           keywords={[`gatsby`, `application`, `react`]}
         />
         <ContentContainer>
-        <H2>Step 3: Employment History</H2>
-        <Form>
-          <Card>
-            <QuestionText>
-              Did you work in “non-covered” employment?
-            </QuestionText>
-            <AnswerBox>                 
-              <RadioButton
-                type="radio"
-                name="coveredEmployment"
-                value="true"
-                {...(this.state.coveredEmployment
-                  ? { checked: true }
-                  : { checked: false })
-                }
-                onChange={this.handleSelection}
-              />
-              <LabelText>Yes</LabelText>
-            </AnswerBox>
-            <AnswerBox>
-              <RadioButton
-                type="radio"
-                name="coveredEmployment"
-                value="false"
-                {...(this.state.coveredEmployment === false
-                  ? { checked: true }
-                  : { checked: false })}
-                onChange={this.handleSelection}
-              />
-              <LabelText>No</LabelText>
-              </AnswerBox>
-          </Card>
-          {this.state.coveredEmployment && (
+          <H2>Step 3: Employment</H2>
+          <Form>
             <Card>
               <QuestionText>
-              Do you have a pension from your non-covered job?
+                Do you have earnings that do not show up on your Social Security
+                record?
               </QuestionText>
               <AnswerBox>
                 <RadioButton
                   type="radio"
-                  name="pensionOrRetirementAccount"
+                  name="coveredEmployment"
                   value="true"
-                  {...(this.state.pensionOrRetirementAccount
+                  {...(this.state.coveredEmployment
                     ? { checked: true }
-                    : { checked: false })
-                  }
+                    : { checked: false })}
                   onChange={this.handleSelection}
                 />
                 <LabelText>Yes</LabelText>
-                </AnswerBox>
-                <AnswerBox>
-                
-                <RadioButton
-                  type="radio"
-                  name="pensionOrRetirementAccount"
-                  value="false"
-                  {...(this.state.pensionOrRetirementAccount === false
-                    ? { checked: true }
-                    : { checked: false })
-                  }
-                  onChange={this.handleSelection}
-                />
-                <LabelText>No</LabelText>
-                </AnswerBox>
-            </Card>
-          )}
-          { this.state.coveredEmployment &&
-            this.state.pensionOrRetirementAccount && (
-            <Card>
-              <QuestionText>
-              Do you have a monthly pension or a lump sum?
-              </QuestionText>
-              <AnswerBox>    
-                <RadioButton
-                  type="radio"
-                  name="monthlyPension"
-                  value="true"
-                  {...(this.state.pensionType === "monthlyPension"
-                    ? { checked: true }
-                    : { checked: false })
-                  }
-                  onChange={this.handleSelection}
-                />
-                <LabelText>Monthly Pension</LabelText>
               </AnswerBox>
               <AnswerBox>
                 <RadioButton
                   type="radio"
-                  name="lumpSum"
+                  name="coveredEmployment"
                   value="false"
-                  {...(this.state.pensionType === "lumpSum"
+                  {...(this.state.coveredEmployment === false
                     ? { checked: true }
-                    : { checked: false })
-                  }
+                    : { checked: false })}
                   onChange={this.handleSelection}
                 />
-                <LabelText>Lump Sum</LabelText>
+                <LabelText>No</LabelText>
+              </AnswerBox>
+            </Card>
+            {this.state.coveredEmployment && (
+              <Card>
+                <QuestionText>
+                Do you have a pension or retirement account from
+the work you did that does not show up on your
+Social Security record?
+                </QuestionText>
+                <AnswerBox>
+                  <RadioButton type="radio" name="pensionOrRetirementAccount" value={PensionEnum.PENSION} onChange={this.handleSelection} checked={this.state.pensionOrRetirementAccount === PensionEnum.PENSION} />
+                  <LabelText>Monthly pension</LabelText>
                 </AnswerBox>
-            </Card>
-          )}
-          { this.state.pensionOrRetirementAccount &&
-            this.state.pensionType && (
-            <Card>
+                <AnswerBox>
+                  <RadioButton type="radio" name="pensionOrRetirementAccount" value={PensionEnum.LUMPSUM} onChange={this.handleSelection} checked={this.state.pensionOrRetirementAccount === PensionEnum.LUMPSUM} />
+                  <LabelText>Retirement account</LabelText>
+                </AnswerBox>
+                <AnswerBox>
+                  <RadioButton type="radio" name="pensionOrRetirementAccount" value={PensionEnum.NONEOFABOVE} onChange={this.handleSelection} checked={this.state.pensionOrRetirementAccount === PensionEnum.NONEOFABOVE} />
+                  <LabelText>None of the above</LabelText>
+                </AnswerBox>
+              </Card>
+            )}
+            {this.state.pensionOrRetirementAccount !== PensionEnum.NONEOFABOVE && (
+              <Card>
                 <label>
-                <QuestionText>Please enter the amount of your pension or lump sum.</QuestionText>
-                <AnswerInput name="pensionAmount" defaultValue={this.state.pensionAmount} onChange={this.handleSelection}></AnswerInput>
+                  <QuestionText>
+                    Please enter the amount of your pension or lump sum.
+                  </QuestionText>
+                  <AnswerInput
+                    name="pensionAmount"
+                    defaultValue={this.state.pensionAmount}
+                    onChange={this.handleSelection}
+                  ></AnswerInput>
                 </label>
-            </Card>
-          )}
-        </Form>
+              </Card>
+            )}
+          </Form>
         </ContentContainer>
-        <Glossary 
-          title='“NON-COVERED” EMPLOYMENT'
+        <div>
+        <Glossary
+          title="WHAT EARNINGS WOULD NOT BE ON MY SOCIAL SECURITY EARNINGS RECORD?"
           link=""
-          linkText="Contact your state’s Social Security Administrator to find out if your job was “non- covered.” You should have your Social Security number ready when you call."
+          linkText=""
         >
-        “Non-covered” employment is a job where your employer did not pay Social Security taxes. This includes many state and local government jobs, as well as federal jobs that paid into CSRS instead of FERS.
+          For example, you may have worked for a state or local government, like
+          a city or town or school system. In many states, state and local jobs
+          do not pay into Social Security, which means earnings from these jobs
+          will not show up on a Social Security record.
         </Glossary>
+        <Glossary
+          title="WHAT COUNTS AS A PENSION?"
+          link=""
+          linkText="Read the Social Security Administration’s guidance on what counts as a pension here."
+        >
+          A pension can be a monthly pension paid our of your employer’s retirement fund, or a lump sum like a 401(k) or other retirement account based on non-covered employment.
+        </Glossary>
+        </div>
       </React.Fragment>
     );
   }
