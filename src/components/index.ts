@@ -30,6 +30,7 @@ import { PrintButton } from "./print-button";
 import { RadioButton, AnswerBox, LabelText, AnswerInput } from './radio-button';
 import Glossary from './glossary';
 import {Footer} from "./footer";
+import { WarningBox }  from "./warning-box";
 
 export {
     ButtonLink,
@@ -69,4 +70,5 @@ export {
     AnswerInput,
     Glossary,
     Footer, 
+    WarningBox,
 };

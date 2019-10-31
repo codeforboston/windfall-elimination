@@ -11,7 +11,8 @@ import {
   RadioButton,
   LabelText,
   AnswerBox,
-  Glossary
+  Glossary, 
+  WarningBox
 } from "../components";
 import { SessionStore } from "../library/session-store";
 import { FontControl } from "../library/font-control";
@@ -24,12 +25,6 @@ export const SsaImage= styled("img")`
 
 const HowToContainer = styled.div`
   display: block;
-`;
-
-const WarningBox = styled.div`
-  border-left: 3px solid ${colors.red};
-  background-color: #ffe6e6;
-  padding: 10px;
 `;
 
 
