@@ -85,7 +85,6 @@ export default class Prescreen1b extends React.Component {
     }
 
   render() {
-    console.log(this.state)
     return (
     <React.Fragment>
         <SEO title="Prescreen 1b" keywords={[`social security`, `government`, `retirement`]} />
