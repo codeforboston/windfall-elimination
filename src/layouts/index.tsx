@@ -47,21 +47,16 @@ width: 100%;
 `;
 
 const ButtonContainer = styled.div`
-  margin: 10px auto 10px 22.3vw;
-  @media (max-width: 768px) {
+  margin: 10px auto 10px 20vw;
+  @media (max-width: 1024px) {
     display: flex;
     width: 100%;
-    margin: 10px 10px 10px 28vw;
+    margin: 10px 10px 10px 21.5vw;
   }
   @media (max-width: 768px) {
-    display: flex;
-    width: 100%;
-    margin: 10px 10px 10px 28vw;
-  }
-  @media (max-width: 767px) {
     display: flex;
     width: 100vw;
-    justify-content: center;
+    margin: 10px 10px 10px 28.5vw;
   }
 `;
 
