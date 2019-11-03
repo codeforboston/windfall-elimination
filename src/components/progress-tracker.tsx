@@ -78,6 +78,9 @@ const indexToSessionStorageKeys = {
 }
 
 const checkMark = (index, indexOfActivePath) => {
+  if (typeof window === 'undefined') {
+    return null;
+  }
   const sessionKeys = Object.keys(sessionStorage);
   const indexValues = indexToSessionStorageKeys[index];
     for(var i = 0; i < indexValues.length; i++ ){
