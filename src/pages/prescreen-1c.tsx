@@ -15,11 +15,11 @@ import {
   HelperText
 } from "../components";
 
-export const StyledDatePicker = styled(DatePicker)`
-  border: 2px solid ${colors.purple};
+const StyledDatePicker = styled(DatePicker)`
+  border: 1px solid #00003D;
   height: 60px;
   font-size: 25px;
-  min-width: 230px;
+  min-width: 150px;
   border-radius: 3px;
 `;
 
@@ -29,7 +29,8 @@ export default class Prescreen1c extends React.Component {
     this.handleDateChange = this.handleDateChange.bind(this);
     this.state = {
       birthDate: null,
-      retireDate: null
+      retireDate: null,
+      today: new Date().toLocaleString()
     };
   }
 
@@ -75,6 +76,7 @@ export default class Prescreen1c extends React.Component {
                     To calculate your Social Security benefit, please input the following dates.
                 </TextBlock>
                 <Card>
+                  Enter birth date here: <br></br>
                   <StyledDatePicker
                   id="birthDatePicked"
                   placeholderText="Click to select a date"
@@ -82,9 +84,13 @@ export default class Prescreen1c extends React.Component {
                   showYearDropdown
                   openToDate={dayjs().subtract(64, 'years').toDate()}
                   onChange={(value) => this.handleDateChange("birthDatePicked", value)}
+                  dayPlaceholder="01"
+                  monthPlaceholder="01"
+                  yearPlaceholder="1970"
                   />
                 </Card>
                 <Card>
+                  Enter retire date here: <br></br>
                   <StyledDatePicker
                   id="retireDatePicked"
                   placeholderText="Click to select a date"
@@ -92,6 +98,9 @@ export default class Prescreen1c extends React.Component {
                   showYearDropdown
                   openToDate={dayjs().subtract(2, 'years').toDate()}
                   onChange={(value) => this.handleDateChange("retireDatePicked", value)}
+                  dayPlaceholder="01"
+                  monthPlaceholder="01"
+                  yearPlaceholder="2019"
                   />
                 </Card>
                 <ButtonLinkRed to="/">Go back!</ButtonLinkRed>

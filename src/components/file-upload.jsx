@@ -3,26 +3,12 @@ import styled from "@emotion/styled";
 import fastXml from "fast-xml-parser";
 import pdfJS from "pdfjs-dist";
 import { spacing, colors, fontSizes, radii } from "../constants";
-import { ObservableCell } from "../components";
+import { ButtonLink, ObservableCell } from "../components";
 import { SessionStore } from "../library/session-store";
 
 //Upload page specific css/html
-export const UploadButton = styled("div")`
-	position: relative;
-    padding: ${spacing[0]} ${spacing[0]};
-    margin: ${spacing[2]} ${spacing[0]};
-    overflow: hidden;
-    background-color: ${colors.blue};
-    font-size: ${fontSizes[1]};
-    border-radius: ${radii[2]};
-    color: ${colors.white};
-    text-decoration: none;
-    display: inline-block;
-    width: 300px;
-    height: 20px;
-    &:hover {
-        background-color: ${colors.lightBlue};
-    }
+export const UploadButton = styled(ButtonLink)`
+	max-height: 50px;
 `;
 
 export const UploadInput = styled("input")`
@@ -88,11 +74,11 @@ export class GenerateTable extends React.Component {
 		    		<TableRow key={key}>
 			    		<td><label>{record['year']}</label></td>
 			    		<td>
-			    		<input 
-			    			type="text" 
-			    			id={'value_' + record['year'] +'_' + key} 
-			    			defaultValue={record['value']} 
-			    			onChange={this.props.handleManualEarnings} 
+			    		<input
+			    			type="text"
+			    			id={'value_' + record['year'] +'_' + key}
+			    			defaultValue={record['value']}
+			    			onChange={this.props.handleManualEarnings}
 			    			onBlur={this.props.handleSave}>
 			    		</input>
 			    		</td>
@@ -309,11 +295,11 @@ export default class FileUpload extends React.Component {
 		 	 	 '@_endYear': newvalue,
 				 'osss:FicaEarnings': combinedValues.shift(),
 				 'osss:MedicafreEarnings': combinedValues.shift()
-				}				
+				}
 				currentRecord.push(newrecord)
 			}
 		} while (combinedValues.length > 0)
-			
+
 		var earningsJSON = JSON.stringify(this.state.defaultRecord)
 		SessionStore.push('earnings', earningsJSON)
 		this.setState({
@@ -337,7 +323,7 @@ export default class FileUpload extends React.Component {
 				reader.onload = (reader) => this.handleXMLFile(reader)
 				reader.readAsText(file);
 				break;
-			
+
 			case 'pdf':
 				reader.onload = (reader) => this.handlePDFFile(reader)
 				reader.readAsArrayBuffer(file)
