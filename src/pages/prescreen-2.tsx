@@ -54,7 +54,7 @@ export default class Prescreen2 extends React.Component {
     return (
       <>
         <SEO
-          title="Prescreen 2"
+          title="Earnings"
           keywords={[`gatsby`, `application`, `react`]}
         />
                 <h2>Step 2: Getting your earnings record</h2>
@@ -64,7 +64,7 @@ export default class Prescreen2 extends React.Component {
               <TextBlock>
                 To calculate your Social Security retirement benefits, you will need a record of your earnings from Social Security.
                 Follow the steps below to get your earning record.
-              </TextBlock> 
+              </TextBlock>
                 <Form>
                     <Card>
                         <QuestionText>Do you have a MySocialSecurity account?</QuestionText>

@@ -10,7 +10,7 @@ import {
 
 export default () => (
   <>
-    <SEO title="Screen 3" />
+    <SEO title="Results" />
     <h2>Further Information</h2>
     <Card>
       <label>

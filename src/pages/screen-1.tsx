@@ -3,7 +3,7 @@ import { ButtonLink, ButtonLinkRed, Form, SEO, ObservableCell, Card, Message } f
 
 export default () => (
     <>
-        <SEO title="Screen 2" />
+        <SEO title="Pension Adjustment" />
         <h2>Step 4: WEP-Adjusted Benefits</h2>
         <Form>
           <Card>
