@@ -1,5 +1,7 @@
+import styled from "@emotion/styled";
 import React from "react";
 import dayjs from "dayjs";
+import DatePicker from "react-date-picker";
 import { SessionStore } from "../library/session-store";
 import {
   ButtonLink,
@@ -10,9 +12,16 @@ import {
   LinkButton,
   Card,
   ObservableCell,
-  HelperText,
-  StyledDatePicker
+  HelperText
 } from "../components";
+
+export const StyledDatePicker = styled(DatePicker)`
+  border: 2px solid ${colors.purple};
+  height: 60px;
+  font-size: 25px;
+  min-width: 230px;
+  border-radius: 3px;
+`;
 
 export default class Prescreen1c extends React.Component {
   constructor(props, context){
