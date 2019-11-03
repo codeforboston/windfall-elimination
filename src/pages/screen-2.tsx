@@ -95,7 +95,7 @@ export default class Screen2 extends React.Component {
                 </ContentContainer>
                 <Glossary 
                   title='“NON-COVERED” EMPLOYMENT'
-                  link=""
+                  link="https://www.ssa.gov/planners/retire/retirechart.html"
                   linkText=""
                 >
                   Your Full Retirement Age for Social Security is based on when you were born.

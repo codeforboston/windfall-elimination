@@ -1,6 +1,6 @@
 import React from "react";
-import { SEO, TextBlock, ListItem, UnorderedList, H3 } from "../components";
-import Glossary from "../components/glossary";
+import { SEO, TextBlock, ListItem, UnorderedList, H2, H3, WarningBox } from "../components";
+
 export default () => (
     <div>
       <SEO title="Home" keywords={[`gatsby`, `application`, `react`]} />
@@ -38,14 +38,14 @@ export default () => (
         third-party services and/or government entities. All data is deleted
         after use.
       </TextBlock>
-      <Glossary title="Legal Disclaimer" link="" linkText="">
-      Your future benefits may be affected by
+      <H3>[Legal Disclaimer]</H3>
+      <TextBlock>
+        Your future benefits may be affected by
         changes in your employment or changes to the SSA’s formula.
         This site is for informational purposes only, and should not be taken as
         legal, tax, investment, financial, or other advice. You should consult
         with a financial advisor or attorney to determine what is best for your
         individual circumstances. 
-       
-      </Glossary>
+      </TextBlock>
     </div>
 );
