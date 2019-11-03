@@ -13,7 +13,7 @@
     "@types/react-helmet": "^5.0.8",
     "babel-preset-gatsby": "^0.1.11",
     "d3": "^5.11.0",
-    "dayjs": "^1.8.15",
+    "dayjs": "^1.8.16",
     "fast-xml-parser": "^3.12.16",
     "gatsby": "^2.4.2",
     "gatsby-cli": "^2.5.13",
