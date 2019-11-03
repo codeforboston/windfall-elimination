@@ -61,9 +61,11 @@ export default class Prescreen1c extends React.Component {
       SessionStore.push("BirthDate", JSON.stringify(value))
       var year62 = new Date(value).getFullYear() + 62;
       SessionStore.push("Year62", year62)
-      this.setState({
-        birthDate: value
-      })
+      var state = {birthDate: value}
+      if (dayjs(value).isAfter(dayjs(this.state.retireDate).subtract(18, 'years'))) {
+        state.retireDate = dayjs(value).add(18, 'years').toDate()
+      }
+      this.setState(state)
     } else {
       SessionStore.push("RetireDate", JSON.stringify(value))
       this.setState({
@@ -88,18 +90,20 @@ export default class Prescreen1c extends React.Component {
                     placeholderText="Click to select a date"
                     selected={this.state.birthDate}
                     showYearDropdown
-                    openToDate={dayjs().subtract(64, 'years').toDate()}
+                    openToDate={this.state.birthDate || dayjs().subtract(64, 'years').toDate()}
                     onChange={(value) => this.handleDateChange("birthDatePicked", value)}
                     />
                   </Card>                  
                   <Card>
                     <H4>Retire Date</H4>
                     <StyledDatePicker
+                    disabled={ this.state.birthDate === null }
                     id="retireDatePicked"
                     placeholderText="Click to select a date"
                     selected={this.state.retireDate}
                     showYearDropdown
-                    openToDate={dayjs().subtract(2, 'years').toDate()}
+                    openToDate={ this.state.retireDate || dayjs(this.state.birthDate).add(62, 'years').toDate() }
+                    minDate={dayjs(this.state.birthDate).add(18,'years').toDate()}
                     onChange={(value) => this.handleDateChange("retireDatePicked", value)}
                     />
                   </Card>
