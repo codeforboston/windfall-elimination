@@ -13,6 +13,7 @@ import {
 import { SessionStore } from "../library/session-store";
 import { FontControl } from "../library/font-control";
 
+
 function trileanFromString(s:string|null) {
   if (s === null) {
     return undefined
@@ -128,7 +129,7 @@ export default class Prescreen1b extends React.Component {
                   : { checked: false })}
                 onChange={this.handleSelection}
               />
-              </label>
+            </label>
               <label>
               {" "}
               Not Sure
