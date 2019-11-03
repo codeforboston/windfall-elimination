@@ -1,41 +1,38 @@
 import { Link } from "gatsby";
 import React from "react";
 import styled from "@emotion/styled";
-import { colors, spacing, fontSizes } from "../constants";
-import { HamburgerHelper, FontPad } from "../components";
 
 const Wrapper = styled("header")`
-  background: ${colors.white};
+  background: #433A74;
+  color: #FFFFFF;
   display: flex;
-  flex: 0 0 auto;
-  justify-content: center;
-  border-bottom: 2px solid black;
+  justify-content: space-between;
+  padding: .75rem 1rem;
+  font-family: 'Merriweather', serif;
 `;
 
-type Props = {
-  siteTitle?: string;
-};
-export const Header: React.FC<Props> = ({ siteTitle }) => (
+const StyledLink = styled(Link)`
+  color: white;
+  text-decoration: none;
+`;
+
+const AboutLink = styled(Link)`
+  color: white;
+  text-decoration: none;
+  font-size: 20px;
+  line-height: 2;
+  vertical-align: middle;
+`;
+
+export const Header = () => (
   <Wrapper>
-    <div
-      style={{
-        margin: `0 auto`,
-        maxWidth: 960,
-        padding: `1.45rem 1.0875rem`
-      }}
-    >
       <h1 style={{ margin: 0 }}>
-        <Link
+        <StyledLink
           to="/"
-          style={{
-            color: `black`,
-            textDecoration: `none`
-          }}
         >
-          {siteTitle || "Windfall Awareness"}
-        </Link>
+          Social Security Benefit Calculator
+        </StyledLink>
       </h1>
-    </div>
-    <FontPad />
+      <AboutLink to="/about">About</AboutLink>
   </Wrapper>
 );

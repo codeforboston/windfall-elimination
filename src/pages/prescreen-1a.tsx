@@ -1,19 +1,33 @@
 import React from "react";
+import styled from "@emotion/styled";
+import DatePicker from "react-datepicker";
+import "react-datepicker/dist/react-datepicker.css";
+import { colors } from "../constants";
+import { SessionStore } from "../library/session-store";
+import dayjs from "dayjs";
 import {
-  ButtonLink,
-  ButtonLinkRed,
   TextBlock,
   SEO,
-  ListText,
-  LinkButton,
   Card,
-  ObservableCell,
-  HelperText
+  H2,
 } from "../components";
-import DatePicker from "react-datepicker";
-import moment from 'moment';
-import "react-datepicker/dist/react-datepicker.css";
-import { SessionStore } from "../library/session-store";
+
+const StyledDatePicker = styled(DatePicker)`
+  border: 2px solid ${colors.purple};
+  height: 60px;
+  font-size: 25px;
+  min-width: 230px;
+  border-radius: 3px;
+  padding-left: 10px;
+  &::placeholder {
+    font-size: 18px;
+    font-family: 'Montserrat',sans-serif;
+  }
+`;
+
+const H4 = styled.h4`
+margin: 5px 0;
+`
 
 export default class Prescreen1c extends React.Component {
   constructor(props, context){
@@ -61,38 +75,35 @@ export default class Prescreen1c extends React.Component {
 
     render() {
         return (
-            <>
+            <div>
                 <SEO title="Pre-Screen 1a" keywords={[`gatsby`, `application`, `react`]} />
-                <h2>Step 1: Background Information</h2>
+                <H2>Step 1: Background Information</H2>
                 <TextBlock>
                     To calculate your Social Security benefit, please input the following dates.
                 </TextBlock>
-                <Card>
-                  <div style={{marginBottom: "10px"}}>
-                    <div>Birthdate</div>
-                    <DatePicker
+                  <Card>
+                    <H4>Birthdate</H4>
+                    <StyledDatePicker
                     id="birthDatePicked"
                     placeholderText="Click to select a date"
                     selected={this.state.birthDate}
-                    onChange={this.handleDateChange}
+                    showYearDropdown
+                    openToDate={dayjs().subtract(64, 'years').toDate()}
                     onChange={(value) => this.handleDateChange("birthDatePicked", value)}
                     />
-                    <label style={{marginLeft: '10px'}}>{this.state.birthDate !== null ? this.state.birthDate.toLocaleDateString("en-US") : null}</label>
-                  </div>
-                  <div>
-                    <div>Retire Date</div>
-                    <DatePicker
+                  </Card>                  
+                  <Card>
+                    <H4>Retire Date</H4>
+                    <StyledDatePicker
                     id="retireDatePicked"
                     placeholderText="Click to select a date"
                     selected={this.state.retireDate}
+                    showYearDropdown
+                    openToDate={dayjs().subtract(2, 'years').toDate()}
                     onChange={(value) => this.handleDateChange("retireDatePicked", value)}
                     />
-                    <label style={{marginLeft: '10px'}}>{this.state.retireDate !== null ? this.state.retireDate.toLocaleDateString("en-US") : null}</label>
-                  </div>
-                </Card>
-                <ButtonLinkRed to="/">Go back!</ButtonLinkRed>
-                <ButtonLink to="/prescreen-1b/" style={(this.state.birthDate && this.state.retireDate) ? {pointerEvents: ''}: {pointerEvents: 'none'}}>Start</ButtonLink>
-            </>
+                  </Card>
+            </div>
          )
     }
 }

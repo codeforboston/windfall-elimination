@@ -1,35 +1,39 @@
 import React from "react";
 import styled from "@emotion/styled";
-import { colors, spacing, fontSizes, radii } from "../constants";
+import { colors, spacing, fontSizes, lightGray } from "../constants";
 import { FontControl } from "../library/font-control";
 
 
 const FontButtonHolder = styled("div")`
-  position: relative;
+  float: right;
+  display:block;
   top: 12px;
   right: -35px;
   margin-left: -200px;
   width: 150px;
-  background: ${colors.white};
-  color: ${colors.black};
-  font-size: ${fontSizes[1]};
   display: grid;
   justify-content: center;
   text-align: center;
 `;
+const Text = styled.h4`
+  color: ${colors.white};
+  font-size: ${fontSizes[1]};
+  margin: 0;
+`
 
 const FontButton= styled("div")`
   display: inline-block;
   text-align: center;
   width: 15px;
   padding: ${spacing[0]} ${spacing[1]};
+  font-weight: 800;
   background-color: ${colors.white};
   color: ${colors.white};
   border: 1px solid ${colors.black};
   border-radius: 50%;
   &:hover {
         border-color: ${colors.darkBlue};
-        background-color: ${colors.darkBlue};
+        background-color: ${colors.lightGray};
         color: ${colors.white}
   }
 
@@ -47,10 +51,11 @@ const FontButtonLeft= styled("div")`
   border-radius: 1.5em 0 0 1.5em;
   padding-left: 1em;
   box-shadow: 0px 2px 4px #000000;
+  font-weight: 800;
   &:hover {
         border-color: ${colors.darkBlue};
-        background-color: ${colors.darkBlue};
-        color: ${colors.white}
+        background-color: ${colors.lightGray};
+        color: ${colors.black}
   }
 
   pointer-events: ${props => props.disabled ? "none" : "false"};
@@ -69,8 +74,8 @@ const FontButtonRight= styled("div")`
   box-shadow: 0px 2px 4px #000000;
   &:hover {
         border-color: ${colors.darkBlue};
-        background-color: ${colors.darkBlue};
-        color: ${colors.white}
+        background-color: ${colors.lightGray};
+        color: ${colors.black}
   }
 
   pointer-events: ${props => props.disabled ? "none" : "false"};
@@ -107,15 +112,13 @@ export default class FontPad extends React.Component {
 
   render() {
     return(
-      <div style={{ float: "right" }}>
       <FontButtonHolder>
-          Font Size
-          <div style={{ display: "block"}}>
+          <Text>Font Size</Text>
+          <div>
             <FontButtonLeft id="decrease" onClick={this.checkDisable} disabled={this.state.DecDisable}>-</FontButtonLeft>
             <FontButtonRight id="increase" onClick={this.checkDisable} disabled={this.state.IncDisable}>+</FontButtonRight>
           </div>
       </FontButtonHolder>
-    </div>
       )
   }
 }

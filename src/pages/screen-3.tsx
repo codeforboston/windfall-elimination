@@ -1,7 +1,7 @@
 import React from "react";
 import {
   ButtonLink,
-  ButtonLinkRed,
+  ButtonLinkGreen,
   SEO,
   ObservableCell,
   Card,
@@ -28,7 +28,7 @@ export default () => (
         <ObservableCell cellname="calculationDisplay" />
       </label>
     </Message>
-    <ButtonLinkRed to="/screen-2/">Go back!</ButtonLinkRed>
+    <ButtonLinkGreen to="/screen-2/">Go back!</ButtonLinkGreen>
     <ButtonLink to="/">Go Home</ButtonLink>
   </>
 );
