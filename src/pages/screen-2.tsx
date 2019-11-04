@@ -1,6 +1,6 @@
 import React from "react"
 import styled from "@emotion/styled";
-import { ButtonLink, SEO, H2, Card, Message, HelperText, Glossary } from "../components";
+import { ButtonLink, SEO, H2, Card, WarningBox, HelperText, Glossary } from "../components";
 import * as ObsFuncs from "../library/observable-functions";
 import { SessionStore } from "../library/session-store";
 
@@ -80,7 +80,7 @@ export default class Screen2 extends React.Component {
                 <SEO title="Screen 2" />
                 <ContentContainer>
                 <H2>Results</H2>  
-                {this.state.error?<label>Please go back and fill out all information to calculate results. </label>: <label>
+                {this.state.error?<WarningBox><label>Please go back and fill out all information to calculate results. </label></WarningBox>: <label>
                     WEP calculated values
                         <HelperText>Based on the information you provided, your retirement benefits will be calculated by Social Security as follows: </HelperText>
                         <strong><code>${this.state.userProfile["MPB"] || null} per month</code></strong>
