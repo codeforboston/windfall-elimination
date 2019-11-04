@@ -71,13 +71,19 @@ export default class Screen2 extends React.Component {
     }
 
     async performCalc(){
-        var userDOR = new Date(JSON.parse(SessionStore.get("RetireDate"))).toLocaleDateString("en-US")
+      var userDOB = new Date(JSON.parse(SessionStore.get("BirthDate"))).toLocaleDateString("en-US")
+      var userDOR = new Date(JSON.parse(SessionStore.get("RetireDate"))).toLocaleDateString("en-US")
         var userCalc = await this.computeUserCalc(userDOR)
         SessionStore.push("UserProfile", JSON.stringify(userCalc))
+
         this.setState({
             isLoaded: true,
             userProfile: userCalc
         })
+
+        var yearsDiff = dayjs(userDOR).year() - dayjs(userDOB).year()
+        yearsDiff = yearsDiff < 62 ? 62 : yearsDiff > 70 ? 70 : yearsDiff
+        this.handleRetireChange(yearsDiff)
     }
 
     async handleRetireChange(value) {
@@ -106,13 +112,18 @@ export default class Screen2 extends React.Component {
                   </Card>
                  </>
                  }
-                {this.state.error ? null:
+                {this.state.testAge ?
                 <>
                 <HelperText>
                   However, Social Security changes your monthly benefit amount if you retire before or after your full retirement age. 
                   Use the slider below to see how your planned date of retirement will affect your monthly benefit amount.
                 </HelperText>
                 <Slider
+                  style = {{
+                    marginTop: 60,
+                    marginBottom: 60
+                  }}
+                  defaultValue = {this.state.testAge}
                   min={62} max={70}
                   marks=
                   {{
@@ -134,7 +145,7 @@ export default class Screen2 extends React.Component {
                   handleStyle={{
                     borderRadius: 0,
                     height: 24,
-                    width: 10,
+                    width: 15,
                     marginTop: -10,
                     backgroundColor: colors.purple,
                     boxShadow: '0 0 0 0',
@@ -145,15 +156,11 @@ export default class Screen2 extends React.Component {
                   railStyle={{ backgroundColor: colors.gray }}
                   onAfterChange={this.handleRetireChange}
                 />
-                {
-                  this.state.testAge ?
-                  <Card>
-                  Monthly benefit at age { this.state.testAge }:
-                  <p><strong><code>${this.state.testProfile["MPB"]} per month</code></strong></p>
-                  </Card>
-                  : null
-                }
-                </>
+                <Card>
+                Monthly benefit at age { this.state.testAge }:
+                <p><strong><code>${this.state.testProfile && this.state.testProfile["MPB"]} per month</code></strong></p>
+                </Card>
+                </> : null
                 }
                 <ButtonContainer>
                 <ButtonLink to="/print/" disabled={this.state.error}>Print Results</ButtonLink>
