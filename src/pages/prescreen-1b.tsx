@@ -193,8 +193,8 @@ the red box in the photo below.</ol>
                   </TextBlock>
                 <FileUpload manual={false} />
                 <TextBlock>
-                  Once you have uploaded your earnings record, click "Submit".
-                  </TextBlock>
+                  Once you have uploaded your earnings record, click next and go forward.
+                </TextBlock>
               </Card>
             </HowToContainer> : null
           }
