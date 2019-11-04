@@ -49,6 +49,7 @@ export const DisplayTable = styled.div`
   margin: 20px 0 20px 0;
   max-height: 1800px;
   max-width: 555px;
+  padding-right: 10px;
 
 `;
 
@@ -69,6 +70,7 @@ export const TableInput = styled("input")`
   border-radius: 0 3px 3px 0;
   font-size: 18px;
   font-family: 'Montserrat',sans-serif;
+  padding-left: 5px;
 `;
 
 export const YearLabel = styled("label")`
