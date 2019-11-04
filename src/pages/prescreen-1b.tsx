@@ -45,6 +45,15 @@ const Link = styled.a`
   overflow-wrap: break-word;
 `;
 
+const checkForBirthday = () => {
+  if (typeof window === 'undefined') {
+    return null;
+  }
+  if(SessionStore.get("BirthDate")=== null && SessionStore.get("RetireDate") === null){
+    return <WarningBox><label>Please go back and fill out appropriate birthdate and retirement date before going forward. </label></WarningBox>
+  }
+  return null; 
+}
 export default class Prescreen1b extends React.Component {
   constructor(props) {
     super(props);
@@ -99,6 +108,7 @@ export default class Prescreen1b extends React.Component {
                 To calculate your Social Security retirement benefits, you will need a record of your earnings from Social Security.
                 Follow the steps below to get your earning record.
             </TextBlock> 
+            {checkForBirthday()}
                 
                 <Card>
                     <QuestionText>Do you have a copy of your earnings record?</QuestionText>
@@ -189,13 +199,13 @@ the red box in the photo below.</ol>
             </HowToContainer> : null
           }
 
-          {this.showManualTable() ?
+          {this.showManualTable()?
             <Card>
               <TextBlock>
                 Please enter the “Taxed Social Security Earnings” amounts from your earnings record.
               </TextBlock>
               <FileUpload manual={true} />
-            </Card> : null     
+            </Card> : null
           }
 
           {this.state.haveEarnings === 'false' && this.state.haveSSAccount === 'false' ?
