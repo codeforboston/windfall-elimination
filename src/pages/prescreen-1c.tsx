@@ -1,7 +1,8 @@
 import styled from "@emotion/styled";
 import React from "react";
 import dayjs from "dayjs";
-import DatePicker from "react-date-picker";
+import DatePicker from "react-datepicker";
+import "react-datepicker/dist/react-datepicker.css";
 import { SessionStore } from "../library/session-store";
 import {
   ButtonLink,
@@ -21,6 +22,7 @@ const StyledDatePicker = styled(DatePicker)`
   font-size: 25px;
   min-width: 150px;
   border-radius: 3px;
+  padding-left: 15px;
 `;
 
 export default class Prescreen1c extends React.Component {
@@ -29,8 +31,7 @@ export default class Prescreen1c extends React.Component {
     this.handleDateChange = this.handleDateChange.bind(this);
     this.state = {
       birthDate: null,
-      retireDate: null,
-      today: new Date().toLocaleString()
+      retireDate: null
     };
   }
 
@@ -68,6 +69,7 @@ export default class Prescreen1c extends React.Component {
   }
 
     render() {
+        console.log(this.state)
         return (
             <>
                 <SEO title="Background" keywords={[`gatsby`, `application`, `react`]} />
@@ -79,28 +81,20 @@ export default class Prescreen1c extends React.Component {
                   Enter birth date here: <br></br>
                   <StyledDatePicker
                   id="birthDatePicked"
-                  placeholderText="Click to select a date"
                   selected={this.state.birthDate}
                   showYearDropdown
                   openToDate={dayjs().subtract(64, 'years').toDate()}
                   onChange={(value) => this.handleDateChange("birthDatePicked", value)}
-                  dayPlaceholder="01"
-                  monthPlaceholder="01"
-                  yearPlaceholder="1970"
                   />
                 </Card>
                 <Card>
                   Enter retire date here: <br></br>
                   <StyledDatePicker
                   id="retireDatePicked"
-                  placeholderText="Click to select a date"
                   selected={this.state.retireDate}
                   showYearDropdown
                   openToDate={dayjs().subtract(2, 'years').toDate()}
                   onChange={(value) => this.handleDateChange("retireDatePicked", value)}
-                  dayPlaceholder="01"
-                  monthPlaceholder="01"
-                  yearPlaceholder="2019"
                   />
                 </Card>
                 <ButtonLinkRed to="/">Go back!</ButtonLinkRed>
