@@ -5,7 +5,6 @@ import { Location } from "@reach/router";
 import { Header, QuestionProvider, Footer, ButtonLink, ButtonLinkGreen } from "../components";
 import "./layout.css";
 import { ProgressTracker } from "../components/progress-tracker";
-import { FontLayout } from "../components";
 
 const Wrapper = styled("div")`
   display: block;
@@ -96,10 +95,8 @@ const Layout = ({ children }) => (
           )}
         </Location>
           <Main id='child-wrapper'>
-          <FontLayout>
-              {/* TODO test out this provider */}
-              <QuestionProvider>{children}</QuestionProvider>
-           </FontLayout>
+            {/* TODO test out this provider */}
+            <QuestionProvider>{children}</QuestionProvider>
           </Main>
           </ContentContainer>
           <Footer>
