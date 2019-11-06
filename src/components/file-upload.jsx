@@ -3,7 +3,6 @@ import styled from "@emotion/styled";
 import fastXml from "fast-xml-parser";
 import pdfJS from "pdfjs-dist";
 import { spacing, colors, fontSizes, radii } from "../constants";
-import { ObservableCell } from "../components";
 import { SessionStore } from "../library/session-store";
 
 //Upload page specific css/html
@@ -188,9 +187,6 @@ export default class FileUpload extends React.Component {
 		    buttonType: this.props.manual ? "button" : "file",
 		    saveDisable: false
 	    };
-	 }
-
-	componentDidUpdate(prevProps, prevState) {
 	 }
 
 	 componentDidMount() {

@@ -7,6 +7,24 @@
 	},
 	"buffers":
 	[
+		{
+			"file": "src/pages/prescreen-1a.tsx",
+			"settings":
+			{
+				"buffer_size": 3233,
+				"encoding": "UTF-8",
+				"line_ending": "Unix"
+			}
+		},
+		{
+			"file": "src/pages/screen-2.tsx",
+			"settings":
+			{
+				"buffer_size": 3679,
+				"encoding": "UTF-8",
+				"line_ending": "Unix"
+			}
+		}
 	],
 	"build_system": "",
 	"build_system_choices":
@@ -19,6 +37,10 @@
 		"last_filter": "",
 		"selected_items":
 		[
+			[
+				"instal",
+				"Package Control: Install Package"
+			],
 			[
 				"pack",
 				"Package Control: Install Package"
@@ -48,6 +70,13 @@
 	],
 	"file_history":
 	[
+		"/Users/nickvanwittenberghe/Desktop/windfall-elimination/src/components/file-upload.jsx",
+		"/Users/nickvanwittenberghe/Desktop/windfall-elimination/src/pages/screen-2.tsx",
+		"/Users/nickvanwittenberghe/Desktop/windfall-elimination/.gitignore",
+		"/Users/nickvanwittenberghe/Desktop/windfall-elimination/src/library/observable-functions.js",
+		"/Users/nickvanwittenberghe/Desktop/windfall-elimination/src/pages/print.tsx",
+		"/Users/nickvanwittenberghe/Desktop/windfall-elimination/src/pages/prescreen-1c.tsx",
+		"/Users/nickvanwittenberghe/Desktop/windfall-elimination/src/pages/prescreen-1a.tsx",
 		"/Users/nickvanwittenberghe/Desktop/windfall-elimination/readme.md"
 	],
 	"find":
@@ -83,8 +112,71 @@
 	"groups":
 	[
 		{
+			"selected": 1,
 			"sheets":
 			[
+				{
+					"buffer": 0,
+					"file": "src/pages/prescreen-1a.tsx",
+					"semi_transient": false,
+					"settings":
+					{
+						"buffer_size": 3233,
+						"regions":
+						{
+						},
+						"selection":
+						[
+							[
+								3213,
+								3213
+							]
+						],
+						"settings":
+						{
+							"git_gutter_is_enabled": true,
+							"syntax": "Packages/TypeScript Syntax/TypeScriptReact.tmLanguage",
+							"tab_size": 2,
+							"translate_tabs_to_spaces": true
+						},
+						"translation.x": 0.0,
+						"translation.y": 219.0,
+						"zoom_level": 1.0
+					},
+					"stack_index": 1,
+					"type": "text"
+				},
+				{
+					"buffer": 1,
+					"file": "src/pages/screen-2.tsx",
+					"semi_transient": true,
+					"settings":
+					{
+						"buffer_size": 3679,
+						"regions":
+						{
+						},
+						"selection":
+						[
+							[
+								0,
+								0
+							]
+						],
+						"settings":
+						{
+							"git_gutter_is_enabled": true,
+							"syntax": "Packages/TypeScript Syntax/TypeScriptReact.tmLanguage",
+							"tab_size": 2,
+							"translate_tabs_to_spaces": true
+						},
+						"translation.x": 0.0,
+						"translation.y": 0.0,
+						"zoom_level": 1.0
+					},
+					"stack_index": 0,
+					"type": "text"
+				}
 			]
 		}
 	],
@@ -169,7 +261,7 @@
 	"show_open_files": false,
 	"show_tabs": true,
 	"side_bar_visible": true,
-	"side_bar_width": 150.0,
+	"side_bar_width": 203.0,
 	"status_bar_visible": true,
 	"template_settings":
 	{
