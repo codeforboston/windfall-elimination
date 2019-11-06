@@ -17,7 +17,18 @@ import { SessionStore } from "../library/session-store";
 import { FontControl } from "../library/font-control";
 
 const ContentContainer = styled.div`
-  max-width: 70%;
+  width: 100%;
+`;
+
+const CardGlossaryContainer = styled.div`
+display: flex;
+justify-content: space-between;
+margin: auto 0;
+`;
+
+const TopQuestionAndTitle = styled.div`
+width: 70%;
+margin-bottom: 75px;
 `;
 
 function trileanFromString(s: string | null) {
@@ -115,8 +126,8 @@ export default class Prescreen1c extends React.Component {
           keywords={[`gatsby`, `application`, `react`]}
         />
         <ContentContainer>
-          <H2>Step 3: Employment</H2>
-          <Form>
+          <CardGlossaryContainer>
+          <TopQuestionAndTitle><H2>Step 3: Employment</H2>
             <Card>
               <QuestionText>
                 Do you have earnings that do not show up on your Social Security
@@ -147,7 +158,20 @@ export default class Prescreen1c extends React.Component {
                 <LabelText>No</LabelText>
               </AnswerBox>
             </Card>
+            </TopQuestionAndTitle>
+            <Glossary
+          title="WHAT EARNINGS WOULD NOT BE ON MY SOCIAL SECURITY EARNINGS RECORD?"
+          link="http://www.ncsssa.org/statessadminmenu.html"
+          linkText=""
+        >
+          For example, you may have worked for a state or local government, like
+          a city or town or school system. In many states, state and local jobs
+          do not pay into Social Security, which means earnings from these jobs
+          will not show up on a Social Security record.
+        </Glossary>
+            </CardGlossaryContainer>
             {this.state.coveredEmployment && (
+            <CardGlossaryContainer>
               <Card>
                 <QuestionText>
                 Do you have a pension or retirement account from
@@ -167,6 +191,14 @@ Social Security record?
                   <LabelText>None of the above</LabelText>
                 </AnswerBox>
               </Card>
+              <Glossary
+              title="WHAT COUNTS AS A PENSION?"
+              link="https://secure.ssa.gov/apps10/poms.nsf/lnx/0300605364"
+              linkText="Read the Social Security Administration’s guidance on what counts as a pension here."
+              >
+              A pension can be a monthly pension paid our of your employer’s retirement fund, or a lump sum like a 401(k) or other retirement account based on non-covered employment.
+              </Glossary>
+            </CardGlossaryContainer>
             )}
             {this.state.coveredEmployment &&  this.state.pensionOrRetirementAccount && this.state.pensionOrRetirementAccount !== PensionEnum.NONEOFABOVE && (
               <Card>
@@ -182,27 +214,7 @@ Social Security record?
                 </label>
               </Card>
             )}
-          </Form>
         </ContentContainer>
-        <div>
-        <Glossary
-          title="WHAT EARNINGS WOULD NOT BE ON MY SOCIAL SECURITY EARNINGS RECORD?"
-          link=""
-          linkText=""
-        >
-          For example, you may have worked for a state or local government, like
-          a city or town or school system. In many states, state and local jobs
-          do not pay into Social Security, which means earnings from these jobs
-          will not show up on a Social Security record.
-        </Glossary>
-        <Glossary
-          title="WHAT COUNTS AS A PENSION?"
-          link=""
-          linkText="Read the Social Security Administration’s guidance on what counts as a pension here."
-        >
-          A pension can be a monthly pension paid our of your employer’s retirement fund, or a lump sum like a 401(k) or other retirement account based on non-covered employment.
-        </Glossary>
-        </div>
       </React.Fragment>
     );
   }
