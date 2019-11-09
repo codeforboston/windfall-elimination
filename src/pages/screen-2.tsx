@@ -4,6 +4,7 @@ import { ButtonLink, SEO, H2, Card, Message, HelperText, Glossary } from "../com
 import * as ObsFuncs from "../library/observable-functions";
 import { SessionStore } from "../library/session-store";
 import { colors } from "../constants";
+import { sample20RetirementValues } from "../library/testFiles";
 
 
 import Slider, { Range } from 'rc-slider';
@@ -59,31 +60,35 @@ export default class Screen2 extends React.Component {
       var userYSE = ObsFuncs.getYearsSE(earnings)
       var year62 = JSON.parse(SessionStore.get("Year62"))
       var userDOB = new Date(JSON.parse(SessionStore.get("BirthDate"))).toLocaleDateString("en-US")
+
       if (SessionStore.get("coveredEmployment") && SessionStore.get("pensionOrRetirementAccount")) {
         let userWEP = true;
       } else {
           let userWEP = false;
       }
       var userPension = Number(SessionStore.get("pensionAmount"))
+
       var userAIME = ObsFuncs.getAIMEFromEarnings(earnings, year62)
+
       var userCalc = await ObsFuncs.finalCalculation(userDOB, userDOR, year62, userYSE, userPension, userAIME)
+
       return userCalc
     }
 
     async performCalc(){
       var userDOB = new Date(JSON.parse(SessionStore.get("BirthDate"))).toLocaleDateString("en-US")
       var userDOR = new Date(JSON.parse(SessionStore.get("RetireDate"))).toLocaleDateString("en-US")
-        var userCalc = await this.computeUserCalc(userDOR)
-        SessionStore.push("UserProfile", JSON.stringify(userCalc))
+      var userCalc = await this.computeUserCalc(userDOR)
+      SessionStore.push("UserProfile", JSON.stringify(userCalc))
 
-        this.setState({
-            isLoaded: true,
-            userProfile: userCalc
-        })
+      this.setState({
+          isLoaded: true,
+          userProfile: userCalc
+      })
 
-        var yearsDiff = dayjs(userDOR).year() - dayjs(userDOB).year()
-        yearsDiff = yearsDiff < 62 ? 62 : yearsDiff > 70 ? 70 : yearsDiff
-        this.handleRetireChange(yearsDiff)
+      var yearsDiff = dayjs(userDOR).year() - dayjs(userDOB).year()
+      yearsDiff = yearsDiff < 62 ? 62 : yearsDiff > 70 ? 70 : yearsDiff
+      this.handleRetireChange(yearsDiff)
     }
 
     async handleRetireChange(value) {

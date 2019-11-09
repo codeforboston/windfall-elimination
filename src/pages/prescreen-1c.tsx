@@ -69,7 +69,7 @@ export default class Prescreen1c extends React.Component {
         coveredEmployment:
           trileanFromString(SessionStore.get("coveredEmployment")) || null,
         pensionOrRetirementAccount:
-          SessionStore.get("pensionOrRetirementAccount") === "true" || null,
+          SessionStore.get("pensionOrRetirementAccount"),
         pensionType: SessionStore.get("pensionType")
           ? SessionStore.get("pensionType")
           : null,
