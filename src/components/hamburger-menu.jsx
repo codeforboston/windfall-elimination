@@ -110,7 +110,7 @@ export default class HamburgerHelper extends React.Component {
   				<HamburgerBuns></HamburgerBuns>
   				<HamburgerBuns></HamburgerBuns>
 			  	<HamburgerMenu>
-			  			<li><Link to="/" style={{ textDecoration: `none`,}}>Home</Link></li>
+			  			<li><Link to="/" style={{ textDecoration: `none`,}}>HOME</Link></li>
 							<li><Link to="/admin/" style={{ textDecoration: `none`,}}>Admin Page</Link></li>
 							<li><a href="https://github.com/codeforboston/windfall-elimination" target="__blank" style={{ textDecoration: `none`,}}>Github</a></li>
 							<li><Link to="/about/" style={{ textDecoration: `none`,}}>About</Link></li>

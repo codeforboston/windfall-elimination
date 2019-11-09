@@ -10,3 +10,5 @@
 **/package-lock.json
 .vscode/
 **/public/
+windfall-elimination.sublime-project
+windfall-elimination.sublime-workspace

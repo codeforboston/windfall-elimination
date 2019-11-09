@@ -2,18 +2,7 @@ import React from "react";
 import { Link } from "gatsby";
 import styled from "@emotion/styled";
 import { colors, fontSizes } from "../constants";
-
-const StyledSeparator = styled.div`
-  width: 1px;
-`;
-
-function Step(props) {
-  return (
-    <Link to={props.path} className={props.className}>
-      {props.label}
-    </Link>
-  );
-}
+import { SessionStore } from "../library/session-store";
 
 enum stepStatus {
   complete = -1,
@@ -21,68 +10,101 @@ enum stepStatus {
   ongoing
 }
 
-const StyledStep = styled(Step)`
-  background-color: ${props => {
-    switch (props.status) {
-      case stepStatus.complete: {
-        return colors.gray;
-      }
-      case stepStatus.active: {
-        return colors.blue;
-      }
-      case stepStatus.ongoing: {
-        return colors.white;
-      }
-    }
-  }};
+const StyledStep = styled(Link)`
+  background-color: ${colors.white};
   color: ${props => {
     switch (props.status) {
       case stepStatus.complete: {
-        return colors.white;
+        return `#433A74`;
       }
       case stepStatus.active: {
-        return colors.white;
+        return `#433A74`;
       }
       case stepStatus.ongoing: {
-        return colors.black;
+        return `#787878`;
       }
     }
   }};
-  padding: 1em 0.5em;
-  border: 1px solid black;
+  text-decoration: none;
+  font-size: ${fontSizes[1]};
 `;
 
-// FIXME: does not check for duplicate paths
-function ProgressTracker(props) {
-  const indexOfActivePath = props.linkProps.findIndex(element => element.path === props.activePath);
+const Circle = styled.div`
+  border-radius: 50px;
+  background-color: ${props => props.status ?`#787878`: `#433A74`};
+  color: white;
+  min-width: 30px;
+  height: 30px;
+  display: flex;
+  margin-left: 10px;
+  align-items: center;
+  justify-content: center;
+`;
 
-  const links = props.linkProps.map((element, index) => (
-    <React.Fragment key={element + index}>
-      {index ? <StyledSeparator /> : false}
-      <StyledStep path={element.path} label={element.label} status={Math.sign(index - indexOfActivePath)} />
-    </React.Fragment>
-  ));
-  return <div className={props.className}>{links}</div>;
+const Label = styled.h4`
+margin: 10px 15px;
+font-family: 'Montserrat', sans-serif;
+`
+const LabelWrap = styled.div`
+display: flex;
+flex-direction: row;
+align-items: center;
+max-height: 70px;
+margin: 0;
+width: 100%;
+max-height:65px;
+font-weight: 600px;
+`
+
+const StyledStepContainer = styled("div")`
+  display: block;
+  background: #eee;
+  justify-content: space-around;
+  padding: 10px 15px;
+  min-height: 90vh;
+  @media (max-width: 1024px) {
+    min-height: 60vh;
+    width: 195px;
+    padding: 10px 5px;
+  }
+`;
+
+const indexToSessionStorageKeys = {
+  1: ["Year62", "BirthDate", "RetireDate"],
+  2: ['haveEarnings'],
+  3: ['coveredEmployment', 'pensionOrRetirementAccount'],
+  4: [],
+  5: [],
 }
 
-const StyledProgressTracker = styled(ProgressTracker)`
-  display: flex;
-  justify-content: center;
-  flex-wrap: wrap;
-  /* override html, body font-size CSS rule (was set to 130%) */
-  font-size: ${fontSizes[1]};
-  margin-top: 30px;
-
-
-  *:first-child {
-    border-radius: 1.5em 0 0 1.5em;
-    padding-left: 1em;
+const checkMark = (index, indexOfActivePath) => {
+  if (typeof window === 'undefined') {
+    return null;
   }
+  const sessionKeys = Object.keys(sessionStorage);
+  const indexValues = indexToSessionStorageKeys[index];
+    for(var i = 0; i < indexValues.length; i++ ){
+      if(!sessionKeys.includes(indexValues[i])){
+        return <Circle status={index > indexOfActivePath}>{index}</Circle>;
+      }
+    }
+    return <Circle>✓</Circle>;
 
-  *:last-child {
-    border-radius: 0 1.5em 1.5em 0;
-    padding-right: 1em;
-  }
-`;
+ }
 
-export { StyledProgressTracker as ProgressTracker };
+// FIXME: does not check for duplicate paths
+
+function ProgressTracker(props) {
+  const indexOfActivePath = props.linkProps.findIndex(element => element.path === props.activePath);
+  const links = props.linkProps.map((element, index) => (
+      <StyledStep key={element + index} to={element.path} label={element.label} status={Math.sign(index - indexOfActivePath)}>
+        <LabelWrap>
+        {index==0 || index==4? null: checkMark(index, indexOfActivePath)}
+        <Label>{element.label}</Label>
+        </LabelWrap>
+      </StyledStep>
+  ));
+  return <StyledStepContainer>{links}</StyledStepContainer>;
+}
+
+export { ProgressTracker };

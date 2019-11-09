@@ -1,53 +1,75 @@
 import React from "react";
 import styled from "@emotion/styled";
-import { StaticQuery, graphql, Link } from "gatsby";
+import { StaticQuery, graphql } from "gatsby";
 import { Location } from "@reach/router";
-import { Header, QuestionProvider } from "../components";
+import { Header, QuestionProvider, Footer, ButtonLink, ButtonLinkGreen } from "../components";
 import "./layout.css";
-import { colors, fonts, spacing } from "../constants";
 import { ProgressTracker } from "../components/progress-tracker";
-import { ObservableRuntime, FontLayout } from "../components";
-import { Flex, Box } from '@rebass/grid/emotion';
+import { FontLayout } from "../components";
 
 const Wrapper = styled("div")`
-  display: grid;
-  grid-template-rows: auto auto 1fr auto;
-  grid-template-columns: auto;
-  font-family: ${fonts.Helvetica};
-  height: 100%;
+  display: block;
+  position: relative;
+`;
+
+const Container = styled("div")`
+  font-family: 'Montserrat', sans-serif;
+  display: block;
+  width: 100vw;
+  min-height: 95vh;
+  @media (max-width: 767px) {
+    overflow: scroll;
+    width: 767px;
+  }
+
 `;
 
 const Main = styled("main")`
-  margin: ${spacing[1]};
-  display: grid;
-  justify-content: center;
-  align-content: baseline;
-  text-align: center;
+  width: 80vw;
+  display: flex;
+  flex-direction: row;
+  justify-content: space-between;
+  padding: 0 15px 95px 15px;
+  @media (max-width: 767px) {
+    overflow: scroll;
+    width: 530px;
+  }
+
 `;
 
-const ChildrenWrapper = styled("div")`
-  max-width: 1000px;
-  justify-content: center;
+const ContentContainer = styled.div`
+min-height: 90vh;
+display: flex;
+width: 100%;
+@media (max-width: 1024px) {
+  min-height: 94vh;
+}
 `;
 
-const Footer = styled("footer")`
-  background-color: ${colors.white};
-  color: ${colors.black};
-  border-top: 1px solid black;
-  width: 100%;
-  bottom: 0;
-  verical-align: baseline;
-  text-align: center;
-  padding: ${spacing[1]} 0;
+const ButtonContainer = styled.div`
+  margin: 10px auto 10px 20vw;
+  @media (max-width: 1024px) {
+    display: flex;
+    width: 100%;
+    margin: 10px 10px 10px 21.5vw;
+  }
+  @media (max-width: 768px) {
+    display: flex;
+    width: 100vw;
+    margin: 10px 10px 10px 28.5vw;
+  }
 `;
 
-const FooterLink = styled("footer")`
-  display: inline;
-  color: ${colors.white};
-  padding: ${spacing[1]};
-`;
+const LINKSPATH = [
+  {path: "/", label: "HOME"},
+  {path: "/prescreen-1a/", label: "BACKGROUND"},
+  {path: "/prescreen-1b/", label: "EARNINGS"},
+  {path: "/prescreen-1c/", label: "EMPLOYMENT"},
+  {path: "/screen-2/", label: "RESULTS"},
+  {path: "/screen-2/", label: "BENEFIT FORMULA"},
+]
 
-const Layout: React.FC = ({ children }) => (
+const Layout = ({ children }) => (
   <StaticQuery
     query={graphql`
       query SiteTitleQuery {
@@ -61,41 +83,67 @@ const Layout: React.FC = ({ children }) => (
     `}
     render={data => (
       <Wrapper>
+        <Container>
         <Header />
+        <link href="https://fonts.googleapis.com/css?family=Merriweather|Montserrat&display=swap" rel="stylesheet"/>
+        <ContentContainer>
         <Location>
           {({ location }) => (
             <ProgressTracker
-              linkProps={[
-                {path: "/", label: "Home"},
-                {path: "/prescreen-1a/", label: "Background"},
-                {path: "/prescreen-1b/", label: "Earnings"},
-                {path: "/prescreen-1c/", label: "Employment History"},
-                {path: "/screen-2/", label: "Results"}
-              ]}
+              linkProps={LINKSPATH}
               activePath={location.pathname}
             />
           )}
         </Location>
-        <ObservableRuntime children={children}>
-          <Main>
+          <Main id='child-wrapper'>
           <FontLayout>
-            <ChildrenWrapper id='child-wrapper'>
               {/* TODO test out this provider */}
               <QuestionProvider>{children}</QuestionProvider>
-            </ChildrenWrapper>
            </FontLayout>
           </Main>
-        </ObservableRuntime>
-
-        <Footer>
-          <FooterLink>
-            <Link to="/admin/" style={{ textDecoration: `none`, justify: 'left'}}>Admin Page</Link>
-          </FooterLink>
-          <FooterLink>
-            <a href="https://github.com/codeforboston/windfall-elimination" target="__blank" style={{ textDecoration: `none`,}}>Github</a>
-          </FooterLink>
-          © {new Date().getFullYear()} | {data.author ? data.author : "Windfall Elimination Project"}
+          </ContentContainer>
+          <Footer>
+        <Location>
+          {({ location }) => {
+            const index = LINKSPATH.findIndex(path => path.path === location.pathname)
+            if(location.pathname === "/print/"){
+              return (
+                <ButtonContainer>
+                 <ButtonLinkGreen to="/prescreen-1c/">Previous: Employment Status</ButtonLinkGreen>
+                 <ButtonLink to="/">Go Home</ButtonLink>
+                </ButtonContainer>
+              )
+            }
+            if(index === -1){
+              return null;
+            }
+            if(index === LINKSPATH.length -1){
+              return (
+              <ButtonContainer>
+              <ButtonLinkGreen to={LINKSPATH[index -1].path}>
+               {`Previous: ${LINKSPATH[index -1].label[0] + LINKSPATH[index -1].label.slice(1).toLowerCase()}`}
+              </ButtonLinkGreen>
+              <ButtonLink to="/">Go Home</ButtonLink>
+              </ButtonContainer>
+              )
+            }
+            if(index === 0 ){
+              return (
+              <ButtonContainer>
+              <ButtonLink to="/prescreen-1a/">Get Started</ButtonLink>
+              </ButtonContainer>
+              )
+            }
+            return (
+            <ButtonContainer>
+            <ButtonLinkGreen to={LINKSPATH[index -1].path}>{`Previous: ${LINKSPATH[index -1].label[0] + LINKSPATH[index -1].label.slice(1).toLowerCase()}`}</ButtonLinkGreen>
+            <ButtonLink to={LINKSPATH[index +1].path}>{`Next: ${LINKSPATH[index +1].label[0] + LINKSPATH[index +1].label.slice(1).toLowerCase()}` }</ButtonLink>
+            </ButtonContainer>
+          )
+          }}
+        </Location>
         </Footer>
+        </Container>
       </Wrapper>
     )}
   />

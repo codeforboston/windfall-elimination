@@ -1,16 +1,24 @@
 import styled from "@emotion/styled";
 import { ButtonLink } from "../components";
-import { colors } from "../constants";
+import { colors, spacing, fontSizes } from "../constants";
 
-export const ButtonLinkRed = styled(ButtonLink)`
-  background-color: ${colors.white};
-  color: ${colors.black};
-  border: 2px solid ${colors.lightBlue};
+export const ButtonLinkGreen = styled(ButtonLink)`
+  padding: ${spacing[1]} ${spacing[2]};
+  background-color: ${props =>
+    props.disabled ? colors.gray : colors.green};
+  border-radius: 5px;
+  margin-right: 25px;
+  font-size: ${fontSizes[1]};
+  color: white;
+  text-decoration: none;
+  display: inline-block;
+  border: 2px solid ${colors.green};
+  box-shadow: 2px 2px 2px #424440;
   &:hover {
-    background-color: ${colors.darkBlue};
-    border-color: ${colors.lightBlue};
+    background-color: ${colors.darkGreen};
+    border: 2px solid ${colors.darkGreen};
     color: ${colors.white};
     cursor: pointer;
-    box-shadow: 0px -1px 15px ${colors.gray};
   }
+  pointer-events: ${props => props.disabled && "none"};
 `;

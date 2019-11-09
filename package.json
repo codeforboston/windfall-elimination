@@ -29,6 +29,7 @@
     "gatsby-transformer-sharp": "^2.1.17",
     "pdfjs-dist": "2.1.266",
     "prop-types": "^15.7.2",
+    "rc-slider": "^8.7.1",
     "react": "^16.8.5",
     "react-datepicker": "^2.9.6",
     "react-dom": "^16.8.5",
@@ -38,6 +39,7 @@
     "windfall-awareness-notebook-prototype": "https://api.observablehq.com/@thadk/windfall-awareness-notebook-prototype.tgz?v=1"
   },
   "devDependencies": {
+    "@types/rc-slider": "^8.6.5",
     "@types/react": "^16.8.8",
     "@types/react-dom": "^16.8.3",
     "babel-jest": "^24.9.0",

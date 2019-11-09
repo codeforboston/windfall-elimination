@@ -3,23 +3,23 @@ import styled from "@emotion/styled";
 import fastXml from "fast-xml-parser";
 import pdfJS from "pdfjs-dist";
 import { spacing, colors, fontSizes, radii } from "../constants";
-import { ObservableCell } from "../components";
 import { SessionStore } from "../library/session-store";
 
 //Upload page specific css/html
 export const UploadButton = styled("div")`
 	position: relative;
-    padding: ${spacing[0]} ${spacing[0]};
+	padding: 25px 0 0 0;
     margin: ${spacing[2]} ${spacing[0]};
     overflow: hidden;
-    background-color: ${colors.blue};
+    background-color: ${colors.white};
     font-size: ${fontSizes[1]};
-    border-radius: ${radii[2]};
-    color: ${colors.white};
+	border-radius: 25px;
+	border: 2px solid ${colors.black};
+    color: ${colors.purple};
     text-decoration: none;
-    display: inline-block;
+	display: block;
+	text-align: center;
     width: 300px;
-    height: 20px;
     &:hover {
         background-color: ${colors.lightBlue};
     }
@@ -28,9 +28,9 @@ export const UploadButton = styled("div")`
 export const UploadInput = styled("input")`
 	visibility: hidden;
 	position: relative;
-  	width: 300px;
-  	height: 50px;
-  	z-index: 1;
+  width: 300px;
+  height: 50px;
+  z-index: 1;
 `;
 
 export const UploadLabel = styled("label")`
@@ -40,12 +40,11 @@ export const UploadLabel = styled("label")`
   	height: 50px;
 `;
 
-export const DisplayTable = styled("table")`
-    border-radius: ${radii[0]};
-    margin: ${spacing[0]};
-    padding: 8px;
-    max-width: 500px;
-  	margin: auto;
+export const DisplayTable = styled.div`
+  display: flex;
+  flex-direction: column;
+  flex-wrap: wrap;
+  margin-top: 20px;
 `;
 
 export const TableHeader = styled("th")`
@@ -58,6 +57,38 @@ export const TableHeader = styled("th")`
 export const TableRow= styled("tr")`
 	border: 1px solid #dddddd;
 `;
+
+export const TableInput = styled("input")`
+  height: 45px;
+  width: 150px;
+  border-radius: 0 3px 3px 0;
+  font-size: 18px;
+  font-family: 'Montserrat',sans-serif;
+`;
+
+export const YearLabel = styled("label")`
+background-color: #dddddd;
+font-weight: 800;
+`;
+
+export const InputField = styled.div`
+  border-radius: 3px;
+`;
+
+export const TD = styled.div`
+  border: 2px solid ${colors.gray};
+  border-radius: 3px;
+  display: flex;
+  width: 220px;
+`;
+
+export const LabelBox = styled.div`
+  background-color: #dddddd;
+  border-radius: 3px 0 0 3px;
+  padding: 10px;
+  width: 45px;
+`;
+
 //-------------------------------------------------
 
 // Generates earning records table from uploaded XML file, XML parsing adapted from Amrutha
@@ -66,49 +97,10 @@ export const TableRow= styled("tr")`
 export class GenerateTable extends React.Component {
 	constructor(props, context) {
 		super(props, context)
-
-		this.alignColumns = this.alignColumns.bind(this)
-	}
-
-	alignColumns(tableRows, columnLength){
-		var sizedRows = []
-
-	    while (tableRows.length > 0)
-	      if (tableRows.length > columnLength) {
-	        sizedRows.push(tableRows.splice(0, columnLength))
-	      } else {
-	        var remLength = columnLength - tableRows.length
-	        var smallArr = tableRows.splice(0, tableRows.length)
-	        for (var i=0; i < remLength; i++) {
-	          smallArr.push(<React.Fragment key={"Filler" + i}></React.Fragment>)
-	        }
-	        sizedRows.push(smallArr)
-	        
-	      }
-
-	    var finalRows = sizedRows[0].map(function(record, index) {
-	    	var restofArray = sizedRows.slice(1, sizedRows.length)
-	      	var len = restofArray.length
-	      	var finalRecord = []
-	      	finalRecord.push(record)
-
-	      	for (var i=0; i < len; i++) {
-	        	finalRecord.push(restofArray[i][index])
-	     	};
-
-	      	var completeRow = <TableRow key={"row"+index}>{finalRecord}</TableRow>
-
-	      	return completeRow
-	    });
-
-	    return finalRows
 	}
 
 	render () {
 		var tableRows;
-		var finalRows;
-		var tablesize = 10;
-		var columnLength;
 		var earningsSize;
 		if ((this.props.parsedXml) && (this.props.manual === false))  {
 			const parsedXml = this.props.parsedXml;
@@ -116,78 +108,45 @@ export class GenerateTable extends React.Component {
 		    tableRows = earnings.map((earning, i) => {
 		    	return(
 		    		<React.Fragment key={"earning" + i}>
-			    		<td><label>{earning['@_startYear']}</label></td>
-			    		<td><input id={earning['@_startYear']} defaultValue={earning['osss:FicaEarnings']} onChange={this.props.handleInputEarnings}></input></td>
+              <TD><LabelBox><YearLabel >{earning['@_startYear']}</YearLabel></LabelBox>
+              <TableInput 
+                id={earning['@_startYear']} 
+                defaultValue={earning['osss:FicaEarnings']} 
+                onChange={this.props.handleInputEarnings}
+              />
+              </TD>
 			    	</React.Fragment>
 		    	)
 		    })
-		    earningsSize = tableRows.length;
-		   	if (earningsSize / 10 > 5) {
-		   		columnLength = 20
-		      	tablesize = Math.ceil(earnings.length / columnLength)
-		    } else {
-		    	columnLength = 15
-		    	tablesize = Math.ceil(earnings.length / columnLength)
-		    }
-		    this.headers = Array(tablesize).fill(null).map((header, index) => {
-		        return(
-		          <React.Fragment key={"header" + index}>
-		            <TableHeader>Year</TableHeader ><TableHeader>Amount</TableHeader>
-		          </React.Fragment>
-		          )
-		      })
+        earningsSize = tableRows.length;
 	   	} else if (this.props.manual) {
 		   	tableRows = this.props.manualTable.map((record, key) => {
 			    	return(
-			    		<>
-				    		<td><label>{record['year']}</label></td>
-				    		<td>
-				    		<input 
+			    		<React.Fragment key={"earning" + key}>
+				    		
+							<TD>
+							<LabelBox><YearLabel>{record['year']}</YearLabel></LabelBox>
+				    		<TableInput
 				    			type="text" 
 				    			id={'value_' + record['year'] +'_' + key}
 				    			defaultValue={record['value']} 
 				    			onChange={this.props.handleManualEarnings} 
-				    			onBlur={this.props.handleSave}>
-				    		</input>
-				    		</td>
-				    	</>
+				    			onBlur={this.props.handleSave}
+									tabindex={parseInt(key, 10) + 1}
+									>
+				    		</TableInput>
+				    		</TD>
+				    	</React.Fragment>
 			    	)
 
 			    })
 		   	earningsSize = tableRows.length;
-		   	if (earningsSize / 10 > 5) {
-		      	columnLength = 20
-		      	tablesize = Math.ceil(this.props.manualTable.length / columnLength)
-		    } else {
-		    	columnLength = 15
-		    	tablesize = Math.ceil(this.props.manualTable.length / columnLength)
-		    }
 
-		    this.headers = Array(tablesize).fill(null).map((header, index) => {
-		        return(
-		          <React.Fragment key={"header" + index}>
-		            <TableHeader>Year</TableHeader ><TableHeader>Amount</TableHeader>
-		          </React.Fragment>
-		          )
-		      })
-
-		} else {
-			this.header = <tr></tr>;
-		   	tableRows = <tr></tr>;
-		};
-
-		if (tableRows.length > 0) {
-			finalRows = this.alignColumns(tableRows, columnLength)
-		} else {
-			finalRows = tableRows
-		}
+		} 
 	  	
 		return (
 			<DisplayTable>
-			    <tbody>
-			    	<tr>{this.headers}</tr>
-			    	{finalRows}
-			    </tbody>
+			{tableRows}
 			</DisplayTable>
 		)
 	}
@@ -230,34 +189,11 @@ export default class FileUpload extends React.Component {
 	    };
 	 }
 
-	componentDidUpdate(prevProps, prevState) { 
-		if ((this.state.userBirthDate !== undefined) && (this.state.userRetireDate !== undefined ) && (!this.state.manualTable.length)) {
-	 		var tempTable = []
-	 		for (var i = this.state.userBirthDate; i <= this.state.userRetireDate; i++) {
-	 			var record = {}
-	 			record['year'] = i
-	 			record['value'] = 0
-			    tempTable.push(record);
-			}
-
-			this.setState({
-				manualTable: tempTable
-			})
-	 	}
-	 }
-
 	 componentDidMount() {
 	 	if (SessionStore.get('earnings')) {
 	 		var earningsValue = JSON.parse(SessionStore.get('earnings'))
 	 		this.setState({
 	 			earningsRecord: earningsValue
-	 		})
-	 	}
-
-	 	if (SessionStore.get('tableArray')) {
-	 		var tableArray = JSON.parse(SessionStore.get('tableArray'))
-	 		this.setState({
-	 			manualTable: tableArray
 	 		})
 	 	}
 
@@ -272,6 +208,33 @@ export default class FileUpload extends React.Component {
 	 		})
 	 	}
 
+		var tempTable = [];
+		var yearToRecord = {};
+
+	 	if (SessionStore.get('tableArray')) {
+			var tableArray = JSON.parse(SessionStore.get('tableArray'));
+			tableArray.forEach(function(record) {
+				yearToRecord[record.year] = record;
+			});
+		}
+
+		if ((birthdate !== undefined) && (retiredate !== undefined )) {
+			for (var i = birthdate; i <= retiredate; i++) {
+				if (i in yearToRecord) {
+					var record = yearToRecord[i];
+				} else {
+					record = {};
+					record['year'] = i;
+					record['value'] = 0;
+				}
+				tempTable.push(record);
+		   }
+		}
+
+		this.setState({
+			manualTable: tempTable
+		})
+		 
 	 }
 
 

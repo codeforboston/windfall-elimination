@@ -4,21 +4,21 @@ import { spacing, colors, fontSizes, radii } from "../constants";
 
 export const ButtonLink = styled(Link)`
   padding: ${spacing[1]} ${spacing[2]};
-  margin: ${spacing[2]} ${spacing[2]};
   background-color: ${props =>
-    props.disabled ? colors.gray : colors.blue};
-  border-radius: ${radii[2]};
+    props.disabled ? colors.gray : colors.purple};
+  border-radius: 5px;
   font-size: ${fontSizes[1]};
   color: ${colors.white};
   text-decoration: none;
   display: inline-block;
-  border: 2px solid ${colors.blue};
-  box-shadow: 5px 5px 5px #424440;
+  border: 2px solid ${props =>
+    props.disabled ? colors.gray : colors.purple};;
+  box-shadow: 2px 2px 2px #424440;
   &:hover {
-    background-color: ${colors.darkBlue};
+    background-color: ${colors.darkPurple};
+    border: 2px solid ${colors.darkPurple};
     color: ${colors.white};
     cursor: pointer;
-    box-shadow: 0px -1px 15px ${colors.gray};
   }
   pointer-events: ${props => props.disabled && "none"};
 `;
