@@ -1,7 +1,6 @@
 import React from "react";
 import styled from "@emotion/styled";
 import { colors, spacing, fontSizes, lightGray } from "../constants";
-import { FontControl } from "../library/font-control";
 
 
 const FontButtonHolder = styled("div")`
