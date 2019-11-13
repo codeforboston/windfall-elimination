@@ -59,13 +59,17 @@ const ButtonContainer = styled.div`
   }
 `;
 
+/* There must be an entry for each of these in indexToSessionStorageKeys 
+    of progress-tracker.tsx */
 const LINKSPATH = [
   {path: "/", label: "HOME"},
   {path: "/prescreen-1a/", label: "BACKGROUND"},
   {path: "/prescreen-1b/", label: "EARNINGS"},
-  {path: "/prescreen-1c/", label: "EMPLOYMENT"},
+  {path: "/prescreen-1c/", label: "EMPLOYMENT STATUS"},
   {path: "/screen-2/", label: "RESULTS"},
-  {path: "/screen-2/", label: "BENEFIT FORMULA"},
+  {path: "/screen-2a/", label: "BENEFIT FORMULA"},
+  // {path: "/screen-2b/", label: "OVERPAYMENT"},
+  // {path: "/screen-2c/", label: "TAKE ACTION"}
 ]
 
 const Layout = ({ children }) => (
