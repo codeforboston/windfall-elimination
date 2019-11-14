@@ -145,6 +145,21 @@ function getAIMEFromEarnings(earningsRecord, indexingYear) {
   //convert earnings from key-value's with strings inside, to object format with numbers inside.
   const earnings = Object.keys(rawEarnings).map(n => ({year: parseInt(n, 10), amount: parseInt(rawEarnings[n], 10)}))
   
+  // console.log earnings data // FOR TESTING //
+  if (earnings) {
+    console.log('rawEarnings', rawEarnings)
+    console.log('earnings', earnings)
+  }
+  
+  // if (this.state.pensionAmount) {
+  //   console.log('this.state', this.state)
+  // }
+  
+  // if (this.state.pensionAmount) {
+  //   console.log('this.state.pensionAmount', this.state.pensionAmount)
+  // }
+  // ///////////////////////////////////////////
+  
   let earningsMap = {}; // This map will contain key-value pairs of year-amount earned (for the user)
   if (Array.isArray(earnings)) {
     earnings.forEach((earning) => {
@@ -432,6 +447,56 @@ function getFullRetirementDate(dob) {
 
         return fullAgeYear;
   }
+}
+
+//----------------------------------------------------------------------------------
+
+
+/////////////////////////
+// Get Actuarial Value //
+/////////////////////////
+
+
+function getActuarialValue(dateAwarded, workerAge)
+{
+  const actuarialTable = getWepTables.actuarialValueLumpSumTable()
+	let value;
+	// this function should look at the table from https://secure.ssa.gov/poms.nsf/links/0300605364 to determine the amount
+  let actuarialMap = {};
+	// by which the pension should be divided to dtermine the effective monthly value of the lump sum.
+	if (dateAwarded.diff(dayjs(new Date (2016,6,1)),'days',false) >= 0) {
+    if (Array.isArray(actuarialTable)) {
+      actuarialTable.forEach((entry) => {
+        actuarialMap[entry.age]=entry.column20160601;
+      });
+    }
+    value = actuarialMap[dateAwarded.year()];
+  } else if (dateAwarded.diff(dayjs(new Date (2011,6,1)),'days',false) >= 0 && dateAwarded.diff(dayjs(new Date(2016,5,31)),'days',false) <= 0) {
+    let actuarialMap = {};
+    if (Array.IsArray(actuarialTable)) {
+      actuarialTable.forEach((entry) => {
+        actuarialMap[entry.age]=entry.column20110531;
+      });
+    }
+    value = actuarialMap[dateAwarded.year()];
+  } else if (dateAwarded.diff(dayjs(new Date (2007,6,1)),'days',false) >= 0 && dateAwarded.diff(dayjs(new Date(2011,5,31)),'days',false) >= 0) {
+    let actuarialMap = {};
+    if (Array.isArray(actuarialTable)) {
+      actuarialTable.forEach((entry) => {
+        actuarialMap[entry.age]=entry.column20070601;
+      });
+    }
+    value = actuarialMap[dateAwarded.year()];
+  } else if (dateAwarded.diff(dayjs(new Date (2007,5,31)),'days',false) <= 0) {
+    let actuarialMap = {};
+    if (Array.isArray(actuarialTable)) {
+      actuarialTable.forEach((entry) => {
+        actuarialMap[entry.age]=entry.column20070531;
+      });
+    }
+    value = actuarialMap[dateAwarded.year()];
+  }
+	return ({actuarialMap, result: value});
 }
 
 //----------------------------------------------------------------------------------
