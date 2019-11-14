@@ -542,6 +542,7 @@ export {
 	getGuaranteeLimit,
 	getBenefitReduction,
   getFullRetirementDate,
+  getActuarialValue,
 	finalCalculation
 }
 
