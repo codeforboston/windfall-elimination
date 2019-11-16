@@ -2,7 +2,7 @@ import React from 'react'
 import Slider, { Range } from 'rc-slider';
 import { colors } from '../constants'
 
-const AgeSlider = ({testAge, handleRetireChange}) => {
+const AgeSlider = ({age, handleChange}) => {
 
   return (
     <Slider
@@ -10,7 +10,7 @@ const AgeSlider = ({testAge, handleRetireChange}) => {
         marginTop: 60,
         marginBottom: 60
       }}
-      defaultValue = {testAge}
+      defaultValue = {age}
       min={62} max={70}
       marks=
       {{
@@ -41,7 +41,7 @@ const AgeSlider = ({testAge, handleRetireChange}) => {
       dotStyle={{ visibility: 'hidden' }}
       activeDotStyle={{ visibility: 'hidden' }}
       railStyle={{ backgroundColor: colors.gray }}
-      onAfterChange={handleRetireChange}
+      onAfterChange={handleChange}
     />
   )
 }

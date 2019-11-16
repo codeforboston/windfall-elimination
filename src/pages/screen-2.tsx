@@ -134,7 +134,7 @@ export default class Screen2 extends React.Component {
               <><Text>However, Social Security changes your monthly benefit amount if you retire before or after your full retirement age.
               Use the slider below to see how your planned date of retirement will affect your monthly benefit amount.
                     </Text>
-                <AgeSlider testAge={this.state.testAge} handleRetireChange={this.handleRetireChange} />
+                <AgeSlider age={this.state.testAge} handleChange={this.handleRetireChange} />
                 <MonthlyBenefit text={`age ${this.state.testAge}`} number={this.state.testProfile && this.state.testProfile["MPB"]} /></> : null
             }
             <ButtonContainer>

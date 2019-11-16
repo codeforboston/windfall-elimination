@@ -30,13 +30,11 @@ width: 70%;
 margin-bottom: 75px;
 `;
 
-function trileanFromString(s: string | null) {
-  if (s === null) {
-    return undefined;
-  } else if (s === "null") {
-    return null;
-  } else {
+function booleanFromString(s: string | null) {
+  if (s) {
     return s === "true";
+  } else {
+    return null;
   }
 }
 
@@ -66,9 +64,9 @@ export default class Prescreen1c extends React.Component {
       this.setState({
         isLoaded: true,
         coveredEmployment:
-          trileanFromString(SessionStore.get("coveredEmployment")) || null,
+          booleanFromString(SessionStore.get("coveredEmployment")),
         pensionOrRetirementAccount:
-          SessionStore.get("pensionOrRetirementAccount") === "true" || null,
+          SessionStore.get("pensionOrRetirementAccount"),
         pensionType: SessionStore.get("pensionType")
           ? SessionStore.get("pensionType")
           : null,
@@ -89,7 +87,7 @@ export default class Prescreen1c extends React.Component {
 
     switch (e.target.name) {
       case "coveredEmployment":
-        selectValue = trileanFromString(selectValueString);
+        selectValue = booleanFromString(selectValueString);
         SessionStore.push("coveredEmployment", selectValue);
         this.setState({
           coveredEmployment: selectValue
@@ -137,7 +135,7 @@ export default class Prescreen1c extends React.Component {
                   type="radio"
                   name="coveredEmployment"
                   value="true"
-                  {...(this.state.coveredEmployment
+                  {...(this.state.coveredEmployment === true
                     ? { checked: true }
                     : { checked: false })}
                   onChange={this.handleSelection}
