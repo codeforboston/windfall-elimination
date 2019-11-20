@@ -77,7 +77,32 @@ export default class Screen2 extends React.Component {
       this.state.userWEP = false;
       let userWEP = false;
     }
-    var userPension = Number(SessionStore.get("pensionAmount"))
+    
+    // //////////////////////////////////////
+    
+    let dob = dayjs(SessionStore.get("BirthDate"))
+    let now = dayjs()
+    let workerAge = now.diff(dob, "year")
+    // console.log(workerAge)
+    
+    // //////////////////////////////////////
+
+    if (SessionStore.get("coveredEmployment") === "Yes") {
+      if (SessionStore.get("pensionOrRetirementAccount") === "MONTHLYPENSION") {
+        var userPension = Number(SessionStore.get("pensionAmount"))
+      } else if (SessionStore.get("pensionOrRetirementAccount") === "LUMPSUMRETIREMENTACCOUNT") {
+        var userPension = Number(ObsFuncs.lumpSumToMonthly(SessionStore.get("pensionAmount"), SessionStore.get("dateAwarded"), workerAge))
+        // dateAwarded -> ask through the website
+      } else {
+        var userPension = Number("0")
+      }
+    } else {
+      var userPension = Number("0")
+    }
+    // //////////////////////////////////////
+    
+    // var userPension = Number(SessionStore.get("pensionAmount"))
+    
     var userAIME = ObsFuncs.getAIMEFromEarnings(earnings, year62)
     var userCalc = await ObsFuncs.finalCalculation(userDOB, userDOR, year62, userYSE, userPension, userAIME)
     return userCalc

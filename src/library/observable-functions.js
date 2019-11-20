@@ -501,6 +501,18 @@ function getActuarialValue(dateAwarded, workerAge)
 
 //----------------------------------------------------------------------------------
 
+///////////////////////////////////////////
+// Lump Sum to Monthly Pension Converter //
+///////////////////////////////////////////
+
+function lumpSumToMonthly(lumpSum, dateAwarded, workerAge){
+	let actuarialValue = getActuarialValue(dateAwarded, workerAge);
+	let monthlyPension = Math.floor(lumpSum*100 / actuarialValue)/100.00;
+	console.log({...actuarialValue, monthlyPension})
+	return ({...actuarialValue, monthlyPension});
+}
+
+//----------------------------------------------------------------------------------
 
 ///////////////////////////////
 // Final Calculation Display //
@@ -543,6 +555,7 @@ export {
 	getBenefitReduction,
   getFullRetirementDate,
   getActuarialValue,
+  lumpSumToMonthly,
 	finalCalculation
 }
 
