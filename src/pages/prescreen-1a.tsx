@@ -113,6 +113,7 @@ export default class Prescreen1c extends React.Component {
                     openToDate={this.state.birthDate || dayjs().subtract(64, 'years').toDate()}
                     onChange={async (value) => await this.handleDateChange("birthDatePicked", value)}
                     maxDetail="year"
+                    isOpen
                     />
                   </Card>
                   { this.state.retireDateYear && 
