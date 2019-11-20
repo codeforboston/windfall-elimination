@@ -107,13 +107,12 @@ export default class Prescreen1c extends React.Component {
                     <StyledDatePicker
                     id="birthDatePicked"
                     placeholderText="MM/YYYY"
-                    dateFormat="MM/YYYY"
+                    dateFormat="01/1955"
                     value={(this.state.birthDate)}
                     showYearDropdown
                     openToDate={this.state.birthDate || dayjs().subtract(64, 'years').toDate()}
                     onChange={async (value) => await this.handleDateChange("birthDatePicked", value)}
                     maxDetail="year"
-                    isOpen
                     />
                   </Card>
                   { this.state.retireDateYear && 
