@@ -116,6 +116,9 @@ export class GenerateTable extends React.Component {
           "osss:EarningsRecord"
         ]["osss:Earnings"];
       tableRows = earnings.map((earning, i) => {
+        const earningValueXML = earning["osss:FicaEarnings"]
+          ? { defaultValue: earning["osss:FicaEarnings"] }
+          : { placeholder: 0 };
         return (
           <React.Fragment key={"earning" + i}>
             <TD>
@@ -124,7 +127,7 @@ export class GenerateTable extends React.Component {
               </LabelBox>
               <TableInput
                 id={earning["@_startYear"]}
-                defaultValue={earning["osss:FicaEarnings"]}
+                {...earningValueXML}
                 onChange={this.props.handleInputEarnings}
               />
             </TD>
@@ -134,6 +137,9 @@ export class GenerateTable extends React.Component {
       earningsSize = tableRows.length;
     } else if (this.props.manual) {
       tableRows = this.props.manualTable.map((record, key) => {
+        const earningValue = record["value"]
+          ? { defaultValue: record["value"] }
+          : { placeholder: 0 };
         return (
           <React.Fragment key={"earning" + key}>
             <TD>
@@ -143,7 +149,7 @@ export class GenerateTable extends React.Component {
               <TableInput
                 type="text"
                 id={"value_" + record["year"] + "_" + key}
-                defaultValue={record["value"]}
+                {...earningValue}
                 onChange={this.props.handleManualEarnings}
                 onBlur={this.props.handleSave}
                 tabindex={parseInt(key, 10) + 1}
