@@ -33,7 +33,7 @@ describe("John Q. Public (Full Retirement)", () => {
 
 	   	var userCalc = await finalCalculation(userDOB, userDOR, year62, userYSE, userPension, userAIME)
 
-	    expect(userCalc["MPB"]).toBe(1635.21)
+	    expect(Number(userCalc["MPB"])).toBe(1635.21)
 	 })
 })
 
@@ -65,7 +65,7 @@ describe("Sample 20 AnyPIA (Full Retirement)", () => {
 
 	   	var userCalc = await finalCalculation(userDOB, userDOR, year62, userYSE, userPension, userAIME)
 
-	    expect(userCalc["MPB"]).toBe(1336.47)
+	    expect(Number(userCalc["MPB"])).toBe(1336.47)
 	 })
 })
 
