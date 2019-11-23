@@ -5,6 +5,8 @@ import "react-datepicker/dist/react-datepicker.css";
 import { colors } from "../constants";
 import { SessionStore } from "../library/session-store";
 import dayjs from "dayjs";
+import AgeSlider from '../components/age-slider'
+
 import {
   TextBlock,
   SEO,
@@ -33,9 +35,10 @@ export default class Prescreen1c extends React.Component {
   constructor(props, context){
     super(props, context)
     this.handleDateChange = this.handleDateChange.bind(this);
+    this.handleSliderChange = this.handleSliderChange.bind(this);
     this.state = {
       birthDate: null,
-      retireDate: null
+      retireAge: null
     };
   }
 
@@ -48,10 +51,14 @@ export default class Prescreen1c extends React.Component {
 
     }
 
-    if (SessionStore.get("RetireDate") && (this.state.retireDate === null)){
-      var retiredate = new Date(JSON.parse(SessionStore.get("RetireDate")))
+    if (this.state.retireAge === null) {
+      if (SessionStore.get("RetireAge") !== null) {
+        var retireAge = JSON.parse(SessionStore.get("RetireAge"))
+      } else {
+        retireAge = 62
+      }
       this.setState({
-        retireDate: retiredate
+        retireAge: retireAge
       })
     }
   }
@@ -61,19 +68,24 @@ export default class Prescreen1c extends React.Component {
       SessionStore.push("BirthDate", JSON.stringify(value))
       var year62 = new Date(value).getFullYear() + 62;
       SessionStore.push("Year62", year62)
+      this.setRetireDate(value,this.state.retireAge)
       var state = {birthDate: value}
-      if (dayjs(value).isAfter(dayjs(this.state.retireDate).subtract(18, 'years'))) {
-        state.retireDate = dayjs(value).add(18, 'years').toDate()
-      }
       this.setState(state)
-    } else {
-      SessionStore.push("RetireDate", JSON.stringify(value))
-      this.setState({
-        retireDate: value
-      })
     }
   }
 
+  handleSliderChange(value) {
+    this.setRetireDate(this.state.birthDate,value)
+    SessionStore.push("RetireAge", value)
+    this.setState({
+      retireAge: value
+    })
+  }
+
+  setRetireDate(dateOfBirth, retireAge) {
+    var retireDate = dayjs(dateOfBirth).add(retireAge, 'years').toDate()
+    SessionStore.push("RetireDate", JSON.stringify(retireDate))
+  }
 
     render() {
         return (
@@ -93,20 +105,16 @@ export default class Prescreen1c extends React.Component {
                     openToDate={this.state.birthDate || dayjs().subtract(64, 'years').toDate()}
                     onChange={(value) => this.handleDateChange("birthDatePicked", value)}
                     />
-                  </Card>                  
-                  <Card>
-                    <H4>Retire Date</H4>
-                    <StyledDatePicker
-                    disabled={ this.state.birthDate === null }
-                    id="retireDatePicked"
-                    placeholderText="Click to select a date"
-                    selected={this.state.retireDate}
-                    showYearDropdown
-                    openToDate={ this.state.retireDate || dayjs(this.state.birthDate).add(62, 'years').toDate() }
-                    minDate={dayjs(this.state.birthDate).add(18,'years').toDate()}
-                    onChange={(value) => this.handleDateChange("retireDatePicked", value)}
-                    />
                   </Card>
+                  { this.state.retireAge !== null ?
+                    <>
+                    <Card>
+                      <H4>Retirement Age</H4>
+                      <p>You're retiring at age {this.state.retireAge}.</p>
+                    </Card>
+                    <AgeSlider age={this.state.retireAge} handleChange={this.handleSliderChange} />
+                    </> : null
+                  }
             </div>
          )
     }

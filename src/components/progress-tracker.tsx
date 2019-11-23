@@ -69,12 +69,16 @@ const StyledStepContainer = styled("div")`
   }
 `;
 
+/* these must match the linksProp parameter to this component
+TODO: move this outside of component as parameter */
 const indexToSessionStorageKeys = {
   1: ["Year62", "BirthDate", "RetireDate"],
   2: ['haveEarnings'],
   3: ['coveredEmployment', 'pensionOrRetirementAccount'],
   4: [],
   5: [],
+  6: [],
+  7: [],
 }
 
 const checkMark = (index, indexOfActivePath) => {

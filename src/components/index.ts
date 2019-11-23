@@ -24,7 +24,6 @@ import ObservableCell from "./observable-cell";
 import { ObservableRuntime } from "./observable-runtime";
 import HamburgerHelper from "./hamburger-menu";
 import InfoWidget from "./info-widget";
-import FontLayout from "./font-layout";
 import FontPad from "./font-pad";
 import { PrintButton } from "./print-button";
 import { RadioButton, AnswerBox, LabelText, AnswerInput } from './radio-button';
@@ -61,7 +60,6 @@ export {
     ObservableCell,
     ObservableRuntime,
     InfoWidget,
-    FontLayout,
     FontPad,
     PrintButton,
     RadioButton,

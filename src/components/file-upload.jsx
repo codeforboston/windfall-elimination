@@ -44,7 +44,12 @@ export const DisplayTable = styled.div`
   display: flex;
   flex-direction: column;
   flex-wrap: wrap;
-  margin-top: 20px;
+  justify-content: start;
+  margin: 20px 0 20px 0;
+  max-height: 1800px;
+  max-width: 555px;
+  padding-right: 10px;
+
 `;
 
 export const TableHeader = styled("th")`
@@ -64,6 +69,7 @@ export const TableInput = styled("input")`
   border-radius: 0 3px 3px 0;
   font-size: 18px;
   font-family: 'Montserrat',sans-serif;
+  padding-left: 5px;
 `;
 
 export const YearLabel = styled("label")`
@@ -80,6 +86,7 @@ export const TD = styled.div`
   border-radius: 3px;
   display: flex;
   width: 220px;
+  margin-right: 10px;
 `;
 
 export const LabelBox = styled.div`

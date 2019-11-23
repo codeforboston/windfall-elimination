@@ -39,6 +39,21 @@ enum EarningsEnum {
 	PAPER = "PAPER"
 }
 
+const Link = styled.a`
+  color: black;
+  font-weight: 600;
+  overflow-wrap: break-word;
+`;
+
+const checkForBirthday = () => {
+  if (typeof window === 'undefined') {
+    return null;
+  }
+  if(SessionStore.get("BirthDate")=== null && SessionStore.get("RetireDate") === null){
+    return <WarningBox><label>Please go back and fill out appropriate birthdate and retirement date before going forward. </label></WarningBox>
+  }
+  return null; 
+}
 export default class Prescreen1b extends React.Component {
   constructor(props) {
     super(props);
@@ -93,6 +108,7 @@ export default class Prescreen1b extends React.Component {
                 To calculate your Social Security retirement benefits, you will need a record of your earnings from Social Security.
                 Follow the steps below to get your earning record.
             </TextBlock> 
+            {checkForBirthday()}
                 
                 <Card>
                     <QuestionText>Do you have a copy of your earnings record?</QuestionText>
@@ -177,19 +193,19 @@ the red box in the photo below.</ol>
                   </TextBlock>
                 <FileUpload manual={false} />
                 <TextBlock>
-                  Once you have uploaded your earnings record, click "Submit".
-                  </TextBlock>
+                  Once you have uploaded your earnings record, click next and go forward.
+                </TextBlock>
               </Card>
             </HowToContainer> : null
           }
 
-          {this.showManualTable() ?
+          {this.showManualTable()?
             <Card>
               <TextBlock>
                 Please enter the “Taxed Social Security Earnings” amounts from your earnings record.
               </TextBlock>
               <FileUpload manual={true} />
-            </Card> : null     
+            </Card> : null
           }
 
           {this.state.haveEarnings === 'false' && this.state.haveSSAccount === 'false' ?
@@ -213,10 +229,7 @@ the red box in the photo below.</ol>
               <HowToContainer>
                 <Card>
                   <H2>HOW-TO</H2>
-                  <h3>Sign up for an online account at MySocialSecurity</h3>
-                  <TextBlock>
-                    [Instructions for how to do this go here]
-                  </TextBlock>
+                  <Link href="https://secure.ssa.gov/RIL/SiView.action">Signup or login to your online account at MySocialSecurity</Link>
                 </Card>
               </HowToContainer>
             </> : null
@@ -225,7 +238,7 @@ the red box in the photo below.</ol>
           <Glossary 
           title="MYSOCIALSECURITY"
           link="https://www.ssa.gov/myaccount/"
-          linkText="Sign up online for a MySocialSecurity using this link."
+          linkText="Login or signup online for a MySocialSecurity using this link."
           >
           MySocialSecurity is the Social Security Administrations online service. With a MySocialSecurity account , you can download a copy of your earnings record to use for this question.
           </Glossary>
