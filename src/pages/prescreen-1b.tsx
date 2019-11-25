@@ -23,6 +23,14 @@ export const SsaImage= styled("img")`
   margin-top: 25px;
 `;
 
+const GlosaryStyle = styled.div`
+     display: block;
+     .css-1y9a2pj-GlossaryContainer.ezroa000:nth-child(2) {
+      position: absolute;
+      top: 860px;     
+  }
+`;
+
 const HowToContainer = styled.div`
   display: block;
 `;
@@ -195,8 +203,9 @@ the red box in the photo below.</ol>
                 <TextBlock>
                   Once you have uploaded your earnings record, click next and go forward.
                 </TextBlock>
-              </Card>
+              </Card>              
             </HowToContainer> : null
+            
           }
 
           {this.showManualTable()?
@@ -235,6 +244,7 @@ the red box in the photo below.</ol>
             </> : null
           }
           </ContentContainer>
+          <GlosaryStyle>
           <Glossary 
           title="MYSOCIALSECURITY"
           link="https://www.ssa.gov/myaccount/"
@@ -242,6 +252,13 @@ the red box in the photo below.</ol>
           >
           MySocialSecurity is the Social Security Administrations online service. With a MySocialSecurity account , you can download a copy of your earnings record to use for this question.
           </Glossary>
+          <Glossary 
+          title="IMPORTED RECORDS"
+          link="https://www.ssa.gov/myaccount/"         
+          >
+           These values have been imported from the file that you uploaded. Please review them for accuracy and correct any errors that you find. 
+          </Glossary>
+          </GlosaryStyle>
       </React.Fragment>
     )
   }

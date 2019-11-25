@@ -3,7 +3,7 @@ import styled from "@emotion/styled";
 import fastXml from "fast-xml-parser";
 import pdfJS from "pdfjs-dist";
 import { spacing, colors, fontSizes, radii } from "../constants";
-import { ObservableCell } from "../components";
+import { ObservableCell, Glossary } from "../components";
 import { SessionStore } from "../library/session-store";
 
 //Upload page specific css/html
@@ -164,8 +164,8 @@ export class GenerateTable extends React.Component {
     return (
       <>
         <h1>Year-by-year Earning Records</h1>
-        <h2>{earningsSize} rows from </h2>
-        <DisplayTable>{tableRows}</DisplayTable>
+        <h2>{earningsSize} rows from {this.props.name} </h2>
+        <DisplayTable>{tableRows}</DisplayTable>       
       </>
     );
   }
@@ -195,7 +195,8 @@ export default class FileUpload extends React.Component {
           "osss:EarningsRecord": {
             "osss:Earnings": []
           }
-        }
+        },
+        filename: undefined
       },
       userBirthDate: undefined,
       userRetireDate: undefined,
@@ -367,7 +368,8 @@ export default class FileUpload extends React.Component {
 
   handleUpload(formResponse) {
     this.setState({
-      displayTable: true
+      displayTable: true,
+      fileName: this.fileInput.current.files[0].name
     });
     formResponse.preventDefault();
     const file = this.fileInput.current.files[0];
@@ -479,6 +481,7 @@ export default class FileUpload extends React.Component {
           manualTable={this.state.manualTable}
           handleManualEarnings={this.handleManualEarnings}
           handleSave={this.handleSave}
+          name={this.state.fileName}
         />
         <div id="AutoSave" style={{ display: "none" }}>
           Record has been saved.
