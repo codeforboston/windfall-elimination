@@ -160,11 +160,12 @@ export class GenerateTable extends React.Component {
       });
       earningsSize = tableRows.length;
     }
+    const displayFile=this.props.fileName ? "from " + this.props.fileName : ""
 
     return (
       <>
         <h1>Year-by-year Earning Records</h1>
-        <h2>{earningsSize} rows from {this.props.name} </h2>
+         <h2>{earningsSize} rows {displayFile}</h2>
         <DisplayTable>{tableRows}</DisplayTable>       
       </>
     );
@@ -481,7 +482,7 @@ export default class FileUpload extends React.Component {
           manualTable={this.state.manualTable}
           handleManualEarnings={this.handleManualEarnings}
           handleSave={this.handleSave}
-          name={this.state.fileName}
+          fileName={this.state.fileName}
         />
         <div id="AutoSave" style={{ display: "none" }}>
           Record has been saved.
