@@ -90,6 +90,8 @@ export default class Screen2 extends React.Component {
     let dob = dayjs(userDOB)
     let now = dayjs()
     let workerAge = now.diff(dob, "year")
+    let userPension
+    // let ageAwarded = 
 
     console.log('dob', dob)
     console.log('now', now)
@@ -100,18 +102,23 @@ export default class Screen2 extends React.Component {
     if (SessionStore.get("coveredEmployment")) {
       if (SessionStore.get("pensionOrRetirementAccount") === "MONTHLYPENSION") {
         console.log('monthly')
-        let userPension = Number(SessionStore.get("pensionAmount"))
+        userPension = Number(SessionStore.get("pensionAmount"))
       } else if (SessionStore.get("pensionOrRetirementAccount") === "LUMPSUMRETIREMENTACCOUNT") {
         console.log('lump')
-        let userPension = ObsFuncs.lumpSumToMonthly(SessionStore.get("pensionAmount"), dayjs(new Date(JSON.parse(SessionStore.get("dateAwarded"))).toLocaleDateString("en-US")), workerAge)
-        // dateAwarded -> ask through the website
+        userPension = ObsFuncs.lumpSumToMonthly(
+          SessionStore.get("pensionAmount"),
+          dayjs(new Date(JSON.parse(SessionStore.get("dateAwarded"))).toLocaleDateString("en-US")),
+          workerAge,
+          dob
+        )
+        console.log('userPension', userPension)
       } else {
         console.log('other')
-        let userPension = Number("0")
+        userPension = Number("0")
       }
     } else {
       console.log('no extra pension')
-      let userPension = Number(SessionStore.get("pensionAmount"))
+      userPension = Number(SessionStore.get("pensionAmount"))
     }
     // //////////////////////////////////////
     

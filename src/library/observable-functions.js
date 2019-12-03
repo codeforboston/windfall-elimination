@@ -457,7 +457,7 @@ function getFullRetirementDate(dob) {
 /////////////////////////
 
 
-function getActuarialValue(dateAwarded, workerAge)
+function getActuarialValue(dateAwarded, workerAge, ageAwarded)
 {
   const actuarialTable = getWepTables.actuarialValueLumpSumTable()
 	let value;
@@ -470,7 +470,10 @@ function getActuarialValue(dateAwarded, workerAge)
         actuarialMap[entry.age]=entry.column20160601;
       });
     }
-    value = actuarialMap[dateAwarded.year()];
+    console.log('ageAwarded', ageAwarded)
+    console.log('dateAwarded-x', dateAwarded)
+    console.log('value-a')
+    value = actuarialMap[ageAwarded];
   } else if (dateAwarded.diff(dayjs(new Date (2011,6,1)),'days',false) >= 0 && dateAwarded.diff(dayjs(new Date(2016,5,31)),'days',false) <= 0) {
     let actuarialMap = {};
     if (Array.IsArray(actuarialTable)) {
@@ -478,7 +481,8 @@ function getActuarialValue(dateAwarded, workerAge)
         actuarialMap[entry.age]=entry.column20110531;
       });
     }
-    value = actuarialMap[dateAwarded.year()];
+    console.log('value-b')
+    value = actuarialMap[ageAwarded];
   } else if (dateAwarded.diff(dayjs(new Date (2007,6,1)),'days',false) >= 0 && dateAwarded.diff(dayjs(new Date(2011,5,31)),'days',false) >= 0) {
     let actuarialMap = {};
     if (Array.isArray(actuarialTable)) {
@@ -486,7 +490,8 @@ function getActuarialValue(dateAwarded, workerAge)
         actuarialMap[entry.age]=entry.column20070601;
       });
     }
-    value = actuarialMap[dateAwarded.year()];
+    console.log('value-c')
+    value = actuarialMap[ageAwarded];
   } else if (dateAwarded.diff(dayjs(new Date (2007,5,31)),'days',false) <= 0) {
     let actuarialMap = {};
     if (Array.isArray(actuarialTable)) {
@@ -494,8 +499,12 @@ function getActuarialValue(dateAwarded, workerAge)
         actuarialMap[entry.age]=entry.column20070531;
       });
     }
-    value = actuarialMap[dateAwarded.year()];
+    console.log('value-d')
+    value = actuarialMap[ageAwarded];
   }
+  console.log('dateAwarded', dateAwarded)
+  console.log('dateAwarded-yr', dateAwarded.year())
+  console.log('value', value)
 	return ({actuarialMap, result: value});
 }
 
@@ -505,11 +514,14 @@ function getActuarialValue(dateAwarded, workerAge)
 // Lump Sum to Monthly Pension Converter //
 ///////////////////////////////////////////
 
-function lumpSumToMonthly(lumpSum, dateAwarded, workerAge){
-	let actuarialValue = getActuarialValue(dateAwarded, workerAge);
-	let monthlyPension = Math.floor(lumpSum*100 / actuarialValue)/100.00;
-	console.log({...actuarialValue, monthlyPension})
-	return ({...actuarialValue, monthlyPension});
+function lumpSumToMonthly(lumpSum, dateAwarded, workerAge, dob){
+  let ageAwarded = dateAwarded.diff(dob, "year")
+	let actuarialValue = getActuarialValue(dateAwarded, workerAge, ageAwarded);
+	let monthlyPension = Math.floor(lumpSum*100 / actuarialValue.result)/100.00;
+	console.log('actuarialValue', actuarialValue)
+  console.log('monthlyPension', monthlyPension)
+	// return ({...actuarialValue, monthlyPension}); (not sure why it was formatted this way)
+  return monthlyPension
 }
 
 //----------------------------------------------------------------------------------
