@@ -1,6 +1,7 @@
 import React from "react";
 import styled from "@emotion/styled";
 import DatePicker from "react-datepicker";
+// import "react-datepicker/dist/react-datepicker.css";
 import { Link } from "gatsby";
 import { colors } from "../constants";
 import dayjs from "dayjs";
@@ -244,7 +245,6 @@ Social Security record?
               </Card>
               {this.state.pensionOrRetirementAccount === PensionEnum.LUMPSUM && (
                 <Card>
-                  <label>
                     <QuestionText>
                       Please enter the date that your retirement account was awarded on.
                     </QuestionText>
@@ -256,7 +256,6 @@ Social Security record?
                     openToDate={this.state.dateAwarded || dayjs().subtract(3, 'years').toDate()}
                     onChange={(value) => this.handleDateChange("dateAwardedPicked", value)}
                     />
-                  </label>
                 </Card>
               )}
               </>
