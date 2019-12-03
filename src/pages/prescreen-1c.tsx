@@ -1,6 +1,9 @@
 import React from "react";
 import styled from "@emotion/styled";
+import DatePicker from "react-datepicker";
 import { Link } from "gatsby";
+import { colors } from "../constants";
+import dayjs from "dayjs";
 import {
   Card,
   QuestionText,
@@ -14,6 +17,19 @@ import {
 } from "../components";
 import { SessionStore } from "../library/session-store";
 import { FontControl } from "../library/font-control";
+
+const StyledDatePicker = styled(DatePicker)`
+  border: 2px solid ${colors.purple};
+  height: 60px;
+  font-size: 25px;
+  min-width: 230px;
+  border-radius: 3px;
+  padding-left: 10px;
+  &::placeholder {
+    font-size: 18px;
+    font-family: 'Montserrat',sans-serif;
+  }
+`;
 
 const ContentContainer = styled.div`
   width: 100%;
@@ -46,20 +62,27 @@ enum PensionEnum {
 
 export default class Prescreen1c extends React.Component {
   constructor(props, context) {
-    super(props, context);
-
+    super(props, context)
     this.handleSelection = this.handleSelection.bind(this);
-
+    this.handleDateChange = this.handleDateChange.bind(this);
     this.state = {
       isLoaded: false,
+      dateAwarded: null,
       coveredEmployment: null,
       pensionOrRetirementAccount: null,
       pensionType: null,
       pensionAmount: null
-    };
+    }
   }
 
   componentDidMount() {
+    if (SessionStore.get("dateAwarded") && (this.state.dateAwarded === null)){
+      var dateAwarded = new Date(JSON.parse(SessionStore.get("dateAwarded")))
+      this.setState({
+        dateAwarded: dateAwarded
+      })
+    }
+
     if (!this.state.isLoaded) {
       this.setState({
         isLoaded: true,
@@ -80,7 +103,15 @@ export default class Prescreen1c extends React.Component {
   componentDidUpdate() {
     FontControl.loadFont();
   }
-
+  
+  handleDateChange(name, value){
+    if (name === "dateAwardedPicked") {
+      SessionStore.push("dateAwarded", JSON.stringify(value))
+      var state = {dateAwarded: value}
+      this.setState(state)
+    }
+  }
+  
   handleSelection(e) {
     let selectValueString = e.target.value;
     let selectValue;
@@ -198,10 +229,11 @@ Social Security record?
             </CardGlossaryContainer>
             )}
             {this.state.coveredEmployment &&  this.state.pensionOrRetirementAccount && this.state.pensionOrRetirementAccount !== PensionEnum.NONEOFABOVE && (
+              <>
               <Card>
                 <label>
                   <QuestionText>
-                    Please enter the amount of your pension or lump sum.
+                    Please enter the amount of your pension or retirement account.
                   </QuestionText>
                   <AnswerInput
                     name="pensionAmount"
@@ -210,6 +242,24 @@ Social Security record?
                   ></AnswerInput>
                 </label>
               </Card>
+              {this.state.pensionOrRetirementAccount === PensionEnum.LUMPSUM && (
+                <Card>
+                  <label>
+                    <QuestionText>
+                      Please enter the date that your retirement account was awarded on.
+                    </QuestionText>
+                    <StyledDatePicker
+                    id="dateAwardedPicked"
+                    placeholderText="Click to select a date"
+                    selected={this.state.dateAwarded}
+                    showYearDropdown
+                    openToDate={this.state.dateAwarded || dayjs().subtract(3, 'years').toDate()}
+                    onChange={(value) => this.handleDateChange("dateAwardedPicked", value)}
+                    />
+                  </label>
+                </Card>
+              )}
+              </>
             )}
         </ContentContainer>
       </React.Fragment>
