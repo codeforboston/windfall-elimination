@@ -58,10 +58,13 @@ export default class Screen2 extends React.Component {
   componentDidMount() {
     if (!this.state.isLoaded) {
       this.performCalc()
-        .catch(err => this.setState({
-          isLoaded: true,
-          error: 'Missing Info'
-        }))
+        .catch(err => {
+          console.log('err', err)
+          this.setState({
+            isLoaded: true,
+            error: 'Missing Info'
+          })          
+        } )
     }
   }
 
@@ -80,24 +83,35 @@ export default class Screen2 extends React.Component {
     
     // //////////////////////////////////////
     
-    let dob = dayjs(SessionStore.get("BirthDate"))
+    // let dob = dayjs(dayjs(SessionStore.get("BirthDate")).format(), dayjs.ISO_8601)
+    // console.log('dob-incoming', userDOB)
+    // console.log('dob', dob)
+    
+    let dob = dayjs(userDOB)
     let now = dayjs()
     let workerAge = now.diff(dob, "year")
-    // console.log(workerAge)
+
+    console.log('dob', dob)
+    console.log('now', now)
+    console.log('workerAge', workerAge)
     
     // //////////////////////////////////////
 
-    if (SessionStore.get("coveredEmployment") === "Yes") {
+    if (SessionStore.get("coveredEmployment")) {
       if (SessionStore.get("pensionOrRetirementAccount") === "MONTHLYPENSION") {
-        var userPension = Number(SessionStore.get("pensionAmount"))
+        console.log('monthly')
+        let userPension = Number(SessionStore.get("pensionAmount"))
       } else if (SessionStore.get("pensionOrRetirementAccount") === "LUMPSUMRETIREMENTACCOUNT") {
-        var userPension = Number(ObsFuncs.lumpSumToMonthly(SessionStore.get("pensionAmount"), SessionStore.get("dateAwarded"), workerAge))
+        console.log('lump')
+        let userPension = ObsFuncs.lumpSumToMonthly(SessionStore.get("pensionAmount"), dayjs(new Date(JSON.parse(SessionStore.get("dateAwarded"))).toLocaleDateString("en-US")), workerAge)
         // dateAwarded -> ask through the website
       } else {
-        var userPension = Number("0")
+        console.log('other')
+        let userPension = Number("0")
       }
     } else {
-      var userPension = Number("0")
+      console.log('no extra pension')
+      let userPension = Number(SessionStore.get("pensionAmount"))
     }
     // //////////////////////////////////////
     
