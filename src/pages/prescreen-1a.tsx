@@ -68,7 +68,8 @@ export default class Prescreen1c extends React.Component {
       SessionStore.push("BirthDate", JSON.stringify(value))
       var year62 = new Date(value).getFullYear() + 62;
       SessionStore.push("Year62", year62)
-      this.setRetireDate(value,this.state.retireAge)
+      var fullRetirementAge = benefitReductionTable.find(d => d.year ===dayjs(birthDatePicked).year()).NormalRetirementAge
+      this.setRetireDate(value,fullRetirementAge)
       var state = {birthDate: value}
       this.setState(state)
     }
@@ -106,15 +107,6 @@ export default class Prescreen1c extends React.Component {
                     onChange={(value) => this.handleDateChange("birthDatePicked", value)}
                     />
                   </Card>
-                  { this.state.retireAge !== null ?
-                    <>
-                    <Card>
-                      <H4>Age When You Will Begin to Claim Social Security Benefits</H4>
-                      <p>You're retiring at age {this.state.retireAge}.</p>
-                    </Card>
-                    <AgeSlider age={this.state.retireAge} handleChange={this.handleSliderChange} />
-                    </> : null
-                  }
             </div>
          )
     }
