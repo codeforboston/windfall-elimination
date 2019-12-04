@@ -400,8 +400,13 @@ async function getBenefitReduction(dob, retireDate) {
 //////////////////////////////
 
 async function getFullRetirementDate (dob) {
-  const benefitReductionTable = await getWepTables.benefitReductionTable()
-  return benefitReductionTable.find(d => d.year ===dayjs(dob).year()).NormalRetirementAge
+  const rowFromTable = benefitReductionTable.find(d => d.year ===dayjs(dob).year());
+
+  if (rowFromTable) {
+    return rowFromTable.NormalRetirementAge
+  } else {
+    return 67
+  }
 }
 
 /*
