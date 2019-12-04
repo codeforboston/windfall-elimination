@@ -391,11 +391,6 @@ async function getBenefitReduction(dob, retireDate) {
   }
 }
 
-/*
-function getFullRetirementDate (dob) {
-  return benefitReductionTable.find(d => d.year ===dayjs(dob).year()).NormalRetirementAge
-}
-*/
 
 //----------------------------------------------------------------------------------
 
@@ -404,6 +399,11 @@ function getFullRetirementDate (dob) {
 // Full Retirement Age Date //
 //////////////////////////////
 
+function getFullRetirementDate (dob) {
+  return benefitReductionTable.find(d => d.year ===dayjs(dob).year()).NormalRetirementAge
+}
+
+/*
 function getFullRetirementDate(dob) {
   const fullRetireTable = getWepTables.fullRetirementAgeTable()
 
@@ -438,6 +438,7 @@ function getFullRetirementDate(dob) {
         return fullAgeYear;
   }
 }
+*/
 
 //----------------------------------------------------------------------------------
 
