@@ -252,12 +252,24 @@ the red box in the photo below.</ol>
           >
           MySocialSecurity is the Social Security Administrations online service. With a MySocialSecurity account , you can download a copy of your earnings record to use for this question.
           </Glossary>
-          <Glossary 
+          {
+            this.showFileUpload() == true && <Glossary
           title="IMPORTED RECORDS"
-          link="https://www.ssa.gov/myaccount/"         
           >
-           These values have been imported from the file that you uploaded. Please review them for accuracy and correct any errors that you find. 
+           The values are imported from the file that you upload.
+           Please review them for accuracy and correct any errors that you find.
           </Glossary>
+          }
+          {
+            this.showManualTable() === true && <Glossary
+          title="MANUAL RECORDS"
+          >
+           Please review the values so that the years match
+           and correct any errors that you find. The first row
+             may be a different year than on the paper
+             document.
+          </Glossary>
+          }
           </GlosaryStyle>
       </React.Fragment>
     )

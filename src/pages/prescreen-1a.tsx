@@ -6,7 +6,6 @@ import * as ObsFuncs from "../library/observable-functions";
 import { colors } from "../constants";
 import { SessionStore } from "../library/session-store";
 import dayjs from "dayjs";
-import AgeSlider from '../components/age-slider'
 
 import {
   TextBlock,
@@ -36,10 +35,10 @@ export default class Prescreen1c extends React.Component {
   constructor(props, context){
     super(props, context)
     this.handleDateChange = this.handleDateChange.bind(this);
-    this.handleSliderChange = this.handleSliderChange.bind(this);
     this.state = {
       birthDate: null,
-      retireAge: null
+      retireAge: null,
+      retireDate: null
     };
   }
 
@@ -70,25 +69,31 @@ export default class Prescreen1c extends React.Component {
       var year62 = new Date(value).getFullYear() + 62;
       SessionStore.push("Year62", year62)
       var fullRetirementAge = await ObsFuncs.getFullRetirementDate(this.state.birthDate)
-      this.setRetireDate(value,fullRetirementAge)
+      this.setRetireDate(value, fullRetirementAge)
       var state = {birthDate: value}
       this.setState(state)
     }
   }
 
-  handleSliderChange(value) {
-    this.setRetireDate(this.state.birthDate,value)
-    SessionStore.push("RetireAge", value)
+  async setRetireDate(dateOfBirth, retireAge) {
+    var retireDate = dayjs(dateOfBirth).add(await retireAge, 'years').toDate()
+    SessionStore.push("RetireDate", JSON.stringify(retireDate))
     this.setState({
-      retireAge: value
+      retireAge: JSON.stringify(retireAge),
+      retireDate: JSON.stringify(retireDate),
+      retireDateYear: JSON.stringify(retireDate.getFullYear()),
     })
   }
 
-  async setRetireDate(dateOfBirth, retireAge) {
-      debugger
-    var retireDate = dayjs(dateOfBirth).add(await retireAge, 'years').toDate()
-    SessionStore.push("RetireDate", JSON.stringify(retireDate))
-  }
+  //TODO: remove the decimal years and display YY years and MM months.
+  //this.friendlyRetirementAge(this.state.birthDate, this.state.retireDate, this.state.retireAge)
+// friendlyRetirementAge(dobDayJS,retireDateString, retireAge) {
+//     if (dobDayJS !== null && retireDateString && retireAge ) {
+//       return dayjs(dobDayJS).diff(dayjs(retireDateString),'months') % Number(retireAge)
+//     } else {
+//       return
+//     }
+//   }
 
     render() {
         return (
@@ -109,6 +114,14 @@ export default class Prescreen1c extends React.Component {
                     onChange={(value) => this.handleDateChange("birthDatePicked", value)}
                     />
                   </Card>
+                  { this.state.retireDateYear && 
+                    <Card>
+                    <H4>Retirement Age</H4>
+                    <p>Your Full Retirement Age (FRA) to collect Social Security
+                       Benefits is {this.state.retireAge} years old, which is in
+                        year {this.state.retireDateYear}.</p>
+                  </Card>
+                  }
             </div>
          )
     }

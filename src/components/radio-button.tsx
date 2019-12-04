@@ -81,6 +81,7 @@ export const AnswerBox = styled(AnswerBoxBasic)`
   display: flex;
   align-items: center;
   margin: 10px 0;
+
 `;
 
 export const AnswerInput = styled.input`
@@ -94,3 +95,10 @@ export const AnswerInput = styled.input`
   font-size: 18px;
   font-family: 'Montserrat',sans-serif;
 `;
+
+export const AnswerInputDiscouragePlaceholder = styled(AnswerInput)`
+  &::placeholder {
+    color: red;
+    font-size: 1.1em;
+  }
+`

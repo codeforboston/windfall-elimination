@@ -10,7 +10,8 @@ import {
   LabelText,
   H2,
   Glossary,
-  AnswerInput
+  AnswerInput,
+  AnswerInputDiscouragePlaceholder
 } from "../components";
 import { SessionStore } from "../library/session-store";
 import { FontControl } from "../library/font-control";
@@ -55,7 +56,7 @@ export default class Prescreen1c extends React.Component {
       coveredEmployment: null,
       pensionOrRetirementAccount: null,
       pensionType: null,
-      pensionAmount: 0
+      pensionAmount: null
     };
   }
 
@@ -72,7 +73,7 @@ export default class Prescreen1c extends React.Component {
           : null,
         pensionAmount: SessionStore.get("pensionAmount")
           ? SessionStore.get("pensionAmount")
-          : 0
+          : undefined
       });
     }
   }
@@ -203,11 +204,12 @@ Social Security record?
                   <QuestionText>
                     Please enter the amount of your monthly pension or lump sum.
                   </QuestionText>
-                  <AnswerInput
+                  <AnswerInputDiscouragePlaceholder
                     name="pensionAmount"
                     defaultValue={this.state.pensionAmount}
+                    placeholder={'0'}  
                     onChange={this.handleSelection}
-                  ></AnswerInput>
+                  ></AnswerInputDiscouragePlaceholder>
                 </label>
               </Card>
             )}
