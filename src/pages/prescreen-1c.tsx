@@ -55,7 +55,7 @@ export default class Prescreen1c extends React.Component {
       coveredEmployment: null,
       pensionOrRetirementAccount: null,
       pensionType: null,
-      pensionAmount: null
+      pensionAmount: 0
     };
   }
 
@@ -201,7 +201,7 @@ Social Security record?
               <Card>
                 <label>
                   <QuestionText>
-                    Please enter the amount of your pension or lump sum.
+                    Please enter the amount of your monthly pension or lump sum.
                   </QuestionText>
                   <AnswerInput
                     name="pensionAmount"
