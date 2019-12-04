@@ -34,7 +34,7 @@ const Flex = styled.div`
 `
 
 const Text = styled.div`
-  margin: 10px 5px 40px; 
+  margin: 10px 5px 40px;
   font-size: ${fontSizes[1]};
 `
 
@@ -118,20 +118,20 @@ export default class Screen2 extends React.Component {
           <H2>Results</H2>
           {/* KNOWN ISSUE(tdk), if you change your WEP status, this does not update. We need a better state model */
           this.state.userWEP === true ?
-            <WarningBox><label>Based on the information you provided, 
+            <WarningBox><label>Based on the information you provided,
             your benefits are affected by the Windfall Elimination Provision.
              The Windfall Elimination Provision is a Social Security rule that reduces retirement benefits for retirees
               with access to a pension based on non-covered employment. Click Benefit Formula at left to read more.
               </label></WarningBox>: ""}
           {this.state.error ? <WarningBox><label>Please go back and fill out all information to calculate results. </label></WarningBox> :
 
-            
-          
+
+
                   <Flex>
             <Text>Based on the information you provided, your retirement benefits will be calculated by Social Security as follows: </Text>
             <MonthlyBenefit text={'full retirement age'} number={this.state.userProfile["MPB"]} />
             {this.state.testAge ?
-              <><Text>However, Social Security changes your monthly benefit amount if you retire before or after your full retirement age.
+              <><Text>However, Social Security changes your monthly benefit amount if you begin to claim benefits before or after your full retirement age.
               Use the slider below to see how your planned date of retirement will affect your monthly benefit amount.
                     </Text>
                 <AgeSlider age={this.state.testAge} handleChange={this.handleRetireChange} />

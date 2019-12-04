@@ -109,7 +109,7 @@ export default class Prescreen1c extends React.Component {
                   { this.state.retireAge !== null ?
                     <>
                     <Card>
-                      <H4>Retirement Age</H4>
+                      <H4>Age When You Will Begin to Claim Social Security Benefits</H4>
                       <p>You're retiring at age {this.state.retireAge}.</p>
                     </Card>
                     <AgeSlider age={this.state.retireAge} handleChange={this.handleSliderChange} />
