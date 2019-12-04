@@ -2,6 +2,7 @@ import React from "react";
 import styled from "@emotion/styled";
 import DatePicker from "react-datepicker";
 import "react-datepicker/dist/react-datepicker.css";
+import * as ObsFuncs from "../library/observable-functions";
 import { colors } from "../constants";
 import { SessionStore } from "../library/session-store";
 import dayjs from "dayjs";
@@ -68,7 +69,7 @@ export default class Prescreen1c extends React.Component {
       SessionStore.push("BirthDate", JSON.stringify(value))
       var year62 = new Date(value).getFullYear() + 62;
       SessionStore.push("Year62", year62)
-      var fullRetirementAge = benefitReductionTable.find(d => d.year ===dayjs(birthDatePicked).year()).NormalRetirementAge
+      var fullRetirementAge = ObsFuncs.getFullRetirementDate(this.state.birthDate)
       this.setRetireDate(value,fullRetirementAge)
       var state = {birthDate: value}
       this.setState(state)

@@ -20,20 +20,20 @@ async function getPIA(aime, dob, yearsSubstantialEarnings=null, isWEP=true) {
   const firstFactor = firstPiaFactor(yearsSubstantialEarnings, isWEP);
 
   let pia;
-  
+
   if (aime > bendP[1]) {
     pia =
       firstFactor * bendP[0] +
       0.32 * (bendP[1] - bendP[0]) +
       0.15 * (aime - bendP[1]);
-    
+
   } else if (aime > bendP[0]) {
     pia = firstFactor * bendP[0] + 0.32 * (aime - bendP[0]);
-    
+
   } else {
     pia = firstFactor * aime;
   }
-  
+
   return pia;
 }
 
@@ -47,7 +47,7 @@ async function findBendPoints(dob) {
 }
 
 /*
-firstPiaFactor()** used for the factor/coefficient of the first "bin", ranging from 40% to 90%. There are three "bins", between the two bendpoints. 
+firstPiaFactor()** used for the factor/coefficient of the first "bin", ranging from 40% to 90%. There are three "bins", between the two bendpoints.
 (The other two bins have constant coefficients, but the bins may be empty.)
 *yearsSubstantialEarnings*, an integer representing the user's years of substantial earnings under the WEP
 **Returns**: a float to multiply by
@@ -55,7 +55,7 @@ firstPiaFactor()** used for the factor/coefficient of the first "bin", ranging f
 
 //between 40% and 90% factor is calculated inside wepCoeff
 function firstPiaFactor(yse, isWEP) {
-  
+
   if (!isWEP) {
     return 0.9
   } else if (yse === null) {
@@ -66,11 +66,11 @@ function firstPiaFactor(yse, isWEP) {
 	if (yse <= 20) { wep_coeff = .4 }
 	if (yse === 21) { wep_coeff = .45}
 	if (yse === 22) { wep_coeff = .5}
-	if (yse === 23) { wep_coeff = .55} 
+	if (yse === 23) { wep_coeff = .55}
 	if (yse === 24) { wep_coeff = .6 }
 	if (yse === 25) { wep_coeff = .65 }
 	if (yse === 26) { wep_coeff = .7}
-	if (yse === 27) { wep_coeff = .75} 
+	if (yse === 27) { wep_coeff = .75}
 	if (yse === 28) { wep_coeff = .8}
 	if (yse === 29) { wep_coeff = .85}
 	if (yse >= 30) { wep_coeff = .9}
@@ -141,10 +141,10 @@ function getAIMEFromEarnings(earningsRecord, indexingYear) {
   if (indexingYear >= 1989) numCalculationYears = 35;
   else if (indexingYear <= 1956) numCalculationYears = 0;
   else numCalculationYears = 35 - (1989-indexingYear);
-  
+
   //convert earnings from key-value's with strings inside, to object format with numbers inside.
   const earnings = Object.keys(rawEarnings).map(n => ({year: parseInt(n, 10), amount: parseInt(rawEarnings[n], 10)}))
-  
+
   let earningsMap = {}; // This map will contain key-value pairs of year-amount earned (for the user)
   if (Array.isArray(earnings)) {
     earnings.forEach((earning) => {
@@ -160,7 +160,7 @@ function getAIMEFromEarnings(earningsRecord, indexingYear) {
       }
     });
   }//throw new Error("") - but what would this error be?
-  
+
   //return averageMap
 
   let maximumMap = {}; //This map will contain key-value pairs of year-maximum from table
@@ -210,7 +210,7 @@ function getAIMEFromEarnings(earningsRecord, indexingYear) {
           'avgMapYr': averageMap[earningsYear],
           'validEarningCalc': Math.min(earningsMap[earningsYear], maximumMap[earningsYear])
         });
-        
+
         //validEarnings.push(
         //  Math.min(earningsMap[earningsYear], maximumMap[earningsYear])
         //  ); //I'm not sure if this correctly handles situations where a year is missing in earningsMap
@@ -238,7 +238,7 @@ function getAIMEFromEarnings(earningsRecord, indexingYear) {
   } else {
     validEarnings = debugValidEarnings;
   }
-  
+
   //Sum the earning into AIME
   let AIME = 0; //Starts at 0, to facilitate later summation
 
@@ -274,12 +274,12 @@ async function getAggregateColaFactor(eligibilityYear, retireYearDate) {
 
   	//eligibilityYear is already a numberical year, not a date
   	const retireYear = dayjs(retireYearDate).year() //remember the year() here
-  
+
   	//You're retiring before you're eligible for COLA
   	if (retireYear < eligibilityYear + 1 ) {
   	  return 1;
   	}
-  
+
   	// Always use eligibilityYear plus 1, when COLA begins to be applied.
   	const colaFactors = await getColaFactors(eligibilityYear + 1, retireYear);
 
@@ -295,7 +295,7 @@ async function getColaFactors(yearStart, yearEnd) {
 	const ColaTable = await getWepTables.ColaTable()
 
 	const colaTableFilter = ColaTable.filter(d => d.year >= yearStart && d.year <= yearEnd).map(d => d.Cola)
-	
+
 	return colaTableFilter;
 }
 
@@ -312,7 +312,7 @@ async function getColaFactors(yearStart, yearEnd) {
 //////////////////////////////////////
 
 
-/* *getWepMPB()** Calculates Social Security benefits of a person affected by WEP. 
+/* *getWepMPB()** Calculates Social Security benefits of a person affected by WEP.
 It may be prudent at some point to change this to calculate "primary insurance amount" (PIA),
 and apply early retirement later, in order to better work with the
 proposed "slider"
@@ -342,10 +342,10 @@ async function getWepMPB(aime, dob, retireDate, yearOf62yo, yearsSubstantialEarn
 // getAggregateColaFactor ---- Line 222
 
 
-/* 
+/*
 getGuaranteeLimit()** limits the amount of WEP benefit reduction to half of the monthly noncovered pension. The guarantee is designed to help protect workers with low pensions from losing too much of their benefits.
 
-*wepDiff*, a float representing the benefit reduction to PIA based on the basic WEP formula  
+*wepDiff*, a float representing the benefit reduction to PIA based on the basic WEP formula
 *pension*, a float representing the monthly dollar amount received from a non-covered pension
 
 **Returns**: a float representing the maximum PIA reduction due to WEP
@@ -356,7 +356,7 @@ function getGuaranteeLimit(wepDiff, pension) {
   if (pension > 0) {
     guaranteeLimit = pension / 2;
   }
-  
+
   return Math.min(wepDiff, guaranteeLimit);
 }
 
@@ -364,19 +364,19 @@ function getGuaranteeLimit(wepDiff, pension) {
 async function getBenefitReduction(dob, retireDate) {
   const birthYearDate = dayjs(dob);
   const retireYearDate = dayjs(retireDate);
-  
+
   //Difference .diff(compared: Dayjs, unit: string (default: 'milliseconds'), float?: boolean)
   const floatYearsAfter62yo = retireYearDate.diff(birthYearDate,'years',true)-62
   const intYearsAfter62yo = retireYearDate.diff(birthYearDate,'years',false)-62
 
   const benefitReductionTable = await getWepTables.benefitReductionTable()
-   
-  
+
+
   let reduction;
   const rowOfReduction = benefitReductionTable.find(d => d.year === birthYearDate.year());
-  
+
   if (rowOfReduction) {
-    //calculate: that retirement year's credit per year / fraction of the extra year. 
+    //calculate: that retirement year's credit per year / fraction of the extra year.
     // Remember PctCreditForEachDelayYear is in whole numbers like 9.333%, not 0.09333
     //TODO: extra days of the month should never affect floatYearsAfter62yo when retirement date set directly.
     let extraMonthsCredit = 0
@@ -391,6 +391,9 @@ async function getBenefitReduction(dob, retireDate) {
   }
 }
 
+function getFullRetirementDate (dob) {
+  return benefitReductionTable.find(d => d.year ===dayjs(dob).year()).NormalRetirementAge
+}
 
 //----------------------------------------------------------------------------------
 
@@ -479,48 +482,3 @@ export {
   getFullRetirementDate,
 	finalCalculation
 }
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
