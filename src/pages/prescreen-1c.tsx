@@ -246,7 +246,7 @@ Social Security record?
               {this.state.pensionOrRetirementAccount === PensionEnum.LUMPSUM && (
                 <Card>
                     <QuestionText>
-                      Please enter the date that your retirement account was awarded on.
+                      Please enter the date you become eligible to start withdrawing from the your retirement account without penalty.
                     </QuestionText>
                     <StyledDatePicker
                     id="dateAwardedPicked"
