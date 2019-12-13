@@ -15,7 +15,7 @@ export default () => (
   <AboutContainer>
     <H3>How did this project come about?</H3>
     <TextBlock>
-      On Congressman Moulton’s constituent services team, we believe that
+      As Congressman Moulton’s constituent services team, we believe that
       government should be easy to use, easy to access, and easy to understand.
       This is why we teamed up with Code for Boston to help retirees and their
       families understand how the Windfall Elimination Provision formula works,
