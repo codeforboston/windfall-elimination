@@ -36,6 +36,7 @@ export default class Prescreen1c extends React.Component {
     super(props, context)
     this.handleDateChange = this.handleDateChange.bind(this);
     this.handleSliderChange = this.handleSliderChange.bind(this);
+    console.log('this', this)
     this.state = {
       birthDate: null,
       retireAge: null
