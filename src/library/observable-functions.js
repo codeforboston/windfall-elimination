@@ -145,20 +145,10 @@ function getAIMEFromEarnings(earningsRecord, indexingYear) {
   //convert earnings from key-value's with strings inside, to object format with numbers inside.
   const earnings = Object.keys(rawEarnings).map(n => ({year: parseInt(n, 10), amount: parseInt(rawEarnings[n], 10)}))
   
-  // console.log earnings data // FOR TESTING //
   if (earnings) {
     console.log('rawEarnings', rawEarnings)
     console.log('earnings', earnings)
   }
-  
-  // if (this.state.pensionAmount) {
-  //   console.log('this.state', this.state)
-  // }
-  
-  // if (this.state.pensionAmount) {
-  //   console.log('this.state.pensionAmount', this.state.pensionAmount)
-  // }
-  // ///////////////////////////////////////////
   
   let earningsMap = {}; // This map will contain key-value pairs of year-amount earned (for the user)
   if (Array.isArray(earnings)) {
@@ -520,7 +510,7 @@ function lumpSumToMonthly(lumpSum, dateAwarded, workerAge, dob){
 	let monthlyPension = Math.floor(lumpSum*100 / actuarialValue.result)/100.00;
 	console.log('actuarialValue', actuarialValue)
   console.log('monthlyPension', monthlyPension)
-	// return ({...actuarialValue, monthlyPension}); (not sure why it was formatted this way)
+	// return ({...actuarialValue, monthlyPension}) // gives full details
   return monthlyPension
 }
 

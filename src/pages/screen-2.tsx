@@ -81,23 +81,10 @@ export default class Screen2 extends React.Component {
       let userWEP = false;
     }
     
-    // //////////////////////////////////////
-    
-    // let dob = dayjs(dayjs(SessionStore.get("BirthDate")).format(), dayjs.ISO_8601)
-    // console.log('dob-incoming', userDOB)
-    // console.log('dob', dob)
-    
     let dob = dayjs(userDOB)
     let now = dayjs()
     let workerAge = now.diff(dob, "year")
     let userPension
-    // let ageAwarded = 
-
-    console.log('dob', dob)
-    console.log('now', now)
-    console.log('workerAge', workerAge)
-    
-    // //////////////////////////////////////
 
     if (SessionStore.get("coveredEmployment")) {
       if (SessionStore.get("pensionOrRetirementAccount") === "MONTHLYPENSION") {
@@ -120,9 +107,6 @@ export default class Screen2 extends React.Component {
       console.log('no extra pension')
       userPension = Number(SessionStore.get("pensionAmount"))
     }
-    // //////////////////////////////////////
-    
-    // var userPension = Number(SessionStore.get("pensionAmount"))
     
     var userAIME = ObsFuncs.getAIMEFromEarnings(earnings, year62)
     var userCalc = await ObsFuncs.finalCalculation(userDOB, userDOR, year62, userYSE, userPension, userAIME)
@@ -154,7 +138,6 @@ export default class Screen2 extends React.Component {
       testProfile: userCalc
     })
   }
-
 
   render() {
     return (
