@@ -88,10 +88,10 @@ export default class Screen2 extends React.Component {
 
     if (SessionStore.get("coveredEmployment")) {
       if (SessionStore.get("pensionOrRetirementAccount") === "MONTHLYPENSION") {
-        console.log('monthly')
+        // monthly
         userPension = Number(SessionStore.get("pensionAmount"))
       } else if (SessionStore.get("pensionOrRetirementAccount") === "LUMPSUMRETIREMENTACCOUNT") {
-        console.log('lump')
+        // lump
         userPension = ObsFuncs.lumpSumToMonthly(
           SessionStore.get("pensionAmount"),
           dayjs(new Date(JSON.parse(SessionStore.get("dateAwarded"))).toLocaleDateString("en-US")),
@@ -100,11 +100,11 @@ export default class Screen2 extends React.Component {
         )
         console.log('userPension', userPension)
       } else {
-        console.log('other')
-        userPension = Number("0")
+        // other
+        userPension = undefined
       }
     } else {
-      console.log('no extra pension')
+      // no extra pension
       userPension = Number(SessionStore.get("pensionAmount"))
     }
     
