@@ -1,9 +1,17 @@
 import React from "react";
 import { SEO, TextBlock, ListItem, UnorderedList, H2, H3, WarningBox } from "../components";
 
+const Unlaunched = () => {
+  return <WarningBox><label><strong>The calculations on this app are not final.</strong>
+     &nbsp;More contributions and calculation changes are being added
+      and it will be launched in early 2020 with this message removed.
+      </label></WarningBox>
+}
+
 export default () => (
     <div>
       <SEO title="Home" keywords={[`gatsby`, `application`, `react`]} />
+      <Unlaunched />
       <H3>This app will:</H3>
       <TextBlock>
         <UnorderedList>

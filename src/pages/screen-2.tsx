@@ -58,10 +58,13 @@ export default class Screen2 extends React.Component {
   componentDidMount() {
     if (!this.state.isLoaded) {
       this.performCalc()
-        .catch(err => this.setState({
-          isLoaded: true,
-          error: 'Missing Info'
-        }))
+        .catch(err => {
+          console.log('err', err)
+          this.setState({
+            isLoaded: true,
+            error: 'Missing Info'
+          })          
+        } )
     }
   }
 
@@ -77,7 +80,34 @@ export default class Screen2 extends React.Component {
       this.state.userWEP = false;
       let userWEP = false;
     }
-    var userPension = Number(SessionStore.get("pensionAmount"))
+    
+    let dob = dayjs(userDOB)
+    let now = dayjs()
+    let workerAge = now.diff(dob, "year")
+    let userPension
+
+    if (SessionStore.get("coveredEmployment")) {
+      if (SessionStore.get("pensionOrRetirementAccount") === "MONTHLYPENSION") {
+        // monthly
+        userPension = Number(SessionStore.get("pensionAmount"))
+      } else if (SessionStore.get("pensionOrRetirementAccount") === "LUMPSUMRETIREMENTACCOUNT") {
+        // lump
+        userPension = ObsFuncs.lumpSumToMonthly(
+          SessionStore.get("pensionAmount"),
+          dayjs(new Date(JSON.parse(SessionStore.get("dateAwarded"))).toLocaleDateString("en-US")),
+          workerAge,
+          dob
+        )
+        console.log('userPension', userPension)
+      } else {
+        // other
+        userPension = undefined
+      }
+    } else {
+      // no extra pension
+      userPension = Number(SessionStore.get("pensionAmount"))
+    }
+    
     var userAIME = ObsFuncs.getAIMEFromEarnings(earnings, year62)
     var userCalc = await ObsFuncs.finalCalculation(userDOB, userDOR, year62, userYSE, userPension, userAIME)
     return userCalc
@@ -108,7 +138,6 @@ export default class Screen2 extends React.Component {
       testProfile: userCalc
     })
   }
-
 
   render() {
     return (
