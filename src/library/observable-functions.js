@@ -169,7 +169,7 @@ function getAIMEFromEarnings(earningsRecord, year62) {
   if (Array.isArray(maxECTable)) {
     earnings.forEach((earning) => {
       if (earning.year >= 1950 && (earningsMap[earning.year] !== undefined || (earning.year >= indexingYear-39 && earning.year < indexingYear+2))) {
-        maximumMap[earning.year] = maxECTable.find(d => d.year === earning.year).maximumEarningsCreditable;
+        maximumMap[earning.year] = maxECTable.find(d => d && d.year === earning.year).maximumEarningsCreditable;
       }
     });
   }//throw new Error("") - but what would this error be?
@@ -403,7 +403,7 @@ async function getBenefitReduction(dob, retireDate) {
 // Full Retirement Age Date //
 //////////////////////////////
 
-async function getFullRetirementDate (dob) {
+async function getFullRetirementDateSimple (dob) {
   const benefitReductionTable = await getWepTables.benefitReductionTable()
   
   const rowFromTable = benefitReductionTable.find(d => d.year ===dayjs(dob).year());
@@ -415,7 +415,7 @@ async function getFullRetirementDate (dob) {
   }
 }
 
-/*
+/* TODO (remove/review) This may be mostly redundant but the types are different */
 function getFullRetirementDate(dob) {
   const fullRetireTable = getWepTables.fullRetirementAgeTable()
 
@@ -450,7 +450,7 @@ function getFullRetirementDate(dob) {
         return fullAgeYear;
   }
 }
-*/
+
 
 //----------------------------------------------------------------------------------
 
@@ -536,7 +536,6 @@ function lumpSumToMonthly(lumpSum, dateAwarded, workerAge, dob){
 async function finalCalculation(birthDatePicked, retireDatePicked, yearof62yo, yearsSubstantialEarningsPicked, pensionNonCoveredMonthly, AIMEPicked) {
 
   var userCalc = {}
-
   const userFullRetireDate = getFullRetirementDate(new Date(birthDatePicked))
 	const standardPIA = await getPIA(AIMEPicked, birthDatePicked, null, false)
 	const wepPIA = await getPIA(AIMEPicked, birthDatePicked, yearsSubstantialEarningsPicked, true)

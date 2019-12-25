@@ -202,7 +202,6 @@ export default class Print extends React.Component {
   componentDidMount(){
 
     var parsedProfile = JSON.parse(SessionStore.get("UserProfile"))
-
     this.setState({
       userAIME: parsedProfile["RawData"]["AIMEPicked"],
       userDOB: parsedProfile["RawData"]["birthDatePicked"],

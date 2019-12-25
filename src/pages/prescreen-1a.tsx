@@ -68,7 +68,7 @@ export default class Prescreen1c extends React.Component {
       SessionStore.push("BirthDate", JSON.stringify(value))
       var year62 = new Date(value).getFullYear() + 62;
       SessionStore.push("Year62", year62)
-      var fullRetirementAge = await ObsFuncs.getFullRetirementDate(this.state.birthDate)
+      var fullRetirementAge = await ObsFuncs.getFullRetirementDateSimple(this.state.birthDate)
       this.setRetireDate(value, fullRetirementAge)
       var state = {birthDate: value}
       this.setState(state)
