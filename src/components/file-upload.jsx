@@ -3,8 +3,11 @@ import styled from "@emotion/styled";
 import fastXml from "fast-xml-parser";
 import pdfJS from "pdfjs-dist";
 import { spacing, colors, fontSizes, radii } from "../constants";
-import { ObservableCell, Glossary } from "../components";
+import { Glossary } from "../components";
 import { SessionStore } from "../library/session-store";
+
+/*remove this if we ever support future calculation */
+const supportDatesAfterToday = false;
 
 //Upload page specific css/html
 export const UploadButton = styled("div")`
@@ -214,8 +217,6 @@ export default class FileUpload extends React.Component {
     };
   }
 
-  componentDidUpdate(prevProps, prevState) {}
-
   componentDidMount() {
     if (SessionStore.get("earnings")) {
       var earningsValue = JSON.parse(SessionStore.get("earnings"));
@@ -248,8 +249,10 @@ export default class FileUpload extends React.Component {
       });
     }
 
+    const yearCountForLoopLength = (!supportDatesAfterToday &&
+       retiredate<= new Date().getFullYear()) ? retiredate : new Date().getFullYear() 
     if (birthdate !== undefined && retiredate !== undefined) {
-      for (var i = birthdate; i <= retiredate; i++) {
+      for (var i = birthdate; i <= yearCountForLoopLength; i++) {
         if (i in yearToRecord) {
           var record = yearToRecord[i];
         } else {

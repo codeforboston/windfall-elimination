@@ -128,7 +128,9 @@ Parameters:
 **Returns**: AIME, representing the user's AIME, which is rounded down to an integer
 */
 
-function getAIMEFromEarnings(earningsRecord, indexingYear) {
+function getAIMEFromEarnings(earningsRecord, year62) {
+
+  var indexingYear = year62 - 2;
 
   var maxECTable = getWepTables.maximumEarningsCreditable()
 
@@ -138,6 +140,7 @@ function getAIMEFromEarnings(earningsRecord, indexingYear) {
 
   //Determine # of calculation years
   let numCalculationYears = 0;
+
   if (indexingYear >= 1989) numCalculationYears = 35;
   else if (indexingYear <= 1956) numCalculationYears = 0;
   else numCalculationYears = 35 - (1989-indexingYear);
@@ -232,6 +235,7 @@ function getAIMEFromEarnings(earningsRecord, indexingYear) {
   }
   //Remove members of validEarnings until length matches the number of calculation years
   const toCut = debugValidEarnings.length-numCalculationYears;
+
   if (toCut >= 0) {
     validEarnings = debugValidEarnings.sort((m, n) => m.validEarningCalc - n.validEarningCalc).slice(toCut).map(n => n.validEarningCalc);
   } else {
@@ -240,7 +244,6 @@ function getAIMEFromEarnings(earningsRecord, indexingYear) {
 
   //Sum the earning into AIME
   let AIME = 0; //Starts at 0, to facilitate later summation
-
   validEarnings.forEach((earning) => {
     AIME += earning;
   });
@@ -248,6 +251,8 @@ function getAIMEFromEarnings(earningsRecord, indexingYear) {
   AIME = AIME / (numCalculationYears * 12);
   return Math.floor(AIME);
 }
+
+
 
 function getRawEarnings(earningsRecord) {
   var rawearnings = {};
