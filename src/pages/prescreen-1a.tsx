@@ -1,12 +1,11 @@
 import React from "react";
 import styled from "@emotion/styled";
-import DatePicker from "react-datepicker";
+import DatePicker from "react-date-picker";
 import "react-datepicker/dist/react-datepicker.css";
 import * as ObsFuncs from "../library/observable-functions";
 import { colors } from "../constants";
 import { SessionStore } from "../library/session-store";
 import dayjs from "dayjs";
-
 import {
   TextBlock,
   SEO,
@@ -18,7 +17,7 @@ const StyledDatePicker = styled(DatePicker)`
   border: 2px solid ${colors.purple};
   height: 60px;
   font-size: 25px;
-  min-width: 230px;
+  min-width: 230  px;
   border-radius: 3px;
   padding-left: 10px;
   &::placeholder {
@@ -107,11 +106,13 @@ export default class Prescreen1c extends React.Component {
                     <H4>Birthdate</H4>
                     <StyledDatePicker
                     id="birthDatePicked"
-                    placeholderText="Click to select a date"
-                    selected={this.state.birthDate}
+                    placeholderText="MM/YYYY"
+                    dateFormat="MM/YYYY"
+                    value={(this.state.birthDate)}
                     showYearDropdown
                     openToDate={this.state.birthDate || dayjs().subtract(64, 'years').toDate()}
-                    onChange={(value) => this.handleDateChange("birthDatePicked", value)}
+                    onChange={async (value) => await this.handleDateChange("birthDatePicked", value)}
+                    maxDetail="year"
                     />
                   </Card>
                   { this.state.retireDateYear && 
