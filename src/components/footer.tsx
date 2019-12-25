@@ -8,7 +8,8 @@ const Wrapper = styled("footer")`
   display: flex;
   bottom: 0;
   width: 100%;
-  position: relative;
+  position: fixed;
+  bottom: 0;
   min-width: 760px;
 `;
 

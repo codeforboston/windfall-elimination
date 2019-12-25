@@ -162,13 +162,13 @@ export class GenerateTable extends React.Component {
     }
     const displayFile=this.props.fileName ? "from " + this.props.fileName : ""
 
-    return (SessionStore.get("earnings") ? (
+    return (
       <>
         <h1>Year-by-year Earning Records</h1>
          <h2>{earningsSize} rows {displayFile}</h2>
         <DisplayTable>{tableRows}</DisplayTable>       
       </>
-    ) : '')
+    );
   }
 }
 
