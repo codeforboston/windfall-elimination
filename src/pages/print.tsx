@@ -107,22 +107,22 @@ export class PrintEarnings extends React.Component {
   }
 
   makeRows() {
-    const earnings = this.earningsRecord['osss:OnlineSocialSecurityStatementData']['osss:EarningsRecord']['osss:Earnings'];
+    const earnings = this.earningsRecord;
     var testEarnings = earnings;
     var earningsDict = {};
-    var tablesize = Math.ceil(earnings.length / 10);
+    var tablesize = Math.ceil(Object.keys(earnings).length / 10);
     var columnLength = 10;
-    var newRows = earnings.map((earning, i) => {
+    var newRows = Object.keys(earnings).map((year, i) => {
       return(
         <React.Fragment key={"earning" + i}>
-          <td key={"earningYear" + i}><label>{earning['@_startYear']}</label></td>
-          <td key={"earningAmount" + i}><label id={earning['@_startYear']} >{earning['osss:FicaEarnings']}</label></td>
+          <td key={"earningYear" + i}><label>{year}</label></td>
+          <td key={"earningAmount" + i}><label id={year} >{earnings[year]}</label></td>
         </React.Fragment>
       )
     })
 
     if (tablesize >= 5) {
-      tablesize = Math.ceil(earnings.length / 15)
+      tablesize = Math.ceil(Object.keys(earnings).length / 15)
       columnLength = 15;
 
     }
@@ -202,7 +202,6 @@ export default class Print extends React.Component {
   componentDidMount(){
 
     var parsedProfile = JSON.parse(SessionStore.get("UserProfile"))
-
     this.setState({
       userAIME: parsedProfile["RawData"]["AIMEPicked"],
       userDOB: parsedProfile["RawData"]["birthDatePicked"],

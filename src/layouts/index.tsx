@@ -14,7 +14,6 @@ const Wrapper = styled("div")`
 const Container = styled("div")`
   font-family: 'Montserrat', sans-serif;
   display: block;
-  width: 100vw;
   min-height: 95vh;
   @media (max-width: 767px) {
     overflow: scroll;

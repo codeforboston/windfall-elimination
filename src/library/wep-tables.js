@@ -12,6 +12,19 @@ var getWepTables = (function() {
 
 		return ColaTable
 	}
+	
+	var actuarialValueLumpSumTable = function(){
+		const actuarialValueLumpSumTable = checkJSONCache("actuarialValueLumpSumTable") || d3.csv('https://docs.google.com/spreadsheets/d/e/2PACX-1vQ0KGd5_ZHdYIIFPdSzBHkG38FAkGQ04ADGHKkT-ODA64Qr79Ia8g-W1DMNFb4LEC2sh502ybgPeQDF/pub?gid=1500974875&single=true&output=csv',
+		                    ({age, Column20160601, Column20110531, Column20070601, Column20070531}) => 
+		                    ({age: +age,
+		                      column20160601: +Column20160601,
+		                      column20110531: +Column20110531,
+		                      column20070601: +Column20070601,
+		                      column20070531: +Column20070531
+		                     })
+		               )
+				return actuarialValueLumpSumTable
+	}
 
 	var benefitReductionTable = function(){
 		const benefitReductionTable = checkJSONCache("benefitReductionTable") || d3.csv('https://docs.google.com/spreadsheets/d/e/2PACX-1vQ0KGd5_ZHdYIIFPdSzBHkG38FAkGQ04ADGHKkT-ODA64Qr79Ia8g-W1DMNFb4LEC2sh502ybgPeQDF/pub?gid=297756699&single=true&output=csv',
@@ -80,6 +93,7 @@ var getWepTables = (function() {
 
 	return {
 		ColaTable: ColaTable,
+			actuarialValueLumpSumTable: actuarialValueLumpSumTable,
 	    benefitReductionTable: benefitReductionTable,
 	    substantialEarningsMarks: substantialEarningsMarks,
 	    bendPoints: bendPoints,

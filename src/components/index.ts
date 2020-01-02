@@ -26,7 +26,7 @@ import HamburgerHelper from "./hamburger-menu";
 import InfoWidget from "./info-widget";
 import FontPad from "./font-pad";
 import { PrintButton } from "./print-button";
-import { RadioButton, AnswerBox, LabelText, AnswerInput } from './radio-button';
+import { RadioButton, AnswerBox, LabelText, AnswerInput, AnswerInputDiscouragePlaceholder } from './radio-button';
 import Glossary from './glossary';
 import {Footer} from "./footer";
 import { WarningBox }  from "./warning-box";
@@ -66,6 +66,7 @@ export {
     LabelText,
     AnswerBox,
     AnswerInput,
+    AnswerInputDiscouragePlaceholder,
     Glossary,
     Footer, 
     WarningBox,
