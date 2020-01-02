@@ -150,10 +150,6 @@ function getAIMEFromEarnings(rawEarnings, year62) {
 
   //convert earnings from key-value's with strings inside, to object format with numbers inside.
   const earnings = Object.keys(rawEarnings).map(n => ({year: parseInt(n, 10), amount: parseInt(rawEarnings[n], 10)}))
-<<<<<<< HEAD
-
-=======
->>>>>>> cc1ac091a99cb837b420bf483ee1b5886ed4cf7d
   let earningsMap = {}; // This map will contain key-value pairs of year-amount earned (for the user)
   if (Array.isArray(earnings)) {
     earnings.forEach((earning) => {
@@ -169,11 +165,6 @@ function getAIMEFromEarnings(rawEarnings, year62) {
       }
     });
   }//throw new Error("") - but what would this error be?
-<<<<<<< HEAD
-=======
-
-  //return averageMap
->>>>>>> cc1ac091a99cb837b420bf483ee1b5886ed4cf7d
 
   //return averageMap
   let maximumMap = {}; //This map will contain key-value pairs of year-maximum from table
@@ -540,79 +531,6 @@ function lumpSumToMonthly(lumpSum, dateAwarded, workerAge, dob){
 
 //----------------------------------------------------------------------------------
 
-/////////////////////////
-// Get Actuarial Value //
-/////////////////////////
-
-
-function getActuarialValue(dateAwarded, workerAge, ageAwarded)
-{
-  const actuarialTable = getWepTables.actuarialValueLumpSumTable()
-	let value;
-	// this function should look at the table from https://secure.ssa.gov/poms.nsf/links/0300605364 to determine the amount
-  let actuarialMap = {};
-	// by which the pension should be divided to dtermine the effective monthly value of the lump sum.
-	if (dateAwarded.diff(dayjs(new Date (2016,6,1)),'days',false) >= 0) {
-    if (Array.isArray(actuarialTable)) {
-      actuarialTable.forEach((entry) => {
-        actuarialMap[entry.age]=entry.column20160601;
-      });
-    }
-    console.log('ageAwarded', ageAwarded)
-    console.log('dateAwarded-x', dateAwarded)
-    console.log('value-a')
-    value = actuarialMap[ageAwarded];
-  } else if (dateAwarded.diff(dayjs(new Date (2011,6,1)),'days',false) >= 0 && dateAwarded.diff(dayjs(new Date(2016,5,31)),'days',false) <= 0) {
-    let actuarialMap = {};
-    if (Array.IsArray(actuarialTable)) {
-      actuarialTable.forEach((entry) => {
-        actuarialMap[entry.age]=entry.column20110531;
-      });
-    }
-    console.log('value-b')
-    value = actuarialMap[ageAwarded];
-  } else if (dateAwarded.diff(dayjs(new Date (2007,6,1)),'days',false) >= 0 && dateAwarded.diff(dayjs(new Date(2011,5,31)),'days',false) >= 0) {
-    let actuarialMap = {};
-    if (Array.isArray(actuarialTable)) {
-      actuarialTable.forEach((entry) => {
-        actuarialMap[entry.age]=entry.column20070601;
-      });
-    }
-    console.log('value-c')
-    value = actuarialMap[ageAwarded];
-  } else if (dateAwarded.diff(dayjs(new Date (2007,5,31)),'days',false) <= 0) {
-    let actuarialMap = {};
-    if (Array.isArray(actuarialTable)) {
-      actuarialTable.forEach((entry) => {
-        actuarialMap[entry.age]=entry.column20070531;
-      });
-    }
-    console.log('value-d')
-    value = actuarialMap[ageAwarded];
-  }
-  console.log('dateAwarded', dateAwarded)
-  console.log('dateAwarded-yr', dateAwarded.year())
-  console.log('value', value)
-	return ({actuarialMap, result: value});
-}
-
-//----------------------------------------------------------------------------------
-
-///////////////////////////////////////////
-// Lump Sum to Monthly Pension Converter //
-///////////////////////////////////////////
-
-function lumpSumToMonthly(lumpSum, dateAwarded, workerAge, dob){
-  let ageAwarded = dateAwarded.diff(dob, "year")
-	let actuarialValue = getActuarialValue(dateAwarded, workerAge, ageAwarded);
-	let monthlyPension = Math.floor(lumpSum*100 / actuarialValue.result)/100.00;
-	console.log('actuarialValue', actuarialValue)
-  console.log('monthlyPension', monthlyPension)
-	// return ({...actuarialValue, monthlyPension}) // gives full details
-  return monthlyPension
-}
-
-//----------------------------------------------------------------------------------
 
 ///////////////////////////////
 // Final Calculation Display //
