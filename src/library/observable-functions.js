@@ -150,7 +150,10 @@ function getAIMEFromEarnings(rawEarnings, year62) {
 
   //convert earnings from key-value's with strings inside, to object format with numbers inside.
   const earnings = Object.keys(rawEarnings).map(n => ({year: parseInt(n, 10), amount: parseInt(rawEarnings[n], 10)}))
+<<<<<<< HEAD
 
+=======
+>>>>>>> cc1ac091a99cb837b420bf483ee1b5886ed4cf7d
   let earningsMap = {}; // This map will contain key-value pairs of year-amount earned (for the user)
   if (Array.isArray(earnings)) {
     earnings.forEach((earning) => {
@@ -166,6 +169,11 @@ function getAIMEFromEarnings(rawEarnings, year62) {
       }
     });
   }//throw new Error("") - but what would this error be?
+<<<<<<< HEAD
+=======
+
+  //return averageMap
+>>>>>>> cc1ac091a99cb837b420bf483ee1b5886ed4cf7d
 
   //return averageMap
   let maximumMap = {}; //This map will contain key-value pairs of year-maximum from table

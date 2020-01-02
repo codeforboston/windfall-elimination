@@ -13,6 +13,9 @@ const supportDatesAfterToday = false;
 /*remove this if we ever support future calculation */
 const supportDatesAfterToday = false;
 
+/*remove this if we ever support future calculation */
+const supportDatesAfterToday = false;
+
 //Upload page specific css/html
 export const UploadButton = styled("div")`
   position: relative;
