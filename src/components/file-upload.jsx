@@ -5,6 +5,7 @@ import pdfJS from "pdfjs-dist";
 import { spacing, colors, fontSizes, radii } from "../constants";
 import { Glossary } from "../components";
 import { SessionStore } from "../library/session-store";
+import { getRawEarnings } from "../library/observable-functions";
 
 /*remove this if we ever support future calculation */
 const supportDatesAfterToday = false;
@@ -114,22 +115,19 @@ export class GenerateTable extends React.Component {
     var earningsSize;
     if (this.props.parsedXml && this.props.manual === false) {
       const parsedXml = this.props.parsedXml;
-      var earnings =
-        parsedXml["osss:OnlineSocialSecurityStatementData"][
-          "osss:EarningsRecord"
-        ]["osss:Earnings"];
-      tableRows = earnings.map((earning, i) => {
-        const earningValueXML = earning["osss:FicaEarnings"]
-          ? { defaultValue: earning["osss:FicaEarnings"] }
+      var earningsYears = Object.keys(parsedXml);
+      tableRows = earningsYears.map((year, i) => {
+        const earningValueXML = parsedXml[year]
+          ? { defaultValue: parsedXml[year] }
           : { placeholder: 0 };
         return (
           <React.Fragment key={"earning" + i}>
             <TD>
               <LabelBox>
-                <YearLabel>{earning["@_startYear"]}</YearLabel>
+                <YearLabel>{year}</YearLabel>
               </LabelBox>
               <TableInput
-                id={earning["@_startYear"]}
+                id={year}
                 {...earningValueXML}
                 onChange={this.props.handleInputEarnings}
               />
@@ -139,19 +137,19 @@ export class GenerateTable extends React.Component {
       });
       earningsSize = tableRows.length;
     } else if (this.props.manual) {
-      tableRows = this.props.manualTable.map((record, key) => {
-        const earningValue = record["value"]
-          ? { defaultValue: record["value"] }
+      tableRows = Object.keys(this.props.manualTable).map((year, key) => {
+        const earningValue = this.props.manualTable[year]
+          ? { defaultValue: this.props.manualTable[year] }
           : { placeholder: 0 };
         return (
           <React.Fragment key={"earning" + key}>
             <TD>
               <LabelBox>
-                <YearLabel>{record["year"]}</YearLabel>
+                <YearLabel>{year}</YearLabel>
               </LabelBox>
               <TableInput
                 type="text"
-                id={"value_" + record["year"] + "_" + key}
+                id={"value_" + year + "_" + key}
                 {...earningValue}
                 onChange={this.props.handleManualEarnings}
                 onBlur={this.props.handleSave}
@@ -194,19 +192,11 @@ export default class FileUpload extends React.Component {
     this.state = {
       elementLoaded: false,
       earningsRecord: undefined,
-      defaultRecord: {
-        "osss:OnlineSocialSecurityStatementData": {
-          "osss:EarningsRecord": {
-            "osss:Earnings": []
-          }
-        },
-        filename: undefined
-      },
       userBirthDate: undefined,
       userRetireDate: undefined,
       estimatedYears: [],
       rowValues: [],
-      manualTable: [],
+      manualTable: {},
       displayTable: false,
       buttonText: this.props.manual
         ? "Enter Earnings Record"
@@ -218,8 +208,9 @@ export default class FileUpload extends React.Component {
   }
 
   componentDidMount() {
+    let earningsValue = {};
     if (SessionStore.get("earnings")) {
-      var earningsValue = JSON.parse(SessionStore.get("earnings"));
+      earningsValue = JSON.parse(SessionStore.get("earnings"));
       this.setState({
         earningsRecord: earningsValue
       });
@@ -239,28 +230,16 @@ export default class FileUpload extends React.Component {
       });
     }
 
-    var tempTable = [];
-    var yearToRecord = {};
-
-    if (SessionStore.get("tableArray")) {
-      var tableArray = JSON.parse(SessionStore.get("tableArray"));
-      tableArray.forEach(function(record) {
-        yearToRecord[record.year] = record;
-      });
-    }
-
+    var tempTable = {};
     const yearCountForLoopLength = (!supportDatesAfterToday &&
        retiredate<= new Date().getFullYear()) ? retiredate : new Date().getFullYear() 
     if (birthdate !== undefined && retiredate !== undefined) {
       for (var i = birthdate; i <= yearCountForLoopLength; i++) {
-        if (i in yearToRecord) {
-          var record = yearToRecord[i];
+        if (Object.keys(earningsValue).includes(String(i))) {
+          tempTable[i] = earningsValue[i];
         } else {
-          record = {};
-          record["year"] = i;
-          record["value"] = 0;
+          tempTable[i] = 0;
         }
-        tempTable.push(record);
       }
     }
 
@@ -271,32 +250,18 @@ export default class FileUpload extends React.Component {
 
   //For uploaded records: handles the updating of stored earnings record to match inputed value
   handleInputEarnings(input) {
-    var modifiedEarnings = this.state.earningsRecord;
-    var earnings =
-      modifiedEarnings["osss:OnlineSocialSecurityStatementData"][
-        "osss:EarningsRecord"
-      ]["osss:Earnings"];
+    var earnings = this.state.earningsRecord;
+    var earningsYears = Object.keys(earnings);
     var modifiedyear = input.target.id;
 
-    var findValue = earnings.find(element => {
-      if (element["@_startYear"] === modifiedyear) {
-        element["osss:FicaEarnings"] = input.target.value;
-        return true;
-      } else {
-        return false;
-      }
-    });
+    if (earningsYears.includes(modifiedyear)) {
+      earnings[modifiedyear] = Number(input.target.value);
 
-    if (findValue) {
-      modifiedEarnings["osss:OnlineSocialSecurityStatementData"][
-        "osss:EarningsRecord"
-      ]["osss:Earnings"] = earnings;
-
-      var earningsJSON = JSON.stringify(modifiedEarnings);
+      var earningsJSON = JSON.stringify(earnings);
       SessionStore.push("earnings", earningsJSON);
 
       this.setState({
-        earningsRecord: modifiedEarnings
+        earningsRecord: earnings
       });
     }
   }
@@ -307,10 +272,13 @@ export default class FileUpload extends React.Component {
       var parsedText = fastXml.parse(reader.target.result, {
         ignoreAttributes: false
       });
-      var earningsJSON = JSON.stringify(parsedText);
+
+      var earnings = getRawEarnings(parsedText['osss:OnlineSocialSecurityStatementData']['osss:EarningsRecord']['osss:Earnings'])
+
+      var earningsJSON = JSON.stringify(earnings);
       SessionStore.push("earnings", earningsJSON);
       this.setState({
-        earningsRecord: parsedText
+        earningsRecord: earnings
       });
     }
   }
@@ -345,28 +313,20 @@ export default class FileUpload extends React.Component {
       });
     });
 
-    var tempRecord = this.state.defaultRecord;
+    var currentRecord = {};
     do {
       var newvalue = combinedValues.shift();
-      if (newvalue > 1900) {
-        var currentRecord =
-          tempRecord["osss:OnlineSocialSecurityStatementData"][
-            "osss:EarningsRecord"
-          ]["osss:Earnings"];
-        var newrecord = {
-          "@_startYear": newvalue,
-          "@_endYear": newvalue,
-          "osss:FicaEarnings": combinedValues.shift(),
-          "osss:MedicafreEarnings": combinedValues.shift()
-        };
-        currentRecord.push(newrecord);
+      if (newvalue > 1900) {       
+        currentRecord[newvalue] = combinedValues.shift();
+        //This call is necessary for skipping medicare values.
+        combinedValues.shift();
       }
     } while (combinedValues.length > 0);
 
-    var earningsJSON = JSON.stringify(this.state.defaultRecord);
+    var earningsJSON = JSON.stringify(currentRecord);
     SessionStore.push("earnings", earningsJSON);
     this.setState({
-      earningsRecord: this.state.defaultRecord
+      earningsRecord: currentRecord
     });
   }
 
@@ -406,8 +366,8 @@ export default class FileUpload extends React.Component {
 
     var tempManualTable = this.state.manualTable;
 
-    if (tempManualTable[key]) {
-      tempManualTable[key]["value"] = input.target.value;
+    if (Object.keys(tempManualTable).includes(year)) {
+      tempManualTable[year] = Number(input.target.value);
     }
 
     this.setState({
@@ -418,37 +378,14 @@ export default class FileUpload extends React.Component {
   //Saves manually entered record to this.state.earningsRecord object, becomes noticable to Observable API
   handleSave() {
     //Load earnings record; if not present, set default record.
-    var tempRecord = this.state.earningsRecord
-      ? this.state.earningsRecord["osss:OnlineSocialSecurityStatementData"][
-          "osss:EarningsRecord"
-        ]["osss:Earnings"].length === this.state.manualTable.length
-        ? this.state.earningsRecord
-        : this.state.defaultRecord
-      : this.state.defaultRecord;
+    var tempRecord = this.state.earningsRecord ? this.state.earningsRecord : {};
 
     //Update global earnings record with the manually inputed values
-    this.state.manualTable.forEach((record, i) => {
-      var currentRecord =
-        tempRecord["osss:OnlineSocialSecurityStatementData"][
-          "osss:EarningsRecord"
-        ]["osss:Earnings"];
-      var newrecord = {
-        "@_startYear": record["year"],
-        "@_endYear": record["year"],
-        "osss:FicaEarnings": record["value"]
-      };
-
-      if (!currentRecord[i]) {
-        currentRecord.push(newrecord);
-      } else {
-        currentRecord[i] = newrecord;
-      }
+    Object.keys(this.state.manualTable).forEach((year, i) => {
+      tempRecord[year] = this.state.manualTable[year];
     });
 
-    //Store earnings record and updated table
-    var arrayJSON = JSON.stringify(this.state.manualTable);
-    SessionStore.push("tableArray", arrayJSON);
-
+    //Store earnings record
     var earningsJSON = JSON.stringify(tempRecord);
     SessionStore.push("earnings", earningsJSON);
 

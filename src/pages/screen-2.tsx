@@ -69,7 +69,7 @@ export default class Screen2 extends React.Component {
   }
 
   async computeUserCalc(userDOR) {
-    var earnings = JSON.parse(SessionStore.get("earnings"))['osss:OnlineSocialSecurityStatementData']['osss:EarningsRecord']['osss:Earnings']
+    var earnings = JSON.parse(SessionStore.get("earnings"))
     var userYSE = ObsFuncs.getYearsSE(earnings)
     var year62 = JSON.parse(SessionStore.get("Year62"))
     var userDOB = new Date(JSON.parse(SessionStore.get("BirthDate"))).toLocaleDateString("en-US")

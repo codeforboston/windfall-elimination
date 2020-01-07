@@ -85,6 +85,7 @@ function firstPiaFactor(yse, isWEP) {
 
 function getYearsSE(earnings) {
   var substantialEarnings = getWepTables.substantialEarningsMarks()
+
   // NOTE: Assumption -  years of substantial earnings includes years where the earnings amount is equal to the substantial earnings value?
   let years = 0;
   let substantialEarningsMap = {};
@@ -93,6 +94,7 @@ function getYearsSE(earnings) {
         substantialEarningsMap[earning.year]= earning.SubstantialEarnings;
     });
   }
+
   let earningsYears = Object.keys(earnings);
   if (Array.isArray(earningsYears)) {
     earningsYears.forEach((earningsYear) => {
@@ -101,10 +103,13 @@ function getYearsSE(earnings) {
       }
     });
   }
+
   if (years === 0) {
     //MAYBE: default to 20 if no data
+    console.warn("getYearsSE has returned the default value of 20, correct years could not be calculated");
     return 20
   }
+
   return years;
 }
 
@@ -128,15 +133,13 @@ Parameters:
 **Returns**: AIME, representing the user's AIME, which is rounded down to an integer
 */
 
-function getAIMEFromEarnings(earningsRecord, year62) {
+function getAIMEFromEarnings(rawEarnings, year62) {
 
   var indexingYear = year62 - 2;
 
   var maxECTable = getWepTables.maximumEarningsCreditable()
 
   var avgWageIndexTable = getWepTables.averageWageIndexTable()
-
-  var rawEarnings = getRawEarnings(earningsRecord)
 
   //Determine # of calculation years
   let numCalculationYears = 0;
@@ -164,7 +167,6 @@ function getAIMEFromEarnings(earningsRecord, year62) {
   }//throw new Error("") - but what would this error be?
 
   //return averageMap
-
   let maximumMap = {}; //This map will contain key-value pairs of year-maximum from table
   if (Array.isArray(maxECTable)) {
     earnings.forEach((earning) => {
@@ -173,7 +175,6 @@ function getAIMEFromEarnings(earningsRecord, year62) {
       }
     });
   }//throw new Error("") - but what would this error be?
-
   //Check that averageMap and maximumMap have the same length and set of keys?
 
 
@@ -253,7 +254,8 @@ function getAIMEFromEarnings(earningsRecord, year62) {
 }
 
 
-
+//getRawEarnings is used to take the default earnings record to {year:amount} presentation
+//This function is vital for testing purposes where the input records are not reformated as per usual in file-upload
 function getRawEarnings(earningsRecord) {
   var rawearnings = {};
 
@@ -529,6 +531,7 @@ function lumpSumToMonthly(lumpSum, dateAwarded, workerAge, dob){
 
 //----------------------------------------------------------------------------------
 
+
 ///////////////////////////////
 // Final Calculation Display //
 ///////////////////////////////
@@ -562,6 +565,7 @@ export {
 	firstPiaFactor,
   getYearsSE,
 	getAIMEFromEarnings,
+  getRawEarnings,
 	getAggregateColaFactor,
 	getColaFactors,
 	getWepMPB,
