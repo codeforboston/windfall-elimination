@@ -6,8 +6,8 @@ import {UserStateContextProvider, UserState} from './user-state-context'
 import {UserStateActions, UserStateActionsContextProvider} from './user-state-actions-context'
 
 // Must use sessionStorage (not localStorage) or else it conflicts with other uses of sessionStorage within app
-const useBirthDateState = createPersistedState('BirthDate', window.sessionStorage);
-const useRetireDateState = createPersistedState('RetireDate', window.sessionStorage);
+const useBirthDateState = createPersistedState('BirthDate', global.sessionStorage);
+const useRetireDateState = createPersistedState('RetireDate', global.sessionStorage);
 
 function startOfDay(date: Date): Date {
   return dayjs(date).startOf('day').toDate()
