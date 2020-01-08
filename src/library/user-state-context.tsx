@@ -1,11 +1,11 @@
 import * as React from 'react'
 
 export interface UserState {
-  birthDate?: Date | null
-  retireDate?: Date | null
+  birthDate: Date | null
+  retireDate: Date | null
 }
 
-const UserStateContext = React.createContext<UserState>({})
+const UserStateContext = React.createContext<UserState | null>(null)
 
 export const UserStateContextProvider = UserStateContext.Provider
 
