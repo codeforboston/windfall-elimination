@@ -67,7 +67,7 @@
     "format": "prettier --write src/**/*.{js,jsx,tsx}",
     "start": "npm run develop",
     "serve": "gatsby serve",
-    "test": "jest"
+    "test": "eslint . --ext=ts,tsx && jest"
   },
   "repository": {
     "type": "git",
