@@ -39,9 +39,9 @@ export default function UserStateManager(props: UserStateManagerProps): JSX.Elem
   }
 
   const userState: UserState = React.useMemo(() => ({
-    birthDate: new Date(birthDate),
-    retireDate: new Date(retireDate),
-  }), [birthDate])
+    birthDate: birthDate ? new Date(birthDate) : null,
+    retireDate: retireDate ? new Date(retireDate) : null,
+  }), [birthDate, retireDate])
 
   return (
     <UserStateContextProvider value={userState}>
