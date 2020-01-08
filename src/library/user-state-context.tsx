@@ -12,7 +12,7 @@ export const UserStateContextProvider = UserStateContext.Provider
 export function useUserState(): UserState {
   const userState = React.useContext(UserStateContext)
   if (!userState) {
-    throw new Error('Cannot access user state actions outside of a `<UserStateManager>`.')
+    throw new Error('Cannot access user state outside of a `<UserStateManager>`.')
   }
   return userState
 }
