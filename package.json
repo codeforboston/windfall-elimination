@@ -36,6 +36,7 @@
     "react-helmet": "^5.2.0",
     "tesseract.js": "^2.0.0-alpha.11",
     "typescript": "^3.3.4000",
+    "use-persisted-state": "^0.3.0",
     "windfall-awareness-notebook-prototype": "https://api.observablehq.com/@thadk/windfall-awareness-notebook-prototype.tgz?v=1"
   },
   "devDependencies": {
