@@ -11,6 +11,7 @@
     "@reach/router": "^1.2.1",
     "@rebass/grid": "^6.0.0",
     "@types/react-helmet": "^5.0.8",
+    "@types/use-persisted-state": "^0.3.0",
     "babel-preset-gatsby": "^0.1.11",
     "d3": "^5.11.0",
     "dayjs": "^1.8.15",
