@@ -17,14 +17,14 @@ interface UserStateManagerState {
 }
 
 /**
- * Return a function which, when given a Date, calls the provided function with
+ * Return a date-setting function which, when given a Date, calls the provided set function with
  * the ISO8601 string representing the start of the day.
  */
-function dateWrapper(fn: (dateStr: string) => void): ((d: Date) => void) {
+function createDateSetter(setFn: (dateStr: string) => void): ((d: Date) => void) {
   return (date: Date): void => {
     const startOfDay = new Date(date)
     startOfDay.setHours(0, 0, 0, 0)
-    fn(startOfDay.toISOString())
+    setFn(startOfDay.toISOString())
   }
 }
 
@@ -34,8 +34,8 @@ export default function UserStateManager(props: UserStateManagerProps): JSX.Elem
   const [retireDate, setRetireDate] = useRetireDateState(null)
 
   const actions: UserStateActions = {
-    setBirthDate: dateWrapper(setBirthDate),
-    setRetireDate: dateWrapper(setRetireDate)
+    setBirthDate: createDateSetter(setBirthDate),
+    setRetireDate: createDateSetter(setRetireDate)
   }
 
   const userState: UserState = React.useMemo(() => ({
