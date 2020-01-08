@@ -85,12 +85,11 @@ const Layout = ({ children }) => (
       }
     `}
     render={data => (
-      <UserStateManager>
-        <Wrapper>
-          <Container>
-          <Header />
-          <link href="https://fonts.googleapis.com/css?family=Merriweather|Montserrat&display=swap" rel="stylesheet"/>
-          <ContentContainer>
+      <Wrapper>
+        <Container>
+        <Header />
+        <link href="https://fonts.googleapis.com/css?family=Merriweather|Montserrat&display=swap" rel="stylesheet"/>
+        <ContentContainer>
           <Location>
             {({ location }) => (
               <ProgressTracker
@@ -99,55 +98,58 @@ const Layout = ({ children }) => (
               />
             )}
           </Location>
-            <Main id='child-wrapper'>
+          <Main id='child-wrapper'>
+            <UserStateManager>
               {/* TODO test out this provider */}
-              <QuestionProvider>{children}</QuestionProvider>
-            </Main>
-            </ContentContainer>
-            <Footer>
-          <Location>
-            {({ location }) => {
-              const index = LINKSPATH.findIndex(path => path.path === location.pathname)
-              if(location.pathname === "/print/"){
-                return (
-                  <ButtonContainer>
-                   <ButtonLinkGreen to="/prescreen-1c/">Previous: Employment Status</ButtonLinkGreen>
-                   <ButtonLink to="/">Go Home</ButtonLink>
-                  </ButtonContainer>
-                )
-              }
-              if(index === -1){
-                return null;
-              }
-              if(index === LINKSPATH.length -1){
-                return (
+              <QuestionProvider>
+                {children}
+              </QuestionProvider>
+            </UserStateManager>
+          </Main>
+        </ContentContainer>
+        <Footer>
+        <Location>
+          {({ location }) => {
+            const index = LINKSPATH.findIndex(path => path.path === location.pathname)
+            if(location.pathname === "/print/"){
+              return (
                 <ButtonContainer>
-                <ButtonLinkGreen to={LINKSPATH[index -1].path}>
-                 {`Previous: ${LINKSPATH[index -1].label[0] + LINKSPATH[index -1].label.slice(1).toLowerCase()}`}
-                </ButtonLinkGreen>
-                <ButtonLink to="/">Go Home</ButtonLink>
+                 <ButtonLinkGreen to="/prescreen-1c/">Previous: Employment Status</ButtonLinkGreen>
+                 <ButtonLink to="/">Go Home</ButtonLink>
                 </ButtonContainer>
-                )
-              }
-              if(index === 0 ){
-                return (
-                <ButtonContainer>
-                <ButtonLink to="/prescreen-1a/">Get Started</ButtonLink>
-                </ButtonContainer>
-                )
-              }
+              )
+            }
+            if(index === -1){
+              return null;
+            }
+            if(index === LINKSPATH.length -1){
               return (
               <ButtonContainer>
-              <ButtonLinkGreen to={LINKSPATH[index -1].path}>{`Previous: ${LINKSPATH[index -1].label[0] + LINKSPATH[index -1].label.slice(1).toLowerCase()}`}</ButtonLinkGreen>
-              <ButtonLink to={LINKSPATH[index +1].path}>{`Next: ${LINKSPATH[index +1].label[0] + LINKSPATH[index +1].label.slice(1).toLowerCase()}` }</ButtonLink>
+              <ButtonLinkGreen to={LINKSPATH[index -1].path}>
+               {`Previous: ${LINKSPATH[index -1].label[0] + LINKSPATH[index -1].label.slice(1).toLowerCase()}`}
+              </ButtonLinkGreen>
+              <ButtonLink to="/">Go Home</ButtonLink>
               </ButtonContainer>
-            )
-            }}
-          </Location>
-          </Footer>
-          </Container>
-        </Wrapper>
-      </UserStateManager>
+              )
+            }
+            if(index === 0 ){
+              return (
+              <ButtonContainer>
+              <ButtonLink to="/prescreen-1a/">Get Started</ButtonLink>
+              </ButtonContainer>
+              )
+            }
+            return (
+            <ButtonContainer>
+            <ButtonLinkGreen to={LINKSPATH[index -1].path}>{`Previous: ${LINKSPATH[index -1].label[0] + LINKSPATH[index -1].label.slice(1).toLowerCase()}`}</ButtonLinkGreen>
+            <ButtonLink to={LINKSPATH[index +1].path}>{`Next: ${LINKSPATH[index +1].label[0] + LINKSPATH[index +1].label.slice(1).toLowerCase()}` }</ButtonLink>
+            </ButtonContainer>
+          )
+          }}
+        </Location>
+        </Footer>
+        </Container>
+      </Wrapper>
     )}
   />
 );
