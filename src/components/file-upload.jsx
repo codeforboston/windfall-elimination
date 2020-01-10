@@ -232,7 +232,7 @@ export default class FileUpload extends React.Component {
 
     var tempTable = {};
     const yearCountForLoopLength = (!supportDatesAfterToday &&
-       retiredate<= new Date().getFullYear()) ? retiredate : new Date().getFullYear() 
+       retiredate<= new Date().getFullYear()) ? retiredate : new Date().getFullYear() - 1
     if (birthdate !== undefined && retiredate !== undefined) {
       for (var i = birthdate; i <= yearCountForLoopLength; i++) {
         if (Object.keys(earningsValue).includes(String(i))) {
