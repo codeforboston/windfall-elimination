@@ -4,7 +4,6 @@ import DatePicker from "react-datepicker";
 import "react-datepicker/dist/react-datepicker.css";
 import * as ObsFuncs from "../library/observable-functions";
 import { colors } from "../constants";
-import { SessionStore } from "../library/session-store";
 import dayjs from "dayjs";
 
 import {UserState, useUserState} from '../library/user-state-context'
