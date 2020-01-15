@@ -13,7 +13,6 @@ import {
   Glossary, 
   WarningBox
 } from "../components";
-import { SessionStore } from "../library/session-store";
 import { FontControl } from "../library/font-control";
 import { UserState, EarningsEnum, useUserState } from '../library/user-state-context';
 import { UserStateActions, useUserStateActions } from '../library/user-state-actions-context';
@@ -47,16 +46,6 @@ const Link = styled.a`
   overflow-wrap: break-word;
 `;
 
-const checkForBirthday = () => {
-  if (typeof window === 'undefined') {
-    return null;
-  }
-  if(SessionStore.get("BirthDate")=== null && SessionStore.get("RetireDate") === null){
-    return <WarningBox><label>Please go back and fill out appropriate birthdate and retirement date before going forward. </label></WarningBox>
-  }
-  return null; 
-}
-
 interface Prescreen1bProps {
   userState: UserState
   userStateActions: UserStateActions
@@ -86,6 +75,15 @@ class Prescreen1b extends React.Component<Prescreen1bProps> {
     return (haveEarnings === true && (earningsFormat === EarningsEnum.PDFPRINT || earningsFormat === EarningsEnum.PAPER))
   }
 
+  checkForBirthday = () => {
+    const {userState: {birthDate}} = this.props
+    if (birthDate === null) {
+      return <WarningBox><label>Please go back and fill out appropriate birthdate before going forward. </label></WarningBox>
+    }
+
+    return null;
+  }
+
   render() {
     const {
       userState: {haveEarnings, haveSSAAccount, earningsFormat},
@@ -104,7 +102,7 @@ class Prescreen1b extends React.Component<Prescreen1bProps> {
                 To calculate your Social Security retirement benefits, you will need a record of your earnings from Social Security.
                 Follow the steps below to get your earning record.
             </TextBlock> 
-            {checkForBirthday()}
+            {this.checkForBirthday()}
                 
                 <Card>
                     <QuestionText>Do you have a copy of your earnings record?</QuestionText>

@@ -56,7 +56,7 @@ export default function UserStateManager(props: UserStateManagerProps): JSX.Elem
     setHaveEarnings,
     setEarningsFormat,
     setHaveSSAAccount,
-  }), [setBirthDate, setRetireDate, setYear62])
+  }), [setBirthDate, setEarningsFormat, setHaveEarnings, setHaveSSAAccount, setRetireDate, setYear62])
 
   return (
     <UserStateContextProvider value={userState}>
