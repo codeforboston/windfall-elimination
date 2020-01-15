@@ -10,7 +10,9 @@
     "@observablehq/runtime": "4.2.1",
     "@reach/router": "^1.2.1",
     "@rebass/grid": "^6.0.0",
+    "@types/react-datepicker": "^2.10.0",
     "@types/react-helmet": "^5.0.8",
+    "@types/use-persisted-state": "^0.3.0",
     "babel-preset-gatsby": "^0.1.11",
     "d3": "^5.11.0",
     "dayjs": "^1.8.15",
@@ -36,14 +38,20 @@
     "react-helmet": "^5.2.0",
     "tesseract.js": "^2.0.0-alpha.11",
     "typescript": "^3.3.4000",
+    "use-persisted-state": "^0.3.0",
     "windfall-awareness-notebook-prototype": "https://api.observablehq.com/@thadk/windfall-awareness-notebook-prototype.tgz?v=1"
   },
   "devDependencies": {
     "@types/rc-slider": "^8.6.5",
     "@types/react": "^16.8.8",
     "@types/react-dom": "^16.8.3",
+    "@typescript-eslint/eslint-plugin": "^2.15.0",
+    "@typescript-eslint/parser": "^2.15.0",
     "babel-jest": "^24.9.0",
     "babel-plugin-emotion": "^10.0.9",
+    "eslint": "^6.8.0",
+    "eslint-plugin-react": "^7.17.0",
+    "eslint-plugin-react-hooks": "^2.3.0",
     "identity-obj-proxy": "^3.0.0",
     "jest": "^24.9.0",
     "prettier": "^1.16.4",
@@ -59,7 +67,7 @@
     "format": "prettier --write src/**/*.{js,jsx,tsx}",
     "start": "npm run develop",
     "serve": "gatsby serve",
-    "test": "jest"
+    "test": "eslint . --ext=ts,tsx && jest"
   },
   "repository": {
     "type": "git",

@@ -5,6 +5,7 @@ import { Location } from "@reach/router";
 import { Header, QuestionProvider, Footer, ButtonLink, ButtonLinkGreen } from "../components";
 import "./layout.css";
 import { ProgressTracker } from "../components/progress-tracker";
+import UserStateManager from "../library/user-state-manager"
 
 const Wrapper = styled("div")`
   display: block;
@@ -89,20 +90,24 @@ const Layout = ({ children }) => (
         <Header />
         <link href="https://fonts.googleapis.com/css?family=Merriweather|Montserrat&display=swap" rel="stylesheet"/>
         <ContentContainer>
-        <Location>
-          {({ location }) => (
-            <ProgressTracker
-              linkProps={LINKSPATH}
-              activePath={location.pathname}
-            />
-          )}
-        </Location>
+          <Location>
+            {({ location }) => (
+              <ProgressTracker
+                linkProps={LINKSPATH}
+                activePath={location.pathname}
+              />
+            )}
+          </Location>
           <Main id='child-wrapper'>
-            {/* TODO test out this provider */}
-            <QuestionProvider>{children}</QuestionProvider>
+            <UserStateManager>
+              {/* TODO test out this provider */}
+              <QuestionProvider>
+                {children}
+              </QuestionProvider>
+            </UserStateManager>
           </Main>
-          </ContentContainer>
-          <Footer>
+        </ContentContainer>
+        <Footer>
         <Location>
           {({ location }) => {
             const index = LINKSPATH.findIndex(path => path.path === location.pathname)
