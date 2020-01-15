@@ -3,6 +3,8 @@ import * as React from 'react'
 export interface UserState {
   birthDate: Date | null
   retireDate: Date | null
+  fullRetirementAge: number | null
+  year62: number | null
 }
 
 const UserStateContext = React.createContext<UserState | null>(null)

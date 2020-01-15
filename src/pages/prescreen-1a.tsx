@@ -39,30 +39,13 @@ interface Prescreen1aProps {
   userStateActions: UserStateActions
 }
 
-interface Prescreen1aState {
-  retireAge: number | null
-}
-
 class Prescreen1a extends React.Component<Prescreen1aProps, Prescreen1aState> {
-  public state: Prescreen1aState = {
-    retireAge: null,
-  }
   constructor(props, context){
     super(props, context)
     this.handleDateChange = this.handleDateChange.bind(this);
   }
 
   componentDidMount() {
-    if (this.state.retireAge === null) {
-      if (SessionStore.get("RetireAge") !== null) {
-        var retireAge = JSON.parse(SessionStore.get("RetireAge"))
-      } else {
-        retireAge = 62
-      }
-      this.setState({
-        retireAge: retireAge
-      })
-    }
   }
 
   async handleDateChange(name, value) {
@@ -70,8 +53,10 @@ class Prescreen1a extends React.Component<Prescreen1aProps, Prescreen1aState> {
     const {birthDate} = userState
     if (name === "birthDatePicked") {
       userStateActions.setBirthDate(value)
+
       var year62 = new Date(value).getFullYear() + 62;
-      SessionStore.push("Year62", year62)
+      userStateActions.setYear62(year62)
+
       var fullRetirementAge = await ObsFuncs.getFullRetirementDateSimple(birthDate)
       this.setRetireDate(value, fullRetirementAge)
     }
@@ -79,11 +64,8 @@ class Prescreen1a extends React.Component<Prescreen1aProps, Prescreen1aState> {
 
   async setRetireDate(dateOfBirth, retireAge) {
     const {userStateActions} = this.props
-    var retireDate = dayjs(dateOfBirth).add(await retireAge, 'years').toDate()
+    var retireDate = dayjs(dateOfBirth).add(await retireAge, 'year').toDate()
     userStateActions.setRetireDate(retireDate)
-    this.setState({
-      retireAge: JSON.stringify(retireAge),
-    })
   }
 
   //TODO: remove the decimal years and display YY years and MM months.
@@ -98,7 +80,7 @@ class Prescreen1a extends React.Component<Prescreen1aProps, Prescreen1aState> {
 
     render() {
         const {userState} = this.props
-        const {birthDate, retireDate} = userState
+        const {birthDate, retireDate, fullRetirementAge} = userState
         const retireDateYear = retireDate ? retireDate.getFullYear() : null
         return (
             <div>
@@ -114,7 +96,7 @@ class Prescreen1a extends React.Component<Prescreen1aProps, Prescreen1aState> {
                     placeholderText="Click to select a date"
                     selected={birthDate}
                     showYearDropdown
-                    openToDate={birthDate || dayjs().subtract(64, 'years').toDate()}
+                    openToDate={birthDate || dayjs().subtract(64, 'year').toDate()}
                     onChange={(value) => this.handleDateChange("birthDatePicked", value)}
                     />
                   </Card>
@@ -122,7 +104,7 @@ class Prescreen1a extends React.Component<Prescreen1aProps, Prescreen1aState> {
                     <Card>
                     <H4>Retirement Age</H4>
                     <p>Your Full Retirement Age (FRA) to collect Social Security
-                       Benefits is {this.state.retireAge} years old, which is in
+                       Benefits is {fullRetirementAge} years old, which is in
                         year {retireDateYear}.</p>
                   </Card>
                   }

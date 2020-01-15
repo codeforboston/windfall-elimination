@@ -8,6 +8,7 @@ import {UserStateActions, UserStateActionsContextProvider} from './user-state-ac
 // Must use sessionStorage (not localStorage) or else it conflicts with other uses of sessionStorage within app
 const useBirthDateState = createPersistedState('BirthDate', global.sessionStorage);
 const useRetireDateState = createPersistedState('RetireDate', global.sessionStorage);
+const useYear62State = createPersistedState('Year62', global.sessionStorage);
 
 /**
  * Helper function to get a Date object equivalent to the start of the date given
@@ -28,16 +29,20 @@ export default function UserStateManager(props: UserStateManagerProps): JSX.Elem
   const {children} = props
   const [birthDate, setBirthDate] = useBirthDateState<Date | null>(null)
   const [retireDate, setRetireDate] = useRetireDateState<Date | null>(null)
-
-  const actions: UserStateActions = useMemo(() => ({
-    setBirthDate: date => setBirthDate(startOfDay(date)),
-    setRetireDate: date => setRetireDate(startOfDay(date)),
-  }), [setBirthDate, setRetireDate])
+  const [year62, setYear62] = useYear62State<number | null>(null)
 
   const userState: UserState = useMemo(() => ({
     birthDate: birthDate ? new Date(birthDate) : null,
     retireDate: retireDate ? new Date(retireDate) : null,
-  }), [birthDate, retireDate])
+    fullRetirementAge: (birthDate && retireDate) ? dayjs(retireDate).diff(birthDate, 'year', true): null,
+    year62,
+  }), [birthDate, retireDate, year62])
+
+  const actions: UserStateActions = useMemo(() => ({
+    setBirthDate: date => setBirthDate(startOfDay(date)),
+    setRetireDate: date => setRetireDate(startOfDay(date)),
+    setYear62,
+  }), [setBirthDate, setRetireDate, setYear62])
 
   return (
     <UserStateContextProvider value={userState}>
