@@ -42,8 +42,8 @@ export const UploadLabel = styled("label")`
   font-size: ${fontSizes[1]};
   width: 300px;
   height: 50px;
-  padding-top 25px;
-  padding-bottom: 25px;
+  padding-top 13px;
+  padding-bottom: 3px;
 `;
 
 export const DisplayTable = styled.div`
