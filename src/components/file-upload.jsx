@@ -13,7 +13,6 @@ const supportDatesAfterToday = false;
 //Upload page specific css/html
 export const UploadButton = styled("div")`
   position: relative;
-  padding: 25px 0 0 0;
   margin: ${spacing[2]} ${spacing[0]};
   overflow: hidden;
   background-color: ${colors.white};
@@ -43,6 +42,8 @@ export const UploadLabel = styled("label")`
   font-size: ${fontSizes[1]};
   width: 300px;
   height: 50px;
+  padding-top 25px;
+  padding-bottom: 25px;
 `;
 
 export const DisplayTable = styled.div`
