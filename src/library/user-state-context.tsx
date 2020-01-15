@@ -19,7 +19,6 @@ export interface UserState {
   haveEarnings: boolean | null
   earningsFormat: EarningsEnum | null
   haveSSAAccount: boolean | null
-  earnings: EarningsData | null
 }
 
 const UserStateContext = React.createContext<UserState | null>(null)

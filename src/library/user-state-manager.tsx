@@ -39,7 +39,6 @@ export default function UserStateManager(props: UserStateManagerProps): JSX.Elem
   const [haveEarnings, setHaveEarnings] = useHaveEarningsState<boolean | null>(null)
   const [earningsFormat, setEarningsFormat] = useEarningsFormatState<EarningsEnum | null>(null)
   const [haveSSAAccount, setHaveSSAAccount] = useHaveSSAAccountState<boolean | null>(null)
-  const [earnings, setEarnings] = useEarningsState<EarningsData | null>(null)
 
   const userState: UserState = useMemo(() => ({
     birthDate: birthDate ? new Date(birthDate) : null,
@@ -49,8 +48,7 @@ export default function UserStateManager(props: UserStateManagerProps): JSX.Elem
     haveEarnings,
     earningsFormat,
     haveSSAAccount,
-    earnings,
-  }), [birthDate, earnings, earningsFormat, haveEarnings, haveSSAAccount, retireDate, year62])
+  }), [birthDate, earningsFormat, haveEarnings, haveSSAAccount, retireDate, year62])
 
   const actions: UserStateActions = useMemo(() => ({
     setBirthDate: date => setBirthDate(startOfDay(date)),
@@ -59,8 +57,7 @@ export default function UserStateManager(props: UserStateManagerProps): JSX.Elem
     setHaveEarnings,
     setEarningsFormat,
     setHaveSSAAccount,
-    setEarnings,
-  }), [setBirthDate, setEarnings, setEarningsFormat, setHaveEarnings, setHaveSSAAccount, setRetireDate, setYear62])
+  }), [setBirthDate, setEarningsFormat, setHaveEarnings, setHaveSSAAccount, setRetireDate, setYear62])
 
   return (
     <UserStateContextProvider value={userState}>
