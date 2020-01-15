@@ -2,14 +2,15 @@ import React, {useMemo} from 'react'
 import createPersistedState from 'use-persisted-state';
 import dayjs from 'dayjs'
 
-import {UserStateContextProvider, UserState, EarningsEnum} from './user-state-context'
+import {UserStateContextProvider, UserState, EarningsEnum, EarningsData } from './user-state-context'
 import {UserStateActions, UserStateActionsContextProvider} from './user-state-actions-context'
 
 // Must use sessionStorage (not localStorage) or else it conflicts with other uses of sessionStorage within app
 const useBirthDateState = createPersistedState('BirthDate', global.sessionStorage);
 const useHaveEarningsState = createPersistedState('haveEarnings', global.sessionStorage);
 const useEarningsFormatState = createPersistedState('earningsFormat', global.sessionStorage);
-const useHaveSSAAccountState = createPersistedState('haveSSAccount', global.sessionStorage);
+const useHaveSSAAccountState = createPersistedState('haveSSAAccount', global.sessionStorage);
+const useEarningsState = createPersistedState('earnings', global.sessionStorage);
 
 // TODO The following should eventually be derived from the state values persisted to storage
 const useRetireDateState = createPersistedState('RetireDate', global.sessionStorage);
@@ -38,6 +39,7 @@ export default function UserStateManager(props: UserStateManagerProps): JSX.Elem
   const [haveEarnings, setHaveEarnings] = useHaveEarningsState<boolean | null>(null)
   const [earningsFormat, setEarningsFormat] = useEarningsFormatState<EarningsEnum | null>(null)
   const [haveSSAAccount, setHaveSSAAccount] = useHaveSSAAccountState<boolean | null>(null)
+  const [earnings, setEarnings] = useEarningsState<EarningsData | null>(null)
 
   const userState: UserState = useMemo(() => ({
     birthDate: birthDate ? new Date(birthDate) : null,
@@ -47,7 +49,8 @@ export default function UserStateManager(props: UserStateManagerProps): JSX.Elem
     haveEarnings,
     earningsFormat,
     haveSSAAccount,
-  }), [birthDate, earningsFormat, haveEarnings, haveSSAAccount, retireDate, year62])
+    earnings,
+  }), [birthDate, earnings, earningsFormat, haveEarnings, haveSSAAccount, retireDate, year62])
 
   const actions: UserStateActions = useMemo(() => ({
     setBirthDate: date => setBirthDate(startOfDay(date)),
@@ -56,7 +59,8 @@ export default function UserStateManager(props: UserStateManagerProps): JSX.Elem
     setHaveEarnings,
     setEarningsFormat,
     setHaveSSAAccount,
-  }), [setBirthDate, setEarningsFormat, setHaveEarnings, setHaveSSAAccount, setRetireDate, setYear62])
+    setEarnings,
+  }), [setBirthDate, setEarnings, setEarningsFormat, setHaveEarnings, setHaveSSAAccount, setRetireDate, setYear62])
 
   return (
     <UserStateContextProvider value={userState}>

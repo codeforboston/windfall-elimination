@@ -7,6 +7,10 @@ export enum EarningsEnum {
   PAPER = "PAPER"
 }
 
+export interface EarningsData {
+  [year: string]: number
+}
+
 export interface UserState {
   birthDate: Date | null
   retireDate: Date | null
@@ -15,6 +19,7 @@ export interface UserState {
   haveEarnings: boolean | null
   earningsFormat: EarningsEnum | null
   haveSSAAccount: boolean | null
+  earnings: EarningsData | null
 }
 
 const UserStateContext = React.createContext<UserState | null>(null)
