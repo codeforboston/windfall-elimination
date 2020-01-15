@@ -16,6 +16,7 @@ import {
 } from "../components";
 import { SessionStore } from "../library/session-store";
 import { FontControl } from "../library/font-control";
+import { EarningsEnum } from '../library/user-state-context';
 
 export const SsaImage= styled("img")`
   border: 1px solid #dddddd;
@@ -39,13 +40,6 @@ const HowToContainer = styled.div`
 const ContentContainer = styled.div`
   max-width: 70%;
 `;
-
-enum EarningsEnum {
-	XML = "XML",
-	PDF = "PDF",
-	PDFPRINT = "PDFPRINT",
-	PAPER = "PAPER"
-}
 
 const Link = styled.a`
   color: black;

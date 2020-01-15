@@ -2,11 +2,16 @@ import React, {useMemo} from 'react'
 import createPersistedState from 'use-persisted-state';
 import dayjs from 'dayjs'
 
-import {UserStateContextProvider, UserState} from './user-state-context'
+import {UserStateContextProvider, UserState, EarningsEnum} from './user-state-context'
 import {UserStateActions, UserStateActionsContextProvider} from './user-state-actions-context'
 
 // Must use sessionStorage (not localStorage) or else it conflicts with other uses of sessionStorage within app
 const useBirthDateState = createPersistedState('BirthDate', global.sessionStorage);
+const useHaveEarningsState = createPersistedState('haveEarnings', global.sessionStorage);
+const useEarningsFormatState = createPersistedState('earningsFormat', global.sessionStorage);
+const useHaveSSAAccountState = createPersistedState('haveSSAccount', global.sessionStorage);
+
+// TODO The following should eventually be derived from the state values persisted to storage
 const useRetireDateState = createPersistedState('RetireDate', global.sessionStorage);
 const useYear62State = createPersistedState('Year62', global.sessionStorage);
 
@@ -30,18 +35,27 @@ export default function UserStateManager(props: UserStateManagerProps): JSX.Elem
   const [birthDate, setBirthDate] = useBirthDateState<Date | null>(null)
   const [retireDate, setRetireDate] = useRetireDateState<Date | null>(null)
   const [year62, setYear62] = useYear62State<number | null>(null)
+  const [haveEarnings, setHaveEarnings] = useHaveEarningsState<boolean | null>(null)
+  const [earningsFormat, setEarningsFormat] = useEarningsFormatState<EarningsEnum | null>(null)
+  const [haveSSAAccount, setHaveSSAAccount] = useHaveSSAAccountState<boolean | null>(null)
 
   const userState: UserState = useMemo(() => ({
     birthDate: birthDate ? new Date(birthDate) : null,
     retireDate: retireDate ? new Date(retireDate) : null,
     fullRetirementAge: (birthDate && retireDate) ? dayjs(retireDate).diff(birthDate, 'year', true): null,
     year62,
-  }), [birthDate, retireDate, year62])
+    haveEarnings,
+    earningsFormat,
+    haveSSAAccount,
+  }), [birthDate, earningsFormat, haveEarnings, haveSSAAccount, retireDate, year62])
 
   const actions: UserStateActions = useMemo(() => ({
     setBirthDate: date => setBirthDate(startOfDay(date)),
     setRetireDate: date => setRetireDate(startOfDay(date)),
     setYear62,
+    setHaveEarnings,
+    setEarningsFormat,
+    setHaveSSAAccount,
   }), [setBirthDate, setRetireDate, setYear62])
 
   return (
