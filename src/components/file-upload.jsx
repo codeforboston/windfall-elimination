@@ -13,7 +13,6 @@ const supportDatesAfterToday = false;
 //Upload page specific css/html
 export const UploadButton = styled("div")`
   position: relative;
-  padding: 25px 0 0 0;
   margin: ${spacing[2]} ${spacing[0]};
   overflow: hidden;
   background-color: ${colors.white};
@@ -43,6 +42,8 @@ export const UploadLabel = styled("label")`
   font-size: ${fontSizes[1]};
   width: 300px;
   height: 50px;
+  padding-top 13px;
+  padding-bottom: 3px;
 `;
 
 export const DisplayTable = styled.div`
@@ -232,7 +233,7 @@ export default class FileUpload extends React.Component {
 
     var tempTable = {};
     const yearCountForLoopLength = (!supportDatesAfterToday &&
-       retiredate<= new Date().getFullYear()) ? retiredate : new Date().getFullYear() 
+       retiredate<= new Date().getFullYear()) ? retiredate : new Date().getFullYear() - 1
     if (birthdate !== undefined && retiredate !== undefined) {
       for (var i = birthdate; i <= yearCountForLoopLength; i++) {
         if (Object.keys(earningsValue).includes(String(i))) {

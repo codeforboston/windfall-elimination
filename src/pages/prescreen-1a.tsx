@@ -7,6 +7,9 @@ import { colors } from "../constants";
 import { SessionStore } from "../library/session-store";
 import dayjs from "dayjs";
 
+import {UserState, useUserState} from '../library/user-state-context'
+import {UserStateActions, useUserStateActions} from '../library/user-state-actions-context'
+
 import {
   TextBlock,
   SEO,
@@ -31,26 +34,25 @@ const H4 = styled.h4`
 margin: 5px 0;
 `
 
-export default class Prescreen1c extends React.Component {
+interface Prescreen1aProps {
+  userState: UserState
+  userStateActions: UserStateActions
+}
+
+interface Prescreen1aState {
+  retireAge: number | null
+}
+
+class Prescreen1a extends React.Component<Prescreen1aProps, Prescreen1aState> {
+  public state: Prescreen1aState = {
+    retireAge: null,
+  }
   constructor(props, context){
     super(props, context)
     this.handleDateChange = this.handleDateChange.bind(this);
-    this.state = {
-      birthDate: null,
-      retireAge: null,
-      retireDate: null
-    };
   }
 
   componentDidMount() {
-    if (SessionStore.get("BirthDate") && (this.state.birthDate === null)){
-      var birthdate = new Date(JSON.parse(SessionStore.get("BirthDate")))
-      this.setState({
-        birthDate: birthdate
-      })
-
-    }
-
     if (this.state.retireAge === null) {
       if (SessionStore.get("RetireAge") !== null) {
         var retireAge = JSON.parse(SessionStore.get("RetireAge"))
@@ -63,25 +65,24 @@ export default class Prescreen1c extends React.Component {
     }
   }
 
-  async handleDateChange(name, value){
+  async handleDateChange(name, value) {
+    const {userStateActions, userState} = this.props
+    const {birthDate} = userState
     if (name === "birthDatePicked") {
-      SessionStore.push("BirthDate", JSON.stringify(value))
+      userStateActions.setBirthDate(value)
       var year62 = new Date(value).getFullYear() + 62;
       SessionStore.push("Year62", year62)
-      var fullRetirementAge = await ObsFuncs.getFullRetirementDateSimple(this.state.birthDate)
+      var fullRetirementAge = await ObsFuncs.getFullRetirementDateSimple(birthDate)
       this.setRetireDate(value, fullRetirementAge)
-      var state = {birthDate: value}
-      this.setState(state)
     }
   }
 
   async setRetireDate(dateOfBirth, retireAge) {
+    const {userStateActions} = this.props
     var retireDate = dayjs(dateOfBirth).add(await retireAge, 'years').toDate()
-    SessionStore.push("RetireDate", JSON.stringify(retireDate))
+    userStateActions.setRetireDate(retireDate)
     this.setState({
       retireAge: JSON.stringify(retireAge),
-      retireDate: JSON.stringify(retireDate),
-      retireDateYear: JSON.stringify(retireDate.getFullYear()),
     })
   }
 
@@ -96,6 +97,9 @@ export default class Prescreen1c extends React.Component {
 //   }
 
     render() {
+        const {userState} = this.props
+        const {birthDate, retireDate} = userState
+        const retireDateYear = retireDate ? retireDate.getFullYear() : null
         return (
             <div>
                 <SEO title="Pre-Screen 1a" keywords={[`gatsby`, `application`, `react`]} />
@@ -108,21 +112,29 @@ export default class Prescreen1c extends React.Component {
                     <StyledDatePicker
                     id="birthDatePicked"
                     placeholderText="Click to select a date"
-                    selected={this.state.birthDate}
+                    selected={birthDate}
                     showYearDropdown
-                    openToDate={this.state.birthDate || dayjs().subtract(64, 'years').toDate()}
+                    openToDate={birthDate || dayjs().subtract(64, 'years').toDate()}
                     onChange={(value) => this.handleDateChange("birthDatePicked", value)}
                     />
                   </Card>
-                  { this.state.retireDateYear && 
+                  { retireDateYear && 
                     <Card>
                     <H4>Retirement Age</H4>
                     <p>Your Full Retirement Age (FRA) to collect Social Security
                        Benefits is {this.state.retireAge} years old, which is in
-                        year {this.state.retireDateYear}.</p>
+                        year {retireDateYear}.</p>
                   </Card>
                   }
             </div>
          )
     }
+}
+
+export default function Prescreen1aWrapper() {
+  const userStateActions = useUserStateActions()
+  const userState = useUserState()
+  return (
+    <Prescreen1a userState={userState} userStateActions={userStateActions} />
+  )
 }
