@@ -49,7 +49,7 @@ export default () => (
       <H3>Before You Begin</H3>
       <TextBlock>
       Have a copy of your earnings record (digital or printed) on hand 
-      (you can <a href="https://www.dropbox.com/s/x1mizktnieg46j0/Sample_20.xml?raw=1&dl=1">
+      (you can <a href="https://www.dropbox.com/s/7y55twj8c1dfs1j/Windfall_App_Sample_20.xml?raw=1&dl=1">
         download a sample one here</a>).
       </TextBlock>
       <H3>[Legal Disclaimer]</H3>
