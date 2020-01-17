@@ -3,7 +3,7 @@ import styled from "@emotion/styled";
 import fastXml from "fast-xml-parser";
 import pdfJS from "pdfjs-dist";
 import { spacing, colors, fontSizes, radii } from "../constants";
-import { Glossary } from "../components";
+import {  H2, Glossary } from "../components";
 import { SessionStore } from "../library/session-store";
 import { getRawEarnings } from "../library/observable-functions";
 
@@ -165,8 +165,9 @@ export class GenerateTable extends React.Component {
 
     return (
       <>
-        <h1>Year-by-year Earning Records</h1>
-         <h2>{earningsSize} rows {displayFile}</h2>
+        {earningsSize && <H2>Year-by-year Earning Records</H2> &&
+        <h3>{earningsSize} {earningsSize ? "rows" : ""} {displayFile}</h3>}
+         
         <DisplayTable>{tableRows}</DisplayTable>       
       </>
     );
