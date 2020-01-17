@@ -19,7 +19,7 @@ const Number = styled.div`
 const MonthlyBenefit = ({text, number}) => {
   return (
     <Benefit>
-      Monthly benefit at {text}
+      Monthly benefit at {text} (FRA)
       <Number>${number}</Number>
     </Benefit>
   )

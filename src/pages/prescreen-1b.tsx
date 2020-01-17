@@ -13,7 +13,6 @@ import {
   Glossary, 
   WarningBox
 } from "../components";
-import { FontControl } from "../library/font-control";
 import { UserState, EarningsEnum, useUserState } from '../library/user-state-context';
 import { UserStateActions, useUserStateActions } from '../library/user-state-actions-context';
 
@@ -56,10 +55,6 @@ class Prescreen1b extends React.Component<Prescreen1bProps> {
     super(props);
     this.showFileUpload = this.showFileUpload.bind(this);
     this.showManualTable = this.showManualTable.bind(this);
-  }
-
-  componentDidUpdate() {
-      FontControl.loadFont()
   }
 
   showFileUpload() {
@@ -257,7 +252,7 @@ the red box in the photo below.</ol>
           </Glossary>
           }
           </GlosaryStyle>
-      </React.Fragment>
+       </React.Fragment>
     )
   }
 }

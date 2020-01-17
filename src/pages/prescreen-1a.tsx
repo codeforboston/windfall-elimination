@@ -13,6 +13,7 @@ import {
   TextBlock,
   SEO,
   Card,
+  WarningBox,
   H2,
 } from "../components";
 
@@ -63,7 +64,12 @@ class Prescreen1a extends React.Component<Prescreen1aProps, Prescreen1aState> {
 
   async setRetireDate(dateOfBirth, retireAge) {
     const {userStateActions} = this.props
-    var retireDate = dayjs(dateOfBirth).add(await retireAge, 'year').toDate()
+
+    /* dayjs cannot .add() fractional years that we put into the tables
+       but only months, so let us use rounded months. */
+    const retireAgeInRoundedMonths = Math.round(await retireAge * 12)
+    var retireDate = dayjs(dateOfBirth).add(retireAgeInRoundedMonths, 'month').toDate()
+
     userStateActions.setRetireDate(retireDate)
   }
 
@@ -79,7 +85,7 @@ class Prescreen1a extends React.Component<Prescreen1aProps, Prescreen1aState> {
 
     render() {
         const {userState} = this.props
-        const {birthDate, retireDate, fullRetirementAge} = userState
+        const {birthDate, retireDate, fullRetirementAgeYearsOnly, fullRetirementAgeMonthsOnly} = userState
         const retireDateYear = retireDate ? retireDate.getFullYear() : null
         return (
             <div>
@@ -103,8 +109,17 @@ class Prescreen1a extends React.Component<Prescreen1aProps, Prescreen1aState> {
                     <Card>
                     <H4>Retirement Age</H4>
                     <p>Your Full Retirement Age (FRA) to collect Social Security
-                       Benefits is {fullRetirementAge} years old, which is in
-                        year {retireDateYear}.</p>
+                       Benefits is {fullRetirementAgeYearsOnly} years 
+                       {fullRetirementAgeMonthsOnly ? " and " + 
+                       fullRetirementAgeMonthsOnly+ " months ": ""} old<a href="https://www.ssa.gov/OACT/ProgData/ar_drc.html"><sup>1</sup></a>, 
+                       which is in year {retireDateYear}.
+                      { /* TODO remove this and replace with a function that checks the tables */
+                      retireDateYear>=2025 ? <WarningBox><label>This app may not
+                         be able to calculate your results because it is still too 
+                         many years away. Extrapolation based on the economy 
+                         and Social Security&apos;s Trustees Report may be added
+                          in a future version. </label></WarningBox> : ""
+                      }</p>
                   </Card>
                   }
             </div>

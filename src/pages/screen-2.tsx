@@ -1,9 +1,11 @@
 import React from "react"
 import styled from "@emotion/styled";
-import { ButtonLink, SEO, H2, Card, WarningBox, HelperText, Glossary } from "../components";
+import { ButtonLink, SEO, H2, WarningBox, Glossary } from "../components";
 import * as ObsFuncs from "../library/observable-functions";
 import { SessionStore } from "../library/session-store";
 import { colors, fontSizes } from "../constants";
+import { UserState, useUserState } from '../library/user-state-context';
+import { UserStateActions, useUserStateActions } from '../library/user-state-actions-context';
 
 import AgeSlider from '../components/age-slider'
 import MonthlyBenefit from '../components/monthly-benefit'
@@ -12,11 +14,6 @@ import dayjs from "dayjs";
 
 const ContentContainer = styled.div`
   max-width: 70%;
-`;
-
-const PageContainer = styled.div`
-  display: flex;
-  flex-direction: row;
 `;
 
 const ButtonContainer = styled.div`
@@ -37,13 +34,25 @@ const Text = styled.div`
   margin: 10px 5px 40px;
   font-size: ${fontSizes[1]};
 `
+interface Screen2Props {
+  userState: UserState
+  userStateActions: UserStateActions
+}
 
-export default class Screen2 extends React.Component {
-  constructor(props, context) {
+interface Screen2State {
+  isLoaded: boolean,
+  userProfile: {},
+  userWEP: boolean | null
+      /* TODO remove SessionStore and this.state taking advantage of UserState */
+}
+
+export class Screen2 extends React.Component<Screen2Props, Screen2State> {
+  constructor(props: Screen2Props, context) {
     super(props, context)
 
     this.performCalc = this.performCalc.bind(this);
 
+    /* TODO remove SessionStore and this.state taking advantage of UserState */
     this.state = {
       isLoaded: false,
       userProfile: {},
@@ -59,7 +68,7 @@ export default class Screen2 extends React.Component {
     if (!this.state.isLoaded) {
       this.performCalc()
         .catch(err => {
-          console.log('err', err)
+          console.error('err', err)
           this.setState({
             isLoaded: true,
             error: 'Missing Info'
@@ -98,7 +107,6 @@ export default class Screen2 extends React.Component {
           workerAge,
           dob
         )
-        console.log('userPension', userPension)
       } else {
         // other
         userPension = undefined
@@ -140,6 +148,9 @@ export default class Screen2 extends React.Component {
   }
 
   render() {
+    const  { userState } = this.props
+    const { fullRetirementAge } = userState
+
     return (
       <React.Fragment>
         <SEO title="Screen 2" />
@@ -158,12 +169,16 @@ export default class Screen2 extends React.Component {
 
                   <Flex>
             <Text>Based on the information you provided, your retirement benefits will be calculated by Social Security as follows: </Text>
-            <MonthlyBenefit text={'full retirement age'} number={this.state.userProfile["MPB"]} />
+            <MonthlyBenefit text={'Full Retirement Age'} number={this.state.userProfile["MPB"]} />
             {this.state.testAge ?
               <><Text>However, Social Security changes your monthly benefit amount if you begin to claim benefits before or after your full retirement age.
               Use the slider below to see how your planned date of retirement will affect your monthly benefit amount.
                     </Text>
-                <AgeSlider age={this.state.testAge} handleChange={this.handleRetireChange} />
+                <AgeSlider 
+                  age={this.state.testAge} 
+                  handleChange={this.handleRetireChange}
+                  fullRetirementAge={fullRetirementAge} 
+                  />
                 <MonthlyBenefit text={`age ${this.state.testAge}`} number={this.state.testProfile && this.state.testProfile["MPB"]} /></> : null
             }
             <ButtonContainer>
@@ -183,4 +198,10 @@ export default class Screen2 extends React.Component {
     )
   }
 
+}
+
+export default function Screen2Wrapper(): JSX.Element {
+  const userState = useUserState()
+  const userStateActions = useUserStateActions()
+  return <Screen2 userState={userState} userStateActions={userStateActions} />
 }

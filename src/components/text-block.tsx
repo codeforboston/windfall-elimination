@@ -3,6 +3,7 @@ import { fontSizes, colors } from "../constants";
 
 export const TextBlock = styled.div`
   font-family: 'Montserrat', sans-serif;
+  font-size: ${fontSizes[0]}
 `;
 
 export const H3 = styled.h3`
@@ -14,7 +15,7 @@ export const H3 = styled.h3`
 export const H2 = styled.h2`
   font-family: 'Merriweather', serif;
   color: black;
-  font-size: ${fontSizes[3]};
+  font-size: ${fontSizes[2]};
 `;
 
 

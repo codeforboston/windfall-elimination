@@ -17,7 +17,6 @@ import {
   AnswerInputDiscouragePlaceholder
 } from "../components";
 import { SessionStore } from "../library/session-store";
-import { FontControl } from "../library/font-control";
 
 const StyledDatePicker = styled(DatePicker)`
   border: 2px solid ${colors.purple};
@@ -99,10 +98,6 @@ export default class Prescreen1c extends React.Component {
           : undefined
       });
     }
-  }
-
-  componentDidUpdate() {
-    FontControl.loadFont();
   }
   
   handleDateChange(name, value){

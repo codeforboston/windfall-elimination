@@ -15,6 +15,8 @@ export interface UserState {
   birthDate: Date | null
   retireDate: Date | null
   fullRetirementAge: number | null
+  fullRetirementAgeYearsOnly: number | null
+  fullRetirementAgeMonthsOnly: number | null
   year62: number | null
   haveEarnings: boolean | null
   earningsFormat: EarningsEnum | null

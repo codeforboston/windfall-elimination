@@ -1,5 +1,5 @@
 import React from "react";
-import { SEO, TextBlock, ListItem, UnorderedList, H2, H3, WarningBox } from "../components";
+import { SEO, TextBlock, ListItem, UnorderedList, H3, WarningBox } from "../components";
 
 const Unlaunched = () => {
   return <WarningBox><label><strong>The calculations on this app are not final.</strong>
