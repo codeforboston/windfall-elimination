@@ -46,6 +46,12 @@ export default () => (
         third-party services and/or government entities. All data is deleted
         after use.
       </TextBlock>
+      <H3>Before You Begin</H3>
+      <TextBlock>
+      Have a copy of your earnings record (digital or printed) on hand 
+      (you can <a href="https://www.dropbox.com/s/x1mizktnieg46j0/Sample_20.xml?raw=1&dl=1">
+        download a sample one here</a>).
+      </TextBlock>
       <H3>[Legal Disclaimer]</H3>
       <TextBlock>
         Your future benefits may be affected by
