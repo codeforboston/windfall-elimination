@@ -116,12 +116,14 @@ class Prescreen1a extends React.Component<Prescreen1aProps, Prescreen1aState> {
                        {fullRetirementAgeMonthsOnly ? " and " + 
                        fullRetirementAgeMonthsOnly+ " months ": ""} old<a href="https://www.ssa.gov/OACT/ProgData/ar_drc.html"><sup>1</sup></a>, 
                        which is in year {retireDateYear}.
-                      { /* TODO remove this and replace with a function that checks the tables */
+                      { /* TODO remove this and replace with a function that
+                       checks the tables' isActualValue's*/
                       retireDateYear>=2025 ? <WarningBox><label>This app may not
-                         be able to calculate your results because it is still too 
-                         many years away. Extrapolation based on the economy 
-                         and Social Security&apos;s Trustees Report may be added
-                          in a future version. </label></WarningBox> : ""
+                         be able to accurately calculate your results because
+                          it is still too many years away. Extrapolation based
+                           on the economy and Social Security&apos;s Trustees 
+                           Report may be added in a future version. 
+                           </label></WarningBox> : ""
                       }</p>
                   </Card>
                   }
