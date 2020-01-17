@@ -410,9 +410,10 @@ async function getFullRetirementDateSimple (dob) {
   
   const rowFromTable = benefitReductionTable.find(d => d.year ===dayjs(dob).year());
   if (rowFromTable) {
+    console.log(dob)
     return rowFromTable.NormalRetirementAge
   } else {
-    console.warn("Table returned default retirement age for some reason.")
+    console.warn("Table returned default retirement age for some reason.", dob)
     return 67
   }
 }

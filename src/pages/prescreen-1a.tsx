@@ -50,14 +50,17 @@ class Prescreen1a extends React.Component<Prescreen1aProps, Prescreen1aState> {
 
   async handleDateChange(name, value) {
     const {userStateActions, userState} = this.props
-    const {birthDate} = userState
+    // const {birthDate} = userState
     if (name === "birthDatePicked") {
       userStateActions.setBirthDate(value)
 
       var year62 = new Date(value).getFullYear() + 62;
       userStateActions.setYear62(year62)
+      var fullRetirementAge = 0;
 
-      var fullRetirementAge = await ObsFuncs.getFullRetirementDateSimple(birthDate)
+      /* There is still lag from the sessionStorage save so birthDate is not
+      yet set this fast. We need "value" here, not birthDate: */
+      fullRetirementAge = await ObsFuncs.getFullRetirementDateSimple(value)
       this.setRetireDate(value, fullRetirementAge)
     }
   }
