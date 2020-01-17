@@ -11,7 +11,6 @@ const Unlaunched = () => {
 export default () => (
     <div>
       <SEO title="Home" keywords={[`gatsby`, `application`, `react`]} />
-      <Unlaunched />
       <H3>This app will:</H3>
       <TextBlock>
         <UnorderedList>
