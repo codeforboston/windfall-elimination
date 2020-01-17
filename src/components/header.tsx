@@ -15,12 +15,16 @@ const StyledLink = styled(Link)`
   color: white;
   text-decoration: none;
 `;
-
-const AboutLink = styled(Link)`
+const ExtraLinks = styled("div")`
+  justify-content: flex-end
+`
+const ExtraLink = styled(Link)`
   color: white;
   text-decoration: none;
   font-size: 20px;
   line-height: 2;
+  padding-left: 20px;
+  padding-right: 10px;
   vertical-align: middle;
 `;
 
@@ -33,6 +37,9 @@ export const Header = () => (
           Social Security Benefit Calculator
         </StyledLink>
       </h1>
-      <AboutLink to="/about">About</AboutLink>
+      <ExtraLinks>
+        <ExtraLink to="/about">About</ExtraLink>
+        <ExtraLink to="/faq">FAQ</ExtraLink>
+      </ExtraLinks>
   </Wrapper>
 );

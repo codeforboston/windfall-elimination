@@ -114,8 +114,8 @@ const Layout = ({ children }) => (
             if(location.pathname === "/print/"){
               return (
                 <ButtonContainer>
-                 <ButtonLinkGreen to="/prescreen-1c/">Previous: Employment Status</ButtonLinkGreen>
-                 <ButtonLink to="/">Go Home</ButtonLink>
+                 <ButtonLinkGreen to="/screen-2/">Return to Results</ButtonLinkGreen>
+                 <ButtonLink to="/screen-2a/">Continue to Benefit Formula</ButtonLink>
                 </ButtonContainer>
               )
             }

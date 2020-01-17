@@ -11,7 +11,6 @@ const Unlaunched = () => {
 export default () => (
     <div>
       <SEO title="Home" keywords={[`gatsby`, `application`, `react`]} />
-      <Unlaunched />
       <H3>This app will:</H3>
       <TextBlock>
         <UnorderedList>
@@ -45,6 +44,12 @@ export default () => (
         Social Security benefits. No data is saved, stored, or passed along to
         third-party services and/or government entities. All data is deleted
         after use.
+      </TextBlock>
+      <H3>Before You Begin</H3>
+      <TextBlock>
+      Have a copy of your earnings record (digital or printed) on hand 
+      (you can <a href="https://www.dropbox.com/s/7y55twj8c1dfs1j/Windfall_App_Sample_20.xml?raw=1&dl=1">
+        download a sample one here</a>).
       </TextBlock>
       <H3>[Legal Disclaimer]</H3>
       <TextBlock>
