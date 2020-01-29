@@ -11,6 +11,12 @@ export interface EarningsData {
   [year: string]: number
 }
 
+export enum PensionEnum {
+  PENSION = "MONTHLYPENSION",
+  LUMPSUM = "LUMPSUMRETIREMENTACCOUNT",
+  NONEOFABOVE = "NONEOFABOVE"
+}
+
 export interface UserState {
   birthDate: Date | null
   retireDate: Date | null
@@ -21,6 +27,10 @@ export interface UserState {
   haveEarnings: boolean | null
   earningsFormat: EarningsEnum | null
   haveSSAAccount: boolean | null
+  isEmploymentCovered: boolean | null
+  pensionOrRetirementAccount: PensionEnum | null
+  pensionAmount: number | null
+  pensionDateAwarded: Date | null
 }
 
 const UserStateContext = React.createContext<UserState | null>(null)
