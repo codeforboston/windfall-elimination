@@ -2,7 +2,7 @@ import React, {useMemo} from 'react'
 import createPersistedState from 'use-persisted-state';
 import dayjs from 'dayjs'
 
-import {UserStateContextProvider, UserState, EarningsEnum, EarningsData } from './user-state-context'
+import {UserStateContextProvider, UserState, EarningsEnum, EarningsRecord } from './user-state-context'
 import {UserStateActions, UserStateActionsContextProvider} from './user-state-actions-context'
 
 // Must use sessionStorage (not localStorage) or else it conflicts with other uses of sessionStorage within app
@@ -37,6 +37,7 @@ export default function UserStateManager(props: UserStateManagerProps): JSX.Elem
   const [retireDate, setRetireDate] = useRetireDateState<Date | null>(null)
   const [year62, setYear62] = useYear62State<number | null>(null)
   const [haveEarnings, setHaveEarnings] = useHaveEarningsState<boolean | null>(null)
+  const [earnings, setEarnings] = useEarningsState<EarningsRecord | null>(null)
   const [earningsFormat, setEarningsFormat] = useEarningsFormatState<EarningsEnum | null>(null)
   const [haveSSAAccount, setHaveSSAAccount] = useHaveSSAAccountState<boolean | null>(null)
 
@@ -48,18 +49,20 @@ export default function UserStateManager(props: UserStateManagerProps): JSX.Elem
     fullRetirementAgeMonthsOnly: (birthDate && retireDate) ? dayjs(retireDate).diff(birthDate, 'month', false) % 12: null,
     year62,
     haveEarnings,
+    earnings,
     earningsFormat,
     haveSSAAccount,
-  }), [birthDate, earningsFormat, haveEarnings, haveSSAAccount, retireDate, year62])
+  }), [birthDate, earnings, earningsFormat, haveEarnings, haveSSAAccount, retireDate, year62])
 
   const actions: UserStateActions = useMemo(() => ({
     setBirthDate: date => setBirthDate(startOfDay(date)),
     setRetireDate: date => setRetireDate(startOfDay(date)),
     setYear62,
     setHaveEarnings,
+    setEarnings,
     setEarningsFormat,
     setHaveSSAAccount,
-  }), [setBirthDate, setEarningsFormat, setHaveEarnings, setHaveSSAAccount, setRetireDate, setYear62])
+  }), [setBirthDate, setEarnings, setEarningsFormat, setHaveEarnings, setHaveSSAAccount, setRetireDate, setYear62])
 
   return (
     <UserStateContextProvider value={userState}>
