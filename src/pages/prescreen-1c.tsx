@@ -178,7 +178,7 @@ Social Security record?
                   </QuestionText>
                   <AnswerInputDiscouragePlaceholder
                     name="pensionAmount"
-                    defaultValue={pensionAmount || 0}
+                    defaultValue={pensionAmount ?? undefined}
                     placeholder={'0'}  
                     onChange={this.handleSelection}
                   ></AnswerInputDiscouragePlaceholder>
