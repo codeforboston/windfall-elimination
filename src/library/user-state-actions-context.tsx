@@ -1,6 +1,6 @@
 import * as React from 'react'
 
-import {EarningsEnum, EarningsRecord} from './user-state-context'
+import {EarningsEnum, EarningsRecord, PensionEnum} from './user-state-context'
 
 export interface UserStateActions {
   setBirthDate: (date: Date) => void
@@ -10,6 +10,10 @@ export interface UserStateActions {
   setEarnings: (earnings: EarningsRecord) => void
   setEarningsFormat: (format: EarningsEnum) => void
   setHaveSSAAccount: (hasSSAAccount: boolean) => void
+  setIsEmploymentCovered: (isCovered: boolean) => void
+  setPensionOrRetirementAccount: (value: PensionEnum) => void
+  setPensionAmount: (amount: number) => void
+  setPensionDateAwarded: (date: Date) => void
 }
 
 const UserStateActionsContext = React.createContext<UserStateActions | null>(null)
