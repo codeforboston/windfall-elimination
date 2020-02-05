@@ -88,7 +88,8 @@ const checkMark = (index, indexOfActivePath) => {
   const sessionKeys = Object.keys(sessionStorage);
   const indexValues = indexToSessionStorageKeys[index];
     for(var i = 0; i < indexValues.length; i++ ){
-      if(!sessionKeys.includes(indexValues[i])){
+      const key = indexValues[i]
+      if(!sessionKeys.includes(key) || sessionStorage.getItem(key) === 'null'){
         return <Circle status={index > indexOfActivePath}>{index}</Circle>;
       }
     }
