@@ -53,9 +53,7 @@ interface Prescreen1cProps {
 class Prescreen1c extends React.Component<Prescreen1cProps> {
   handleDateAwardedChange = (value: Date) => {
     const {userStateActions: {setPensionDateAwarded}} = this.props
-    if (name === "dateAwardedPicked") {
-      setPensionDateAwarded(value)
-    }
+    setPensionDateAwarded(value)
   }
 
   handleSelection = (e: React.ChangeEvent<HTMLInputElement>) => {
@@ -190,7 +188,6 @@ Social Security record?
                       Please enter the date you become eligible to start withdrawing from the your retirement account without penalty.
                     </QuestionText>
                     <StyledDatePicker
-                    id="dateAwardedPicked"
                     placeholderText="Click to select a date"
                     selected={pensionDateAwarded}
                     showYearDropdown
