@@ -39,7 +39,6 @@ interface Screen2Props {
 }
 
 interface Screen2State {
-  isLoaded: boolean,
   userWEP: boolean | null
   error: string | null
   testAge: number | null
@@ -48,7 +47,6 @@ interface Screen2State {
 
 export class Screen2 extends React.Component<Screen2Props, Screen2State> {
   public state: Screen2State = {
-    isLoaded: false,
     userWEP: null,
     error: null,
     testAge: null,
@@ -56,16 +54,13 @@ export class Screen2 extends React.Component<Screen2Props, Screen2State> {
   }
 
   componentDidMount() {
-    if (!this.state.isLoaded) {
-      this.performCalc()
-        .catch(err => {
-          console.error('err', err)
-          this.setState({
-            isLoaded: true,
-            error: 'Missing Info'
-          })
-        } )
-    }
+    this.performCalc()
+      .catch(err => {
+        console.error('err', err)
+        this.setState({
+          error: 'Missing Info'
+        })
+      })
   }
 
   computeUserCalc = async (userDOR: Date) => {
@@ -80,7 +75,7 @@ export class Screen2 extends React.Component<Screen2Props, Screen2State> {
         pensionDateAwarded,
       },
     } = this.props
-    if (!birthDate) return
+    if (!birthDate) throw Error()
     const userYSE = ObsFuncs.getYearsSE(earnings)
     const userDOB = birthDate.toLocaleDateString("en-US")
 
@@ -122,16 +117,11 @@ export class Screen2 extends React.Component<Screen2Props, Screen2State> {
       userState: {birthDate, retireDate},
       userStateActions: {setUserProfile},
     } = this.props
-    if (!birthDate || !retireDate) return
+    if (!birthDate || !retireDate) throw Error()
 
     const userDOB = birthDate.toLocaleDateString("en-US")
     const userCalc = await this.computeUserCalc(retireDate)
-    if (userCalc)
-      setUserProfile(userCalc)
-
-    this.setState({
-      isLoaded: true,
-    })
+    setUserProfile(userCalc)
 
     const yearsDiff = dayjs(retireDate).year() - dayjs(userDOB).year()
     const clampedYearsDiff = yearsDiff < 62 ? 62 : yearsDiff > 70 ? 70 : yearsDiff
@@ -161,37 +151,38 @@ export class Screen2 extends React.Component<Screen2Props, Screen2State> {
         <SEO title="Screen 2" />
         <ContentContainer>
           <H2>Results</H2>
-          {/* KNOWN ISSUE(tdk), if you change your WEP status, this does not update. We need a better state model */
-          this.state.userWEP === true ?
-            <WarningBox><label>Based on the information you provided,
-            your benefits are affected by the Windfall Elimination Provision.
-             The Windfall Elimination Provision is a Social Security rule that reduces retirement benefits for retirees
-              with access to a pension based on non-covered employment. Click Benefit Formula at left to read more.
-              </label></WarningBox>: ""}
-          {this.state.error || !userProfile ? <WarningBox><label>Please go back and fill out all information to calculate results. </label></WarningBox> :
-
-
-
-                  <Flex>
-            <Text>Based on the information you provided, your retirement benefits will be calculated by Social Security as follows: </Text>
-            <MonthlyBenefit text={'Full Retirement Age'} number={userProfile["MPB"]} />
-            {this.state.testAge ?
-              <><Text>However, Social Security changes your monthly benefit amount if you begin to claim benefits before or after your full retirement age.
-              Use the slider below to see how your planned date of retirement will affect your monthly benefit amount.
-                    </Text>
-                <AgeSlider 
-                  age={this.state.testAge} 
-                  handleChange={this.handleRetireChange}
-                  fullRetirementAge={fullRetirementAge ?? undefined}
-                  />
-                <MonthlyBenefit text={`age ${this.state.testAge}`} number={this.state.testProfile && this.state.testProfile["MPB"]} /></> : null
-            }
-            <ButtonContainer>
-              <ButtonLink to="/print/" disabled={this.state.error !== null}>Print Results</ButtonLink>
-            </ButtonContainer>
-          </Flex>
+          {this.state.userWEP === true ? (
+            <WarningBox>
+              <label>Based on the information you provided,
+                your benefits are affected by the Windfall Elimination Provision.
+                 The Windfall Elimination Provision is a Social Security rule that reduces retirement benefits for retirees
+                  with access to a pension based on non-covered employment. Click Benefit Formula at left to read more.
+              </label>
+            </WarningBox>): null
           }
-                </ContentContainer>
+          {this.state.error || !userProfile ? (
+            <WarningBox><label>Please go back and fill out all information to calculate results. </label></WarningBox>
+          ) : (
+            <Flex>
+              <Text>Based on the information you provided, your retirement benefits will be calculated by Social Security as follows: </Text>
+              <MonthlyBenefit text={'Full Retirement Age'} number={userProfile["MPB"]} />
+              {this.state.testAge ?
+                <><Text>However, Social Security changes your monthly benefit amount if you begin to claim benefits before or after your full retirement age.
+                Use the slider below to see how your planned date of retirement will affect your monthly benefit amount.
+                      </Text>
+                  <AgeSlider 
+                    age={this.state.testAge} 
+                    handleChange={this.handleRetireChange}
+                    fullRetirementAge={fullRetirementAge ?? undefined}
+                    />
+                  <MonthlyBenefit text={`age ${this.state.testAge}`} number={this.state.testProfile && this.state.testProfile["MPB"]} /></> : null
+              }
+              <ButtonContainer>
+                <ButtonLink to="/print/" disabled={this.state.error !== null}>Print Results</ButtonLink>
+              </ButtonContainer>
+            </Flex>
+          )}
+        </ContentContainer>
         <Glossary
           title='FULL RETIREMENT AGE'
           link="https://www.ssa.gov/planners/retire/retirechart.html"
