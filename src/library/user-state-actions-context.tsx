@@ -1,12 +1,13 @@
 import * as React from 'react'
 
-import {EarningsEnum, PensionEnum} from './user-state-context'
+import {EarningsEnum, EarningsRecord, PensionEnum} from './user-state-context'
 
 export interface UserStateActions {
   setBirthDate: (date: Date) => void
   setRetireDate: (date: Date) => void
   setYear62: (year: number) => void
   setHaveEarnings: (hasEarnings: boolean) => void
+  setEarnings: (earnings: EarningsRecord) => void
   setEarningsFormat: (format: EarningsEnum) => void
   setHaveSSAAccount: (hasSSAAccount: boolean) => void
   setIsEmploymentCovered: (isCovered: boolean) => void

@@ -7,7 +7,7 @@ export enum EarningsEnum {
   PAPER = "PAPER"
 }
 
-export interface EarningsData {
+export interface EarningsRecord {
   [year: string]: number
 }
 
@@ -26,6 +26,7 @@ export interface UserState {
   year62: number | null
   haveEarnings: boolean | null
   earningsFormat: EarningsEnum | null
+  earnings: EarningsRecord | null
   haveSSAAccount: boolean | null
   isEmploymentCovered: boolean | null
   pensionOrRetirementAccount: PensionEnum | null

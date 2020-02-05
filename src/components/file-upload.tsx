@@ -2,13 +2,14 @@ import React from "react";
 import styled from "@emotion/styled";
 import fastXml from "fast-xml-parser";
 import pdfJS from "pdfjs-dist";
-import { spacing, colors, fontSizes, radii } from "../constants";
-import {  H2, Glossary } from "../components";
-import { SessionStore } from "../library/session-store";
+import { spacing, colors, fontSizes } from "../constants";
+import {  H2 } from "../components";
 import { getRawEarnings } from "../library/observable-functions";
+import { EarningsRecord, useUserState, UserState } from '../library/user-state-context'
+import { useUserStateActions, UserStateActions } from '../library/user-state-actions-context'
 
-/*remove this if we ever support future calculation */
-const supportDatesAfterToday = false;
+//Make sure that the worker version matches package.json pdfjs-dist version.
+pdfJS.GlobalWorkerOptions.workerSrc = "https://cdn.jsdelivr.net/npm/pdfjs-dist@2.1.266/build/pdf.worker.js";
 
 //Upload page specific css/html
 export const UploadButton = styled("div")`
@@ -101,21 +102,35 @@ export const LabelBox = styled.div`
   width: 60px;
 `;
 
+interface GenerateTableProps {
+  parsedXml: EarningsRecord | null
+  manual: boolean
+  manualTable: EarningsRecord
+  handleInputEarnings: (year: string, value: string) => void
+  handleManualEarnings: (year: string, value: string) => void
+  fileName: string | null
+  handleSave: () => void
+}
+
 //-------------------------------------------------
 
 // Generates earning records table from uploaded XML file, XML parsing adapted from Amrutha
 // If user uploads: use Amru's table logic
 // If manual entering, use alternative table generation method.
-export class GenerateTable extends React.Component {
-  constructor(props, context) {
-    super(props, context);
-  }
-
+export class GenerateTable extends React.Component<GenerateTableProps> {
   render() {
+    const {
+      parsedXml,
+      manual,
+      handleInputEarnings,
+      handleManualEarnings,
+      manualTable,
+      handleSave,
+      fileName
+    } = this.props
     var tableRows;
     var earningsSize;
-    if (this.props.parsedXml && this.props.manual === false) {
-      const parsedXml = this.props.parsedXml;
+    if (parsedXml && manual === false) {
       var earningsYears = Object.keys(parsedXml);
       tableRows = earningsYears.map((year, i) => {
         const earningValueXML = parsedXml[year]
@@ -130,17 +145,17 @@ export class GenerateTable extends React.Component {
               <TableInput
                 id={year}
                 {...earningValueXML}
-                onChange={this.props.handleInputEarnings}
+                onChange={e => handleInputEarnings(year, e.target.value)}
               />
             </TD>
           </React.Fragment>
         );
       });
       earningsSize = tableRows.length;
-    } else if (this.props.manual) {
-      tableRows = Object.keys(this.props.manualTable).map((year, key) => {
-        const earningValue = this.props.manualTable[year]
-          ? { defaultValue: this.props.manualTable[year] }
+    } else if (manual) {
+      tableRows = Object.keys(manualTable).map((year, key) => {
+        const earningValue = manualTable[year]
+          ? { defaultValue: manualTable[year] }
           : { placeholder: 0 };
         return (
           <React.Fragment key={"earning" + key}>
@@ -152,8 +167,8 @@ export class GenerateTable extends React.Component {
                 type="text"
                 id={"value_" + year + "_" + key}
                 {...earningValue}
-                onChange={this.props.handleManualEarnings}
-                onBlur={this.props.handleSave}
+                onChange={e => handleManualEarnings(year, e.target.value)}
+                onBlur={handleSave}
                 tabindex={parseInt(key, 10) + 1}
               ></TableInput>
             </TD>
@@ -162,86 +177,56 @@ export class GenerateTable extends React.Component {
       });
       earningsSize = tableRows.length;
     }
-    const displayFile=this.props.fileName ? "from " + this.props.fileName : ""
+    const displayFile=fileName ? "from " + fileName : ""
 
     return (
       <>
         {earningsSize && <H2>Year-by-year Earning Records</H2> &&
         <h3>{earningsSize} {earningsSize ? "rows" : ""} {displayFile}</h3>}
-         
-        <DisplayTable>{tableRows}</DisplayTable>       
+        <DisplayTable>{tableRows}</DisplayTable>
       </>
     );
   }
 }
 
-export default class FileUpload extends React.Component {
-  constructor(props, context) {
-    super(props, context);
+interface FileUploadProps {
+  manual: boolean
+  userState: UserState
+  userStateActions: UserStateActions
+}
 
-    //Make sure that the worker version matches package.json pdfjs-dist version.
-    pdfJS.GlobalWorkerOptions.workerSrc =
-      "https://cdn.jsdelivr.net/npm/pdfjs-dist@2.1.266/build/pdf.worker.js";
+interface FileUploadState {
+  fileName: string | null
+  displayTable: boolean
+  manualTable: EarningsRecord
+}
 
-    this.handleUpload = this.handleUpload.bind(this);
-    this.handleXMLFile = this.handleXMLFile.bind(this);
-    this.handlePDFFile = this.handlePDFFile.bind(this);
-    this.handleInputEarnings = this.handleInputEarnings.bind(this);
-    this.handleManualEarnings = this.handleManualEarnings.bind(this);
-    this.handleSave = this.handleSave.bind(this);
-    this.fileInput = React.createRef();
+class FileUpload extends React.Component<FileUploadProps, FileUploadState> {
+  fileInput = React.createRef<HTMLInputElement>()
 
-    this.state = {
-      elementLoaded: false,
-      earningsRecord: undefined,
-      userBirthDate: undefined,
-      userRetireDate: undefined,
-      estimatedYears: [],
-      rowValues: [],
-      manualTable: {},
-      displayTable: false,
-      buttonText: this.props.manual
-        ? "Enter Earnings Record"
-        : "Upload Earnings Record",
-      buttonFunction: this.props.manual ? this.handleEnter : this.handleUpload,
-      buttonType: this.props.manual ? "button" : "file",
-      saveDisable: false
-    };
+  saveMessageRef = React.createRef<HTMLDivElement>()
+
+  public state: FileUploadState = {
+    manualTable: {},
+    displayTable: false,
+    fileName: null,
   }
 
   componentDidMount() {
-    let earningsValue = {};
-    if (SessionStore.get("earnings")) {
-      earningsValue = JSON.parse(SessionStore.get("earnings"));
-      this.setState({
-        earningsRecord: earningsValue
-      });
-    }
+    const {userState: {earnings, birthDate, retireDate}} = this.props
+    if (birthDate === null || retireDate === null) return
+    const earningsRecord = earnings || {}
 
-    if (SessionStore.get("BirthDate") && SessionStore.get("RetireDate")) {
-      var birthdate =
-        new Date(JSON.parse(SessionStore.get("BirthDate"))).getFullYear() + 18;
+    const startEmploymentYear = birthDate.getFullYear() + 18
+    const retireYear = retireDate.getFullYear()
+    const endYear = retireYear <= new Date().getFullYear() ? retireYear : new Date().getFullYear() - 1
 
-      var retiredate = new Date(
-        JSON.parse(SessionStore.get("RetireDate"))
-      ).getFullYear();
-
-      this.setState({
-        userBirthDate: birthdate,
-        userRetireDate: retiredate
-      });
-    }
-
-    var tempTable = {};
-    const yearCountForLoopLength = (!supportDatesAfterToday &&
-       retiredate<= new Date().getFullYear()) ? retiredate : new Date().getFullYear() - 1
-    if (birthdate !== undefined && retiredate !== undefined) {
-      for (var i = birthdate; i <= yearCountForLoopLength; i++) {
-        if (Object.keys(earningsValue).includes(String(i))) {
-          tempTable[i] = earningsValue[i];
-        } else {
-          tempTable[i] = 0;
-        }
+    var tempTable = {} as EarningsRecord;
+    for (var i = startEmploymentYear; i <= endYear; i++) {
+      if (Object.keys(earningsRecord).includes(String(i))) {
+        tempTable[i] = earningsRecord[i];
+      } else {
+        tempTable[i] = 0;
       }
     }
 
@@ -251,48 +236,43 @@ export default class FileUpload extends React.Component {
   }
 
   //For uploaded records: handles the updating of stored earnings record to match inputed value
-  handleInputEarnings(input) {
-    var earnings = this.state.earningsRecord;
+  handleInputEarnings = (modifiedYear: string, value: string) => {
+    const {
+      userState: {earnings},
+      userStateActions: {setEarnings},
+    } = this.props
+    if (earnings === null) return
     var earningsYears = Object.keys(earnings);
-    var modifiedyear = input.target.id;
 
-    if (earningsYears.includes(modifiedyear)) {
-      earnings[modifiedyear] = Number(input.target.value);
-
-      var earningsJSON = JSON.stringify(earnings);
-      SessionStore.push("earnings", earningsJSON);
-
-      this.setState({
-        earningsRecord: earnings
-      });
+    if (earningsYears.includes(modifiedYear)) {
+      setEarnings({...earnings, [modifiedYear]: Number(value)})
     }
   }
 
   //Parse XML file
-  handleXMLFile(reader) {
+  handleXMLFile = (reader: ProgressEvent<FileReader>) => {
+    const {userStateActions: {setEarnings}} = this.props
+
     if (fastXml.validate(reader.target.result) === true) {
       var parsedText = fastXml.parse(reader.target.result, {
         ignoreAttributes: false
       });
 
-      var earnings = getRawEarnings(parsedText['osss:OnlineSocialSecurityStatementData']['osss:EarningsRecord']['osss:Earnings'])
-
-      var earningsJSON = JSON.stringify(earnings);
-      SessionStore.push("earnings", earningsJSON);
-      this.setState({
-        earningsRecord: earnings
-      });
+      const earnings = getRawEarnings(parsedText['osss:OnlineSocialSecurityStatementData']['osss:EarningsRecord']['osss:Earnings']) as EarningsRecord
+      setEarnings(earnings)
     }
   }
 
   //Parse PDF file
-  async handlePDFFile(reader) {
+  handlePDFFile = async (reader: ProgressEvent<FileReader>) => {
+    const {userStateActions: {setEarnings}} = this.props
+    if (reader.target === null || reader.target.result === null) return
     //Returns first page of document
     var combinedValues = [];
-    await pdfJS.getDocument(reader.target.result).promise.then(async ssaDoc => {
+    await pdfJS.getDocument(reader.target.result).promise.then(async (ssaDoc: pdfJS.PDFDocumentProxy) => {
       var earningsPage;
       for (var page of Array(ssaDoc.numPages).keys()) {
-        var docPage = ssaDoc.getPage(page + 1);
+        const docPage = ssaDoc.getPage(page + 1);
         await Promise.resolve(docPage)
           .then(pageContent => pageContent.getTextContent())
           .then(doc => {
@@ -325,23 +305,21 @@ export default class FileUpload extends React.Component {
       }
     } while (combinedValues.length > 0);
 
-    var earningsJSON = JSON.stringify(currentRecord);
-    SessionStore.push("earnings", earningsJSON);
-    this.setState({
-      earningsRecord: currentRecord
-    });
+    setEarnings(currentRecord)
   }
 
-  handleUpload(formResponse) {
+  handleUpload = (e: React.ChangeEvent<HTMLInputElement>) => {
+    if (this.fileInput.current === null || this.fileInput.current.files === null) return
+    e.preventDefault();
+    const {files} = this.fileInput.current
+
     this.setState({
       displayTable: true,
-      fileName: this.fileInput.current.files[0].name
+      fileName: files[0].name
     });
-    formResponse.preventDefault();
-    const file = this.fileInput.current.files[0];
-    var name = this.fileInput.current.files[0].name;
-    name = name.split(".");
-    const extension = name[name.length - 1];
+    const file = files[0];
+    const nameParts = files[0].name.split('.');
+    const extension = nameParts[nameParts.length - 1];
     var reader = new FileReader();
 
     switch (extension) {
@@ -362,14 +340,11 @@ export default class FileUpload extends React.Component {
   }
 
   //Stores users input for manually entered table to allow for persistence across page changes
-  handleManualEarnings(input) {
-    // eslint-disable-next-line
-    const [type, year, key] = input.target.id.split("_");
-
+  handleManualEarnings = (year: string, value: string) => {
     var tempManualTable = this.state.manualTable;
 
     if (Object.keys(tempManualTable).includes(year)) {
-      tempManualTable[year] = Number(input.target.value);
+      tempManualTable[year] = Number(value);
     }
 
     this.setState({
@@ -377,59 +352,75 @@ export default class FileUpload extends React.Component {
     });
   }
 
+  showSaveMessage = () => {
+    const saveMessageEl = this.saveMessageRef.current
+    if (saveMessageEl) {
+      saveMessageEl.style.display = "grid";
+      setTimeout(function() {
+        saveMessageEl.style.display = "none";
+      }, 3000);
+    }
+  }
+
   //Saves manually entered record to this.state.earningsRecord object, becomes noticable to Observable API
-  handleSave() {
+  handleSave = () => {
+    const {
+      userState: {earnings},
+      userStateActions: {setEarnings},
+    } = this.props
     //Load earnings record; if not present, set default record.
-    var tempRecord = this.state.earningsRecord ? this.state.earningsRecord : {};
+    var tempRecord = earnings ?? {}
 
     //Update global earnings record with the manually inputed values
     Object.keys(this.state.manualTable).forEach((year, i) => {
       tempRecord[year] = this.state.manualTable[year];
     });
 
-    //Store earnings record
-    var earningsJSON = JSON.stringify(tempRecord);
-    SessionStore.push("earnings", earningsJSON);
-
-    this.setState({
-      earningsRecord: tempRecord
-    });
-
-    //Display autosave message, 3 second timeout
-    var savediv = document.getElementById("AutoSave");
-    savediv.style.display = "grid";
-    setTimeout(function() {
-      savediv.style.display = "none";
-    }, 3000);
+    setEarnings(tempRecord)
+    this.showSaveMessage()
   }
 
   render() {
+    const {manual, userState: {earnings}} = this.props
     return (
       <div className="upload-form">
-        <UploadButton style={{ display: this.props.manual ? "none" : true }}>
-          <UploadLabel htmlFor="inputfile" className="btn">
-            {this.state.buttonText}
-          </UploadLabel>
-          <UploadInput
-            type={this.state.buttonType}
-            id="inputfile"
-            ref={this.fileInput}
-            onChange={this.state.buttonFunction}
-          ></UploadInput>
-        </UploadButton>
+        {!manual && (
+          <UploadButton>
+            <UploadLabel htmlFor="inputfile" className="btn">
+              Upload Earnings Record
+            </UploadLabel>
+            <UploadInput
+              type="file"
+              id="inputfile"
+              ref={this.fileInput}
+              onChange={this.handleUpload}
+            ></UploadInput>
+          </UploadButton>
+        )}
         <GenerateTable
-          parsedXml={this.state.earningsRecord}
+          parsedXml={earnings}
           handleInputEarnings={this.handleInputEarnings}
           manual={this.props.manual}
           manualTable={this.state.manualTable}
           handleManualEarnings={this.handleManualEarnings}
           handleSave={this.handleSave}
-          fileName={this.state.fileName}
+          fileName={this.state.fileName || null}
         />
-        <div id="AutoSave" style={{ display: "none" }}>
+        <div ref={this.saveMessageRef} style={{ display: "none" }}>
           Record has been saved.
         </div>
       </div>
     );
   }
+}
+
+type FileUploadWrapperProps = Omit<FileUploadProps, 'userState' | 'userStateActions'>
+
+export default function FileUploadWrapper(props: FileUploadWrapperProps) {
+  const {manual} = props
+  const userStateActions = useUserStateActions()
+  const userState = useUserState()
+  return (
+    <FileUpload manual={manual} userState={userState} userStateActions={userStateActions} />
+  )
 }
