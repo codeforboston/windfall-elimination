@@ -1,10 +1,5 @@
 import React from "react";
-import styled from "@emotion/styled";
-import DatePicker from "react-datepicker";
 import "react-datepicker/dist/react-datepicker.css";
-import { colors } from "../constants";
-import { SessionStore } from "../library/session-store";
-import dayjs from "dayjs";
 import {
   TextBlock,
   SEO,
@@ -12,18 +7,8 @@ import {
   H2,
 } from "../components";
 
-const H4 = styled.h4`
-margin: 5px 0;
-`
 
-export default class Prescreen1c extends React.Component {
-  constructor(props, context){
-    super(props, context)
-    this.state = {
-    };
-  }
-
-
+export default class Screen2a extends React.Component {
     render() {
         return (
             <div>

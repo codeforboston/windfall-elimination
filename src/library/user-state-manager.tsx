@@ -2,7 +2,14 @@ import React, {useMemo} from 'react'
 import createPersistedState from 'use-persisted-state';
 import dayjs from 'dayjs'
 
-import {UserStateContextProvider, UserState, EarningsEnum, EarningsRecord, PensionEnum} from './user-state-context'
+import {
+  UserStateContextProvider,
+  UserState,
+  EarningsEnum,
+  EarningsRecord,
+  PensionEnum,
+  UserProfile
+} from './user-state-context'
 import {UserStateActions, UserStateActionsContextProvider} from './user-state-actions-context'
 
 // Must use sessionStorage (not localStorage) or else it conflicts with other uses of sessionStorage within app
@@ -15,6 +22,7 @@ const useIsEmploymentCoveredState = createPersistedState('coveredEmployment', gl
 const usePensionOrRetirementAccountState = createPersistedState('pensionOrRetirementAccount', global.sessionStorage)
 const usePensionAmountState = createPersistedState('pensionAmount', global.sessionStorage)
 const usePensionDateAwarded = createPersistedState('dateAwarded', global.sessionStorage)
+const useUserProfile = createPersistedState('UserProfile', global.sessionStorage);
 
 
 // TODO The following should eventually be derived from the state values persisted to storage
@@ -49,6 +57,7 @@ export default function UserStateManager(props: UserStateManagerProps): JSX.Elem
   const [pensionOrRetirementAccount, setPensionOrRetirementAccount] = usePensionOrRetirementAccountState<PensionEnum | null>(null)
   const [pensionAmount, setPensionAmount] = usePensionAmountState<number | null>(null)
   const [pensionDateAwarded, setPensionDateAwarded] = usePensionDateAwarded<Date | null>(null)
+  const [userProfile, setUserProfile] = useUserProfile<UserProfile | null>(null)
 
   const userState: UserState = useMemo(() => ({
     birthDate: birthDate ? new Date(birthDate) : null,
@@ -65,7 +74,8 @@ export default function UserStateManager(props: UserStateManagerProps): JSX.Elem
     pensionOrRetirementAccount,
     pensionAmount,
     pensionDateAwarded,
-  }), [birthDate, earnings, earningsFormat, haveEarnings, haveSSAAccount, isEmploymentCovered, pensionAmount, pensionDateAwarded, pensionOrRetirementAccount, retireDate, year62])
+    userProfile,
+  }), [birthDate, earnings, earningsFormat, haveEarnings, haveSSAAccount, isEmploymentCovered, pensionAmount, pensionDateAwarded, pensionOrRetirementAccount, retireDate, userProfile, year62])
 
   const actions: UserStateActions = useMemo(() => ({
     setBirthDate: date => setBirthDate(startOfDay(date)),
@@ -79,7 +89,8 @@ export default function UserStateManager(props: UserStateManagerProps): JSX.Elem
     setPensionOrRetirementAccount,
     setPensionAmount,
     setPensionDateAwarded,
-  }), [setBirthDate, setEarnings, setEarningsFormat, setHaveEarnings, setHaveSSAAccount, setIsEmploymentCovered, setPensionAmount, setPensionDateAwarded, setPensionOrRetirementAccount, setRetireDate, setYear62])
+    setUserProfile,
+  }), [setBirthDate, setEarnings, setEarningsFormat, setHaveEarnings, setHaveSSAAccount, setIsEmploymentCovered, setPensionAmount, setPensionDateAwarded, setPensionOrRetirementAccount, setRetireDate, setUserProfile, setYear62])
 
   return (
     <UserStateContextProvider value={userState}>

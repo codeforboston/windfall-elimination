@@ -17,6 +17,13 @@ export enum PensionEnum {
   NONEOFABOVE = "NONEOFABOVE"
 }
 
+export interface UserProfile {
+  'Standard PIA': string
+  'WEP PIA': string
+  'WEP Diff': string
+  MPB: string
+}
+
 export interface UserState {
   birthDate: Date | null
   retireDate: Date | null
@@ -32,6 +39,7 @@ export interface UserState {
   pensionOrRetirementAccount: PensionEnum | null
   pensionAmount: number | null
   pensionDateAwarded: Date | null
+  userProfile: UserProfile | null
 }
 
 const UserStateContext = React.createContext<UserState | null>(null)
