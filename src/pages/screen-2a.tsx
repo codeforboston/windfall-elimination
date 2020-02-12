@@ -67,11 +67,11 @@ export default class Prescreen1c extends React.Component {
                     <P>Social Security uses three things to calculate your Primary Insurance Amount, or your basic benefit before adjusting for early or late retirement.
 
                       The three inputs are:
-
-                      1) Date of Birth
-                      2) Lifetime average earnings, adjusted for inflation
-                      3) Monthly non-Social Security pernsion
-
+                      <ol>
+                      <li> Date of Birth </li>
+                      <li> Lifetime average earnings, adjusted for inflation</li>
+                      <li> Monthly non-Social Security pension</li>
+                      </ol>
                       We'll walk you through those three steps in the following pages.
                     </P>
                   </section>
@@ -93,7 +93,7 @@ export default class Prescreen1c extends React.Component {
                   <section>
                     <H3>Step 2:</H3>
                     <P>
-                       Social Security calculates how much of your Average Indexed Monthly Earnings fall below your first <em>bend </em> and  second <em>bend points</em>
+                       Social Security calculates how much of your Average Indexed Monthly Earnings fall below your first <em>bend </em> and  second <em>bend points.</em>
                     </P>
                     <P>
                        .Image.
@@ -103,7 +103,7 @@ export default class Prescreen1c extends React.Component {
                   <section>
                     <H3>Step 3:</H3>
                     <P>
-                       Social Security calculates how much of your Average Indexed Monthly Earnings fall below your second <em>bend point</em>.
+                       Social Security calculates how much of your Average Indexed Monthly Earnings fall below your second <em>bend point.</em>
                     </P>
                     <P>
 
