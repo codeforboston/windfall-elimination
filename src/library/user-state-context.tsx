@@ -22,6 +22,7 @@ export interface UserProfile {
   'WEP PIA': string
   'WEP Diff': string
   MPB: string
+  RawData: any
 }
 
 export interface UserState {
