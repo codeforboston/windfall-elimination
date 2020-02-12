@@ -10,7 +10,7 @@ const Unlaunched = () => {
 
 export default () => (
     <div>
-      <SEO title="Home" keywords={[`gatsby`, `application`, `react`]} />
+      <SEO title="Social Security Benefit Calculator" keywords={[`gatsby`, `application`, `react`]} />
       <H3>This app will:</H3>
       <TextBlock>
         <UnorderedList>
@@ -47,7 +47,7 @@ export default () => (
       </TextBlock>
       <H3>Before You Begin</H3>
       <TextBlock>
-      Have a copy of your earnings record (digital or printed) on hand 
+      Have a copy of your earnings record (digital or printed) on hand
       (you can <a href="https://www.dropbox.com/s/7y55twj8c1dfs1j/Windfall_App_Sample_20.xml?raw=1&dl=1">
         download a sample one here</a>).
       </TextBlock>
@@ -58,7 +58,7 @@ export default () => (
         This site is for informational purposes only, and should not be taken as
         legal, tax, investment, financial, or other advice. You should consult
         with a financial advisor or attorney to determine what is best for your
-        individual circumstances. 
+        individual circumstances.
       </TextBlock>
     </div>
 );
