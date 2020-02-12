@@ -25,6 +25,7 @@ margin: 5px 0;
 
 const StyleCarousel = styled(Carousel)`
 margin: 20px 30px 15px 40px;
+dots: true;
 `
 
 const P = styled.p`
@@ -53,9 +54,7 @@ export default class Prescreen1c extends React.Component {
           speed: 700,
           slidesToShow: 1,
           slidesToScroll: 1,
-          autoplay: false,
-          dots: true
-
+          autoplay: false
         };
 
         return (
