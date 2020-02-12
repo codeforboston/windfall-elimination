@@ -6,7 +6,6 @@ import {
   H2
 } from "../components";
 import {useUserState, UserState, EarningsRecord} from '../library/user-state-context'
-import {useUserStateActions, UserStateActions} from '../library/user-state-actions-context'
 import styled from "@emotion/styled";
 import { colors, fontSizes, radii, spacing } from "../constants";
 
@@ -186,7 +185,6 @@ class PrintEarnings extends React.Component<PrintEarningsProps> {
 
 interface PrintProps {
   userState: UserState
-  userStateActions: UserStateActions
 }
 
 class Print extends React.Component<PrintProps> {
@@ -289,6 +287,5 @@ class Print extends React.Component<PrintProps> {
 
 export default function PrintWrapper(): JSX.Element {
   const userState = useUserState()
-  const userStateActions = useUserStateActions()
-  return <Print userState={userState} userStateActions={userStateActions} />
+  return <Print userState={userState} />
 }
