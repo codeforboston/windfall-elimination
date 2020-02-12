@@ -20,8 +20,6 @@ import FileUpload from "./file-upload";
 import { UnorderedList } from "./unordered-list";
 import { ListItem } from "./list-item";
 import { TextBlockHeader } from "./text-block-header";
-import ObservableCell from "./observable-cell";
-import { ObservableRuntime } from "./observable-runtime";
 import HamburgerHelper from "./hamburger-menu";
 import InfoWidget from "./info-widget";
 import { PrintButton } from "./print-button";
@@ -56,8 +54,6 @@ export {
     ListItem,
     TextBlockHeader,
     HamburgerHelper, 
-    ObservableCell,
-    ObservableRuntime,
     InfoWidget,
     PrintButton,
     RadioButton,
