@@ -16,6 +16,7 @@
     "@types/use-persisted-state": "^0.3.0",
     "babel-preset-gatsby": "^0.1.11",
     "d3": "^5.11.0",
+    "d3-format": "^1.4.3",
     "dayjs": "^1.8.15",
     "fast-xml-parser": "^3.12.16",
     "gatsby": "^2.4.2",
