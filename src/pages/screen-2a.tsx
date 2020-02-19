@@ -7,11 +7,12 @@ import { SessionStore } from "../library/session-store";
 import dayjs from "dayjs";
 import Carousel from "react-slick";
 
+
 // import "slick-carousel/slick/slick.css";
 // import "slick-carousel/slick/slick-theme.css";
 // import Slider from "react-slick";
-import "../static/slick.css";
-import "../static/slick-theme.css";
+// import "../static/slick.css";
+// import "../static/slick-theme.css";
 import {
   TextBlock,
   SEO,
@@ -23,55 +24,99 @@ const H4 = styled.h4`
 margin: 5px 0;
 `
 
-const StyleCarousel = styled(Carousel)`
-margin: 20px 30px 15px 40px;
-dots: true;
+const P = styled.p`
+margin:  10px 70px 10px 70px;
+padding:  10px 10px 10px 50px;
 `
 
-const P = styled.p`
-margin:  20px 30px 15px 40px;
-padding:  10px 30px 15px 40px;
+const OL = styled.ol`
+margin:  10px 70px 10px 70px;
+padding:  10px 10px 10px 50px;
 `
 
 const H3 = styled.h3`
-margin:  20px 30px 15px 40px;
-padding:  10px 30px 15px 40px;
+margin:  10px 70px 10px 70px;
+padding:  10px 10px 10px 50px;
 font-weight: bold;
 `
 
-export default class Prescreen1c extends React.Component {
-  constructor(props, context){
-    super(props, context)
-    this.state = {
-    };
-  }
+function NextArrow(props) {
+  const { className, style, onClick } = props;
+  return (
+    <div
+      className={className}
+      css={{...style, ":before": {color: "black"}}}
+      onClick={onClick}
+    />
+  );
+}
 
+function PrevArrow(props) {
+  const { className, style, onClick } = props;
+  return (
+    <div
+      className={className}
+      css={{ ...style, ":before": {color: "black"} }}
+      onClick={onClick}
+    />
+  );
+}
+
+
+export default class Prescreen1c extends React.Component {
+    constructor(props, context){
+      super(props, context)
+
+    }
+
+    setArrowDisplay = currentSlide => {
+        const { cityList } = this.props;
+        const displayLeftArrow = currentSlide !== 0;
+        const displayRightArrow = currentSlide !== cityList.length - this.slidesToShow;
+
+        this.setState({ displayRightArrow, displayLeftArrow });
+    };
+
+    clickHandler = (direction) => {
+      if (direction === 'left') {
+        this.slider.slickPrev();
+      } else if (direction === 'right') {
+        this.slider.slickNext();
+      }
+    };
 
     render() {
+
         const settings = {
           dots: true,
           infinite: false,
           speed: 700,
           slidesToShow: 1,
           slidesToScroll: 1,
-          autoplay: false
+          autoplay: true,
+          arrows: true,
+          pauseOnHover: true,
+          nextArrow: <NextArrow />,
+          prevArrow: <PrevArrow />
         };
 
         return (
             <div>
                 <SEO title="Pre-Screen 2a" keywords={[`gatsby`, `application`, `react`]} />
                 <H2>Benefit Formula</H2>
-                <StyleCarousel {...settings}>
+                <Carousel {...settings}>
                   <section>
                     <H3><b>How does Social Security calculate my benefits?</b></H3>
                     <P>Social Security uses three things to calculate your Primary Insurance Amount, or your basic benefit before adjusting for early or late retirement.
 
                       The three inputs are:
-                      <ol>
+                    </P>
+                      <OL>
                       <li> Date of Birth </li>
-                      <li> Lifetime average earnings, adjusted for inflation</li>
-                      <li> Monthly non-Social Security pension</li>
-                      </ol>
+                      <li> Lifetime average earnings, adjusted for inflation </li>
+                      <li> Monthly non-Social Security pernsion </li>
+                      </OL>
+                    <P>
                       We'll walk you through those three steps in the following pages.
                     </P>
                   </section>
@@ -93,7 +138,7 @@ export default class Prescreen1c extends React.Component {
                   <section>
                     <H3>Step 2:</H3>
                     <P>
-                       Social Security calculates how much of your Average Indexed Monthly Earnings fall below your first <em>bend </em> and  second <em>bend points.</em>
+                       Social Security calculates how much of your Average Indexed Monthly Earnings fall below your first <em>bend </em> and second <em>bend points.</em>
                     </P>
                     <P>
                        .Image.
@@ -120,7 +165,7 @@ export default class Prescreen1c extends React.Component {
                        .Image.
                     </P>
                   </section>
-                </StyleCarousel>
+                </Carousel>
             </div>
          )
     }
