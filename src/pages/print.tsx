@@ -1,12 +1,11 @@
 import React from "react";
 import {
   PrintButton,
-  ButtonLinkGreen,
   Message,
   H3,
   H2
 } from "../components";
-import { SessionStore } from "../library/session-store";
+import {useUserState, UserState, EarningsRecord} from '../library/user-state-context'
 import styled from "@emotion/styled";
 import { colors, fontSizes, radii, spacing } from "../constants";
 
@@ -90,8 +89,11 @@ var blankLines = {
   marginBottom: '20px'
 };
 
+interface PrintEarningsProps {
+  earnings: EarningsRecord
+}
 
-export class PrintEarnings extends React.Component {
+class PrintEarnings extends React.Component<PrintEarningsProps> {
   constructor(props, context) {
     super(props, context)
     this.state = {
@@ -100,14 +102,13 @@ export class PrintEarnings extends React.Component {
   }
 
   componentDidMount() {
-    this.earningsRecord = JSON.parse(SessionStore.get('earnings'))
     if (this.state.tableRows === undefined) {
       this.makeRows()
     }
   }
 
   makeRows() {
-    const earnings = this.earningsRecord;
+    const {earnings} = this.props
     var testEarnings = earnings;
     var earningsDict = {};
     var tablesize = Math.ceil(Object.keys(earnings).length / 10);
@@ -137,7 +138,7 @@ export class PrintEarnings extends React.Component {
 
     var sizedRows = []
 
-    while (newRows.length > 0)
+    while (newRows.length > 0) {
       if (newRows.length > columnLength) {
         sizedRows.push(newRows.splice(0, columnLength))
       } else {
@@ -147,8 +148,8 @@ export class PrintEarnings extends React.Component {
           smallArr.push(<React.Fragment key={"Filler" + i}></React.Fragment>)
         }
         sizedRows.push(smallArr)
-        
       }
+    }
 
     var finalRows = sizedRows[0].map(function(record, index) {
       var restofArray = sizedRows.slice(1, sizedRows.length)
@@ -182,51 +183,33 @@ export class PrintEarnings extends React.Component {
   }
 }
 
-export default class Print extends React.Component {
-  constructor(props, context) {
-    super(props, context)
-    this.printPage = this.printPage.bind(this);
+interface PrintProps {
+  userState: UserState
+}
 
-    this.state = {
-        userAIME: undefined,
-        userDOB: undefined,
-        userFRD: undefined,
-        userPension: undefined,
-        userStandardPIA: undefined,
-        userWEPPIA: undefined,
-        userMPB: undefined,
-        userYSE: undefined
-    }
-  }
+class Print extends React.Component<PrintProps> {
+  printPage = () => {
+    var printContents = document.getElementById("printArea").innerHTML;
+    var originalContents = document.body.innerHTML;
 
-  componentDidMount(){
+    // TODO Dangerous with React
+    document.body.innerHTML = printContents;
 
-    var parsedProfile = JSON.parse(SessionStore.get("UserProfile"))
-    this.setState({
-      userAIME: parsedProfile["RawData"]["AIMEPicked"],
-      userDOB: parsedProfile["RawData"]["birthDatePicked"],
-      userFRD: parsedProfile["RawData"]["userFullRetireDate"],
-      userPension: parsedProfile["RawData"]["pensionNonCoveredMonthly"],
-      userStandardPIA: parsedProfile["Standard PIA"],
-      userWEPPIA: parsedProfile["WEP PIA"],
-      userMPB: parsedProfile["MPB"],
-      userYSE: parsedProfile["RawData"]["yearsSubstantialEarningsPicked"]
-    })
-  }
+    window.print();
 
-  printPage() {
-     var printContents = document.getElementById("printArea").innerHTML;
-     var originalContents = document.body.innerHTML;
-
-     document.body.innerHTML = printContents;
-
-     window.print();
-
-     document.body.innerHTML = originalContents;
+    document.body.innerHTML = originalContents;
   }
 
   render() {
+    const {userState: {earnings, userProfile, birthDate, retireDate}} = this.props
 
+    if (!userProfile) return null
+
+    const userAIME = userProfile['RawData']['AIMEPicked']
+    const userYSE = userProfile['RawData']['yearsSubstantialEarningsPicked']
+    const userPension = userProfile["RawData"]["pensionNonCoveredMonthly"]
+    const userStandardPIA = userProfile["Standard PIA"]
+    const userMPB = userProfile["MPB"]
     return(
       <PageContainer>
         <PrintArea id="printArea">
@@ -244,50 +227,54 @@ export default class Print extends React.Component {
           </Message>
           <ResultsCard >
             <Title><H3>Beneficiary Information</H3></Title>
-            
             <Row>Name: <div style={blankLines}>____________________________</div></Row>
 
             <Row>Social Security Number: <div style={blankLines}>______-______-_________</div></Row>
 
-            <Row>Date of Birth: <BoxDisplay><strong>{this.state.userDOB}</strong></BoxDisplay></Row>
+            {birthDate && (
+              <Row>Date of Birth: <BoxDisplay><strong>{birthDate.toLocaleDateString('en-US')}</strong></BoxDisplay></Row>
+            )}
 
           </ResultsCard>
           <ResultsCard>
           <Title><H3>Retirement information</H3></Title>
-            
-            <Row>Monthly non-covered pension amount:<BoxDisplay><strong>${this.state.userPension}</strong></BoxDisplay></Row>
+            <Row>Monthly non-covered pension amount:<BoxDisplay><strong>${userPension}</strong></BoxDisplay></Row>
 
-            <Row>Date of Full Retirement Age:<BoxDisplay><strong>{this.state.userFRD}</strong></BoxDisplay></Row>
+            {retireDate && (
+              <Row>Date of Full Retirement Age:<BoxDisplay><strong>{retireDate.toLocaleDateString('en-US')}</strong></BoxDisplay></Row>
+            )}
           </ResultsCard>
-          <ResultsCard>
-            <Title><H3 >Earnings Record</H3></Title>
-            <div><PrintEarnings /></div>
-          </ResultsCard>
+          {earnings && (
+            <ResultsCard>
+              <Title><H3 >Earnings Record</H3></Title>
+              <div><PrintEarnings earnings={earnings}/></div>
+            </ResultsCard>
+          )}
           <ResultsCard>
               <Title><H3>Calculation results</H3></Title>
 
               <Row>
                 Average Indexed Monthly Earnings:
                 <BoxDisplay>
-                  <strong>{this.state.userAIME}</strong>
+                  <strong>{userAIME}</strong>
                 </BoxDisplay>
               </Row>
               <Row>
                 Years of Substantial Earnings:
                 <BoxDisplay>
-                  <strong>{this.state.userYSE}</strong>
+                  <strong>{userYSE}</strong>
                   </BoxDisplay>
                 </Row>
               <Row>
                 Primary Insurance Amount:
                 <BoxDisplay>
-                  <strong>${this.state.isWEP ? this.state.userWEPPIA : this.state.userStandardPIA}</strong>
+                  <strong>${userStandardPIA}</strong>
                 </BoxDisplay>
               </Row>
               <Row>
                 Maximum Payable Benefit at Full Retirement Age:
                 <BoxDisplay>
-                  <strong>${this.state.userMPB}</strong>
+                  <strong>${userMPB}</strong>
                 </BoxDisplay>
               </Row>
           </ResultsCard>
@@ -296,4 +283,9 @@ export default class Print extends React.Component {
       </PageContainer>
     )
   }
+}
+
+export default function PrintWrapper(): JSX.Element {
+  const userState = useUserState()
+  return <Print userState={userState} />
 }
