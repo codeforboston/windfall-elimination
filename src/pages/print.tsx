@@ -203,7 +203,7 @@ class Print extends React.Component<PrintProps> {
   render() {
     const {userState: {earnings, userProfile, birthDate, retireDate}} = this.props
 
-    if (!userProfile) return
+    if (!userProfile) return null
 
     const userAIME = userProfile['RawData']['AIMEPicked']
     const userYSE = userProfile['RawData']['yearsSubstantialEarningsPicked']
