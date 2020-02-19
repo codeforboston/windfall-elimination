@@ -17,6 +17,7 @@ export enum PensionEnum {
   NONEOFABOVE = "NONEOFABOVE"
 }
 
+// Calculated results for the user
 export interface UserProfile {
   'Standard PIA': string
   'WEP PIA': string
