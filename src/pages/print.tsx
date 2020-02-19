@@ -205,9 +205,10 @@ class Print extends React.Component<PrintProps> {
 
     if (!userProfile) return null
 
-    const userAIME = userProfile['RawData']['AIMEPicked']
-    const userYSE = userProfile['RawData']['yearsSubstantialEarningsPicked']
-    const userPension = userProfile["RawData"]["pensionNonCoveredMonthly"]
+    const userAIME = userProfile.aime
+    const userFRD = userProfile.fullRetireDate
+    const userYSE = userProfile.yearsSubstantialEarnings
+    const userPension = userProfile.pensionNonCoveredMonthly
     const userStandardPIA = userProfile["Standard PIA"]
     const userMPB = userProfile["MPB"]
     return(
@@ -241,7 +242,7 @@ class Print extends React.Component<PrintProps> {
             <Row>Monthly non-covered pension amount:<BoxDisplay><strong>${userPension}</strong></BoxDisplay></Row>
 
             {retireDate && (
-              <Row>Date of Full Retirement Age:<BoxDisplay><strong>{retireDate.toLocaleDateString('en-US')}</strong></BoxDisplay></Row>
+              <Row>Date of Full Retirement Age:<BoxDisplay><strong>{userFRD}</strong></BoxDisplay></Row>
             )}
           </ResultsCard>
           {earnings && (
