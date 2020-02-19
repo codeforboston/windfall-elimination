@@ -206,10 +206,14 @@ class Print extends React.Component<PrintProps> {
 
     if (!userProfile) return null
 
-    const userAIME = format("$,.2f")(userProfile['RawData']['AIMEPicked'])
+    /* AIME does not have $format, has a comma */
+    const userAIME = format(",.2r")(userProfile['RawData']['AIMEPicked'])
     const userYSE = userProfile['RawData']['yearsSubstantialEarningsPicked']
-    const userPension = format('$,.2f')(userProfile["RawData"]["pensionNonCoveredMonthly"])
+    /* Pension has $format, no cents */
+    const userPension = format('$,.2r')(userProfile["RawData"]["pensionNonCoveredMonthly"])
+    /* SPIA has $format, has cents */
     const userStandardPIA = format('$,.2f')(userProfile["Standard PIA"])
+    /* MPB has $format, has cents */
     const userMPB = format('$,.2f')(userProfile["MPB"])
     return(
       <PageContainer>

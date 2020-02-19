@@ -2,7 +2,6 @@ import React from "react";
 import styled from "@emotion/styled";
 import fastXml from "fast-xml-parser";
 import pdfJS from "pdfjs-dist";
-import { format } from 'd3-format';
 import { spacing, colors, fontSizes } from "../constants";
 import {  H2 } from "../components";
 import { getRawEarnings } from "../library/observable-functions";
@@ -135,7 +134,8 @@ export class GenerateTable extends React.Component<GenerateTableProps> {
       var earningsYears = Object.keys(parsedXml);
       tableRows = earningsYears.map((year, i) => {
         const earningValueXML = parsedXml[year]
-          ? { defaultValue: format(",.2r")(parsedXml[year]) }
+        /* Can this be parseable with symbols $, */
+          ? { defaultValue: parsedXml[year] }
           : { placeholder: 0 };
         return (
           <React.Fragment key={"earning" + i}>
@@ -156,7 +156,8 @@ export class GenerateTable extends React.Component<GenerateTableProps> {
     } else if (manual) {
       tableRows = Object.keys(manualTable).map((year, key) => {
         const earningValue = manualTable[year]
-          ? { defaultValue: format(",.2r")(manualTable[year]) }
+        /* Can this be parseable with symbols $, */
+          ? { defaultValue: manualTable[year] }
           : { placeholder: 0 };
         return (
           <React.Fragment key={"earning" + key}>
