@@ -11,11 +11,7 @@ import stepImg2 from "../images/step2.png"
 import stepImg3 from "../images/step3.png"
 import finalImg from "../images/final.png"
 
-// import "slick-carousel/slick/slick.css";
-// import "slick-carousel/slick/slick-theme.css";
-// import Slider from "react-slick";
-// import "../static/slick.css";
-// import "../static/slick-theme.css";
+
 import {
   TextBlock,
   SEO,
