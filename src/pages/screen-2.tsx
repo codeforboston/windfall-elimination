@@ -63,7 +63,7 @@ export class Screen2 extends React.Component<Screen2Props, Screen2State> {
       })
   }
 
-  computeUserCalc = async (userDOR: Date) => {
+  computeUserCalc = async (userDOR: Date): Promise<UserProfile> => {
     const {
       userState: {
         birthDate,

@@ -17,13 +17,16 @@ export enum PensionEnum {
   NONEOFABOVE = "NONEOFABOVE"
 }
 
+// Calculated results for the user
 export interface UserProfile {
   'Standard PIA': string
   'WEP PIA': string
   'WEP Diff': string
   MPB: string
-  // TODO Type this more thoroughly
-  RawData: any
+  yearsSubstantialEarnings: number
+  pensionNonCoveredMonthly: number | null | undefined
+  aime: number
+  fullRetireDate: string
 }
 
 export interface UserState {
