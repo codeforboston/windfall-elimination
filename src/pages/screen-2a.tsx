@@ -96,7 +96,7 @@ export default class Screen2a extends React.Component {
           speed: 700,
           slidesToShow: 1,
           slidesToScroll: 1,
-          autoplay: true,
+          autoplay: false,
           arrows: true,
           pauseOnHover: true,
           nextArrow: <NextArrow />,
