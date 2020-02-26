@@ -156,7 +156,6 @@ export class GenerateTable extends React.Component<GenerateTableProps> {
     } else if (manual) {
       tableRows = Object.keys(manualTable).map((year, key) => {
         const earningValue = manualTable[year]
-        /* Can this be parseable with symbols $, */
           ? { defaultValue: manualTable[year] }
           : { placeholder: 0 };
         return (
