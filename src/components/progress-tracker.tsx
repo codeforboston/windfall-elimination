@@ -2,7 +2,6 @@ import React from "react";
 import { Link } from "gatsby";
 import styled from "@emotion/styled";
 import { colors, fontSizes } from "../constants";
-import { SessionStore } from "../library/session-store";
 
 enum stepStatus {
   complete = -1,
