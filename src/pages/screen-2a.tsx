@@ -1,4 +1,6 @@
 import React from "react";
+import styled from "@emotion/styled";
+import DatePicker from "react-datepicker";
 import "react-datepicker/dist/react-datepicker.css";
 import { colors } from "../constants";
 import { SessionStore } from "../library/session-store";
@@ -6,6 +8,11 @@ import dayjs from "dayjs";
 import Carousel from "react-slick";
 
 
+// import "slick-carousel/slick/slick.css";
+// import "slick-carousel/slick/slick-theme.css";
+// import Slider from "react-slick";
+// import "../static/slick.css";
+// import "../static/slick-theme.css";
 import {
   TextBlock,
   SEO,
@@ -56,7 +63,7 @@ function PrevArrow(props) {
 }
 
 
-export default class Prescreen1c extends React.Component {
+export default class Screen2a extends React.Component {
     constructor(props, context){
       super(props, context)
 
@@ -78,7 +85,6 @@ export default class Prescreen1c extends React.Component {
       }
     };
 
-export default class Screen2a extends React.Component {
     render() {
 
         const settings = {
