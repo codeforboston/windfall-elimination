@@ -10,7 +10,7 @@ export const RadioButton = styled.input`
   border: 2px solid ${colors.lightblue};
   height: 40px;
   width: 40px;
-  font-size: 30px;
+  font-size: 18px;
   border-radius: 25px;
   background-color: #eee;
   border-radius: 50%;
@@ -67,14 +67,14 @@ export const AnswerBoxBasic = ({ className, children, ...props }) => {
 };
 
 export const LabelText = styled.span`
-  font-size: 30px;
+  font-size: 18px;
 `;
 
 
 export const AnswerBox = styled(AnswerBoxBasic)`
   border: 2px solid ${colors.purple};
   height: 60px;
-  font-size: 30px;
+  font-size: 18px;
   width: 300px;
   border-radius: 3px;
   padding: 5px;

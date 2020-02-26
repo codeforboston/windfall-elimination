@@ -1,7 +1,6 @@
 import React from "react";
 import styled from "@emotion/styled";
 import DatePicker from "react-datepicker";
-import { Link } from "gatsby";
 import { colors } from "../constants";
 import dayjs from "dayjs";
 import {
@@ -13,11 +12,10 @@ import {
   LabelText,
   H2,
   Glossary,
-  AnswerInput,
   AnswerInputDiscouragePlaceholder
 } from "../components";
-import { SessionStore } from "../library/session-store";
-import { FontControl } from "../library/font-control";
+import {PensionEnum, useUserState, UserState} from '../library/user-state-context'
+import {useUserStateActions, UserStateActions} from '../library/user-state-actions-context'
 
 const StyledDatePicker = styled(DatePicker)`
   border: 2px solid ${colors.purple};
@@ -47,107 +45,51 @@ width: 70%;
 margin-bottom: 75px;
 `;
 
-function booleanFromString(s: string | null) {
-  if (s) {
-    return s === "true";
-  } else {
-    return null;
-  }
+interface Prescreen1cProps {
+  userState: UserState
+  userStateActions: UserStateActions
 }
 
-enum PensionEnum {
-	PENSION = "MONTHLYPENSION",
-	LUMPSUM = "LUMPSUMRETIREMENTACCOUNT",
-	NONEOFABOVE = "NONEOFABOVE",
-}
-
-export default class Prescreen1c extends React.Component {
-  constructor(props, context) {
-    super(props, context)
-    this.handleSelection = this.handleSelection.bind(this);
-    this.handleDateChange = this.handleDateChange.bind(this);
-    this.state = {
-      isLoaded: false,
-      dateAwarded: null,
-      coveredEmployment: null,
-      pensionOrRetirementAccount: null,
-      pensionType: null,
-      pensionAmount: null
-    }
+class Prescreen1c extends React.Component<Prescreen1cProps> {
+  handleDateAwardedChange = (value: Date) => {
+    const {userStateActions: {setPensionDateAwarded}} = this.props
+    setPensionDateAwarded(value)
   }
 
-  componentDidMount() {
-    if (SessionStore.get("dateAwarded") && (this.state.dateAwarded === null)){
-      var dateAwarded = new Date(JSON.parse(SessionStore.get("dateAwarded")))
-      this.setState({
-        dateAwarded: dateAwarded
-      })
-    }
-
-    if (!this.state.isLoaded) {
-      this.setState({
-        isLoaded: true,
-        coveredEmployment:
-          booleanFromString(SessionStore.get("coveredEmployment")),
-        pensionOrRetirementAccount:
-          SessionStore.get("pensionOrRetirementAccount"),
-        pensionType: SessionStore.get("pensionType")
-          ? SessionStore.get("pensionType")
-          : null,
-        pensionAmount: SessionStore.get("pensionAmount")
-          ? SessionStore.get("pensionAmount")
-          : undefined
-      });
-    }
-  }
-
-  componentDidUpdate() {
-    FontControl.loadFont();
-  }
-  
-  handleDateChange(name, value){
-    if (name === "dateAwardedPicked") {
-      SessionStore.push("dateAwarded", JSON.stringify(value))
-      var state = {dateAwarded: value}
-      this.setState(state)
-    }
-  }
-  
-  handleSelection(e) {
-    let selectValueString = e.target.value;
-    let selectValue;
-
+  handleSelection = (e: React.ChangeEvent<HTMLInputElement>) => {
+    const {
+      userStateActions: {
+        setIsEmploymentCovered,
+        setPensionOrRetirementAccount,
+        setPensionAmount,
+      }
+    } = this.props
+    const selectValueString = e.target.value;
     switch (e.target.name) {
       case "coveredEmployment":
-        selectValue = booleanFromString(selectValueString);
-        SessionStore.push("coveredEmployment", selectValue);
-        this.setState({
-          coveredEmployment: selectValue
-        });
+        const isCovered = selectValueString === 'true'
+        setIsEmploymentCovered(isCovered)
         break;
       case "pensionOrRetirementAccount":
-        SessionStore.push("pensionOrRetirementAccount", selectValueString);
-        this.setState({
-          pensionOrRetirementAccount: selectValueString
-        });
-        break;
-      case "monthlyPension":
-      case "lumpSum":
-        SessionStore.push("pensionType", e.target.name);
-        this.setState({
-          pensionType: e.target.name
-        });
+        setPensionOrRetirementAccount(selectValueString as PensionEnum)
         break;
       case "pensionAmount":
-        SessionStore.push("pensionAmount", e.target.value);
-        this.setState({
-          pensionAmount: e.target.value
-        });
+        const pensionAmount = parseFloat(e.target.value)
+        if (!isNaN(pensionAmount) && pensionAmount > 0) setPensionAmount(pensionAmount)
+        else setPensionAmount(0)
         break;
     }
   }
 
   render() {
+    const {
+      userState: {
+        isEmploymentCovered,
+        pensionDateAwarded,
+        pensionAmount,
+        pensionOrRetirementAccount
+      }
+    } = this.props
     return (
       <React.Fragment>
         <SEO
@@ -167,9 +109,7 @@ export default class Prescreen1c extends React.Component {
                   type="radio"
                   name="coveredEmployment"
                   value="true"
-                  {...(this.state.coveredEmployment === true
-                    ? { checked: true }
-                    : { checked: false })}
+                  checked={isEmploymentCovered === true}
                   onChange={this.handleSelection}
                 />
                 <LabelText>Yes</LabelText>
@@ -179,9 +119,7 @@ export default class Prescreen1c extends React.Component {
                   type="radio"
                   name="coveredEmployment"
                   value="false"
-                  {...(this.state.coveredEmployment === false
-                    ? { checked: true }
-                    : { checked: false })}
+                  checked={isEmploymentCovered === false}
                   onChange={this.handleSelection}
                 />
                 <LabelText>No</LabelText>
@@ -199,7 +137,7 @@ export default class Prescreen1c extends React.Component {
           will not show up on a Social Security record.
         </Glossary>
             </CardGlossaryContainer>
-            {this.state.coveredEmployment && (
+            {isEmploymentCovered && (
             <CardGlossaryContainer>
               <Card>
                 <QuestionText>
@@ -208,15 +146,15 @@ the work you did that does not show up on your
 Social Security record?
                 </QuestionText>
                 <AnswerBox>
-                  <RadioButton type="radio" name="pensionOrRetirementAccount" value={PensionEnum.PENSION} onChange={this.handleSelection} checked={this.state.pensionOrRetirementAccount === PensionEnum.PENSION} />
+                  <RadioButton type="radio" name="pensionOrRetirementAccount" value={PensionEnum.PENSION} onChange={this.handleSelection} checked={pensionOrRetirementAccount === PensionEnum.PENSION} />
                   <LabelText>Monthly pension</LabelText>
                 </AnswerBox>
                 <AnswerBox>
-                  <RadioButton type="radio" name="pensionOrRetirementAccount" value={PensionEnum.LUMPSUM} onChange={this.handleSelection} checked={this.state.pensionOrRetirementAccount === PensionEnum.LUMPSUM} />
+                  <RadioButton type="radio" name="pensionOrRetirementAccount" value={PensionEnum.LUMPSUM} onChange={this.handleSelection} checked={pensionOrRetirementAccount === PensionEnum.LUMPSUM} />
                   <LabelText>Retirement account</LabelText>
                 </AnswerBox>
                 <AnswerBox>
-                  <RadioButton type="radio" name="pensionOrRetirementAccount" value={PensionEnum.NONEOFABOVE} onChange={this.handleSelection} checked={this.state.pensionOrRetirementAccount === PensionEnum.NONEOFABOVE} />
+                  <RadioButton type="radio" name="pensionOrRetirementAccount" value={PensionEnum.NONEOFABOVE} onChange={this.handleSelection} checked={pensionOrRetirementAccount === PensionEnum.NONEOFABOVE} />
                   <LabelText>None of the above</LabelText>
                 </AnswerBox>
               </Card>
@@ -229,7 +167,7 @@ Social Security record?
               </Glossary>
             </CardGlossaryContainer>
             )}
-            {this.state.coveredEmployment &&  this.state.pensionOrRetirementAccount && this.state.pensionOrRetirementAccount !== PensionEnum.NONEOFABOVE && (
+            {isEmploymentCovered &&  pensionOrRetirementAccount && pensionOrRetirementAccount !== PensionEnum.NONEOFABOVE && (
               <>
               <Card>
                 <label>
@@ -238,24 +176,23 @@ Social Security record?
                   </QuestionText>
                   <AnswerInputDiscouragePlaceholder
                     name="pensionAmount"
-                    defaultValue={this.state.pensionAmount}
+                    defaultValue={pensionAmount ?? undefined}
                     placeholder={'0'}  
                     onChange={this.handleSelection}
                   ></AnswerInputDiscouragePlaceholder>
                 </label>
               </Card>
-              {this.state.pensionOrRetirementAccount === PensionEnum.LUMPSUM && (
+              {pensionOrRetirementAccount === PensionEnum.LUMPSUM && (
                 <Card>
                     <QuestionText>
                       Please enter the date you become eligible to start withdrawing from the your retirement account without penalty.
                     </QuestionText>
                     <StyledDatePicker
-                    id="dateAwardedPicked"
                     placeholderText="Click to select a date"
-                    selected={this.state.dateAwarded}
+                    selected={pensionDateAwarded}
                     showYearDropdown
-                    openToDate={this.state.dateAwarded || dayjs().subtract(3, 'years').toDate()}
-                    onChange={(value) => this.handleDateChange("dateAwardedPicked", value)}
+                    openToDate={pensionDateAwarded || dayjs().subtract(3, 'year').toDate()}
+                    onChange={this.handleDateAwardedChange}
                     />
                 </Card>
               )}
@@ -265,4 +202,10 @@ Social Security record?
       </React.Fragment>
     );
   }
+}
+
+export default function Prescreen1cWrapper(): JSX.Element {
+  const userState = useUserState()
+  const userStateActions = useUserStateActions()
+  return <Prescreen1c userState={userState} userStateActions={userStateActions} />
 }

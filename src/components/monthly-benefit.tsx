@@ -1,5 +1,6 @@
 import React from 'react';
 import styled from "@emotion/styled";
+import { format } from 'd3-format';
 import { colors, spacing, fontSizes } from "../constants";
 
 const Benefit = styled.div`
@@ -17,10 +18,11 @@ const Number = styled.div`
 `
 
 const MonthlyBenefit = ({text, number}) => {
+  const numFormatted = format("$,.2f")(number)
   return (
     <Benefit>
-      Monthly benefit at {text}
-      <Number>${number}</Number>
+      Monthly benefit at {text} (FRA)
+      <Number>{numFormatted}</Number>
     </Benefit>
   )
 };

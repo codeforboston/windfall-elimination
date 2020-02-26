@@ -5,6 +5,14 @@ import "react-datepicker/dist/react-datepicker.css";
 import { colors } from "../constants";
 import { SessionStore } from "../library/session-store";
 import dayjs from "dayjs";
+import Carousel from "react-slick";
+
+
+// import "slick-carousel/slick/slick.css";
+// import "slick-carousel/slick/slick-theme.css";
+// import Slider from "react-slick";
+// import "../static/slick.css";
+// import "../static/slick-theme.css";
 import {
   TextBlock,
   SEO,
@@ -16,24 +24,148 @@ const H4 = styled.h4`
 margin: 5px 0;
 `
 
-export default class Prescreen1c extends React.Component {
-  constructor(props, context){
-    super(props, context)
-    this.state = {
-    };
-  }
+const P = styled.p`
+margin:  10px 70px 10px 70px;
+padding:  10px 10px 10px 50px;
+`
 
+const OL = styled.ol`
+margin:  10px 70px 10px 70px;
+padding:  10px 10px 10px 50px;
+`
+
+const H3 = styled.h3`
+margin:  10px 70px 10px 70px;
+padding:  10px 10px 10px 50px;
+font-weight: bold;
+`
+
+function NextArrow(props) {
+  const { className, style, onClick } = props;
+  return (
+    <div
+      className={className}
+      css={{...style, ":before": {color: "black"}}}
+      onClick={onClick}
+    />
+  );
+}
+
+function PrevArrow(props) {
+  const { className, style, onClick } = props;
+  return (
+    <div
+      className={className}
+      css={{ ...style, ":before": {color: "black"} }}
+      onClick={onClick}
+    />
+  );
+}
+
+
+export default class Screen2a extends React.Component {
+    constructor(props, context){
+      super(props, context)
+
+    }
+
+    setArrowDisplay = currentSlide => {
+        const { cityList } = this.props;
+        const displayLeftArrow = currentSlide !== 0;
+        const displayRightArrow = currentSlide !== cityList.length - this.slidesToShow;
+
+        this.setState({ displayRightArrow, displayLeftArrow });
+    };
+
+    clickHandler = (direction) => {
+      if (direction === 'left') {
+        this.slider.slickPrev();
+      } else if (direction === 'right') {
+        this.slider.slickNext();
+      }
+    };
 
     render() {
+
+        const settings = {
+          dots: true,
+          infinite: false,
+          speed: 700,
+          slidesToShow: 1,
+          slidesToScroll: 1,
+          autoplay: true,
+          arrows: true,
+          pauseOnHover: true,
+          nextArrow: <NextArrow />,
+          prevArrow: <PrevArrow />
+        };
+
         return (
             <div>
                 <SEO title="Pre-Screen 2a" keywords={[`gatsby`, `application`, `react`]} />
                 <H2>Benefit Formula</H2>
-                <TextBlock>
-                </TextBlock>
-                  <Card>
-                  <html><iframe src="https://docs.google.com/presentation/d/e/2PACX-1vSFm_RBR4EWvsc7sKfX0CNwgxN7d1h_u0Ui9zxX58Ay7t9AWc9lRJDmNweQPD4V5AsL9Ea5u8rqZ6Nf/embed?start=false&loop=false&delayms=3000" frameborder="0" width="480" height="299" allowfullscreen="true" mozallowfullscreen="true" webkitallowfullscreen="true"></iframe></html>
-                  </Card>
+                <Carousel {...settings}>
+                  <section>
+                    <H3><b>How does Social Security calculate my benefits?</b></H3>
+                    <P>Social Security uses three things to calculate your Primary Insurance Amount, or your basic benefit before adjusting for early or late retirement.
+
+                      The three inputs are:
+                    </P>
+                      <OL>
+                      <li> Date of Birth </li>
+                      <li> Lifetime average earnings, adjusted for inflation </li>
+                      <li> Monthly non-Social Security pernsion </li>
+                      </OL>
+                    <P>
+                      We'll walk you through those three steps in the following pages.
+                    </P>
+                  </section>
+                  <section>
+                    <H3>Step 1:</H3>
+                    <P>
+                       <span>
+                         Social Security calculates how much of your Average Indexed Monthly Earnings fall below your first <em>bend point</em>.
+                         Bend points are set by law and correspond to be the year of your brith. For this example, we are using the bend points
+                         for someone who turned 62 in 2018, and had Average indexed Monthly Earnings of $6,000.
+
+                         You get 90% of what falls under this bend point.
+                       </span>
+                    </P>
+                    <P>
+                       . Image .
+                    </P>
+                  </section>
+                  <section>
+                    <H3>Step 2:</H3>
+                    <P>
+                       Social Security calculates how much of your Average Indexed Monthly Earnings fall below your first <em>bend </em> and second <em>bend points.</em>
+                    </P>
+                    <P>
+                       .Image.
+                    </P>
+                  </section>
+
+                  <section>
+                    <H3>Step 3:</H3>
+                    <P>
+                       Social Security calculates how much of your Average Indexed Monthly Earnings fall below your second <em>bend point.</em>
+                    </P>
+                    <P>
+
+                    .Image.
+                    </P>
+                  </section>
+
+                  <section>
+                    <H3> Final Calculation </H3>
+                    <P>
+                        Finally, Social Security adds all the results from the three previous steps altogether.
+                    </P>
+                    <P>
+                       .Image.
+                    </P>
+                  </section>
+                </Carousel>
             </div>
          )
     }

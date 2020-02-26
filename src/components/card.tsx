@@ -1,5 +1,5 @@
 import styled from "@emotion/styled";
-import { colors, radii, spacing } from "../constants";
+import { colors, spacing } from "../constants";
 
 export const Card = styled("div")`
   border-left: 3px solid ${colors.purple};

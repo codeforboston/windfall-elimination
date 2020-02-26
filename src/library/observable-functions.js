@@ -43,7 +43,7 @@ async function findBendPoints(dob) {
 	const bendPoints = await getWepTables.bendPoints()
   const yearOf62yo = dayjs(dob).add(62, 'years').year()
 
-  return await bendPoints.find(d => d.year === yearOf62yo);
+  return await bendPoints.find(d => (d.year === yearOf62yo && d.isActualValue === true));
 }
 
 /*
@@ -162,6 +162,7 @@ function getAIMEFromEarnings(rawEarnings, year62) {
     avgWageIndexTable.forEach((earning) => {
       if (earning.year > 1950 && (earningsMap[earning.year] !== undefined || earning.year >= indexingYear-39 || earning.year < indexingYear+2)) {
         averageMap[earning.year] = avgWageIndexTable.find(d => d.year === earning.year).averageWageIndex;
+        /* Maybe the above should check isActualValue */
       }
     });
   }//throw new Error("") - but what would this error be?
@@ -409,10 +410,11 @@ async function getFullRetirementDateSimple (dob) {
   const benefitReductionTable = await getWepTables.benefitReductionTable()
   
   const rowFromTable = benefitReductionTable.find(d => d.year ===dayjs(dob).year());
-
   if (rowFromTable) {
+    console.log(dob)
     return rowFromTable.NormalRetirementAge
   } else {
+    console.warn("Table returned default retirement age for some reason.", dob)
     return 67
   }
 }

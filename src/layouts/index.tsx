@@ -1,4 +1,5 @@
 import React from "react";
+// import {css} from '@emotion/core'
 import styled from "@emotion/styled";
 import { StaticQuery, graphql } from "gatsby";
 import { Location } from "@reach/router";
@@ -16,11 +17,18 @@ const Container = styled("div")`
   font-family: 'Montserrat', sans-serif;
   display: block;
   min-height: 95vh;
+
   @media (max-width: 767px) {
     overflow: scroll;
     width: 767px;
   }
+`;
 
+const ChildWrapper = styled.div`
+  margin:  10px 70px 15px 30px;
+  padding:  10px 10px 15px 10px;
+  flex: 1 1 auto;
+  min-width: 0;
 `;
 
 const Main = styled("main")`
@@ -59,7 +67,7 @@ const ButtonContainer = styled.div`
   }
 `;
 
-/* There must be an entry for each of these in indexToSessionStorageKeys 
+/* There must be an entry for each of these in indexToSessionStorageKeys
     of progress-tracker.tsx */
 const LINKSPATH = [
   {path: "/", label: "HOME"},
@@ -102,7 +110,9 @@ const Layout = ({ children }) => (
             <UserStateManager>
               {/* TODO test out this provider */}
               <QuestionProvider>
-                {children}
+                <ChildWrapper>
+                  {children}
+                </ChildWrapper>
               </QuestionProvider>
             </UserStateManager>
           </Main>
@@ -114,8 +124,8 @@ const Layout = ({ children }) => (
             if(location.pathname === "/print/"){
               return (
                 <ButtonContainer>
-                 <ButtonLinkGreen to="/prescreen-1c/">Previous: Employment Status</ButtonLinkGreen>
-                 <ButtonLink to="/">Go Home</ButtonLink>
+                 <ButtonLinkGreen to="/screen-2/">Return to Results</ButtonLinkGreen>
+                 <ButtonLink to="/screen-2a/">Continue to Benefit Formula</ButtonLink>
                 </ButtonContainer>
               )
             }
