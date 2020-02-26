@@ -6,7 +6,10 @@ import { colors } from "../constants";
 import { SessionStore } from "../library/session-store";
 import dayjs from "dayjs";
 import Carousel from "react-slick";
-
+import stepImg1 from "../images/step1.png"
+import stepImg2 from "../images/step2.png"
+import stepImg3 from "../images/step3.png"
+import finalImg from "../images/final.png"
 
 // import "slick-carousel/slick/slick.css";
 // import "slick-carousel/slick/slick-theme.css";
@@ -38,6 +41,11 @@ const H3 = styled.h3`
 margin:  10px 70px 10px 70px;
 padding:  10px 10px 10px 50px;
 font-weight: bold;
+`
+
+const Img = styled.p`
+margin:  10px 70px 10px 70px;
+padding:  10px 10px 10px 50px;
 `
 
 function NextArrow(props) {
@@ -131,18 +139,18 @@ export default class Screen2a extends React.Component {
                          You get 90% of what falls under this bend point.
                        </span>
                     </P>
-                    <P>
-                       . Image .
-                    </P>
+                    <Img>
+                       <img src={stepImg1} width="500" height="400"/>
+                    </Img>
                   </section>
                   <section>
                     <H3>Step 2:</H3>
                     <P>
                        Social Security calculates how much of your Average Indexed Monthly Earnings fall below your first <em>bend </em> and second <em>bend points.</em>
                     </P>
-                    <P>
-                       .Image.
-                    </P>
+                    <Img>
+                       <img src={stepImg2} width="500" height="400"/>
+                    </Img>
                   </section>
 
                   <section>
@@ -150,10 +158,9 @@ export default class Screen2a extends React.Component {
                     <P>
                        Social Security calculates how much of your Average Indexed Monthly Earnings fall below your second <em>bend point.</em>
                     </P>
-                    <P>
-
-                    .Image.
-                    </P>
+                    <Img>
+                       <img src={stepImg3} width="500" height="400"/>
+                    </Img>
                   </section>
 
                   <section>
@@ -161,9 +168,9 @@ export default class Screen2a extends React.Component {
                     <P>
                         Finally, Social Security adds all the results from the three previous steps altogether.
                     </P>
-                    <P>
-                       .Image.
-                    </P>
+                    <Img>
+                       <img src={finalImg} width="500" height="400"/>
+                    </Img>
                   </section>
                 </Carousel>
             </div>
