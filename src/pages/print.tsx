@@ -1,4 +1,5 @@
 import React from "react";
+import { format } from 'd3-format';
 import {
   PrintButton,
   Message,
@@ -117,7 +118,7 @@ class PrintEarnings extends React.Component<PrintEarningsProps> {
       return(
         <React.Fragment key={"earning" + i}>
           <td key={"earningYear" + i}><label>{year}</label></td>
-          <td key={"earningAmount" + i}><label id={year} >{earnings[year]}</label></td>
+          <td key={"earningAmount" + i}><label id={year} >{format(",.2r")(earnings[year])}</label></td>
         </React.Fragment>
       )
     })
@@ -205,11 +206,15 @@ class Print extends React.Component<PrintProps> {
 
     if (!userProfile) return null
 
-    const userAIME = userProfile['RawData']['AIMEPicked']
+    /* AIME does not have $format, has a comma */
+    const userAIME = format(",.2r")(userProfile['RawData']['AIMEPicked'])
     const userYSE = userProfile['RawData']['yearsSubstantialEarningsPicked']
-    const userPension = userProfile["RawData"]["pensionNonCoveredMonthly"]
-    const userStandardPIA = userProfile["Standard PIA"]
-    const userMPB = userProfile["MPB"]
+    /* Pension has $format, no cents */
+    const userPension = format('$,.2r')(userProfile["RawData"]["pensionNonCoveredMonthly"])
+    /* SPIA has $format, has cents */
+    const userStandardPIA = format('$,.2f')(userProfile["Standard PIA"])
+    /* MPB has $format, has cents */
+    const userMPB = format('$,.2f')(userProfile["MPB"])
     return(
       <PageContainer>
         <PrintArea id="printArea">
@@ -238,7 +243,7 @@ class Print extends React.Component<PrintProps> {
           </ResultsCard>
           <ResultsCard>
           <Title><H3>Retirement information</H3></Title>
-            <Row>Monthly non-covered pension amount:<BoxDisplay><strong>${userPension}</strong></BoxDisplay></Row>
+            <Row>Monthly non-covered pension amount:<BoxDisplay><strong>{userPension}</strong></BoxDisplay></Row>
 
             {retireDate && (
               <Row>Date of Full Retirement Age:<BoxDisplay><strong>{retireDate.toLocaleDateString('en-US')}</strong></BoxDisplay></Row>
@@ -268,13 +273,13 @@ class Print extends React.Component<PrintProps> {
               <Row>
                 Primary Insurance Amount:
                 <BoxDisplay>
-                  <strong>${userStandardPIA}</strong>
+                  <strong>{userStandardPIA}</strong>
                 </BoxDisplay>
               </Row>
               <Row>
                 Maximum Payable Benefit at Full Retirement Age:
                 <BoxDisplay>
-                  <strong>${userMPB}</strong>
+                  <strong>{userMPB}</strong>
                 </BoxDisplay>
               </Row>
           </ResultsCard>
