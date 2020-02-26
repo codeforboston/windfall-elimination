@@ -539,22 +539,24 @@ function lumpSumToMonthly(lumpSum, dateAwarded, workerAge, dob){
 ///////////////////////////////
 
 async function finalCalculation(birthDatePicked, retireDatePicked, yearof62yo, yearsSubstantialEarningsPicked, pensionNonCoveredMonthly, AIMEPicked) {
-
-  var userCalc = {}
   const userFullRetireDate = getFullRetirementDate(new Date(birthDatePicked))
-	const standardPIA = await getPIA(AIMEPicked, birthDatePicked, null, false)
-	const wepPIA = await getPIA(AIMEPicked, birthDatePicked, yearsSubstantialEarningsPicked, true)
-	const wepDiff = (await getPIA(AIMEPicked, birthDatePicked, null, false) - await getPIA(AIMEPicked, birthDatePicked, yearsSubstantialEarningsPicked, true))
-	const wepMPB = await getWepMPB(AIMEPicked, birthDatePicked, retireDatePicked, yearof62yo, yearsSubstantialEarningsPicked, pensionNonCoveredMonthly)
+  const standardPIA = await getPIA(AIMEPicked, birthDatePicked, null, false)
+  const wepPIA = await getPIA(AIMEPicked, birthDatePicked, yearsSubstantialEarningsPicked, true)
+  const wepDiff = (await getPIA(AIMEPicked, birthDatePicked, null, false) - await getPIA(AIMEPicked, birthDatePicked, yearsSubstantialEarningsPicked, true))
+  const wepMPB = await getWepMPB(AIMEPicked, birthDatePicked, retireDatePicked, yearof62yo, yearsSubstantialEarningsPicked, pensionNonCoveredMonthly)
 
-  userCalc["Standard PIA"] = standardPIA.toFixed(2)
-  userCalc["WEP PIA"] = wepPIA.toFixed(2)
-  userCalc["WEP Diff"] = wepDiff.toFixed(2)
-  userCalc["MPB"] = wepMPB.toFixed(2)
+  const userProfile = {
+    "Standard PIA": standardPIA.toFixed(2),
+    "WEP PIA": wepPIA.toFixed(2),
+    "WEP Diff": wepDiff.toFixed(2),
+    MPB: wepMPB.toFixed(2),
+    yearsSubstantialEarnings: yearsSubstantialEarningsPicked,
+    pensionNonCoveredMonthly: pensionNonCoveredMonthly,
+    aime: AIMEPicked,
+    fullRetireDate: userFullRetireDate,
+  }
 
-  userCalc["RawData"] = {birthDatePicked, retireDatePicked, yearof62yo, yearsSubstantialEarningsPicked, pensionNonCoveredMonthly, AIMEPicked, userFullRetireDate}
-
-  return userCalc
+  return userProfile
 }
 
 

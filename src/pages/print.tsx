@@ -207,10 +207,11 @@ class Print extends React.Component<PrintProps> {
     if (!userProfile) return null
 
     /* AIME does not have $format, has a comma */
-    const userAIME = format(",.2r")(userProfile['RawData']['AIMEPicked'])
-    const userYSE = userProfile['RawData']['yearsSubstantialEarningsPicked']
+    const userAIME = format(",.2r")(userProfile.aime)
+    const userFRD = userProfile.fullRetireDate
+    const userYSE = userProfile.yearsSubstantialEarnings
     /* Pension has $format, no cents */
-    const userPension = format('$,.2r')(userProfile["RawData"]["pensionNonCoveredMonthly"])
+    const userPension = userProfile.pensionNonCoveredMonthly && format('$,.2r')(userProfile.pensionNonCoveredMonthly)
     /* SPIA has $format, has cents */
     const userStandardPIA = format('$,.2f')(userProfile["Standard PIA"])
     /* MPB has $format, has cents */
@@ -228,7 +229,7 @@ class Print extends React.Component<PrintProps> {
             <br/>
 
             To find your local Social Security Office, please call the Social Security Administration at
-            1-800-772-1213 or go to https://secure.ssa.gov/ICON/main.jsp.
+            &nbsp;<a href="tel:1-800-772-1213">1-800-772-1213</a> or <a href="https://secure.ssa.gov/ICON/main.jsp" target="_new">use this tool to locate your office</a>.
           </Message>
           <ResultsCard >
             <Title><H3>Beneficiary Information</H3></Title>
@@ -246,7 +247,7 @@ class Print extends React.Component<PrintProps> {
             <Row>Monthly non-covered pension amount:<BoxDisplay><strong>{userPension}</strong></BoxDisplay></Row>
 
             {retireDate && (
-              <Row>Date of Full Retirement Age:<BoxDisplay><strong>{retireDate.toLocaleDateString('en-US')}</strong></BoxDisplay></Row>
+              <Row>Date of Full Retirement Age:<BoxDisplay><strong>{userFRD}</strong></BoxDisplay></Row>
             )}
           </ResultsCard>
           {earnings && (
