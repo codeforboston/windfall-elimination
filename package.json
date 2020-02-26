@@ -38,6 +38,7 @@
     "react-datepicker": "^2.9.6",
     "react-dom": "^16.8.5",
     "react-helmet": "^5.2.0",
+    "react-slick": "^0.25.2",
     "tesseract.js": "^2.0.0-alpha.11",
     "typescript": "^3.3.4000",
     "use-persisted-state": "^0.3.0"
