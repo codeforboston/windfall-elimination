@@ -1,6 +1,5 @@
 import React from "react";
 import styled from "@emotion/styled";
-import { colors } from "../constants";
 import {
   Card,
   H2,
@@ -14,8 +13,8 @@ import {
   Glossary, 
   WarningBox
 } from "../components";
-import { SessionStore } from "../library/session-store";
-import { FontControl } from "../library/font-control";
+import { UserState, EarningsEnum, useUserState } from '../library/user-state-context';
+import { UserStateActions, useUserStateActions } from '../library/user-state-actions-context';
 
 export const SsaImage= styled("img")`
   border: 1px solid #dddddd;
@@ -40,69 +39,51 @@ const ContentContainer = styled.div`
   max-width: 70%;
 `;
 
-enum EarningsEnum {
-	XML = "XML",
-	PDF = "PDF",
-	PDFPRINT = "PDFPRINT",
-	PAPER = "PAPER"
-}
-
 const Link = styled.a`
   color: black;
   font-weight: 600;
   overflow-wrap: break-word;
 `;
 
-const checkForBirthday = () => {
-  if (typeof window === 'undefined') {
-    return null;
-  }
-  if(SessionStore.get("BirthDate")=== null && SessionStore.get("RetireDate") === null){
-    return <WarningBox><label>Please go back and fill out appropriate birthdate and retirement date before going forward. </label></WarningBox>
-  }
-  return null; 
+interface Prescreen1bProps {
+  userState: UserState
+  userStateActions: UserStateActions
 }
-export default class Prescreen1b extends React.Component {
-  constructor(props) {
+
+class Prescreen1b extends React.Component<Prescreen1bProps> {
+  constructor(props: Prescreen1bProps) {
     super(props);
-    this.handleOption = this.handleOption.bind(this);
     this.showFileUpload = this.showFileUpload.bind(this);
     this.showManualTable = this.showManualTable.bind(this);
-    this.state = {
-      haveEarnings: null,
-      earningsFormat: null,
-      haveSSAccount: null,
-    };
   }
 
-   componentDidMount() {
-        this.setState({
-          haveEarnings: SessionStore.get('haveEarnings'),
-          earningsFormat: SessionStore.get('earningsFormat'),
-          haveSSAccount: SessionStore.get('haveSSAccount')
-        })
+  showFileUpload() {
+    const {userState: {haveEarnings, haveSSAAccount, earningsFormat}} = this.props
+    return (
+      (haveEarnings === false && haveSSAAccount === true) ||
+      (haveEarnings === true && (earningsFormat === EarningsEnum.XML || earningsFormat === EarningsEnum.PDF))
+    )
+  }
+
+  showManualTable() {
+    const {userState: {haveEarnings, earningsFormat}} = this.props
+    return (haveEarnings === true && (earningsFormat === EarningsEnum.PDFPRINT || earningsFormat === EarningsEnum.PAPER))
+  }
+
+  checkForBirthday = () => {
+    const {userState: {birthDate}} = this.props
+    if (birthDate === null) {
+      return <WarningBox><label>Please go back and fill out appropriate birthdate before going forward. </label></WarningBox>
     }
 
-    componentDidUpdate() {
-        FontControl.loadFont()
-    }
-
-    handleOption(e) {
-    
-        SessionStore.push(e.target.name, e.target.value)
-        this.setState({[e.target.name]: e.target.value})
-    }
-
-    showFileUpload() {
-      return (this.state.haveEarnings === 'false' && this.state.haveSSAccount === 'true') ||
-      (this.state.haveEarnings === 'true' && (this.state.earningsFormat === EarningsEnum.XML || this.state.earningsFormat === EarningsEnum.PDF))
-    }
-
-    showManualTable() {
-      return (this.state.haveEarnings === 'true' && (this.state.earningsFormat === EarningsEnum.PDFPRINT || this.state.earningsFormat === EarningsEnum.PAPER))
-    }
+    return null;
+  }
 
   render() {
+    const {
+      userState: {haveEarnings, haveSSAAccount, earningsFormat},
+      userStateActions: {setHaveEarnings, setHaveSSAAccount, setEarningsFormat},
+    } = this.props
     return (
     <React.Fragment>
         <SEO title="Prescreen 1b" keywords={[`social security`, `government`, `retirement`]} />
@@ -116,57 +97,57 @@ export default class Prescreen1b extends React.Component {
                 To calculate your Social Security retirement benefits, you will need a record of your earnings from Social Security.
                 Follow the steps below to get your earning record.
             </TextBlock> 
-            {checkForBirthday()}
+            {this.checkForBirthday()}
                 
                 <Card>
                     <QuestionText>Do you have a copy of your earnings record?</QuestionText>
                     <AnswerBox>
-                    <RadioButton type="radio" name="haveEarnings" value="true" onChange={this.handleOption} checked={this.state.haveEarnings === 'true' } />
+                    <RadioButton type="radio" name="haveEarnings" value="true" onChange={() => setHaveEarnings(true)} checked={haveEarnings === true } />
                     <LabelText>Yes</LabelText> 
                     </AnswerBox>
                     <AnswerBox>
-                    <RadioButton type="radio" name="haveEarnings" value="false" onChange={this.handleOption} checked={this.state.haveEarnings === 'false' } />
+                    <RadioButton type="radio" name="haveEarnings" value="false" onChange={() => setHaveEarnings(false)} checked={haveEarnings === false } />
                     <LabelText>No</LabelText>
                     </AnswerBox>
                 </Card>
 
-            {this.state.haveEarnings === 'true' ?
+            {haveEarnings === true ?
               <Card>
                 <QuestionText>What format is the copy of your earnings record?</QuestionText>
                 <AnswerBox>
-                  <RadioButton type="radio" name="earningsFormat" value={EarningsEnum.XML} onChange={this.handleOption} checked={this.state.earningsFormat === EarningsEnum.XML} />
+                <RadioButton type="radio" name="earningsFormat" value={EarningsEnum.XML} onChange={() => setEarningsFormat(EarningsEnum.XML)} checked={earningsFormat === EarningsEnum.XML} />
                   <LabelText>XML file (MySocialSecurity)</LabelText>
                 </AnswerBox>
                 <AnswerBox>
-                  <RadioButton type="radio" name="earningsFormat" value={EarningsEnum.PDF} onChange={this.handleOption} checked={this.state.earningsFormat === EarningsEnum.PDF} />
+                  <RadioButton type="radio" name="earningsFormat" value={EarningsEnum.PDF} onChange={() => setEarningsFormat(EarningsEnum.PDF)} checked={earningsFormat === EarningsEnum.PDF} />
                   <LabelText>PDF (MySocialSecurity)</LabelText>
                 </AnswerBox>
                 <AnswerBox>
-                  <RadioButton type="radio" name="earningsFormat" value={EarningsEnum.PDFPRINT} onChange={this.handleOption} checked={this.state.earningsFormat === EarningsEnum.PDFPRINT} />
+                  <RadioButton type="radio" name="earningsFormat" value={EarningsEnum.PDFPRINT} onChange={() => setEarningsFormat(EarningsEnum.PDFPRINT)} checked={earningsFormat === EarningsEnum.PDFPRINT} />
                   <LabelText>PDF (scanned from print)</LabelText>
                 </AnswerBox>
                 <AnswerBox>
-                  <RadioButton type="radio" name="earningsFormat" value={EarningsEnum.PAPER} onChange={this.handleOption} checked={this.state.earningsFormat === EarningsEnum.PAPER} />
+                  <RadioButton type="radio" name="earningsFormat" value={EarningsEnum.PAPER} onChange={() => setEarningsFormat(EarningsEnum.PAPER)} checked={earningsFormat === EarningsEnum.PAPER} />
                   <LabelText>Paper (mailed from SSA)</LabelText>
                 </AnswerBox>
               </Card> : null
             }
 
-            {this.state.haveEarnings === 'false' ?
+            {haveEarnings === false ?
               <Card>
                 <QuestionText>Do you have a MySocialSecurity account?</QuestionText>
                 <AnswerBox>
-                  <RadioButton type="radio" name="haveSSAccount" value="true" onChange={this.handleOption} checked={this.state.haveSSAccount === 'true'} />
+                <RadioButton type="radio" name="haveSSAAccount" value="true" onChange={() => setHaveSSAAccount(true)} checked={haveSSAAccount === true} />
                   <LabelText>Yes</LabelText>
                 </AnswerBox>
                 <AnswerBox>
-                  <RadioButton type="radio" name="haveSSAccount" value="false" onChange={this.handleOption} checked={this.state.haveSSAccount === 'false'} />
+                <RadioButton type="radio" name="haveSSAAccount" value="false" onChange={() => setHaveSSAAccount(false)} checked={haveSSAAccount === false} />
                   <LabelText>No</LabelText>
                 </AnswerBox>
               </Card> : null
             }
 
-                {this.state.haveEarnings === 'false' && this.state.haveSSAccount === 'true' ?
+                {haveEarnings === false && haveSSAAccount === true ?
                   (
                     <HowToContainer>
                     <Card>
@@ -217,7 +198,7 @@ the red box in the photo below.</ol>
             </Card> : null
           }
 
-          {this.state.haveEarnings === 'false' && this.state.haveSSAccount === 'false' ?
+          {haveEarnings === false && haveSSAAccount === false ?
             <>
               <Card>
                 <TextBlock>
@@ -271,7 +252,13 @@ the red box in the photo below.</ol>
           </Glossary>
           }
           </GlosaryStyle>
-      </React.Fragment>
+       </React.Fragment>
     )
   }
+}
+
+export default function Prescreen1bWrapper(): JSX.Element {
+  const userState = useUserState()
+  const userStateActions = useUserStateActions()
+  return <Prescreen1b userState={userState} userStateActions={userStateActions} />
 }

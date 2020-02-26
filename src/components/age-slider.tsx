@@ -1,9 +1,13 @@
 import React from 'react'
-import Slider, { Range } from 'rc-slider';
+import Slider from 'rc-slider';
 import { colors } from '../constants'
 
-const AgeSlider = ({age, handleChange}) => {
+const defaultFRA = () => {
+  console.warn("That is odd: You used default Full Retirement Age in slider");
+  return 67;
+}
 
+const AgeSlider = ({age, handleChange, fullRetirementAge = defaultFRA()}) => {
   return (
     <Slider
       style = {{
@@ -15,13 +19,19 @@ const AgeSlider = ({age, handleChange}) => {
       marks=
       {{
         62:{
-          label: <strong>62</strong>,
+          label: <strong style={{"fontSize": "18px"}}>62</strong>,
+          style: {
+            color: colors.black,
+          }
+        },
+        [fullRetirementAge]: {
+          label: <strong style={{"fontSize": "18px"}}>FRA: {fullRetirementAge.toFixed(2)}</strong>,
           style: {
             color: colors.black,
           }
         },
         70:{
-          label: <strong>70</strong>,
+          label: <strong style={{"fontSize": "18px"}}>70</strong>,
           style: {
             color: colors.black,
           }

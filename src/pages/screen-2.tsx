@@ -1,9 +1,10 @@
 import React from "react"
 import styled from "@emotion/styled";
-import { ButtonLink, SEO, H2, Card, WarningBox, HelperText, Glossary } from "../components";
+import { ButtonLink, SEO, H2, WarningBox, Glossary } from "../components";
 import * as ObsFuncs from "../library/observable-functions";
-import { SessionStore } from "../library/session-store";
-import { colors, fontSizes } from "../constants";
+import { fontSizes } from "../constants";
+import { UserState, useUserState, PensionEnum, UserProfile } from '../library/user-state-context';
+import { UserStateActions, useUserStateActions } from '../library/user-state-actions-context';
 
 import AgeSlider from '../components/age-slider'
 import MonthlyBenefit from '../components/monthly-benefit'
@@ -12,11 +13,6 @@ import dayjs from "dayjs";
 
 const ContentContainer = styled.div`
   max-width: 70%;
-`;
-
-const PageContainer = styled.div`
-  display: flex;
-  flex-direction: row;
 `;
 
 const ButtonContainer = styled.div`
@@ -37,141 +33,156 @@ const Text = styled.div`
   margin: 10px 5px 40px;
   font-size: ${fontSizes[1]};
 `
+interface Screen2Props {
+  userState: UserState
+  userStateActions: UserStateActions
+}
 
-export default class Screen2 extends React.Component {
-  constructor(props, context) {
-    super(props, context)
+interface Screen2State {
+  userWEP: boolean | null
+  error: string | null
+  testAge: number | null
+  testProfile: UserProfile | null
+}
 
-    this.performCalc = this.performCalc.bind(this);
-
-    this.state = {
-      isLoaded: false,
-      userProfile: {},
-      userWEP: null
-    }
-
-    this.handleRetireChange = this.handleRetireChange.bind(this);
-    this.computeUserCalc = this.computeUserCalc.bind(this);
-
+export class Screen2 extends React.Component<Screen2Props, Screen2State> {
+  public state: Screen2State = {
+    userWEP: null,
+    error: null,
+    testAge: null,
+    testProfile: null,
   }
 
   componentDidMount() {
-    if (!this.state.isLoaded) {
-      this.performCalc()
-        .catch(err => {
-          console.log('err', err)
-          this.setState({
-            isLoaded: true,
-            error: 'Missing Info'
-          })          
-        } )
-    }
+    this.performCalc()
+      .catch(err => {
+        console.error('err', err)
+        this.setState({
+          error: 'Missing Info'
+        })
+      })
   }
 
-  async computeUserCalc(userDOR) {
-    var earnings = JSON.parse(SessionStore.get("earnings"))
-    var userYSE = ObsFuncs.getYearsSE(earnings)
-    var year62 = JSON.parse(SessionStore.get("Year62"))
-    var userDOB = new Date(JSON.parse(SessionStore.get("BirthDate"))).toLocaleDateString("en-US")
-    if (SessionStore.get("coveredEmployment") && SessionStore.get("pensionOrRetirementAccount")) {
-      this.state.userWEP = true;
-      let userWEP = true;
-    } else {
-      this.state.userWEP = false;
-      let userWEP = false;
-    }
-    
-    let dob = dayjs(userDOB)
-    let now = dayjs()
-    let workerAge = now.diff(dob, "year")
+  computeUserCalc = async (userDOR: Date) => {
+    const {
+      userState: {
+        birthDate,
+        earnings,
+        year62,
+        isEmploymentCovered,
+        pensionOrRetirementAccount,
+        pensionAmount,
+        pensionDateAwarded,
+      },
+    } = this.props
+    if (!birthDate) throw Error()
+    const userYSE = ObsFuncs.getYearsSE(earnings)
+    const userDOB = birthDate.toLocaleDateString("en-US")
+
+    this.setState({userWEP: isEmploymentCovered && pensionOrRetirementAccount !== null})
+
+    const dob = dayjs(userDOB)
+    const now = dayjs()
+    const workerAge = now.diff(dob, "year")
     let userPension
 
-    if (SessionStore.get("coveredEmployment")) {
-      if (SessionStore.get("pensionOrRetirementAccount") === "MONTHLYPENSION") {
+    if (isEmploymentCovered) {
+      if (pensionOrRetirementAccount === PensionEnum.PENSION) {
         // monthly
-        userPension = Number(SessionStore.get("pensionAmount"))
-      } else if (SessionStore.get("pensionOrRetirementAccount") === "LUMPSUMRETIREMENTACCOUNT") {
+        userPension = pensionAmount
+      } else if (pensionDateAwarded && pensionOrRetirementAccount === PensionEnum.LUMPSUM) {
         // lump
         userPension = ObsFuncs.lumpSumToMonthly(
-          SessionStore.get("pensionAmount"),
-          dayjs(new Date(JSON.parse(SessionStore.get("dateAwarded"))).toLocaleDateString("en-US")),
+          pensionAmount,
+          dayjs(pensionDateAwarded.toLocaleDateString("en-US")),
           workerAge,
           dob
         )
-        console.log('userPension', userPension)
       } else {
         // other
         userPension = undefined
       }
     } else {
       // no extra pension
-      userPension = Number(SessionStore.get("pensionAmount"))
+      userPension = pensionAmount
     }
-    
-    var userAIME = ObsFuncs.getAIMEFromEarnings(earnings, year62)
-    var userCalc = await ObsFuncs.finalCalculation(userDOB, userDOR, year62, userYSE, userPension, userAIME)
+
+    const userAIME = ObsFuncs.getAIMEFromEarnings(earnings, year62)
+    const userCalc = await ObsFuncs.finalCalculation(userDOB, userDOR, year62, userYSE, userPension, userAIME)
     return userCalc
   }
 
-  async performCalc() {
-    var userDOB = new Date(JSON.parse(SessionStore.get("BirthDate"))).toLocaleDateString("en-US")
-    var userDOR = new Date(JSON.parse(SessionStore.get("RetireDate"))).toLocaleDateString("en-US")
-    var userCalc = await this.computeUserCalc(userDOR)
-    SessionStore.push("UserProfile", JSON.stringify(userCalc))
+  performCalc = async () => {
+    const {
+      userState: {birthDate, retireDate},
+      userStateActions: {setUserProfile},
+    } = this.props
+    if (!birthDate || !retireDate) throw Error()
 
-    this.setState({
-      isLoaded: true,
-      userProfile: userCalc
-    })
+    const userDOB = birthDate.toLocaleDateString("en-US")
+    const userCalc = await this.computeUserCalc(retireDate)
+    setUserProfile(userCalc)
 
-    var yearsDiff = dayjs(userDOR).year() - dayjs(userDOB).year()
-    yearsDiff = yearsDiff < 62 ? 62 : yearsDiff > 70 ? 70 : yearsDiff
-    this.handleRetireChange(yearsDiff)
+    const yearsDiff = dayjs(retireDate).year() - dayjs(userDOB).year()
+    const clampedYearsDiff = yearsDiff < 62 ? 62 : yearsDiff > 70 ? 70 : yearsDiff
+    this.handleRetireChange(clampedYearsDiff)
   }
 
-  async handleRetireChange(value) {
-    var userDOB = new Date(JSON.parse(SessionStore.get("BirthDate"))).toLocaleDateString("en-US")
-    var userDOR = dayjs(userDOB).add(value, 'years').toDate()
-    var userCalc = await this.computeUserCalc(userDOR)
-    this.setState({
-      testAge: value,
-      testProfile: userCalc
-    })
+  handleRetireChange = async (age: number) => {
+    const {userState: {birthDate}} = this.props
+    if (!birthDate) return
+
+    const userDOB = birthDate.toLocaleDateString("en-US")
+    const userDOR = dayjs(userDOB).add(age, 'year').toDate()
+    const userCalc = await this.computeUserCalc(userDOR)
+    if (userCalc)
+      this.setState({
+        testAge: age,
+        testProfile: userCalc,
+      })
   }
 
   render() {
+    const  { userState } = this.props
+    const { fullRetirementAge, userProfile } = userState
+
     return (
       <React.Fragment>
         <SEO title="Screen 2" />
         <ContentContainer>
           <H2>Results</H2>
-          {/* KNOWN ISSUE(tdk), if you change your WEP status, this does not update. We need a better state model */
-          this.state.userWEP === true ?
-            <WarningBox><label>Based on the information you provided,
-            your benefits are affected by the Windfall Elimination Provision.
-             The Windfall Elimination Provision is a Social Security rule that reduces retirement benefits for retirees
-              with access to a pension based on non-covered employment. Click Benefit Formula at left to read more.
-              </label></WarningBox>: ""}
-          {this.state.error ? <WarningBox><label>Please go back and fill out all information to calculate results. </label></WarningBox> :
-
-
-
-                  <Flex>
-            <Text>Based on the information you provided, your retirement benefits will be calculated by Social Security as follows: </Text>
-            <MonthlyBenefit text={'full retirement age'} number={this.state.userProfile["MPB"]} />
-            {this.state.testAge ?
-              <><Text>However, Social Security changes your monthly benefit amount if you begin to claim benefits before or after your full retirement age.
-              Use the slider below to see how your planned date of retirement will affect your monthly benefit amount.
-                    </Text>
-                <AgeSlider age={this.state.testAge} handleChange={this.handleRetireChange} />
-                <MonthlyBenefit text={`age ${this.state.testAge}`} number={this.state.testProfile && this.state.testProfile["MPB"]} /></> : null
-            }
-            <ButtonContainer>
-              <ButtonLink to="/print/" disabled={this.state.error}>Print Results</ButtonLink>
-            </ButtonContainer>
-          </Flex>
+          {this.state.userWEP === true ? (
+            <WarningBox>
+              <label>Based on the information you provided,
+                your benefits are affected by the Windfall Elimination Provision.
+                 The Windfall Elimination Provision is a Social Security rule that reduces retirement benefits for retirees
+                  with access to a pension based on non-covered employment. Click Benefit Formula at left to read more.
+              </label>
+            </WarningBox>): null
           }
-                </ContentContainer>
+          {this.state.error || !userProfile ? (
+            <WarningBox><label>Please go back and fill out all information to calculate results. </label></WarningBox>
+          ) : (
+            <Flex>
+              <Text>Based on the information you provided, your retirement benefits will be calculated by Social Security as follows: </Text>
+              <MonthlyBenefit text={'Full Retirement Age'} number={userProfile["MPB"]} />
+              {this.state.testAge ?
+                <><Text>However, Social Security changes your monthly benefit amount if you begin to claim benefits before or after your full retirement age.
+                Use the slider below to see how your planned date of retirement will affect your monthly benefit amount.
+                      </Text>
+                  <AgeSlider 
+                    age={this.state.testAge} 
+                    handleChange={this.handleRetireChange}
+                    fullRetirementAge={fullRetirementAge ?? undefined}
+                    />
+                  <MonthlyBenefit text={`age ${this.state.testAge}`} number={this.state.testProfile && this.state.testProfile["MPB"]} /></> : null
+              }
+              <ButtonContainer>
+                <ButtonLink to="/print/" disabled={this.state.error !== null}>Print Results</ButtonLink>
+              </ButtonContainer>
+            </Flex>
+          )}
+        </ContentContainer>
         <Glossary
           title='FULL RETIREMENT AGE'
           link="https://www.ssa.gov/planners/retire/retirechart.html"
@@ -183,4 +194,10 @@ export default class Screen2 extends React.Component {
     )
   }
 
+}
+
+export default function Screen2Wrapper(): JSX.Element {
+  const userState = useUserState()
+  const userStateActions = useUserStateActions()
+  return <Screen2 userState={userState} userStateActions={userStateActions} />
 }

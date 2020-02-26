@@ -4,7 +4,6 @@ import DatePicker from "react-datepicker";
 import "react-datepicker/dist/react-datepicker.css";
 import * as ObsFuncs from "../library/observable-functions";
 import { colors } from "../constants";
-import { SessionStore } from "../library/session-store";
 import dayjs from "dayjs";
 
 import {UserState, useUserState} from '../library/user-state-context'
@@ -14,6 +13,7 @@ import {
   TextBlock,
   SEO,
   Card,
+  WarningBox,
   H2,
 } from "../components";
 
@@ -39,51 +39,38 @@ interface Prescreen1aProps {
   userStateActions: UserStateActions
 }
 
-interface Prescreen1aState {
-  retireAge: number | null
-}
-
 class Prescreen1a extends React.Component<Prescreen1aProps, Prescreen1aState> {
-  public state: Prescreen1aState = {
-    retireAge: null,
-  }
   constructor(props, context){
     super(props, context)
     this.handleDateChange = this.handleDateChange.bind(this);
   }
 
   componentDidMount() {
-    if (this.state.retireAge === null) {
-      if (SessionStore.get("RetireAge") !== null) {
-        var retireAge = JSON.parse(SessionStore.get("RetireAge"))
-      } else {
-        retireAge = 62
-      }
-      this.setState({
-        retireAge: retireAge
-      })
-    }
   }
 
   async handleDateChange(name, value) {
-    const {userStateActions, userState} = this.props
-    const {birthDate} = userState
+    const {userStateActions} = this.props
     if (name === "birthDatePicked") {
       userStateActions.setBirthDate(value)
+
       var year62 = new Date(value).getFullYear() + 62;
-      SessionStore.push("Year62", year62)
-      var fullRetirementAge = await ObsFuncs.getFullRetirementDateSimple(birthDate)
+      userStateActions.setYear62(year62)
+      var fullRetirementAge = 0;
+
+      fullRetirementAge = await ObsFuncs.getFullRetirementDateSimple(value)
       this.setRetireDate(value, fullRetirementAge)
     }
   }
 
   async setRetireDate(dateOfBirth, retireAge) {
     const {userStateActions} = this.props
-    var retireDate = dayjs(dateOfBirth).add(await retireAge, 'years').toDate()
+
+    /* dayjs cannot .add() fractional years that we put into the tables
+       but only months, so let us use rounded months. */
+    const retireAgeInRoundedMonths = Math.round(await retireAge * 12)
+    var retireDate = dayjs(dateOfBirth).add(retireAgeInRoundedMonths, 'month').toDate()
+
     userStateActions.setRetireDate(retireDate)
-    this.setState({
-      retireAge: JSON.stringify(retireAge),
-    })
   }
 
   //TODO: remove the decimal years and display YY years and MM months.
@@ -98,7 +85,7 @@ class Prescreen1a extends React.Component<Prescreen1aProps, Prescreen1aState> {
 
     render() {
         const {userState} = this.props
-        const {birthDate, retireDate} = userState
+        const {birthDate, retireDate, fullRetirementAgeYearsOnly, fullRetirementAgeMonthsOnly} = userState
         const retireDateYear = retireDate ? retireDate.getFullYear() : null
         return (
             <div>
@@ -114,7 +101,7 @@ class Prescreen1a extends React.Component<Prescreen1aProps, Prescreen1aState> {
                     placeholderText="Click to select a date"
                     selected={birthDate}
                     showYearDropdown
-                    openToDate={birthDate || dayjs().subtract(64, 'years').toDate()}
+                    openToDate={birthDate || dayjs().subtract(64, 'year').toDate()}
                     onChange={(value) => this.handleDateChange("birthDatePicked", value)}
                     />
                   </Card>
@@ -122,8 +109,19 @@ class Prescreen1a extends React.Component<Prescreen1aProps, Prescreen1aState> {
                     <Card>
                     <H4>Retirement Age</H4>
                     <p>Your Full Retirement Age (FRA) to collect Social Security
-                       Benefits is {this.state.retireAge} years old, which is in
-                        year {retireDateYear}.</p>
+                       Benefits is {fullRetirementAgeYearsOnly} years 
+                       {fullRetirementAgeMonthsOnly ? " and " + 
+                       fullRetirementAgeMonthsOnly+ " months ": ""} old<a href="https://www.ssa.gov/OACT/ProgData/ar_drc.html"><sup>1</sup></a>, 
+                       which is in year {retireDateYear}.
+                      { /* TODO remove this and replace with a function that
+                       checks the tables' isActualValue's*/
+                      retireDateYear>=2025 ? <WarningBox><label>This app may not
+                         be able to accurately calculate your results because
+                          it is still too many years away. Extrapolation based
+                           on the economy and Social Security&apos;s Trustees 
+                           Report may be added in a future version. 
+                           </label></WarningBox> : ""
+                      }</p>
                   </Card>
                   }
             </div>
