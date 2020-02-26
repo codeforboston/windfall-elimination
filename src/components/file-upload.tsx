@@ -134,7 +134,6 @@ export class GenerateTable extends React.Component<GenerateTableProps> {
       var earningsYears = Object.keys(parsedXml);
       tableRows = earningsYears.map((year, i) => {
         const earningValueXML = parsedXml[year]
-        /* Can this be parseable with symbols $, */
           ? { defaultValue: parsedXml[year] }
           : { placeholder: 0 };
         return (
