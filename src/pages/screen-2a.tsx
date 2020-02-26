@@ -3,7 +3,6 @@ import styled from "@emotion/styled";
 import DatePicker from "react-datepicker";
 import "react-datepicker/dist/react-datepicker.css";
 import { colors } from "../constants";
-import { SessionStore } from "../library/session-store";
 import dayjs from "dayjs";
 import Carousel from "react-slick";
 import stepImg1 from "../images/step1.png"
