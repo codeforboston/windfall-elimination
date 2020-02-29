@@ -22,12 +22,12 @@ export const SsaImage= styled("img")`
   margin-top: 25px;
 `;
 
-const GlosaryStyle = styled.div`
-     display: block;
-     .css-1y9a2pj-GlossaryContainer.ezroa000:nth-child(2) {
-      position: absolute;
-      top: 860px;     
-  }
+
+
+const CardGlossaryContainer = styled.div`
+  display: flex;
+  justify-content: space-between;
+  margin: auto 0;
 `;
 
 const HowToContainer = styled.div`
@@ -36,7 +36,12 @@ const HowToContainer = styled.div`
 
 
 const ContentContainer = styled.div`
-  max-width: 70%;
+  width: 100%;
+`;
+
+const TopQuestionAndTitle = styled.div`
+  width: 70%;
+  margin-bottom: 75px;
 `;
 
 const Link = styled.a`
@@ -88,6 +93,8 @@ class Prescreen1b extends React.Component<Prescreen1bProps> {
     <React.Fragment>
         <SEO title="Prescreen 1b" keywords={[`social security`, `government`, `retirement`]} />
         <ContentContainer>
+        <CardGlossaryContainer>
+        <TopQuestionAndTitle>
             <H2>Step 2: Earnings</H2>
             <TextBlock>
                 Your Social Security retirement benefits are calculated based on your earnings in covered employment.
@@ -97,6 +104,7 @@ class Prescreen1b extends React.Component<Prescreen1bProps> {
                 To calculate your Social Security retirement benefits, you will need a record of your earnings from Social Security.
                 Follow the steps below to get your earning record.
             </TextBlock> 
+   
             {this.checkForBirthday()}
                 
                 <Card>
@@ -110,7 +118,6 @@ class Prescreen1b extends React.Component<Prescreen1bProps> {
                     <LabelText>No</LabelText>
                     </AnswerBox>
                 </Card>
-
             {haveEarnings === true ?
               <Card>
                 <QuestionText>What format is the copy of your earnings record?</QuestionText>
@@ -132,7 +139,6 @@ class Prescreen1b extends React.Component<Prescreen1bProps> {
                 </AnswerBox>
               </Card> : null
             }
-
             {haveEarnings === false ?
               <Card>
                 <QuestionText>Do you have a MySocialSecurity account?</QuestionText>
@@ -146,7 +152,6 @@ class Prescreen1b extends React.Component<Prescreen1bProps> {
                 </AnswerBox>
               </Card> : null
             }
-
                 {haveEarnings === false && haveSSAAccount === true ?
                   (
                     <HowToContainer>
@@ -173,7 +178,6 @@ the red box in the photo below.</ol>
                     </HowToContainer>
                   ):null
                 }
-
           {this.showFileUpload() ?
             <HowToContainer>
               <Card>
@@ -188,7 +192,6 @@ the red box in the photo below.</ol>
             </HowToContainer> : null
             
           }
-
           {this.showManualTable()?
             <Card>
               <TextBlock>
@@ -197,7 +200,6 @@ the red box in the photo below.</ol>
               <FileUpload manual={true} />
             </Card> : null
           }
-
           {haveEarnings === false && haveSSAAccount === false ?
             <>
               <Card>
@@ -224,8 +226,10 @@ the red box in the photo below.</ol>
               </HowToContainer>
             </> : null
           }
-          </ContentContainer>
-          <GlosaryStyle>
+          </TopQuestionAndTitle>
+         
+          
+          
           <Glossary 
           title="MYSOCIALSECURITY"
           link="https://www.ssa.gov/myaccount/"
@@ -233,25 +237,10 @@ the red box in the photo below.</ol>
           >
           MySocialSecurity is the Social Security Administrations online service. With a MySocialSecurity account , you can download a copy of your earnings record to use for this question.
           </Glossary>
-          {
-            this.showFileUpload() == true && <Glossary
-          title="IMPORTED RECORDS"
-          >
-           The values are imported from the file that you upload.
-           Please review them for accuracy and correct any errors that you find.
-          </Glossary>
-          }
-          {
-            this.showManualTable() === true && <Glossary
-          title="MANUAL RECORDS"
-          >
-           Please review the values so that the years match
-           and correct any errors that you find. The first row
-             may be a different year than on the paper
-             document.
-          </Glossary>
-          }
-          </GlosaryStyle>
+          </CardGlossaryContainer>
+    
+          
+          </ContentContainer>
        </React.Fragment>
     )
   }
