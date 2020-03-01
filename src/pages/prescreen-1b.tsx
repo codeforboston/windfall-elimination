@@ -335,6 +335,26 @@ class Prescreen1b extends React.Component<Prescreen1bProps> {
               of your earnings record to use for this question.
             </Glossary>
           </CardGlossaryContainer>
+          
+          {
+            this.showFileUpload() == true && <Glossary
+            title="IMPORTED RECORDS"
+            >
+             The values are imported from the file that you upload.
+             Please review them for accuracy and correct any errors that you find.
+            </Glossary>
+            }
+            {
+              this.showManualTable() === true && <Glossary
+            title="MANUAL RECORDS"
+            >
+             Please review the values so that the years match
+             and correct any errors that you find. The first row
+               may be a different year than on the paper
+               document.
+            </Glossary>
+            }
+        
         </ContentContainer>
       </React.Fragment>
     );
