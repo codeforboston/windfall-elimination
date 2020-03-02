@@ -1,14 +1,16 @@
-import React from "react";
+import React, { Fragment } from "react";
 import styled from "@emotion/styled";
 import { StaticQuery, graphql } from "gatsby";
 import { Location } from "@reach/router";
-import { Header, QuestionProvider, Footer, ButtonLink, ButtonLinkGreen } from "../components";
+import { Header, QuestionProvider, Footer, ButtonLink } from "../components";
 import "./layout.css";
 import { ProgressTracker } from "../components/progress-tracker";
 import UserStateManager from "../library/user-state-manager"
 
+
 const Wrapper = styled("div")`
   display: block;
+  overflow: hidden;
   position: relative;
 `;
 
@@ -40,7 +42,6 @@ const Main = styled("main")`
     overflow: scroll;
     width: 530px;
   }
-
 `;
 
 const ContentContainer = styled.div`
@@ -50,20 +51,6 @@ width: 100%;
 @media (max-width: 1024px) {
   min-height: 94vh;
 }
-`;
-
-const ButtonContainer = styled.div`
-  margin: 10px auto 10px 20vw;
-  @media (max-width: 1024px) {
-    display: flex;
-    width: 100%;
-    margin: 10px 10px 10px 21.5vw;
-  }
-  @media (max-width: 768px) {
-    display: flex;
-    width: 100vw;
-    margin: 10px 10px 10px 28.5vw;
-  }
 `;
 
 /* There must be an entry for each of these in indexToSessionStorageKeys
@@ -119,41 +106,69 @@ const Layout = ({ children }) => (
         <Footer>
         <Location>
           {({ location }) => {
-            const index = LINKSPATH.findIndex(path => path.path === location.pathname)
-            if(location.pathname === "/print/"){
-              return (
-                <ButtonContainer>
-                 <ButtonLinkGreen to="/screen-2/">Return to Results</ButtonLinkGreen>
-                 <ButtonLink to="/screen-2a/">Continue to Benefit Formula</ButtonLink>
-                </ButtonContainer>
-              )
+            const index = LINKSPATH.findIndex(path => (
+              path.path === location.pathname
+            ));
+            let labelLeft, labelRight, urlLeft, urlRight;
+
+            if (index === -1) return;
+            if (index === 0) {
+              labelLeft = ""
+              labelRight = "Get Started";
+              urlLeft = ""
+              urlRight = "/prescreen-1a/";
+            } else if (location.pathname === "/print/") {
+              labelLeft = "Return to Results";
+              labelRight = "Continue to Benefit Formula";
+              urlLeft = "/screen-2/";
+              urlRight = "/screen-2a/";
+            } else if (index === LINKSPATH.length - 1) {
+              labelLeft = `Previous: ${
+                LINKSPATH[index - 1].label[0] +
+                LINKSPATH[index - 1].label.slice(1).toLowerCase()
+              }`;
+              labelRight = "Go Home";
+              urlLeft = LINKSPATH[index - 1].path;
+              urlRight = "/";
+            } else {
+              labelLeft = `Previous: ${
+                LINKSPATH[index - 1].label[0] +
+                LINKSPATH[index - 1].label.slice(1).toLowerCase()
+              }`;
+              labelRight = `Next: ${
+                LINKSPATH[index + 1].label[0] +
+                LINKSPATH[index + 1].label.slice(1).toLowerCase()
+              }`;
+              urlLeft = LINKSPATH[index - 1].path;
+              urlRight = LINKSPATH[index + 1].path;
             }
-            if(index === -1){
-              return null;
-            }
-            if(index === LINKSPATH.length -1){
-              return (
-              <ButtonContainer>
-              <ButtonLinkGreen to={LINKSPATH[index -1].path}>
-               {`Previous: ${LINKSPATH[index -1].label[0] + LINKSPATH[index -1].label.slice(1).toLowerCase()}`}
-              </ButtonLinkGreen>
-              <ButtonLink to="/">Go Home</ButtonLink>
-              </ButtonContainer>
-              )
-            }
-            if(index === 0 ){
-              return (
-              <ButtonContainer>
-              <ButtonLink to="/prescreen-1a/">Get Started</ButtonLink>
-              </ButtonContainer>
-              )
-            }
+
+            let labelLeftMobile = index === 0 ? "" : "PREV";
+            let labelRightMobile = (
+              index === 0 ? "START" :
+              index === LINKSPATH.length - 1 ? "HOME" :
+              "NEXT"
+            );
+
             return (
-            <ButtonContainer>
-            <ButtonLinkGreen to={LINKSPATH[index -1].path}>{`Previous: ${LINKSPATH[index -1].label[0] + LINKSPATH[index -1].label.slice(1).toLowerCase()}`}</ButtonLinkGreen>
-            <ButtonLink to={LINKSPATH[index +1].path}>{`Next: ${LINKSPATH[index +1].label[0] + LINKSPATH[index +1].label.slice(1).toLowerCase()}` }</ButtonLink>
-            </ButtonContainer>
-          )
+              <Fragment>
+                {(index !== 0) && (
+                  <ButtonLink
+                    labelMobile={labelLeftMobile}
+                    to={urlLeft}
+                  >
+                    {labelLeft}
+                  </ButtonLink>
+                )}
+                <ButtonLink
+                  isRightmost
+                  labelMobile={labelRightMobile}
+                  to={urlRight}
+                >
+                  {labelRight}
+                </ButtonLink>
+              </Fragment>
+            );
           }}
         </Location>
         </Footer>
