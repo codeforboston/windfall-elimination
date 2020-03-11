@@ -6,21 +6,26 @@ import { Header, QuestionProvider, Footer, ButtonLink, ButtonLinkGreen } from ".
 import "./layout.css";
 import { ProgressTracker } from "../components/progress-tracker";
 import UserStateManager from "../library/user-state-manager"
+import { breakPoints } from "../constants";
 
 const Wrapper = styled("div")`
   display: block;
   position: relative;
+  display: flex;
+  justify-center: center;
+  flex-direction: column;
+  align-items: center;
+  width: 100vw;
+  height: 100vh;
 `;
 
 const Container = styled("div")`
   font-family: 'Montserrat', sans-serif;
   display: block;
   min-height: 95vh;
-
-  @media (max-width: 767px) {
-    overflow: scroll;
-    width: 767px;
-  }
+  max-width: ${breakPoints[4]};
+  width: 100%;
+  height: 100%;
 `;
 
 const ChildWrapper = styled.div`
@@ -48,18 +53,14 @@ const Main = styled("main")`
     overflow: scroll;
     width: 100%;
   }
-
 `;
 
 const ContentContainer = styled.div`
-min-height: 90vh;
-display: flex;
-width: 100%;
-@media (max-width: 767px) {
-  display: block;
-}
-@media (max-width: 1024px) {
-  min-height: 94vh;
+  min-height: 90vh;
+  display: flex;
+  width: 100%;
+  @media (max-width: 1024px) {
+    min-height: 94vh;
 }
 `;
 
@@ -104,71 +105,73 @@ const Layout = ({ children }) => (
     `}
     render={data => (
       <Wrapper>
-        <Container>
-        <Header />
-        <link href="https://fonts.googleapis.com/css?family=Merriweather|Montserrat&display=swap" rel="stylesheet"/>
-        <ContentContainer>
-          <Location>
-            {({ location }) => (
-              <ProgressTracker
-                linkProps={LINKSPATH}
-                activePath={location.pathname}
-              />
-            )}
-          </Location>
-          <Main id='child-wrapper'>
-            <UserStateManager>
-              {/* TODO test out this provider */}
-              <QuestionProvider>
-                <ChildWrapper>
-                  {children}
-                </ChildWrapper>
-              </QuestionProvider>
-            </UserStateManager>
-          </Main>
-        </ContentContainer>
+      <Header />
+
+      <Container>
+      <link href="https://fonts.googleapis.com/css?family=Merriweather|Montserrat&display=swap" rel="stylesheet"/>
+      <ContentContainer>
+        <Location>
+          {({ location }) => (
+            <ProgressTracker
+              linkProps={LINKSPATH}
+              activePath={location.pathname}
+            />
+          )}
+        </Location>
+        <Main id='child-wrapper'>
+          <UserStateManager>
+            {/* TODO test out this provider */}
+            <QuestionProvider>
+              <ChildWrapper>
+                {children}
+              </ChildWrapper>
+            </QuestionProvider>
+          </UserStateManager>
+        </Main>
+      </ContentContainer>
+      </Container>
+
         <Footer>
         <Location>
-          {({ location }) => {
-            const index = LINKSPATH.findIndex(path => path.path === location.pathname)
-            if(location.pathname === "/print/"){
-              return (
-                <ButtonContainer>
-                 <ButtonLinkGreen to="/screen-2/">Return to Results</ButtonLinkGreen>
-                 <ButtonLink to="/screen-2a/">Continue to Benefit Formula</ButtonLink>
-                </ButtonContainer>
-              )
-            }
-            if(index === -1){
-              return null;
-            }
-            if(index === LINKSPATH.length -1){
-              return (
+        {({ location }) => {
+          const index = LINKSPATH.findIndex(path => path.path === location.pathname)
+          if(location.pathname === "/print/"){
+            return (
+              <ButtonContainer>
+              <ButtonLinkGreen to="/screen-2/">Return to Results</ButtonLinkGreen>
+              <ButtonLink to="/screen-2a/">Continue to Benefit Formula</ButtonLink>
+              </ButtonContainer>
+            )
+          }
+          if(index === -1){
+            return null;
+          }
+          if(index === LINKSPATH.length -1){
+            return (
               <ButtonContainer>
               <ButtonLinkGreen to={LINKSPATH[index -1].path}>
-               {`Previous: ${LINKSPATH[index -1].label[0] + LINKSPATH[index -1].label.slice(1).toLowerCase()}`}
+              {`Previous: ${LINKSPATH[index -1].label[0] + LINKSPATH[index -1].label.slice(1).toLowerCase()}`}
               </ButtonLinkGreen>
               <ButtonLink to="/">Go Home</ButtonLink>
               </ButtonContainer>
-              )
-            }
-            if(index === 0 ){
-              return (
+            )
+          }
+          if(index === 0 ){
+            return (
               <ButtonContainer>
               <ButtonLink to="/prescreen-1a/">Get Started</ButtonLink>
               </ButtonContainer>
-              )
-            }
-            return (
+            )
+          }
+          return (
             <ButtonContainer>
             <ButtonLinkGreen to={LINKSPATH[index -1].path}>{`Previous: ${LINKSPATH[index -1].label[0] + LINKSPATH[index -1].label.slice(1).toLowerCase()}`}</ButtonLinkGreen>
             <ButtonLink to={LINKSPATH[index +1].path}>{`Next: ${LINKSPATH[index +1].label[0] + LINKSPATH[index +1].label.slice(1).toLowerCase()}` }</ButtonLink>
             </ButtonContainer>
           )
-          }}
+        }}
         </Location>
         </Footer>
-        </Container>
       </Wrapper>
     )}
   />
