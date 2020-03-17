@@ -82,6 +82,10 @@ export const AnswerBox = styled(AnswerBoxBasic)`
   align-items: center;
   margin: 10px 0;
 
+  @media (max-width: 767px) {
+    width: 100%;
+  }
+
 `;
 
 export const AnswerInput = styled.input`
