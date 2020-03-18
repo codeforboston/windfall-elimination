@@ -13,7 +13,7 @@ export const Header = () => {
     if (isShowingMenu && windowWidth >= breakPoint) {
       setIsShowingMenu(false)
     }
-  }, [windowWidth])
+  }, [breakPoint, isShowingMenu, windowWidth])
 
   return (
     <Wrapper>
