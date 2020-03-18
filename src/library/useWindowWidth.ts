@@ -16,7 +16,14 @@ import { useEffect, useRef, useState } from "react"
 // https://reactjs.org/docs/hooks-custom.html
 // ~ RM
 const useWindowWidth = () => {
-  const [windowWidth, setWindowWidth] = useState(window.innerWidth)
+  // The `window` object is available in development but not production due to
+  // the app's use of server-side rendering. To account for the latter case it's
+  // necessary to hold off on referencing `window` until running in a browser
+  // environment.
+  // See: stackoverflow.com/a/59278596
+  const isBrowserEnvironment = typeof window !== 'undefined'
+  const initialWindowWidth = isBrowserEnvironment ? window.innerWidth : null
+  const [windowWidth, setWindowWidth] = useState(initialWindowWidth)
   const isPausing = useRef(false)
 
   // Reset window width every 0.25 seconds while resizing
