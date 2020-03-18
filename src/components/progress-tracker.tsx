@@ -61,7 +61,11 @@ const StyledStepContainer = styled("div")`
   justify-content: space-around;
   padding: 10px 15px;
   min-height: 90vh;
-  @media (max-width: 1024px) {
+  @media (max-width: 767px) {
+    width: 100%;
+    min-height: auto;
+  }
+  @media (min-width: 768px) and (max-width: 1024px) {
     min-height: 60vh;
     width: 195px;
     padding: 10px 5px;

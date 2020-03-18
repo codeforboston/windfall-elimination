@@ -32,17 +32,25 @@ const StyledDatePicker = styled(DatePicker)`
 
 const ContentContainer = styled.div`
   width: 100%;
+ 
 `;
 
 const CardGlossaryContainer = styled.div`
-display: flex;
-justify-content: space-between;
-margin: auto 0;
+  display: flex;
+  justify-content: space-between;
+  margin: auto 0;
+  
+  @media (max-width: 767px){
+    display: block;
+  }
 `;
 
 const TopQuestionAndTitle = styled.div`
 width: 70%;
 margin-bottom: 75px;
+@media (max-width: 767px){
+  width: 100%;
+}
 `;
 
 interface Prescreen1cProps {

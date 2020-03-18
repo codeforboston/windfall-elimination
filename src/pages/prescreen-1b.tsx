@@ -24,7 +24,7 @@ export const SsaImage= styled("img")`
 
 const GlosaryStyle = styled.div`
      display: block;
-     .css-1y9a2pj-GlossaryContainer.ezroa000:nth-child(2) {
+     .css-1y9a2pj-GlossaryContainer.ezroa000::nth-of-type(2) {
       position: absolute;
       top: 860px;     
   }
@@ -36,7 +36,10 @@ const HowToContainer = styled.div`
 
 
 const ContentContainer = styled.div`
-  max-width: 70%;
+  width: 70%;
+  @media (max-width: 767px){
+    width: 100%;
+  }
 `;
 
 const Link = styled.a`

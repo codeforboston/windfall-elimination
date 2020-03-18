@@ -83,7 +83,7 @@ export const AnswerBox = styled(AnswerBoxBasic)`
   margin: 10px 0;
 
   @media (max-width: 767px) {
-    width: 100%;
+    width: 40%;
   }
 
 `;

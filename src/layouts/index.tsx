@@ -28,6 +28,14 @@ const ChildWrapper = styled.div`
   padding:  10px 10px 15px 10px;
   flex: 1 1 auto;
   min-width: 0;
+  display: flex;
+
+  @media (max-width: 767px) {
+    display: block;
+    margin: 10px;
+    padding: 0;
+  }
+
 `;
 
 const Main = styled("main")`
@@ -38,7 +46,7 @@ const Main = styled("main")`
   padding: 0 15px 95px 15px;
   @media (max-width: 767px) {
     overflow: scroll;
-    width: 530px;
+    width: 100%;
   }
 
 `;
@@ -47,6 +55,9 @@ const ContentContainer = styled.div`
 min-height: 90vh;
 display: flex;
 width: 100%;
+@media (max-width: 767px) {
+  display: block;
+}
 @media (max-width: 1024px) {
   min-height: 94vh;
 }

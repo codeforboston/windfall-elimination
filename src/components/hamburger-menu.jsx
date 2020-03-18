@@ -84,7 +84,7 @@ export const Hamburger= styled('div')`
    	input:checked ~ ${HamburgerBuns} {opacity: 1; background:${colors.black};
   	transform: rotate(45deg) translate(-3px, -3px);}
 
-    input:checked ~ ${HamburgerBuns}:nth-of-type(2) {
+    input:checked ~ ${HamburgerBuns}::nth-of-type(2) {
     opacity: 0;
     transform: rotate(0deg) scale(0.2, 0.2);
     }

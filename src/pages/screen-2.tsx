@@ -12,7 +12,10 @@ import 'rc-slider/assets/index.css';
 import dayjs from "dayjs";
 
 const ContentContainer = styled.div`
-  max-width: 70%;
+  width: 100%;
+  @media (min-width: 768px){
+    width: 70%;
+  }
 `;
 
 const ButtonContainer = styled.div`
