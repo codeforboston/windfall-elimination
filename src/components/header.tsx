@@ -1,19 +1,11 @@
-import { useEffect, useState } from "react"
-import { Link } from "gatsby"
 import styled from "@emotion/styled"
+import { Link } from "gatsby"
 import { breakPoints, colors } from "../constants"
 import useWindowWidth from "../library/useWindowWidth"
 
 export const Header = () => {
-  const [isShowingMenu, setIsShowingMenu] = useState(false)
-  const breakPoint = Number(breakPoints[3].slice(0, -2))
   const windowWidth = useWindowWidth()
-
-  useEffect(() => {
-    if (isShowingMenu && windowWidth >= breakPoint) {
-      setIsShowingMenu(false)
-    }
-  }, [breakPoint, isShowingMenu, windowWidth])
+  const breakPoint = Number(breakPoints[3].slice(0, -2))
 
   return (
     <Wrapper>
