@@ -42,6 +42,9 @@ const Img = styled.p`
 margin:  10px 70px 10px 70px;
 padding:  10px 10px 10px 50px;
 `
+const ContentContainer = styled.div`
+  width: 100%;
+`
 
 function NextArrow(props) {
   const { className, style, onClick } = props;
@@ -104,7 +107,7 @@ export default class Screen2a extends React.Component {
         };
 
         return (
-            <div>
+            <ContentContainer>
                 <SEO title="Pre-Screen 2a" keywords={[`gatsby`, `application`, `react`]} />
                 <H2>Benefit Formula</H2>
                 <Carousel {...settings}>
@@ -168,7 +171,7 @@ export default class Screen2a extends React.Component {
                     </Img>
                   </section>
                 </Carousel>
-            </div>
+            </ContentContainer>
          )
     }
 }
