@@ -11,6 +11,11 @@ import UserStateManager from "../library/user-state-manager"
 const Wrapper = styled("div")`
   display: block;
   overflow: hidden;
+
+  // TEMP: This ensures that mobile users can still scroll horizontally. Replace
+  // with "overflow: hidden" once UI is fully responsive. See #180. ~ RM
+  overflow-x: scroll;
+
   position: relative;
 `;
 
@@ -56,14 +61,14 @@ width: 100%;
 /* There must be an entry for each of these in indexToSessionStorageKeys
     of progress-tracker.tsx */
 const LINKSPATH = [
-  {path: "/", label: "HOME"},
-  {path: "/prescreen-1a/", label: "BACKGROUND"},
-  {path: "/prescreen-1b/", label: "EARNINGS"},
-  {path: "/prescreen-1c/", label: "EMPLOYMENT STATUS"},
-  {path: "/screen-2/", label: "RESULTS"},
-  {path: "/screen-2a/", label: "BENEFIT FORMULA"},
-  // {path: "/screen-2b/", label: "OVERPAYMENT"},
-  // {path: "/screen-2c/", label: "TAKE ACTION"}
+  {path: "/", label: "Home"},
+  {path: "/prescreen-1a/", label: "Background"},
+  {path: "/prescreen-1b/", label: "Earnings"},
+  {path: "/prescreen-1c/", label: "Employment Status"},
+  {path: "/screen-2/", label: "Results"},
+  {path: "/screen-2a/", label: "Benefit Forumula"}
+  // {path: "/screen-2b/", label: "Overpayment"},
+  // {path: "/screen-2c/", label: "Take Action"}
 ]
 
 const Layout = ({ children }) => (
@@ -109,50 +114,43 @@ const Layout = ({ children }) => (
             const index = LINKSPATH.findIndex(path => (
               path.path === location.pathname
             ));
-            let labelLeft, labelRight, urlLeft, urlRight;
 
-            if (index === -1) return;
-            if (index === 0) {
-              labelLeft = ""
+            const linkNext = LINKSPATH[index + 1];
+            const linkPrev = LINKSPATH[index - 1];
+            const isPageFirst = index === 0;
+            const isPageLast = index === LINKSPATH.length - 1;
+            let labelLeft, labelRight, urlLeft, urlRight;
+            let labelLeftMobile = isPageFirst ? "" : "PREV";
+            let labelRightMobile = (
+              isPageFirst ? "START" : isPageLast ? "HOME" : "NEXT"
+            );
+
+            if (index === -1) return null;
+            if (isPageFirst) {
+              labelLeft = "";
               labelRight = "Get Started";
-              urlLeft = ""
+              urlLeft = "";
               urlRight = "/prescreen-1a/";
             } else if (location.pathname === "/print/") {
               labelLeft = "Return to Results";
               labelRight = "Continue to Benefit Formula";
               urlLeft = "/screen-2/";
               urlRight = "/screen-2a/";
-            } else if (index === LINKSPATH.length - 1) {
-              labelLeft = `Previous: ${
-                LINKSPATH[index - 1].label[0] +
-                LINKSPATH[index - 1].label.slice(1).toLowerCase()
-              }`;
+            } else if (isPageLast) {
+              labelLeft = `Previous: ${linkPrev.label}`;
               labelRight = "Go Home";
-              urlLeft = LINKSPATH[index - 1].path;
+              urlLeft = linkPrev.path;
               urlRight = "/";
             } else {
-              labelLeft = `Previous: ${
-                LINKSPATH[index - 1].label[0] +
-                LINKSPATH[index - 1].label.slice(1).toLowerCase()
-              }`;
-              labelRight = `Next: ${
-                LINKSPATH[index + 1].label[0] +
-                LINKSPATH[index + 1].label.slice(1).toLowerCase()
-              }`;
-              urlLeft = LINKSPATH[index - 1].path;
-              urlRight = LINKSPATH[index + 1].path;
+              labelLeft = `Previous: ${linkPrev.label}`;
+              labelRight = `Next: ${linkNext.label}`;
+              urlLeft = linkPrev.path;
+              urlRight = linkNext.path;
             }
-
-            let labelLeftMobile = index === 0 ? "" : "PREV";
-            let labelRightMobile = (
-              index === 0 ? "START" :
-              index === LINKSPATH.length - 1 ? "HOME" :
-              "NEXT"
-            );
 
             return (
               <Fragment>
-                {(index !== 0) && (
+                {(!isPageFirst) && (
                   <ButtonLink
                     labelMobile={labelLeftMobile}
                     to={urlLeft}
