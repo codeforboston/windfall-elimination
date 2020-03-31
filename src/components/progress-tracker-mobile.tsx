@@ -10,7 +10,8 @@ export const ProgressTrackerMobile = props => {
   const dropdownHide = () => setIsDropdownShowing(false);
   const dropdownToggle = () => setIsDropdownShowing(prevState => !prevState);
   const testFunction = element => element.path === props.activePath;
-  const activePathIndex = props.linkProps.findIndex(testFunction);
+  // Server-side rendering has no access to active path, hence fallback of 0.
+  const activePathIndex = Math.max(props.linkProps.findIndex(testFunction), 0);
   const activePathLabel = props.linkProps[activePathIndex].label;
 
   const renderContent = (index, label) => {
