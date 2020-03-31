@@ -60,12 +60,14 @@ const StyledStepContainer = styled("div")`
   background: #eee;
   justify-content: space-around;
   padding: 10px 15px;
-  min-height: 90vh;
-  @media (max-width: 1024px) {
-    min-height: 60vh;
-    width: 195px;
-    padding: 10px 5px;
-  }
+  position: fixed;
+  top: 3.75rem;
+  height: calc(100% - 3.75rem);
+  box-sizing: border-box;
+  width: 14rem;
+  @media (min-width: 1024px) {
+    width: 19.25rem;
+  };
 `;
 
 /* these must match the linksProp parameter to this component
