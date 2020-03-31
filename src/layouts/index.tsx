@@ -5,8 +5,12 @@ import { Location } from "@reach/router";
 import { Header, QuestionProvider, Footer, ButtonLink, ButtonLinkGreen } from "../components";
 import "./layout.css";
 import { ProgressTracker } from "../components/progress-tracker";
-import UserStateManager from "../library/user-state-manager"
+import { ProgressTrackerMobile} from "../components/progress-tracker-mobile";
+import UserStateManager from "../library/user-state-manager";
 import { breakPoints } from "../constants";
+import useWindowWidth from "../library/useWindowWidth";
+
+const breakPoint = Number(breakPoints[2].slice(0, -2));
 
 const Wrapper = styled("div")`
   display: block;
@@ -17,15 +21,17 @@ const Wrapper = styled("div")`
   align-items: center;
   width: 100vw;
   height: 100vh;
+  overflow-y: scroll;
+  z-index: 1; // Ensures scrollbar isn't clipped by header
 `;
 
 const Container = styled("div")`
   font-family: 'Montserrat', sans-serif;
-  display: block;
   min-height: 95vh;
-  max-width: ${breakPoints[4]};
+  max-width: ${breakPoints[2]};
   width: 100%;
   height: 100%;
+  max-width: ${breakPoints[5]};
 `;
 
 const ChildWrapper = styled.div`
@@ -43,25 +49,31 @@ const ChildWrapper = styled.div`
 
 `;
 
+
 const Main = styled("main")`
-  width: 80vw;
   display: flex;
   flex-direction: row;
   justify-content: space-between;
+<<<<<<< HEAD
   padding: 0 15px 95px 15px;
   @media (max-width: 767px) {
     overflow: scroll;
     width: 100%;
+=======
+  background: white;
+  height: fit-content;
+  margin-top: 6rem;
+  box-sizing: border-box;
+  min-height: calc(100% - 3.75rem);
+  margin-left: 0;
+  @media (min-width: ${breakPoints[2]}) {
+    margin-left: 14rem;
+    margin-top: 3.75rem;
   }
-`;
-
-const ContentContainer = styled.div`
-  min-height: 90vh;
-  display: flex;
-  width: 100%;
-  @media (max-width: 1024px) {
-    min-height: 94vh;
-}
+  @media (min-width: ${breakPoints[4]}) {
+    margin-left: 19.25rem;
+>>>>>>> Adds mobile progress tracker
+  }
 `;
 
 const ButtonContainer = styled.div`
@@ -80,6 +92,7 @@ const ButtonContainer = styled.div`
 
 /* There must be an entry for each of these in indexToSessionStorageKeys
     of progress-tracker.tsx */
+
 const LINKSPATH = [
   {path: "/", label: "HOME"},
   {path: "/prescreen-1a/", label: "BACKGROUND"},
@@ -91,90 +104,97 @@ const LINKSPATH = [
   // {path: "/screen-2c/", label: "TAKE ACTION"}
 ]
 
-const Layout = ({ children }) => (
-  <StaticQuery
-    query={graphql`
-      query SiteTitleQuery {
-        site {
-          siteMetadata {
-            title
-            author
+const Layout = ({ children }) => {
+  const windowWidth = useWindowWidth();
+
+  return (
+    <StaticQuery
+      query={graphql`
+        query SiteTitleQuery {
+          site {
+            siteMetadata {
+              title
+              author
+            }
           }
         }
-      }
-    `}
-    render={data => (
-      <Wrapper>
-      <Header />
+        `}
+        render={data => (
+          <Wrapper>
+            <link href="https://fonts.googleapis.com/css?family=Merriweather|Montserrat&display=swap" rel="stylesheet"/>
+            <Header />
 
-      <Container>
-      <link href="https://fonts.googleapis.com/css?family=Merriweather|Montserrat&display=swap" rel="stylesheet"/>
-      <ContentContainer>
-        <Location>
-          {({ location }) => (
-            <ProgressTracker
-              linkProps={LINKSPATH}
-              activePath={location.pathname}
-            />
-          )}
-        </Location>
-        <Main id='child-wrapper'>
-          <UserStateManager>
-            {/* TODO test out this provider */}
-            <QuestionProvider>
-              <ChildWrapper>
-                {children}
-              </ChildWrapper>
-            </QuestionProvider>
-          </UserStateManager>
-        </Main>
-      </ContentContainer>
-      </Container>
+            <Container>
+                <Location>
+                  {({ location }) => windowWidth >= breakPoint ? (
+                    <ProgressTracker
+                      activePath={location.pathname}
+                      linkProps={LINKSPATH}
+                    />
+                  ) : (
+                    <ProgressTrackerMobile
+                      activePath={location.pathname}
+                      linkProps={LINKSPATH}
+                    />
+                  )}
+                </Location>
+                <Main id='child-wrapper'>
+                  <UserStateManager>
+                    {/* TODO test out this provider */}
+                    <QuestionProvider>
+                      <ChildWrapper>
+                        {children}
+                      </ChildWrapper>
+                    </QuestionProvider>
+                  </UserStateManager>
+                </Main>
+            </Container>
 
-        <Footer>
-        <Location>
-        {({ location }) => {
-          const index = LINKSPATH.findIndex(path => path.path === location.pathname)
-          if(location.pathname === "/print/"){
-            return (
-              <ButtonContainer>
-              <ButtonLinkGreen to="/screen-2/">Return to Results</ButtonLinkGreen>
-              <ButtonLink to="/screen-2a/">Continue to Benefit Formula</ButtonLink>
-              </ButtonContainer>
-            )
-          }
-          if(index === -1){
-            return null;
-          }
-          if(index === LINKSPATH.length -1){
-            return (
-              <ButtonContainer>
-              <ButtonLinkGreen to={LINKSPATH[index -1].path}>
-              {`Previous: ${LINKSPATH[index -1].label[0] + LINKSPATH[index -1].label.slice(1).toLowerCase()}`}
-              </ButtonLinkGreen>
-              <ButtonLink to="/">Go Home</ButtonLink>
-              </ButtonContainer>
-            )
-          }
-          if(index === 0 ){
-            return (
-              <ButtonContainer>
-              <ButtonLink to="/prescreen-1a/">Get Started</ButtonLink>
-              </ButtonContainer>
-            )
-          }
-          return (
-            <ButtonContainer>
-            <ButtonLinkGreen to={LINKSPATH[index -1].path}>{`Previous: ${LINKSPATH[index -1].label[0] + LINKSPATH[index -1].label.slice(1).toLowerCase()}`}</ButtonLinkGreen>
-            <ButtonLink to={LINKSPATH[index +1].path}>{`Next: ${LINKSPATH[index +1].label[0] + LINKSPATH[index +1].label.slice(1).toLowerCase()}` }</ButtonLink>
-            </ButtonContainer>
-          )
-        }}
-        </Location>
+            <Footer>
+          <Location>
+            {({ location }) => {
+              const index = LINKSPATH.findIndex(path => path.path === location.pathname)
+              if(location.pathname === "/print/"){
+                return (
+                  <ButtonContainer>
+                  <ButtonLinkGreen to="/screen-2/">Return to Results</ButtonLinkGreen>
+                  <ButtonLink to="/screen-2a/">Continue to Benefit Formula</ButtonLink>
+                  </ButtonContainer>
+                )
+              }
+              if(index === -1){
+                return null;
+              }
+              if(index === LINKSPATH.length -1){
+                return (
+                  <ButtonContainer>
+                  <ButtonLinkGreen to={LINKSPATH[index -1].path}>
+                  {`Previous: ${LINKSPATH[index -1].label[0] + LINKSPATH[index -1].label.slice(1).toLowerCase()}`}
+                  </ButtonLinkGreen>
+                  <ButtonLink to="/">Go Home</ButtonLink>
+                  </ButtonContainer>
+                )
+              }
+              if(index === 0 ){
+                return (
+                  <ButtonContainer>
+                  <ButtonLink to="/prescreen-1a/">Get Started</ButtonLink>
+                  </ButtonContainer>
+                )
+              }
+              return (
+                <ButtonContainer>
+                <ButtonLinkGreen to={LINKSPATH[index -1].path}>{`Previous: ${LINKSPATH[index -1].label[0] + LINKSPATH[index -1].label.slice(1).toLowerCase()}`}</ButtonLinkGreen>
+                <ButtonLink to={LINKSPATH[index +1].path}>{`Next: ${LINKSPATH[index +1].label[0] + LINKSPATH[index +1].label.slice(1).toLowerCase()}` }</ButtonLink>
+                </ButtonContainer>
+              )
+            }}
+          </Location>
         </Footer>
       </Wrapper>
     )}
-  />
-);
+    />
+  )
+};
 
 export default Layout;
