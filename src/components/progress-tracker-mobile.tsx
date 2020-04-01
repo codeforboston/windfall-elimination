@@ -57,7 +57,7 @@ export const ProgressTrackerMobile = props => {
             fill="none"
             points="0,25 50,75 100,25"
             stroke={colors.gray}
-            stroke-width="15"
+            strokeWidth="15"
           />
         </IconSVG>
       </Wrapper>

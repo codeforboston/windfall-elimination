@@ -26,6 +26,7 @@ const Wrapper = styled("div")`
 `;
 
 const Container = styled("div")`
+  display: flex;
   font-family: 'Montserrat', sans-serif;
   min-height: 95vh;
   max-width: ${breakPoints[2]};
@@ -39,14 +40,6 @@ const ChildWrapper = styled.div`
   padding:  10px 10px 15px 10px;
   flex: 1 1 auto;
   min-width: 0;
-  display: flex;
-
-  @media (max-width: 767px) {
-    display: block;
-    margin: 10px;
-    padding: 0;
-  }
-
 `;
 
 
@@ -54,12 +47,6 @@ const Main = styled("main")`
   display: flex;
   flex-direction: row;
   justify-content: space-between;
-<<<<<<< HEAD
-  padding: 0 15px 95px 15px;
-  @media (max-width: 767px) {
-    overflow: scroll;
-    width: 100%;
-=======
   background: white;
   height: fit-content;
   margin-top: 6rem;
@@ -72,7 +59,6 @@ const Main = styled("main")`
   }
   @media (min-width: ${breakPoints[4]}) {
     margin-left: 19.25rem;
->>>>>>> Adds mobile progress tracker
   }
 `;
 
