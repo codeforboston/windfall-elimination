@@ -117,16 +117,16 @@ const Layout = ({ children }) => (
 
             const linkNext = LINKSPATH[index + 1];
             const linkPrev = LINKSPATH[index - 1];
-            const isPageFirst = index === 0;
-            const isPageLast = index === LINKSPATH.length - 1;
+            const isOnPageFirst = index === 0;
+            const isOnPageLast = index === LINKSPATH.length - 1;
             let labelLeft, labelRight, urlLeft, urlRight;
-            let labelLeftMobile = isPageFirst ? "" : "PREV";
+            let labelLeftMobile = isOnPageFirst ? "" : "PREV";
             let labelRightMobile = (
-              isPageFirst ? "START" : isPageLast ? "HOME" : "NEXT"
+              isOnPageFirst ? "START" : isOnPageLast ? "HOME" : "NEXT"
             );
 
             if (index === -1) return null;
-            if (isPageFirst) {
+            if (isOnPageFirst) {
               labelLeft = "";
               labelRight = "Get Started";
               urlLeft = "";
@@ -136,7 +136,7 @@ const Layout = ({ children }) => (
               labelRight = "Continue to Benefit Formula";
               urlLeft = "/screen-2/";
               urlRight = "/screen-2a/";
-            } else if (isPageLast) {
+            } else if (isOnPageLast) {
               labelLeft = `Previous: ${linkPrev.label}`;
               labelRight = "Go Home";
               urlLeft = linkPrev.path;
@@ -150,7 +150,7 @@ const Layout = ({ children }) => (
 
             return (
               <Fragment>
-                {(!isPageFirst) && (
+                {(!isOnPageFirst) && (
                   <ButtonLink
                     labelMobile={labelLeftMobile}
                     to={urlLeft}
