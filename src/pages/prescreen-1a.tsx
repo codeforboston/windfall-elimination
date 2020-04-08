@@ -50,7 +50,7 @@ class Prescreen1a extends React.Component<Prescreen1aProps, Prescreen1aState> {
 
   async handleDateChange(name, value) {
     const {userStateActions} = this.props
-    if (name === "birthDatePicked") {
+    if (value && name === "birthDatePicked") {
       userStateActions.setBirthDate(value)
 
       var year62 = new Date(value).getFullYear() + 62;
