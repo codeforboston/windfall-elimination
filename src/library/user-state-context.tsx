@@ -17,6 +17,17 @@ export enum PensionEnum {
   NONEOFABOVE = "NONEOFABOVE"
 }
 
+export enum FutureEarningsEnum {
+  TREND = "TRENDPREDICTION",
+  MANUAL = "MANUALPREDICTION",
+}
+
+export enum FutureTrendEnum {
+  INTERMEDIATE = "INTERMEDIATE",
+  LOW = "LOW",
+  HIGH = "HIGH"
+}
+
 // Calculated results for the user
 export interface UserProfile {
   'Standard PIA': string
@@ -45,6 +56,8 @@ export interface UserState {
   pensionAmount: number | null
   pensionDateAwarded: Date | null
   userProfile: UserProfile | null
+  trendOrManualPrediction: FutureEarningsEnum | null
+  trendSelection: FutureTrendEnum | null
 }
 
 const UserStateContext = React.createContext<UserState | null>(null)
