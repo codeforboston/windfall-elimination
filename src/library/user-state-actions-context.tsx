@@ -3,8 +3,8 @@ import * as React from 'react'
 import {EarningsEnum, EarningsRecord, PensionEnum, UserProfile} from './user-state-context'
 
 export interface UserStateActions {
-  setBirthDate: (date: Date) => void
-  setRetireDate: (date: Date) => void
+  setBirthDate: (date: Date|null) => void
+  setRetireDate: (date: Date|null) => void
   setYear62: (year: number) => void
   setHaveEarnings: (hasEarnings: boolean) => void
   setEarnings: (earnings: EarningsRecord) => void

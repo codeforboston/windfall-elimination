@@ -77,20 +77,36 @@ export default function UserStateManager(props: UserStateManagerProps): JSX.Elem
     userProfile,
   }), [birthDate, earnings, earningsFormat, haveEarnings, haveSSAAccount, isEmploymentCovered, pensionAmount, pensionDateAwarded, pensionOrRetirementAccount, retireDate, userProfile, year62])
 
-  const actions: UserStateActions = useMemo(() => ({
-    setBirthDate: date => setBirthDate(startOfDay(date)),
-    setRetireDate: date => setRetireDate(startOfDay(date)),
-    setYear62,
-    setHaveEarnings,
-    setEarnings,
-    setEarningsFormat,
-    setHaveSSAAccount,
-    setIsEmploymentCovered,
-    setPensionOrRetirementAccount,
-    setPensionAmount,
-    setPensionDateAwarded,
-    setUserProfile,
-  }), [setBirthDate, setEarnings, setEarningsFormat, setHaveEarnings, setHaveSSAAccount, setIsEmploymentCovered, setPensionAmount, setPensionDateAwarded, setPensionOrRetirementAccount, setRetireDate, setUserProfile, setYear62])
+  const actions: UserStateActions = useMemo(
+    () => ({
+      setBirthDate: (date) => setBirthDate(date ? startOfDay(date) : null),
+      setRetireDate: (date) => setRetireDate(date ? startOfDay(date) : null),
+      setYear62,
+      setHaveEarnings,
+      setEarnings,
+      setEarningsFormat,
+      setHaveSSAAccount,
+      setIsEmploymentCovered,
+      setPensionOrRetirementAccount,
+      setPensionAmount,
+      setPensionDateAwarded,
+      setUserProfile,
+    }),
+    [
+      setBirthDate,
+      setEarnings,
+      setEarningsFormat,
+      setHaveEarnings,
+      setHaveSSAAccount,
+      setIsEmploymentCovered,
+      setPensionAmount,
+      setPensionDateAwarded,
+      setPensionOrRetirementAccount,
+      setRetireDate,
+      setUserProfile,
+      setYear62,
+    ]
+  );
 
   return (
     <UserStateContextProvider value={userState}>
