@@ -1,4 +1,4 @@
-import React, {useMemo} from 'react'
+import React, { useMemo } from 'react'
 import createPersistedState from 'use-persisted-state';
 import dayjs from 'dayjs'
 
@@ -10,7 +10,7 @@ import {
   PensionEnum,
   UserProfile
 } from './user-state-context'
-import {UserStateActions, UserStateActionsContextProvider} from './user-state-actions-context'
+import { UserStateActions, UserStateActionsContextProvider } from './user-state-actions-context'
 
 // Must use sessionStorage (not localStorage) or else it conflicts with other uses of sessionStorage within app
 const useBirthDateState = createPersistedState('BirthDate', global.sessionStorage);
@@ -45,7 +45,7 @@ interface UserStateManagerProps {
  * the user state and a set of actions to mutate that state, while persisting it to session storage.
  */
 export default function UserStateManager(props: UserStateManagerProps): JSX.Element {
-  const {children} = props
+  const { children } = props
   const [birthDate, setBirthDate] = useBirthDateState<Date | null>(null)
   const [retireDate, setRetireDate] = useRetireDateState<Date | null>(null)
   const [year62, setYear62] = useYear62State<number | null>(null)
@@ -62,9 +62,9 @@ export default function UserStateManager(props: UserStateManagerProps): JSX.Elem
   const userState: UserState = useMemo(() => ({
     birthDate: birthDate ? new Date(birthDate) : null,
     retireDate: retireDate ? new Date(retireDate) : null,
-    fullRetirementAge: (birthDate && retireDate) ? dayjs(retireDate).diff(birthDate, 'year', true): null,
-    fullRetirementAgeYearsOnly: (birthDate && retireDate) ? dayjs(retireDate).diff(birthDate, 'year', false): null,
-    fullRetirementAgeMonthsOnly: (birthDate && retireDate) ? dayjs(retireDate).diff(birthDate, 'month', false) % 12: null,
+    fullRetirementAge: (birthDate && retireDate) ? dayjs(retireDate).diff(birthDate, 'year', true) : null,
+    fullRetirementAgeYearsOnly: (birthDate && retireDate) ? dayjs(retireDate).diff(birthDate, 'year', false) : null,
+    fullRetirementAgeMonthsOnly: (birthDate && retireDate) ? dayjs(retireDate).diff(birthDate, 'month', false) % 12 : null,
     year62,
     haveEarnings,
     earnings,
