@@ -61,7 +61,7 @@ class Prescreen1a extends React.Component<Prescreen1aProps, Prescreen1aState> {
       this.setRetireDate(value, fullRetirementAge)
     } else if (value === null) {
       userStateActions.setBirthDate(null);
-      this.setRetireDate(null, null);
+      userStateActions.setRetireDate(null);
     }
   }
 
@@ -69,13 +69,10 @@ class Prescreen1a extends React.Component<Prescreen1aProps, Prescreen1aState> {
     const { userStateActions } = this.props
     /* dayjs cannot .add() fractional years that we put into the tables
        but only months, so let us use rounded months. */
-    if (dateOfBirth) {
       const retireAgeInRoundedMonths = Math.round(await retireAge * 12)
       var retireDate = dayjs(dateOfBirth).add(retireAgeInRoundedMonths, 'month').toDate()
       userStateActions.setRetireDate(retireDate)
-    } else {
-      userStateActions.setRetireDate(null)
-    }
+    
   }
 
   //TODO: remove the decimal years and display YY years and MM months.
