@@ -1,5 +1,4 @@
 import { ButtonLink } from "./button-link";
-import { ButtonLinkGreen } from "./button-link-red";
 import { Card } from "./card";
 import { Form } from "./form";
 import { Header } from "./header";
@@ -30,7 +29,6 @@ import { WarningBox }  from "./warning-box";
 
 export {
     ButtonLink,
-    ButtonLinkGreen,
     Card,
     Form,
     Header,
@@ -53,7 +51,7 @@ export {
     UnorderedList,
     ListItem,
     TextBlockHeader,
-    HamburgerHelper, 
+    HamburgerHelper,
     InfoWidget,
     PrintButton,
     RadioButton,
@@ -62,6 +60,6 @@ export {
     AnswerInput,
     AnswerInputDiscouragePlaceholder,
     Glossary,
-    Footer, 
+    Footer,
     WarningBox,
 };
