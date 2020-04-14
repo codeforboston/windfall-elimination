@@ -215,7 +215,7 @@ the red box in the photo below.</ol>
               <HowToContainer>
                 <Card>
                   <H2>HOW-TO</H2>
-                  <h3>Request a copy of your earnings report through the mail</h3>
+                  <H3>Request a copy of your earnings report through the mail</H3>
                   <TextBlock>
                     We cannot estimate your WEP without a copy of your earnings record.
                     The How-to’s below will tell you how to get your earnings record through the mail, or by signing up for a MySocialSecurity account online.
@@ -225,7 +225,7 @@ the red box in the photo below.</ol>
               <HowToContainer>
                 <Card>
                   <H2>HOW-TO</H2>
-                  <Link href="https://secure.ssa.gov/RIL/SiView.action">Signup or login to your online account at MySocialSecurity</Link>
+                  <Link href="https://secure.ssa.gov/RIL/SiView.action"><H3>Signup or login to your online account at MySocialSecurity</H3></Link>
                 </Card>
               </HowToContainer>
             </> : null
