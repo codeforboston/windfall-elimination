@@ -11,6 +11,7 @@ const GlossaryContainer = styled.div`
   
   @media (max-width: 767px){
     width: 100%;
+    font-size: ${fontSizes[2]}
   }
 `;
 
@@ -21,15 +22,24 @@ const Term = styled.h5`
   font-size: 16px;
   overflow-wrap: break-word;
   margin: 0;
+  @media (max-width: 767px){
+    font-size: ${fontSizes[2]}
+  }
 `;
 const Explanation = styled.div`
   font-size: 16px;
   margin: 15px 0;
+    @media (max-width: 767px){
+    font-size: ${fontSizes[2]}
+  }
 `;
 const Link = styled.a`
   color: black;
   font-weight: 600;
   overflow-wrap: break-word;
+    @media (max-width: 767px){
+    font-size: ${fontSizes[2]}
+  }
 `;
 
 const ContentBox = styled.div`

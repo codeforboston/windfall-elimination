@@ -5,6 +5,8 @@ import "react-datepicker/dist/react-datepicker.css";
 import * as ObsFuncs from "../library/observable-functions";
 import { colors } from "../constants";
 import dayjs from "dayjs";
+import { fontSizes } from "../constants";
+
 
 import { UserState, useUserState } from '../library/user-state-context'
 import { UserStateActions, useUserStateActions } from '../library/user-state-actions-context'
@@ -32,7 +34,18 @@ const StyledDatePicker = styled(DatePicker)`
 
 const H4 = styled.h4`
 margin: 5px 0;
+
+@media (max-width: 767px) {
+  font-size: ${fontSizes[3]};
+}
 `
+const P = styled.p`
+@media (max-width: 767px) {
+  font-size: ${fontSizes[2]};
+}
+`
+
+
 
 interface Prescreen1aProps {
   userState: UserState
@@ -69,10 +82,10 @@ class Prescreen1a extends React.Component<Prescreen1aProps, Prescreen1aState> {
     const { userStateActions } = this.props
     /* dayjs cannot .add() fractional years that we put into the tables
        but only months, so let us use rounded months. */
-      const retireAgeInRoundedMonths = Math.round(await retireAge * 12)
-      var retireDate = dayjs(dateOfBirth).add(retireAgeInRoundedMonths, 'month').toDate()
-      userStateActions.setRetireDate(retireDate)
-    
+    const retireAgeInRoundedMonths = Math.round(await retireAge * 12)
+    var retireDate = dayjs(dateOfBirth).add(retireAgeInRoundedMonths, 'month').toDate()
+    userStateActions.setRetireDate(retireDate)
+
   }
 
   //TODO: remove the decimal years and display YY years and MM months.
@@ -121,7 +134,7 @@ class Prescreen1a extends React.Component<Prescreen1aProps, Prescreen1aState> {
         {retireDateYear && (
           <Card>
             <H4>Retirement Age</H4>
-            <p>
+            <P>
               Your Full Retirement Age (FRA) to collect Social Security
                   Benefits is {fullRetirementAgeYearsOnly} years
                   {fullRetirementAgeMonthsOnly
@@ -147,7 +160,7 @@ class Prescreen1a extends React.Component<Prescreen1aProps, Prescreen1aState> {
                 ) : (
                     ""
                   )}
-            </p>
+            </P>
           </Card>
         )}
       </div>
