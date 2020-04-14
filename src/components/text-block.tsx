@@ -3,18 +3,12 @@ import { fontSizes, colors } from "../constants";
 
 export const TextBlock = styled.div`
   font-family: 'Montserrat', sans-serif;
-  font-size: ${fontSizes[0]};
-  @media (max-width: 767px ) {
-    font-size: ${fontSizes[2]};
-  }
+  font-size: ${fontSizes[0]}
 `;
 
 export const H3 = styled.h3`
   font-family: 'Merriweather', serif;
   color: ${colors.purple};
-  @media (max-width: 767px){
-    font-size: ${fontSizes[2]};
-  }
 `;
 
 

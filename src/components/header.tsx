@@ -11,6 +11,12 @@ const Wrapper = styled("header")`
   font-family: 'Merriweather', serif;
 `;
 
+const H1 = styled.h1`
+  @media (max-width: 767px) {
+    font-size: 1rem;
+  }
+`
+
 const StyledLink = styled(Link)`
   color: white;
   text-decoration: none;
@@ -30,13 +36,13 @@ const ExtraLink = styled(Link)`
 
 export const Header = () => (
   <Wrapper>
-      <h1 style={{ margin: 0 }}>
+      <H1 style={{ margin: 0 }}>
         <StyledLink
           to="/"
         >
           Social Security Benefit Calculator
         </StyledLink>
-      </h1>
+      </H1>
       <ExtraLinks>
         <ExtraLink to="/about">About</ExtraLink>
         <ExtraLink to="/faq">FAQ</ExtraLink>

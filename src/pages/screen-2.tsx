@@ -35,9 +35,6 @@ const Flex = styled.div`
 const Text = styled.div`
   margin: 10px 5px 40px;
   font-size: ${fontSizes[1]};
-  @media (max-width: 767px) {
-    font-size: ${fontSizes[3]}
-  }
 `
 interface Screen2Props {
   userState: UserState

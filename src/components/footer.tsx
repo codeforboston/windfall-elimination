@@ -11,6 +11,10 @@ const Wrapper = styled("footer")`
   position: fixed;
   bottom: 0;
   min-width: 760px;
+  @media (max-width: 767px) {
+    min-width: unset;
+    justify-content: flex-end;
+  }
 `;
 
 type Props = {

@@ -64,6 +64,7 @@ const StyledStepContainer = styled("div")`
   @media (max-width: 767px) {
     width: 100%;
     min-height: auto;
+    padding: 10px 0;
   }
   @media (min-width: 768px) and (max-width: 1024px) {
     min-height: 60vh;

@@ -9,7 +9,6 @@ export const QuestionText = styled("h1")`
   
   @media (max-width: 767px){
     width: 100%;
-    font-size: ${fontSizes[3]};
   }
 
   /*
