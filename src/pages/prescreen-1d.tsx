@@ -16,7 +16,7 @@ import {
   Glossary,
   AnswerInputDiscouragePlaceholder
 } from "../components";
-import {FutureTrendEnum, useUserState, UserState} from '../library/user-state-context'
+import {FutureAWIPredictionEnum, FutureAWITrendEnum, useUserState, UserState} from '../library/user-state-context'
 import {useUserStateActions, UserStateActions} from '../library/user-state-actions-context'
 
 const StyledDatePicker = styled(DatePicker)`
@@ -55,38 +55,26 @@ margin-bottom: 75px;
 }
 `;
 
-interface Prescreen1cProps {
+interface Prescreen1dProps {
   userState: UserState
   userStateActions: UserStateActions
 }
 
-class Prescreen1c extends React.Component<Prescreen1cProps> {
-  handleDateAwardedChange = (value: Date) => {
-    const {userStateActions: {setPensionDateAwarded}} = this.props
-    setPensionDateAwarded(value)
-  }
-
+class Prescreen1d extends React.Component<Prescreen1dProps> {
   handleSelection = (e: React.ChangeEvent<HTMLInputElement>) => {
     const {
       userStateActions: {
-        setIsEmploymentCovered,
-        setPensionOrRetirementAccount,
-        setPensionAmount,
+        setAwiTrendOrManualPrediction,
+        setAwiTrendSelection
       }
     } = this.props
     const selectValueString = e.target.value;
     switch (e.target.name) {
-      case "coveredEmployment":
-        const isCovered = selectValueString === 'true'
-        setIsEmploymentCovered(isCovered)
+      case "awiTrendOrManualPrediction":
+        setAwiTrendOrManualPrediction(selectValueString as FutureAWIPredictionEnum)
         break;
-      case "pensionOrRetirementAccount":
-        setPensionOrRetirementAccount(selectValueString as FutureTrendEnum)
-        break;
-      case "pensionAmount":
-        const pensionAmount = parseFloat(e.target.value)
-        if (!isNaN(pensionAmount) && pensionAmount > 0) setPensionAmount(pensionAmount)
-        else setPensionAmount(0)
+      case "awiTrendSelection":
+        setAwiTrendSelection(selectValueString as FutureAWITrendEnum)
         break;
     }
   }
@@ -94,10 +82,10 @@ class Prescreen1c extends React.Component<Prescreen1cProps> {
   render() {
     const {
       userState: {
-        isEmploymentCovered,
         pensionDateAwarded,
         pensionAmount,
-        pensionOrRetirementAccount
+        awiTrendOrManualPrediction,
+        awiTrendSelection
       }
     } = this.props
     return (
@@ -116,20 +104,20 @@ class Prescreen1c extends React.Component<Prescreen1cProps> {
               <AnswerBox>
                 <RadioButton
                   type="radio"
-                  name="coveredEmployment"
-                  value="true"
-                  checked={isEmploymentCovered === true}
+                  name="awiTrendOrManualPrediction"
+                  value={FutureAWIPredictionEnum.TREND}
                   onChange={this.handleSelection}
+                  checked={awiTrendOrManualPrediction === FutureAWIPredictionEnum.TREND}
                 />
                 <LabelText>Use Economic Trends</LabelText>
               </AnswerBox>
               <AnswerBox>
                 <RadioButton
                   type="radio"
-                  name="coveredEmployment"
-                  value="false"
-                  checked={isEmploymentCovered === false}
+                  name="awiTrendOrManualPrediction"
+                  value={FutureAWIPredictionEnum.MANUAL}
                   onChange={this.handleSelection}
+                  checked={awiTrendOrManualPrediction === FutureAWIPredictionEnum.MANUAL}
                 />
                 <LabelText>Predict it myself</LabelText>
               </AnswerBox>
@@ -146,22 +134,22 @@ class Prescreen1c extends React.Component<Prescreen1cProps> {
           will not show up on a Social Security record.
         </Glossary>
             </CardGlossaryContainer>
-            {isEmploymentCovered && (
+            {awiTrendOrManualPrediction && (
             <CardGlossaryContainer>
               <Card>
                 <QuestionText>
                 Which trend would you like to use to predict your future earnings?
                 </QuestionText>
                 <AnswerBox>
-                  <RadioButton type="radio" name="predicttyp" value={FutureTrendEnum.INTERMEDIATE} onChange={this.handleSelection} checked={pensionOrRetirementAccount === FutureTrendEnum.INTERMEDIATE} />
+                  <RadioButton type="radio" name="isLowIntOrHigh" value={FutureAWITrendEnum.INTERMEDIATE} onChange={this.handleSelection} checked={isLowIntOrHigh === FutureAWITrendEnum.INTERMEDIATE} />
                   <LabelText>Int (Between Low and High)</LabelText>
                 </AnswerBox>
                 <AnswerBox>
-                  <RadioButton type="radio" name="pensionOrRetirementAccount" value={FutureTrendEnum.LOW} onChange={this.handleSelection} checked={pensionOrRetirementAccount === FutureTrendEnum.LOW} />
+                  <RadioButton type="radio" name="isLowIntOrHigh" value={FutureAWITrendEnum.LOW} onChange={this.handleSelection} checked={isLowIntOrHigh === FutureAWITrendEnum.LOW} />
                   <LabelText>Low (Economy doesn’t go well)</LabelText>
                 </AnswerBox>
                 <AnswerBox>
-                  <RadioButton type="radio" name="pensionOrRetirementAccount" value={FutureTrendEnum.HIGH} onChange={this.handleSelection} checked={pensionOrRetirementAccount === FutureTrendEnum.HIGH} />
+                  <RadioButton type="radio" name="isLowIntOrHigh" value={FutureAWITrendEnum.HIGH} onChange={this.handleSelection} checked={isLowIntOrHigh === FutureAWITrendEnum.HIGH} />
                   <LabelText>High (Economy goes well)</LabelText>
                 </AnswerBox>
               </Card>
@@ -174,7 +162,7 @@ class Prescreen1c extends React.Component<Prescreen1cProps> {
               </Glossary>
             </CardGlossaryContainer>
             )}
-            {isEmploymentCovered &&  pensionOrRetirementAccount && pensionOrRetirementAccount !== FutureTrendEnum.HIGH && (
+            {awiTrendOrManualPrediction && isLowIntOrHigh && (
               <>
               <Card>
                 <label>
@@ -189,7 +177,7 @@ class Prescreen1c extends React.Component<Prescreen1cProps> {
                   ></AnswerInputDiscouragePlaceholder>
                 </label>
               </Card>
-              {pensionOrRetirementAccount === FutureTrendEnum.LOW && (
+              {awiTrendOrManualPrediction === FutureAWITrendEnum.LOW && (
                 <Card>
                     <QuestionText>
                       Please enter the date you become eligible to start withdrawing from the your retirement account without penalty.
@@ -211,8 +199,8 @@ class Prescreen1c extends React.Component<Prescreen1cProps> {
   }
 }
 
-export default function Prescreen1cWrapper(): JSX.Element {
+export default function Prescreen1dWrapper(): JSX.Element {
   const userState = useUserState()
   const userStateActions = useUserStateActions()
-  return <Prescreen1c userState={userState} userStateActions={userStateActions} />
+  return <Prescreen1d userState={userState} userStateActions={userStateActions} />
 }
