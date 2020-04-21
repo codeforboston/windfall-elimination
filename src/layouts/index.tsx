@@ -12,15 +12,9 @@ import useWindowWidth from "../library/useWindowWidth";
 
 const breakPoint = Number(breakPoints[2].slice(0, -2));
 
-
 const Wrapper = styled("div")`
   display: block;
   overflow: hidden;
-
-  // TEMP: This ensures that mobile users can still scroll horizontally. Replace
-  // with "overflow: hidden" once UI is fully responsive. See #180. ~ RM
-  overflow-x: scroll;
-
   position: relative;
   display: flex;
   justify-center: center;
@@ -53,7 +47,7 @@ const Main = styled("main")`
   min-height: calc(100% - 3.75rem);
   margin-left: 0;
   width: 100%;
-  padding: 1rem;
+  padding: 1rem 1rem 5rem 1rem;
   @media (min-width: ${breakPoints[2]}) {
     --progress-tracker-width: 14rem;
     margin-left: var(--progress-tracker-width);
@@ -99,121 +93,100 @@ const Layout = ({ children }) => {
             }
           }
         }
-        `}
-        render={data => (
-          <Wrapper>
-            <link href="https://fonts.googleapis.com/css?family=Merriweather|Montserrat&display=swap" rel="stylesheet"/>
-            <Header />
+      `}
+      render={data => (
+        <Wrapper>
+          <link href="https://fonts.googleapis.com/css?family=Merriweather|Montserrat&display=swap" rel="stylesheet"/>
+          <Header />
 
-            <Container>
-                <Location>
-                  {({ location }) => windowWidth >= breakPoint ? (
-                    <ProgressTracker
-                      activePath={location.pathname}
-                      linkProps={LINKSPATH}
-                    />
-                  ) : (
-                    <ProgressTrackerMobile
-                      activePath={location.pathname}
-                      linkProps={LINKSPATH}
-                    />
-                  )}
-                </Location>
-                <Main id='child-wrapper'>
-                  <UserStateManager>
-                    {/* TODO test out this provider */}
-                    <QuestionProvider>
-                      {children}
-                    </QuestionProvider>
-                  </UserStateManager>
-                </Main>
-            </Container>
-
-            <Footer>
-          <Location>
-            {({ location }) => (
-              <ProgressTracker
-                linkProps={LINKSPATH}
-                activePath={location.pathname}
-              />
-            )}
-          </Location>
-          <Main id='child-wrapper'>
-            <UserStateManager>
-              {/* TODO test out this provider */}
-              <QuestionProvider>
-                <ChildWrapper>
+          <Container>
+            <Location>
+              {({ location }) => windowWidth >= breakPoint ? (
+                <ProgressTracker
+                  activePath={location.pathname}
+                  linkProps={LINKSPATH}
+                />
+              ) : (
+                <ProgressTrackerMobile
+                  activePath={location.pathname}
+                  linkProps={LINKSPATH}
+                />
+              )}
+            </Location>
+            <Main id='child-wrapper'>
+              <UserStateManager>
+                {/* TODO test out this provider */}
+                <QuestionProvider>
                   {children}
-                </ChildWrapper>
-              </QuestionProvider>
-            </UserStateManager>
-          </Main>
-        </ContentContainer>
-        <Footer>
-        <Location>
-          {({ location }) => {
-            const index = LINKSPATH.findIndex(path => (
-              path.path === location.pathname
-            ));
+                </QuestionProvider>
+              </UserStateManager>
+            </Main>
+          </Container>
 
-            const linkNext = LINKSPATH[index + 1];
-            const linkPrev = LINKSPATH[index - 1];
-            const isOnPageFirst = index === 0;
-            const isOnPageLast = index === LINKSPATH.length - 1;
-            let labelLeft, labelRight, urlLeft, urlRight;
-            let labelLeftMobile = isOnPageFirst ? "" : "PREV";
-            let labelRightMobile = (
-              isOnPageFirst ? "START" : isOnPageLast ? "HOME" : "NEXT"
-            );
+          <Footer>
+            <Location>
+              {({ location }) => {
+                const index = LINKSPATH.findIndex(path => (
+                  path.path === location.pathname
+                ));
 
-            if (index === -1) return null;
-            if (isOnPageFirst) {
-              labelLeft = "";
-              labelRight = "Get Started";
-              urlLeft = "";
-              urlRight = "/prescreen-1a/";
-            } else if (location.pathname === "/print/") {
-              labelLeft = "Return to Results";
-              labelRight = "Continue to Benefit Formula";
-              urlLeft = "/screen-2/";
-              urlRight = "/screen-2a/";
-            } else if (isOnPageLast) {
-              labelLeft = `Previous: ${linkPrev.label}`;
-              labelRight = "Go Home";
-              urlLeft = linkPrev.path;
-              urlRight = "/";
-            } else {
-              labelLeft = `Previous: ${linkPrev.label}`;
-              labelRight = `Next: ${linkNext.label}`;
-              urlLeft = linkPrev.path;
-              urlRight = linkNext.path;
-            }
+                const linkNext = LINKSPATH[index + 1];
+                const linkPrev = LINKSPATH[index - 1];
+                const isOnPageFirst = index === 0;
+                const isOnPageLast = index === LINKSPATH.length - 1;
+                let labelLeft, labelRight, urlLeft, urlRight;
+                let labelLeftMobile = isOnPageFirst ? "" : "PREV";
+                let labelRightMobile = (
+                  isOnPageFirst ? "START" : isOnPageLast ? "HOME" : "NEXT"
+                );
 
-            return (
-              <Fragment>
-                {(!isOnPageFirst) && (
-                  <ButtonLink
-                    labelMobile={labelLeftMobile}
-                    to={urlLeft}
-                  >
-                    {labelLeft}
-                  </ButtonLink>
-                )}
-                <ButtonLink
-                  isRightmost
-                  labelMobile={labelRightMobile}
-                  to={urlRight}
-                >
-                  {labelRight}
-                </ButtonLink>
-              </Fragment>
-            );
-          }}
-        </Location>
->>>>>>> 89afe346e5a91b219b058e067d720e4fcc2aae95
-        </Footer>
+                if (index === -1) return null;
+                if (isOnPageFirst) {
+                  labelLeft = "";
+                  labelRight = "Get Started";
+                  urlLeft = "";
+                  urlRight = "/prescreen-1a/";
+                } else if (location.pathname === "/print/") {
+                  labelLeft = "Return to Results";
+                  labelRight = "Continue to Benefit Formula";
+                  urlLeft = "/screen-2/";
+                  urlRight = "/screen-2a/";
+                } else if (isOnPageLast) {
+                  labelLeft = `Previous: ${linkPrev.label}`;
+                  labelRight = "Go Home";
+                  urlLeft = linkPrev.path;
+                  urlRight = "/";
+                } else {
+                  labelLeft = `Previous: ${linkPrev.label}`;
+                  labelRight = `Next: ${linkNext.label}`;
+                  urlLeft = linkPrev.path;
+                  urlRight = linkNext.path;
+                }
+
+                return (
+                  <Fragment>
+                    {(!isOnPageFirst) && (
+                      <ButtonLink
+                        labelMobile={labelLeftMobile}
+                        to={urlLeft}
+                      >
+                        {labelLeft}
+                      </ButtonLink>
+                    )}
+                    <ButtonLink
+                      isRightmost
+                      labelMobile={labelRightMobile}
+                      to={urlRight}
+                    >
+                      {labelRight}
+                    </ButtonLink>
+                  </Fragment>
+                );
+              }}
+            </Location>
+          </Footer>
       </Wrapper>
-    )}
+      )}
     />
   )
 };
