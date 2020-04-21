@@ -37,6 +37,7 @@ const Wrapper = styled("header")`
   position: fixed;
   top: 0;
   width: 100%;
+  z-index: 1;
   @media screen and (min-width: ${breakPoints[2]}) {
     height: 3.75rem;
   }

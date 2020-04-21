@@ -35,14 +35,6 @@ const Container = styled("div")`
   max-width: ${breakPoints[5]};
 `;
 
-const ChildWrapper = styled.div`
-  margin:  10px 70px 15px 30px;
-  padding:  10px 10px 15px 10px;
-  flex: 1 1 auto;
-  min-width: 0;
-`;
-
-
 const Main = styled("main")`
   display: flex;
   flex-direction: row;
@@ -53,12 +45,22 @@ const Main = styled("main")`
   box-sizing: border-box;
   min-height: calc(100% - 3.75rem);
   margin-left: 0;
+  width: 100%;
+  padding: 1rem;
   @media (min-width: ${breakPoints[2]}) {
-    margin-left: 14rem;
+    --progress-tracker-width: 14rem;
+    margin-left: var(--progress-tracker-width);
     margin-top: 3.75rem;
+    padding: 2rem;
+    width: calc(100% - var(--progress-tracker-width));
+  }
+  @media (min-width: ${breakPoints[3]}) {
+    padding: 3rem;
   }
   @media (min-width: ${breakPoints[4]}) {
-    margin-left: 19.25rem;
+    --progress-tracker-width: 19.25rem;
+    margin-left: var(--progress-tracker-width);
+    width: calc(100% - var(--progress-tracker-width));
   }
 `;
 
@@ -88,7 +90,7 @@ const LINKSPATH = [
   {path: "/screen-2a/", label: "BENEFIT FORMULA"},
   // {path: "/screen-2b/", label: "OVERPAYMENT"},
   // {path: "/screen-2c/", label: "TAKE ACTION"}
-]
+];
 
 const Layout = ({ children }) => {
   const windowWidth = useWindowWidth();
@@ -128,9 +130,7 @@ const Layout = ({ children }) => {
                   <UserStateManager>
                     {/* TODO test out this provider */}
                     <QuestionProvider>
-                      <ChildWrapper>
-                        {children}
-                      </ChildWrapper>
+                      {children}
                     </QuestionProvider>
                   </UserStateManager>
                 </Main>
