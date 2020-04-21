@@ -1,8 +1,8 @@
-import React from "react";
+import React, { Fragment } from "react";
 import styled from "@emotion/styled";
 import { StaticQuery, graphql } from "gatsby";
 import { Location } from "@reach/router";
-import { Header, QuestionProvider, Footer, ButtonLink, ButtonLinkGreen } from "../components";
+import { Header, QuestionProvider, Footer, ButtonLink } from "../components";
 import "./layout.css";
 import { ProgressTracker } from "../components/progress-tracker";
 import { ProgressTrackerMobile} from "../components/progress-tracker-mobile";
@@ -12,8 +12,15 @@ import useWindowWidth from "../library/useWindowWidth";
 
 const breakPoint = Number(breakPoints[2].slice(0, -2));
 
+
 const Wrapper = styled("div")`
   display: block;
+  overflow: hidden;
+
+  // TEMP: This ensures that mobile users can still scroll horizontally. Replace
+  // with "overflow: hidden" once UI is fully responsive. See #180. ~ RM
+  overflow-x: scroll;
+
   position: relative;
   display: flex;
   justify-center: center;
@@ -61,20 +68,6 @@ const Main = styled("main")`
     --progress-tracker-width: 19.25rem;
     margin-left: var(--progress-tracker-width);
     width: calc(100% - var(--progress-tracker-width));
-  }
-`;
-
-const ButtonContainer = styled.div`
-  margin: 10px auto 10px 20vw;
-  @media (max-width: 1024px) {
-    display: flex;
-    width: 100%;
-    margin: 10px 10px 10px 21.5vw;
-  }
-  @media (max-width: 768px) {
-    display: flex;
-    width: 100vw;
-    margin: 10px 10px 10px 28.5vw;
   }
 `;
 
@@ -138,44 +131,86 @@ const Layout = ({ children }) => {
 
             <Footer>
           <Location>
-            {({ location }) => {
-              const index = LINKSPATH.findIndex(path => path.path === location.pathname)
-              if(location.pathname === "/print/"){
-                return (
-                  <ButtonContainer>
-                  <ButtonLinkGreen to="/screen-2/">Return to Results</ButtonLinkGreen>
-                  <ButtonLink to="/screen-2a/">Continue to Benefit Formula</ButtonLink>
-                  </ButtonContainer>
-                )
-              }
-              if(index === -1){
-                return null;
-              }
-              if(index === LINKSPATH.length -1){
-                return (
-                  <ButtonContainer>
-                  <ButtonLinkGreen to={LINKSPATH[index -1].path}>
-                  {`Previous: ${LINKSPATH[index -1].label[0] + LINKSPATH[index -1].label.slice(1).toLowerCase()}`}
-                  </ButtonLinkGreen>
-                  <ButtonLink to="/">Go Home</ButtonLink>
-                  </ButtonContainer>
-                )
-              }
-              if(index === 0 ){
-                return (
-                  <ButtonContainer>
-                  <ButtonLink to="/prescreen-1a/">Get Started</ButtonLink>
-                  </ButtonContainer>
-                )
-              }
-              return (
-                <ButtonContainer>
-                <ButtonLinkGreen to={LINKSPATH[index -1].path}>{`Previous: ${LINKSPATH[index -1].label[0] + LINKSPATH[index -1].label.slice(1).toLowerCase()}`}</ButtonLinkGreen>
-                <ButtonLink to={LINKSPATH[index +1].path}>{`Next: ${LINKSPATH[index +1].label[0] + LINKSPATH[index +1].label.slice(1).toLowerCase()}` }</ButtonLink>
-                </ButtonContainer>
-              )
-            }}
+            {({ location }) => (
+              <ProgressTracker
+                linkProps={LINKSPATH}
+                activePath={location.pathname}
+              />
+            )}
           </Location>
+          <Main id='child-wrapper'>
+            <UserStateManager>
+              {/* TODO test out this provider */}
+              <QuestionProvider>
+                <ChildWrapper>
+                  {children}
+                </ChildWrapper>
+              </QuestionProvider>
+            </UserStateManager>
+          </Main>
+        </ContentContainer>
+        <Footer>
+        <Location>
+          {({ location }) => {
+            const index = LINKSPATH.findIndex(path => (
+              path.path === location.pathname
+            ));
+
+            const linkNext = LINKSPATH[index + 1];
+            const linkPrev = LINKSPATH[index - 1];
+            const isOnPageFirst = index === 0;
+            const isOnPageLast = index === LINKSPATH.length - 1;
+            let labelLeft, labelRight, urlLeft, urlRight;
+            let labelLeftMobile = isOnPageFirst ? "" : "PREV";
+            let labelRightMobile = (
+              isOnPageFirst ? "START" : isOnPageLast ? "HOME" : "NEXT"
+            );
+
+            if (index === -1) return null;
+            if (isOnPageFirst) {
+              labelLeft = "";
+              labelRight = "Get Started";
+              urlLeft = "";
+              urlRight = "/prescreen-1a/";
+            } else if (location.pathname === "/print/") {
+              labelLeft = "Return to Results";
+              labelRight = "Continue to Benefit Formula";
+              urlLeft = "/screen-2/";
+              urlRight = "/screen-2a/";
+            } else if (isOnPageLast) {
+              labelLeft = `Previous: ${linkPrev.label}`;
+              labelRight = "Go Home";
+              urlLeft = linkPrev.path;
+              urlRight = "/";
+            } else {
+              labelLeft = `Previous: ${linkPrev.label}`;
+              labelRight = `Next: ${linkNext.label}`;
+              urlLeft = linkPrev.path;
+              urlRight = linkNext.path;
+            }
+
+            return (
+              <Fragment>
+                {(!isOnPageFirst) && (
+                  <ButtonLink
+                    labelMobile={labelLeftMobile}
+                    to={urlLeft}
+                  >
+                    {labelLeft}
+                  </ButtonLink>
+                )}
+                <ButtonLink
+                  isRightmost
+                  labelMobile={labelRightMobile}
+                  to={urlRight}
+                >
+                  {labelRight}
+                </ButtonLink>
+              </Fragment>
+            );
+          }}
+        </Location>
+>>>>>>> 89afe346e5a91b219b058e067d720e4fcc2aae95
         </Footer>
       </Wrapper>
     )}

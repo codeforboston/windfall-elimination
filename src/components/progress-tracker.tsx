@@ -106,7 +106,7 @@ function ProgressTracker(props) {
       <StyledStep key={element + index} to={element.path} label={element.label} status={Math.sign(index - indexOfActivePath)}>
         <LabelWrap>
         {index==0 || index==4? null: checkMark(index, indexOfActivePath)}
-        <Label>{element.label}</Label>
+        <Label>{element.label.toUpperCase()}</Label>
         </LabelWrap>
       </StyledStep>
   ));
