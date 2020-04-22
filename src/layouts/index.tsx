@@ -49,11 +49,11 @@ const Main = styled("main")`
     --progress-tracker-width: 14rem;
     margin-left: var(--progress-tracker-width);
     margin-top: 3.75rem;
-    padding: 2rem;
+    padding: 2rem 2rem 5rem;
     width: calc(100% - var(--progress-tracker-width));
   }
   @media (min-width: ${breakPoints[3]}) {
-    padding: 3rem;
+    padding: 3rem 3rem 5rem;
   }
   @media (min-width: ${breakPoints[4]}) {
     --progress-tracker-width: 19.25rem;
