@@ -22,7 +22,7 @@ const useWindowWidth = () => {
   // environment.
   // See: stackoverflow.com/a/59278596
   const isBrowserEnvironment = typeof window !== "undefined"
-  const initialWindowWidth = isBrowserEnvironment ? window.innerWidth : 0
+  const initialWindowWidth = isBrowserEnvironment ? window.innerWidth : 1000
   const [windowWidth, setWindowWidth] = useState(initialWindowWidth)
   const isPausing = useRef(false)
 
