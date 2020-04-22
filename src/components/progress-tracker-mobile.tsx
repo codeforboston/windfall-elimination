@@ -1,7 +1,7 @@
 import React, { Fragment, useState } from "react";
 import styled from "@emotion/styled";
 import { Link } from "gatsby";
-import { colors } from "../constants";
+import { breakPoints, colors } from "../constants";
 
 // TODO: Add TypeScript. ~ RM
 // TODO: Add session storage. ~ RM
@@ -87,6 +87,9 @@ const Wrapper = styled.button`
   position: fixed;
   top: 3rem;
   width: 100%;
+  @media (min-width: ${breakPoints[2]}) {
+    display: none;
+  }
 `;
 
 const Circle = styled.div`

@@ -1,24 +1,16 @@
 import styled from "@emotion/styled";
 import { Link } from "gatsby";
 import { breakPoints, colors } from "../constants";
-import useWindowWidth from "../library/useWindowWidth";
 
-export const Header = () => {
-  const windowWidth = useWindowWidth();
-  const breakPoint = Number(breakPoints[3].slice(0, -2));
-
-  return (
-    <Wrapper>
-      <Heading to="/"> Social Security Benefit Calculator </Heading>
-      {windowWidth >= breakPoint && (
-        <ExtraLinks>
-          <ExtraLink activeClassName="active" to="/about"> About </ExtraLink>
-          <ExtraLink activeClassName="active" to="/faq"> FAQ </ExtraLink>
-        </ExtraLinks>
-      )}
-    </Wrapper>
-  )
-};
+export const Header = () => (
+  <Wrapper>
+    <Heading to="/"> Social Security Benefit Calculator </Heading>
+    <ExtraLinks>
+      <ExtraLink activeClassName="active" to="/about"> About </ExtraLink>
+      <ExtraLink activeClassName="active" to="/faq"> FAQ </ExtraLink>
+    </ExtraLinks>
+  </Wrapper>
+)
 
 const Wrapper = styled("header")`
   --excess-width: calc(100% - var(--global-container-max-width));
@@ -68,10 +60,13 @@ const Heading = styled(Link)`
 `;
 
 const ExtraLinks = styled.div`
-  display: flex;
+  display: none;
   justify-content: space-between;
   margin-left: var(--spacing-horizontal);
   width: 11.25rem;
+  @media (min-width: ${breakPoints[3]}) {
+    display: flex;
+  }
 `;
 
 const ExtraLink = styled(Link)`

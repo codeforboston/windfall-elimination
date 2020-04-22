@@ -8,9 +8,6 @@ import { ProgressTracker } from "../components/progress-tracker";
 import { ProgressTrackerMobile} from "../components/progress-tracker-mobile";
 import UserStateManager from "../library/user-state-manager";
 import { breakPoints } from "../constants";
-import useWindowWidth from "../library/useWindowWidth";
-
-const breakPoint = Number(breakPoints[2].slice(0, -2));
 
 const Wrapper = styled("div")`
   display: block;
@@ -79,116 +76,113 @@ const LINKSPATH = [
   // {path: "/screen-2c/", label: "TAKE ACTION"}
 ];
 
-const Layout = ({ children }) => {
-  const windowWidth = useWindowWidth();
-
-  return (
-    <StaticQuery
-      query={graphql`
-        query SiteTitleQuery {
-          site {
-            siteMetadata {
-              title
-              author
-            }
+const Layout = ({ children }) => (
+  <StaticQuery
+    query={graphql`
+      query SiteTitleQuery {
+        site {
+          siteMetadata {
+            title
+            author
           }
         }
-      `}
-      render={data => (
-        <Wrapper>
-          <link href="https://fonts.googleapis.com/css?family=Merriweather|Montserrat&display=swap" rel="stylesheet"/>
-          <Header />
+      }
+    `}
+    render={data => (
+      <Wrapper>
+        <link href="https://fonts.googleapis.com/css?family=Merriweather|Montserrat&display=swap" rel="stylesheet"/>
+        <Header />
 
-          <Container>
-            <Location>
-              {({ location }) => windowWidth >= breakPoint ? (
+        <Container>
+          <Location>
+            {({ location }) => (
+              <>
                 <ProgressTracker
                   activePath={location.pathname}
                   linkProps={LINKSPATH}
                 />
-              ) : (
                 <ProgressTrackerMobile
                   activePath={location.pathname}
                   linkProps={LINKSPATH}
                 />
-              )}
-            </Location>
-            <Main id='child-wrapper'>
-              <UserStateManager>
-                {/* TODO test out this provider */}
-                <QuestionProvider>
-                  {children}
-                </QuestionProvider>
-              </UserStateManager>
-            </Main>
-          </Container>
+              </>
+            )}
+          </Location>
+          <Main id='child-wrapper'>
+            <UserStateManager>
+              {/* TODO test out this provider */}
+              <QuestionProvider>
+                {children}
+              </QuestionProvider>
+            </UserStateManager>
+          </Main>
+        </Container>
 
-          <Footer>
-            <Location>
-              {({ location }) => {
-                const index = LINKSPATH.findIndex(path => (
-                  path.path === location.pathname
-                ));
+        <Footer>
+          <Location>
+            {({ location }) => {
+              const index = LINKSPATH.findIndex(path => (
+                path.path === location.pathname
+              ));
 
-                const linkNext = LINKSPATH[index + 1];
-                const linkPrev = LINKSPATH[index - 1];
-                const isOnPageFirst = index === 0;
-                const isOnPageLast = index === LINKSPATH.length - 1;
-                let labelLeft, labelRight, urlLeft, urlRight;
-                let labelLeftMobile = isOnPageFirst ? "" : "PREV";
-                let labelRightMobile = (
-                  isOnPageFirst ? "START" : isOnPageLast ? "HOME" : "NEXT"
-                );
+              const linkNext = LINKSPATH[index + 1];
+              const linkPrev = LINKSPATH[index - 1];
+              const isOnPageFirst = index === 0;
+              const isOnPageLast = index === LINKSPATH.length - 1;
+              let labelLeft, labelRight, urlLeft, urlRight;
+              let labelLeftMobile = isOnPageFirst ? "" : "PREV";
+              let labelRightMobile = (
+                isOnPageFirst ? "START" : isOnPageLast ? "HOME" : "NEXT"
+              );
 
-                if (index === -1) return null;
-                if (isOnPageFirst) {
-                  labelLeft = "";
-                  labelRight = "Get Started";
-                  urlLeft = "";
-                  urlRight = "/prescreen-1a/";
-                } else if (location.pathname === "/print/") {
-                  labelLeft = "Return to Results";
-                  labelRight = "Continue to Benefit Formula";
-                  urlLeft = "/screen-2/";
-                  urlRight = "/screen-2a/";
-                } else if (isOnPageLast) {
-                  labelLeft = `Previous: ${linkPrev.label}`;
-                  labelRight = "Go Home";
-                  urlLeft = linkPrev.path;
-                  urlRight = "/";
-                } else {
-                  labelLeft = `Previous: ${linkPrev.label}`;
-                  labelRight = `Next: ${linkNext.label}`;
-                  urlLeft = linkPrev.path;
-                  urlRight = linkNext.path;
-                }
+              if (index === -1) return null;
+              if (isOnPageFirst) {
+                labelLeft = "";
+                labelRight = "Get Started";
+                urlLeft = "";
+                urlRight = "/prescreen-1a/";
+              } else if (location.pathname === "/print/") {
+                labelLeft = "Return to Results";
+                labelRight = "Continue to Benefit Formula";
+                urlLeft = "/screen-2/";
+                urlRight = "/screen-2a/";
+              } else if (isOnPageLast) {
+                labelLeft = `Previous: ${linkPrev.label}`;
+                labelRight = "Go Home";
+                urlLeft = linkPrev.path;
+                urlRight = "/";
+              } else {
+                labelLeft = `Previous: ${linkPrev.label}`;
+                labelRight = `Next: ${linkNext.label}`;
+                urlLeft = linkPrev.path;
+                urlRight = linkNext.path;
+              }
 
-                return (
-                  <Fragment>
-                    {(!isOnPageFirst) && (
-                      <ButtonLink
-                        labelMobile={labelLeftMobile}
-                        to={urlLeft}
-                      >
-                        {labelLeft}
-                      </ButtonLink>
-                    )}
+              return (
+                <Fragment>
+                  {(!isOnPageFirst) && (
                     <ButtonLink
-                      isRightmost
-                      labelMobile={labelRightMobile}
-                      to={urlRight}
+                      labelMobile={labelLeftMobile}
+                      to={urlLeft}
                     >
-                      {labelRight}
+                      {labelLeft}
                     </ButtonLink>
-                  </Fragment>
-                );
-              }}
-            </Location>
-          </Footer>
-      </Wrapper>
-      )}
-    />
-  )
-};
+                  )}
+                  <ButtonLink
+                    isRightmost
+                    labelMobile={labelRightMobile}
+                    to={urlRight}
+                  >
+                    {labelRight}
+                  </ButtonLink>
+                </Fragment>
+              );
+            }}
+          </Location>
+        </Footer>
+    </Wrapper>
+    )}
+  />
+);
 
 export default Layout;
