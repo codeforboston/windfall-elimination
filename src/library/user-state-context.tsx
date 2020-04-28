@@ -17,12 +17,12 @@ export enum PensionEnum {
   NONEOFABOVE = "NONEOFABOVE"
 }
 
-export enum FutureAWIPredictionEnum {
+export enum FutureAwiPredictionEnum {
   TREND = "TREND",
-  MANUAL = "MANUAL",
+  MANUAL = "MANUAL"
 }
 
-export enum FutureAWITrendEnum {
+export enum FutureAwiTrendEnum {
   INTERMEDIATE = "INTERMEDIATE",
   LOW = "LOW",
   HIGH = "HIGH"
@@ -56,8 +56,8 @@ export interface UserState {
   pensionAmount: number | null
   pensionDateAwarded: Date | null
   userProfile: UserProfile | null
-  awiAwiTrendOrManualPrediction: FutureAWIPredictionEnum | null
-  awiTrendSelection: FutureAWITrendEnum | null
+  awiTrendOrManualPrediction: FutureAwiPredictionEnum | null
+  awiTrendSelection: FutureAwiTrendEnum | null
 }
 
 const UserStateContext = React.createContext<UserState | null>(null)

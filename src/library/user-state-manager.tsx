@@ -23,7 +23,8 @@ const usePensionOrRetirementAccountState = createPersistedState('pensionOrRetire
 const usePensionAmountState = createPersistedState('pensionAmount', global.sessionStorage)
 const usePensionDateAwarded = createPersistedState('dateAwarded', global.sessionStorage)
 const useUserProfile = createPersistedState('UserProfile', global.sessionStorage);
-
+const useAwiTrendOrManualPrediction = createPersistedState("awiTrendOrManualPrediction", global.sessionStorage);
+const useAwiTrendSelection = createPersistedState("awiTrendSelection", global.sessionStorage);
 
 // TODO The following should eventually be derived from the state values persisted to storage
 const useRetireDateState = createPersistedState('RetireDate', global.sessionStorage);
@@ -58,6 +59,8 @@ export default function UserStateManager(props: UserStateManagerProps): JSX.Elem
   const [pensionAmount, setPensionAmount] = usePensionAmountState<number | null>(null)
   const [pensionDateAwarded, setPensionDateAwarded] = usePensionDateAwarded<Date | null>(null)
   const [userProfile, setUserProfile] = useUserProfile<UserProfile | null>(null)
+  const [awiTrendOrManualPrediction, setAwiTrendOrManualPrediction] = useAwiTrendOrManualPrediction<FuturePredictionEnum | null>(null)
+  const [awiTrendSelection, setAwiTrendSelection] = useAwiTrendSelection<FutureTrendEnum | null>(null)
 
   const userState: UserState = useMemo(() => ({
     birthDate: birthDate ? new Date(birthDate) : null,
@@ -75,38 +78,26 @@ export default function UserStateManager(props: UserStateManagerProps): JSX.Elem
     pensionAmount,
     pensionDateAwarded,
     userProfile,
-  }), [birthDate, earnings, earningsFormat, haveEarnings, haveSSAAccount, isEmploymentCovered, pensionAmount, pensionDateAwarded, pensionOrRetirementAccount, retireDate, userProfile, year62])
+    awiTrendOrManualPrediction,
+    awiTrendSelection,
+  }), [birthDate, earnings, earningsFormat, haveEarnings, haveSSAAccount, isEmploymentCovered, pensionAmount, pensionDateAwarded, pensionOrRetirementAccount, retireDate, userProfile, year62, awiTrendOrManualPrediction, awiTrendSelection])
 
-  const actions: UserStateActions = useMemo(
-    () => ({
-      setBirthDate: (date) => setBirthDate(date ? startOfDay(date) : null),
-      setRetireDate: (date) => setRetireDate(date ? startOfDay(date) : null),
-      setYear62,
-      setHaveEarnings,
-      setEarnings,
-      setEarningsFormat,
-      setHaveSSAAccount,
-      setIsEmploymentCovered,
-      setPensionOrRetirementAccount,
-      setPensionAmount,
-      setPensionDateAwarded,
-      setUserProfile,
-    }),
-    [
-      setBirthDate,
-      setEarnings,
-      setEarningsFormat,
-      setHaveEarnings,
-      setHaveSSAAccount,
-      setIsEmploymentCovered,
-      setPensionAmount,
-      setPensionDateAwarded,
-      setPensionOrRetirementAccount,
-      setRetireDate,
-      setUserProfile,
-      setYear62,
-    ]
-  );
+  const actions: UserStateActions = useMemo(() => ({
+    setBirthDate: date => setBirthDate(startOfDay(date)),
+    setRetireDate: date => setRetireDate(startOfDay(date)),
+    setYear62,
+    setHaveEarnings,
+    setEarnings,
+    setEarningsFormat,
+    setHaveSSAAccount,
+    setIsEmploymentCovered,
+    setPensionOrRetirementAccount,
+    setPensionAmount,
+    setPensionDateAwarded,
+    setUserProfile,
+    setAwiTrendOrManualPrediction,
+    setAwiTrendSelection,
+  }), [setBirthDate, setEarnings, setEarningsFormat, setHaveEarnings, setHaveSSAAccount, setIsEmploymentCovered, setPensionAmount, setPensionDateAwarded, setPensionOrRetirementAccount, setRetireDate, setUserProfile, setYear62, setAwiTrendOrManualPrediction, setAwiTrendSelection])
 
   return (
     <UserStateContextProvider value={userState}>

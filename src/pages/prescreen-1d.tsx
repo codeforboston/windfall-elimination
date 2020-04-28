@@ -1,5 +1,3 @@
-// Future Page 1
-
 import React from "react";
 import styled from "@emotion/styled";
 import DatePicker from "react-datepicker";
@@ -14,9 +12,12 @@ import {
   LabelText,
   H2,
   Glossary,
+  TextBlock,
+  FileUpload,
+  WarningBox,
   AnswerInputDiscouragePlaceholder
 } from "../components";
-import {FutureAWIPredictionEnum, FutureAWITrendEnum, useUserState, UserState} from '../library/user-state-context'
+import {FutureAwiPredictionEnum, FutureAwiTrendEnum, EarningsEnum, useUserState, UserState} from '../library/user-state-context'
 import {useUserStateActions, UserStateActions} from '../library/user-state-actions-context'
 
 const StyledDatePicker = styled(DatePicker)`
@@ -55,6 +56,19 @@ margin-bottom: 75px;
 }
 `;
 
+const HowToContainer = styled.div`
+  display: block;
+`;
+
+const Link = styled.a`
+  color: black;
+  font-weight: 600;
+  overflow-wrap: break-word;
+`;
+
+///////
+///////
+
 interface Prescreen1dProps {
   userState: UserState
   userStateActions: UserStateActions
@@ -70,11 +84,15 @@ class Prescreen1d extends React.Component<Prescreen1dProps> {
     } = this.props
     const selectValueString = e.target.value;
     switch (e.target.name) {
-      case "awiTrendOrManualPrediction":
-        setAwiTrendOrManualPrediction(selectValueString as FutureAWIPredictionEnum)
-        break;
       case "awiTrendSelection":
-        setAwiTrendSelection(selectValueString as FutureAWITrendEnum)
+        console.log('awiTrendSelection', selectValueString)
+        console.log('props', this.props)
+        setAwiTrendSelection(selectValueString as FutureAwiTrendEnum)
+        break;
+      case "awiTrendOrManualPrediction":
+        console.log('awiTrendOrManualPrediction', selectValueString)
+        console.log('props', this.props)
+        setAwiTrendOrManualPrediction(selectValueString as FutureAwiPredictionEnum)
         break;
     }
   }
@@ -105,9 +123,9 @@ class Prescreen1d extends React.Component<Prescreen1dProps> {
                 <RadioButton
                   type="radio"
                   name="awiTrendOrManualPrediction"
-                  value={FutureAWIPredictionEnum.TREND}
+                  value={FutureAwiPredictionEnum.TREND}
                   onChange={this.handleSelection}
-                  checked={awiTrendOrManualPrediction === FutureAWIPredictionEnum.TREND}
+                  checked={awiTrendOrManualPrediction === FutureAwiPredictionEnum.TREND}
                 />
                 <LabelText>Use Economic Trends</LabelText>
               </AnswerBox>
@@ -115,9 +133,9 @@ class Prescreen1d extends React.Component<Prescreen1dProps> {
                 <RadioButton
                   type="radio"
                   name="awiTrendOrManualPrediction"
-                  value={FutureAWIPredictionEnum.MANUAL}
+                  value={FutureAwiPredictionEnum.MANUAL}
                   onChange={this.handleSelection}
-                  checked={awiTrendOrManualPrediction === FutureAWIPredictionEnum.MANUAL}
+                  checked={awiTrendOrManualPrediction === FutureAwiPredictionEnum.MANUAL}
                 />
                 <LabelText>Predict it myself</LabelText>
               </AnswerBox>
@@ -134,22 +152,22 @@ class Prescreen1d extends React.Component<Prescreen1dProps> {
           will not show up on a Social Security record.
         </Glossary>
             </CardGlossaryContainer>
-            {awiTrendOrManualPrediction && (
+            {awiTrendOrManualPrediction && awiTrendOrManualPrediction === FutureAwiPredictionEnum.TREND && (
             <CardGlossaryContainer>
               <Card>
                 <QuestionText>
                 Which trend would you like to use to predict your future earnings?
                 </QuestionText>
                 <AnswerBox>
-                  <RadioButton type="radio" name="isLowIntOrHigh" value={FutureAWITrendEnum.INTERMEDIATE} onChange={this.handleSelection} checked={isLowIntOrHigh === FutureAWITrendEnum.INTERMEDIATE} />
+                  <RadioButton type="radio" name="awiTrendSelection" value={FutureAwiTrendEnum.INTERMEDIATE} onChange={this.handleSelection} checked={awiTrendSelection === FutureAwiTrendEnum.INTERMEDIATE} />
                   <LabelText>Int (Between Low and High)</LabelText>
                 </AnswerBox>
                 <AnswerBox>
-                  <RadioButton type="radio" name="isLowIntOrHigh" value={FutureAWITrendEnum.LOW} onChange={this.handleSelection} checked={isLowIntOrHigh === FutureAWITrendEnum.LOW} />
+                  <RadioButton type="radio" name="awiTrendSelection" value={FutureAwiTrendEnum.LOW} onChange={this.handleSelection} checked={awiTrendSelection === FutureAwiTrendEnum.LOW} />
                   <LabelText>Low (Economy doesn’t go well)</LabelText>
                 </AnswerBox>
                 <AnswerBox>
-                  <RadioButton type="radio" name="isLowIntOrHigh" value={FutureAWITrendEnum.HIGH} onChange={this.handleSelection} checked={isLowIntOrHigh === FutureAWITrendEnum.HIGH} />
+                  <RadioButton type="radio" name="awiTrendSelection" value={FutureAwiTrendEnum.HIGH} onChange={this.handleSelection} checked={awiTrendSelection === FutureAwiTrendEnum.HIGH} />
                   <LabelText>High (Economy goes well)</LabelText>
                 </AnswerBox>
               </Card>
@@ -162,35 +180,16 @@ class Prescreen1d extends React.Component<Prescreen1dProps> {
               </Glossary>
             </CardGlossaryContainer>
             )}
-            {awiTrendOrManualPrediction && isLowIntOrHigh && (
+            {awiTrendOrManualPrediction && awiTrendSelection && (
               <>
               <Card>
                 <label>
                   <QuestionText>
-                    Please enter the amount of your monthly pension or lump sum retirement account.
+                    Future Earnings
                   </QuestionText>
-                  <AnswerInputDiscouragePlaceholder
-                    name="pensionAmount"
-                    defaultValue={pensionAmount ?? undefined}
-                    placeholder={'0'}  
-                    onChange={this.handleSelection}
-                  ></AnswerInputDiscouragePlaceholder>
                 </label>
+                <FileUpload />
               </Card>
-              {awiTrendOrManualPrediction === FutureAWITrendEnum.LOW && (
-                <Card>
-                    <QuestionText>
-                      Please enter the date you become eligible to start withdrawing from the your retirement account without penalty.
-                    </QuestionText>
-                    <StyledDatePicker
-                    placeholderText="Click to select a date"
-                    selected={pensionDateAwarded}
-                    showYearDropdown
-                    openToDate={pensionDateAwarded || dayjs().subtract(3, 'year').toDate()}
-                    onChange={this.handleDateAwardedChange}
-                    />
-                </Card>
-              )}
               </>
             )}
         </ContentContainer>
