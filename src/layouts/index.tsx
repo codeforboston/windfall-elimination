@@ -26,7 +26,7 @@ const Container = styled("div")`
 
   @media (max-width: 767px) {
     overflow: scroll;
-    width: 767px;
+    width: 100%;
   }
 `;
 
@@ -54,6 +54,7 @@ const Main = styled("main")`
   @media (max-width: 767px) {
     overflow: scroll;
     width: 100%;
+    padding: 0 0 95px 0;
   }
 `;
 

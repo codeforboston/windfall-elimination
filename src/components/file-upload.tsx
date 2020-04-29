@@ -16,17 +16,17 @@ export const UploadButton = styled("div")`
   position: relative;
   margin: ${spacing[2]} ${spacing[0]};
   overflow: hidden;
-  background-color: ${colors.white};
+  background-color: ${colors.purple};
   font-size: ${fontSizes[1]};
-  border-radius: 25px;
-  border: 2px solid ${colors.black};
-  color: ${colors.purple};
+  border-radius: 5px;
+  border: 2px solid ${colors.purple};
+  color: ${colors.white};
   text-decoration: none;
   display: block;
   text-align: center;
   width: 300px;
   &:hover {
-    background-color: ${colors.lightBlue};
+    background-color: ${colors.darkPurple};
   }
 `;
 
@@ -45,6 +45,7 @@ export const UploadLabel = styled("label")`
   height: 50px;
   padding-top 13px;
   padding-bottom: 3px;
+  cursor: pointer;
 `;
 
 export const DisplayTable = styled.div`

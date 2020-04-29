@@ -14,5 +14,10 @@ const Wrapper = styled("footer")`
   left: 0;
   justify-content: center;
   position: fixed;
-  width: 100%;
+  bottom: 0;
+  min-width: 760px;
+  @media (max-width: 767px) {
+    min-width: unset;
+    justify-content: flex-end;
+  }
 `;
