@@ -1,6 +1,11 @@
 import styled from "@emotion/styled";
 import { Link } from "gatsby";
-import { colors, fontSizes, spacing } from "../constants";
+import {
+  breakPoints,
+  colors,
+  fontSizes,
+  spacing
+} from "../constants";
 
 export const ButtonLink = (props : {
   children: string;
@@ -59,7 +64,7 @@ const LinkStyled = styled(Link)`
   &::after {
     content: attr(data-label);
   };
-  @media (max-width: 575px) {
+  @media (max-width: ${breakPoints[2]}) {
     &::after {
       content: attr(data-label-mobile);
     }

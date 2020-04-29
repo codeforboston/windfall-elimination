@@ -5,83 +5,103 @@ import { Location } from "@reach/router";
 import { Header, QuestionProvider, Footer, ButtonLink } from "../components";
 import "./layout.css";
 import { ProgressTracker } from "../components/progress-tracker";
-import UserStateManager from "../library/user-state-manager"
-
+import { ProgressTrackerMobile} from "../components/progress-tracker-mobile";
+import UserStateManager from "../library/user-state-manager";
+import { breakPoints } from "../constants";
 
 const Wrapper = styled("div")`
   display: block;
   overflow: hidden;
-
-  // TEMP: This ensures that mobile users can still scroll horizontally. Replace
-  // with "overflow: hidden" once UI is fully responsive. See #180. ~ RM
-  overflow-x: scroll;
-
   position: relative;
+  display: flex;
+  justify-center: center;
+  flex-direction: column;
+  align-items: center;
+  width: 100vw;
+  height: 100vh;
+  overflow-y: scroll;
+  z-index: 1; // Ensures scrollbar isn't clipped by header
 `;
 
 const Container = styled("div")`
-  font-family: 'Montserrat', sans-serif;
-  display: block;
-  min-height: 95vh;
-
-  @media (max-width: 767px) {
-    overflow: scroll;
-    width: 100%;
-  }
-`;
-
-const ChildWrapper = styled.div`
-  margin:  10px 70px 15px 30px;
-  padding:  10px 10px 15px 10px;
-  flex: 1 1 auto;
-  min-width: 0;
   display: flex;
-
-  @media (max-width: 767px) {
-    display: block;
-    margin: 10px;
-    padding: 0;
-  }
-
+  font-family: 'Montserrat', sans-serif;
+  min-height: 95vh;
+  max-width: ${breakPoints[2]};
+  width: 100%;
+  height: 100%;
+  max-width: ${breakPoints[5]};
 `;
+
+  /* TODO(tdk): merge below to fix radiobuttons */
+//   @media (max-width: ${breakPoints[3]}) {
+//     overflow: scroll;
+//     width: 100%;
+//   }
+// ;
+
+// const ChildWrapper = styled.div`
+//   margin:  10px 70px 15px 30px;
+//   padding:  10px 10px 15px 10px;
+//   flex: 1 1 auto;
+//   min-width: 0;
+//   display: flex;
+
+//   @media (max-width: ${breakPoints[3]}) {
+//     display: block;
+//     margin: 10px;
+//     padding: 0;
+//   }
 
 const Main = styled("main")`
-  width: 80vw;
   display: flex;
   flex-direction: row;
   justify-content: space-between;
-  padding: 0 15px 95px 15px;
-  @media (max-width: 767px) {
-    overflow: scroll;
-    width: 100%;
-    padding: 0 0 95px 0;
-  }
-`;
 
-const ContentContainer = styled.div`
-min-height: 90vh;
-display: flex;
-width: 100%;
-@media (max-width: 767px) {
-  display: block;
-}
-@media (max-width: 1024px) {
-  min-height: 94vh;
-}
+  /* TODO(tdk): merge below to fix radiobuttons */
+  // padding: 0 15px 95px 15px;
+  // @media (max-width: 767px) {
+  //   overflow: scroll;
+  //   width: 100%;
+  //   padding: 0 0 95px 0;
+  background: white;
+  height: fit-content;
+  margin-top: 6rem;
+  box-sizing: border-box;
+  min-height: calc(100% - 3.75rem);
+  margin-left: 0;
+  width: 100%;
+  padding: 1rem 1rem 5rem 1rem;
+  @media (min-width: ${breakPoints[2]}) {
+    --progress-tracker-width: 14rem;
+    margin-left: var(--progress-tracker-width);
+    margin-top: 3.75rem;
+    padding: 2rem 2rem 5rem;
+    width: calc(100% - var(--progress-tracker-width));
+  }
+  @media (min-width: ${breakPoints[3]}) {
+    padding: 3rem 3rem 5rem;
+  }
+  @media (min-width: ${breakPoints[4]}) {
+    --progress-tracker-width: 19.25rem;
+    margin-left: var(--progress-tracker-width);
+    width: calc(100% - var(--progress-tracker-width));
+  }
 `;
 
 /* There must be an entry for each of these in indexToSessionStorageKeys
     of progress-tracker.tsx */
+
 const LINKSPATH = [
-  {path: "/", label: "Home"},
-  {path: "/prescreen-1a/", label: "Background"},
-  {path: "/prescreen-1b/", label: "Earnings"},
-  {path: "/prescreen-1c/", label: "Employment Status"},
-  {path: "/screen-2/", label: "Results"},
-  {path: "/screen-2a/", label: "Benefit Forumula"}
-  // {path: "/screen-2b/", label: "Overpayment"},
-  // {path: "/screen-2c/", label: "Take Action"}
-]
+  {path: "/", label: "HOME"},
+  {path: "/prescreen-1a/", label: "BACKGROUND"},
+  {path: "/prescreen-1b/", label: "EARNINGS"},
+  {path: "/prescreen-1c/", label: "EMPLOYMENT STATUS"},
+  {path: "/screen-2/", label: "RESULTS"},
+  {path: "/screen-2a/", label: "BENEFIT FORMULA"},
+  // {path: "/screen-2b/", label: "OVERPAYMENT"},
+  // {path: "/screen-2c/", label: "TAKE ACTION"}
+];
 
 const Layout = ({ children }) => (
   <StaticQuery
@@ -97,93 +117,97 @@ const Layout = ({ children }) => (
     `}
     render={data => (
       <Wrapper>
-        <Container>
-        <Header />
         <link href="https://fonts.googleapis.com/css?family=Merriweather|Montserrat&display=swap" rel="stylesheet"/>
-        <ContentContainer>
+        <Header />
+
+        <Container>
           <Location>
             {({ location }) => (
-              <ProgressTracker
-                linkProps={LINKSPATH}
-                activePath={location.pathname}
-              />
+              <>
+                <ProgressTracker
+                  activePath={location.pathname}
+                  linkProps={LINKSPATH}
+                />
+                <ProgressTrackerMobile
+                  activePath={location.pathname}
+                  linkProps={LINKSPATH}
+                />
+              </>
             )}
           </Location>
           <Main id='child-wrapper'>
             <UserStateManager>
               {/* TODO test out this provider */}
               <QuestionProvider>
-                <ChildWrapper>
-                  {children}
-                </ChildWrapper>
+                {children}
               </QuestionProvider>
             </UserStateManager>
           </Main>
-        </ContentContainer>
-        <Footer>
-        <Location>
-          {({ location }) => {
-            const index = LINKSPATH.findIndex(path => (
-              path.path === location.pathname
-            ));
-
-            const linkNext = LINKSPATH[index + 1];
-            const linkPrev = LINKSPATH[index - 1];
-            const isOnPageFirst = index === 0;
-            const isOnPageLast = index === LINKSPATH.length - 1;
-            let labelLeft, labelRight, urlLeft, urlRight;
-            let labelLeftMobile = isOnPageFirst ? "" : "PREV";
-            let labelRightMobile = (
-              isOnPageFirst ? "START" : isOnPageLast ? "HOME" : "NEXT"
-            );
-
-            if (index === -1) return null;
-            if (isOnPageFirst) {
-              labelLeft = "";
-              labelRight = "Get Started";
-              urlLeft = "";
-              urlRight = "/prescreen-1a/";
-            } else if (location.pathname === "/print/") {
-              labelLeft = "Return to Results";
-              labelRight = "Continue to Benefit Formula";
-              urlLeft = "/screen-2/";
-              urlRight = "/screen-2a/";
-            } else if (isOnPageLast) {
-              labelLeft = `Previous: ${linkPrev.label}`;
-              labelRight = "Go Home";
-              urlLeft = linkPrev.path;
-              urlRight = "/";
-            } else {
-              labelLeft = `Previous: ${linkPrev.label}`;
-              labelRight = `Next: ${linkNext.label}`;
-              urlLeft = linkPrev.path;
-              urlRight = linkNext.path;
-            }
-
-            return (
-              <Fragment>
-                {(!isOnPageFirst) && (
-                  <ButtonLink
-                    labelMobile={labelLeftMobile}
-                    to={urlLeft}
-                  >
-                    {labelLeft}
-                  </ButtonLink>
-                )}
-                <ButtonLink
-                  isRightmost
-                  labelMobile={labelRightMobile}
-                  to={urlRight}
-                >
-                  {labelRight}
-                </ButtonLink>
-              </Fragment>
-            );
-          }}
-        </Location>
-        </Footer>
         </Container>
-      </Wrapper>
+
+        <Footer>
+          <Location>
+            {({ location }) => {
+              const index = LINKSPATH.findIndex(path => (
+                path.path === location.pathname
+              ));
+
+              const linkNext = LINKSPATH[index + 1];
+              const linkPrev = LINKSPATH[index - 1];
+              const isOnPageFirst = index === 0;
+              const isOnPageLast = index === LINKSPATH.length - 1;
+              let labelLeft, labelRight, urlLeft, urlRight;
+              let labelLeftMobile = isOnPageFirst ? "" : "PREV";
+              let labelRightMobile = (
+                isOnPageFirst ? "START" : isOnPageLast ? "HOME" : "NEXT"
+              );
+
+              if (index === -1) return null;
+              if (isOnPageFirst) {
+                labelLeft = "";
+                labelRight = "Get Started";
+                urlLeft = "";
+                urlRight = "/prescreen-1a/";
+              } else if (location.pathname === "/print/") {
+                labelLeft = "Return to Results";
+                labelRight = "Continue to Benefit Formula";
+                urlLeft = "/screen-2/";
+                urlRight = "/screen-2a/";
+              } else if (isOnPageLast) {
+                labelLeft = `Previous: ${linkPrev.label}`;
+                labelRight = "Go Home";
+                urlLeft = linkPrev.path;
+                urlRight = "/";
+              } else {
+                labelLeft = `Previous: ${linkPrev.label}`;
+                labelRight = `Next: ${linkNext.label}`;
+                urlLeft = linkPrev.path;
+                urlRight = linkNext.path;
+              }
+
+              return (
+                <Fragment>
+                  {(!isOnPageFirst) && (
+                    <ButtonLink
+                      labelMobile={labelLeftMobile}
+                      to={urlLeft}
+                    >
+                      {labelLeft}
+                    </ButtonLink>
+                  )}
+                  <ButtonLink
+                    isRightmost
+                    labelMobile={labelRightMobile}
+                    to={urlRight}
+                  >
+                    {labelRight}
+                  </ButtonLink>
+                </Fragment>
+              );
+            }}
+          </Location>
+        </Footer>
+    </Wrapper>
     )}
   />
 );

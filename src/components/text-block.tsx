@@ -9,6 +9,9 @@ export const TextBlock = styled.div`
 export const H3 = styled.h3`
   font-family: 'Merriweather', serif;
   color: ${colors.purple};
+  &:first-of-type {
+    margin-top: 0;
+  }
 `;
 
 
@@ -16,6 +19,7 @@ export const H2 = styled.h2`
   font-family: 'Merriweather', serif;
   color: black;
   font-size: ${fontSizes[2]};
+  &:first-of-type {
+    margin-top: 0;
+  }
 `;
-
-

@@ -1,13 +1,13 @@
 import React from "react";
 import { Link } from "gatsby";
 import styled from "@emotion/styled";
-import { colors, fontSizes } from "../constants";
+import { breakPoints, colors, fontSizes } from "../constants";
 
 enum stepStatus {
   complete = -1,
   active,
   ongoing
-}
+};
 
 const StyledStep = styled(Link)`
   background-color: ${colors.white};
@@ -41,35 +41,37 @@ const Circle = styled.div`
 `;
 
 const Label = styled.h4`
-margin: 10px 15px;
-font-family: 'Montserrat', sans-serif;
-`
+  margin: 10px 15px;
+  font-family: 'Montserrat', sans-serif;
+`;
+
 const LabelWrap = styled.div`
-display: flex;
-flex-direction: row;
-align-items: center;
-max-height: 70px;
-margin: 0;
-width: 100%;
-max-height:65px;
-font-weight: 600px;
-`
+  display: flex;
+  flex-direction: row;
+  align-items: center;
+  max-height: 70px;
+  margin: 0;
+  width: 100%;
+  max-height:65px;
+  font-weight: 600px;
+`;
 
 const StyledStepContainer = styled("div")`
-  display: block;
+  display: none;
   background: #eee;
   justify-content: space-around;
   padding: 10px 15px;
-  min-height: 90vh;
-  @media (max-width: 767px) {
-    width: 100%;
-    min-height: auto;
-    padding: 10px 0;
+  min-height: auto;
+  position: fixed;
+  top: 3.75rem;
+  height: calc(100% - 3.75rem);
+  box-sizing: border-box;
+  width: 14rem;
+  @media (min-width: ${breakPoints[4]}) {
+    width: 19.25rem;
   }
-  @media (min-width: 768px) and (max-width: 1024px) {
-    min-height: 60vh;
-    width: 195px;
-    padding: 10px 5px;
+  @media (min-width: ${breakPoints[2]}) {
+    display: block;
   }
 `;
 
@@ -106,12 +108,12 @@ const checkMark = (index, indexOfActivePath) => {
 function ProgressTracker(props) {
   const indexOfActivePath = props.linkProps.findIndex(element => element.path === props.activePath);
   const links = props.linkProps.map((element, index) => (
-      <StyledStep key={element + index} to={element.path} label={element.label} status={Math.sign(index - indexOfActivePath)}>
-        <LabelWrap>
-        {index==0 || index==4? null: checkMark(index, indexOfActivePath)}
-        <Label>{element.label.toUpperCase()}</Label>
-        </LabelWrap>
-      </StyledStep>
+    <StyledStep key={element + index} to={element.path} label={element.label} status={Math.sign(index - indexOfActivePath)}>
+      <LabelWrap>
+      {index==0 || index==4? null: checkMark(index, indexOfActivePath)}
+      <Label>{element.label.toUpperCase()}</Label>
+      </LabelWrap>
+    </StyledStep>
   ));
   return <StyledStepContainer>{links}</StyledStepContainer>;
 }

@@ -1,4 +1,5 @@
 import styled from "@emotion/styled";
+import { breakPoints } from "../constants";
 
 export const Footer = (props : {children: any}) => (
   <Wrapper>
@@ -15,9 +16,6 @@ const Wrapper = styled("footer")`
   justify-content: center;
   position: fixed;
   bottom: 0;
-  min-width: 760px;
-  @media (max-width: 767px) {
-    min-width: unset;
-    justify-content: flex-end;
-  }
+  min-width: 100%;
+
 `;
