@@ -45,24 +45,25 @@ padding:  10px 10px 10px 50px;
 const ContentContainer = styled.div`
   width: 100%;
 `
-
+/* right:0 pulls in the arrow from the right margin on mobile */
 function NextArrow(props) {
   const { className, style, onClick } = props;
   return (
     <div
       className={className}
-      css={{...style, ":before": {color: "black"}}}
+      css={{...style, "right": "0", ":before": {color: "black"}}}
       onClick={onClick}
     />
   );
 }
 
+/* left:0 pulls in the arrow from the left margin on mobile */
 function PrevArrow(props) {
   const { className, style, onClick } = props;
   return (
     <div
       className={className}
-      css={{ ...style, ":before": {color: "black"} }}
+      css={{ ...style,"left": "0", ":before": {color: "black"} }}
       onClick={onClick}
     />
   );
@@ -99,7 +100,7 @@ export default class Screen2a extends React.Component {
           speed: 700,
           slidesToShow: 1,
           slidesToScroll: 1,
-          autoplay: true,
+          autoplay: false,
           arrows: true,
           pauseOnHover: true,
           nextArrow: <NextArrow />,

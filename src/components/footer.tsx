@@ -1,13 +1,18 @@
-import { Link } from "gatsby";
-import React from "react";
 import styled from "@emotion/styled";
-import { colors } from "../constants";
+
+export const Footer = (props : {children: any}) => (
+  <Wrapper>
+    {props.children}
+  </Wrapper>
+)
 
 const Wrapper = styled("footer")`
+  backdrop-filter: blur(2px);
   background: rgba(128, 128, 128, 0.3);
-  display: flex;
   bottom: 0;
-  width: 100%;
+  display: flex;
+  left: 0;
+  justify-content: center;
   position: fixed;
   bottom: 0;
   min-width: 760px;
@@ -16,13 +21,3 @@ const Wrapper = styled("footer")`
     justify-content: flex-end;
   }
 `;
-
-type Props = {
-  siteTitle?: string;
-};
-
-export const Footer = ({ children }) => (
-  <Wrapper>
-      {children}
-  </Wrapper>
-);
