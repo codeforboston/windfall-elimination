@@ -3,8 +3,10 @@ import styled from "@emotion/styled";
 import { Link } from "gatsby";
 import { breakPoints, colors } from "../constants";
 
-// TODO: Add TypeScript. ~ RM
-// TODO: Add session storage. ~ RM
+// TODO: Add TypeScript to remove lint errors. ~ RM
+/* TODO: Add completed state support to match progress-tracker without
+ * duplicating indexToSessionStorageKeys ~ RM/TK */
+
 export const ProgressTrackerMobile = props => {
   const [isDropdownShowing, setIsDropdownShowing] = useState(false);
   const dropdownHide = () => setIsDropdownShowing(false);
@@ -27,7 +29,7 @@ export const ProgressTrackerMobile = props => {
           </Circle>
         }
         <Label hasVisited={hasVisited}>
-          {label}
+          {label && label.toUpperCase()}
         </Label>
       </Fragment>
     )
@@ -63,7 +65,7 @@ export const ProgressTrackerMobile = props => {
       </Wrapper>
 
       {isDropdownShowing &&
-        <Mask>
+        <Mask onClick={dropdownHide} >
           <Dropdown> {renderLinks()} </Dropdown>
         </Mask>
       }

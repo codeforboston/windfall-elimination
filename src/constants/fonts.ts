@@ -1,5 +1,7 @@
 export const fonts = {
-    serif: "Merriweather, serif",
+    serif: "serif",
+    Merriweather: "Merriweather",
     sansSerif: "sans-serif",
-    Helvetica: "Helvetica"
+    Helvetica: "Helvetica",
+    Montserrat: "Montserrat"
 };

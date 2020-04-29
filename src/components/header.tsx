@@ -41,7 +41,7 @@ const Wrapper = styled("header")`
 
 const Heading = styled(Link)`
   color: ${colors.white};
-  font-family: ${fonts.serif};
+  font-family: 'Merriweather', serif;
   font-size: 1rem;
   line-height: 2rem;
   margin: 0 auto;

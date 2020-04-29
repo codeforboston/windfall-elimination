@@ -93,12 +93,12 @@ const Main = styled("main")`
     of progress-tracker.tsx */
 
 const LINKSPATH = [
-  {path: "/", label: "HOME"},
-  {path: "/prescreen-1a/", label: "BACKGROUND"},
-  {path: "/prescreen-1b/", label: "EARNINGS"},
-  {path: "/prescreen-1c/", label: "EMPLOYMENT STATUS"},
-  {path: "/screen-2/", label: "RESULTS"},
-  {path: "/screen-2a/", label: "BENEFIT FORMULA"},
+  {path: "/", label: "Home"},
+  {path: "/prescreen-1a/", label: "Background"},
+  {path: "/prescreen-1b/", label: "Earnings"},
+  {path: "/prescreen-1c/", label: "Employment Status"},
+  {path: "/screen-2/", label: "Results"},
+  {path: "/screen-2a/", label: "Benefit Formula"},
   // {path: "/screen-2b/", label: "OVERPAYMENT"},
   // {path: "/screen-2c/", label: "TAKE ACTION"}
 ];
@@ -151,7 +151,14 @@ const Layout = ({ children }) => (
               const index = LINKSPATH.findIndex(path => (
                 path.path === location.pathname
               ));
-
+              
+              var toTitleCase = function (str) {
+                str = str.toLowerCase().split(' ');
+                for (var i = 0; i < str.length; i++) {
+                    str[i] = str[i].charAt(0).toUpperCase() + str[i].slice(1);
+                }
+                return str.join(' ');
+            };
               const linkNext = LINKSPATH[index + 1];
               const linkPrev = LINKSPATH[index - 1];
               const isOnPageFirst = index === 0;
