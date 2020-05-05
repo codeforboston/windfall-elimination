@@ -136,7 +136,7 @@ class Prescreen1c extends React.Component<Prescreen1cProps> {
             </TopQuestionAndTitle>
             <Glossary
           title="WHAT EARNINGS WOULD NOT BE ON MY SOCIAL SECURITY EARNINGS RECORD?"
-          link="http://www.ncsssa.org/statessadminmenu.html"
+          link=""
           linkText=""
         >
           For example, you may have worked for a state or local government, like
