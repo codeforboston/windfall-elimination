@@ -30,6 +30,34 @@ const useAwiTrendSelection = createPersistedState("awiTrendSelection", global.se
 const useRetireDateState = createPersistedState('RetireDate', global.sessionStorage);
 const useYear62State = createPersistedState('Year62', global.sessionStorage);
 
+/* Union the full set of years that the user might specify from both the 
+ * EarningsRecord we got from any XML/PDF input
+ * and the birth year to full retirement age of the user,
+ * whichever is more complete in both youth and old age */
+function mergeYears(earnings: EarningsRecord, birthDate: Date | null, retireDate: Date | null): EarningsRecord {
+
+  /* if we don't have other info, just return what was passed in */
+  if (birthDate === null || retireDate === null) return earnings
+  const earningsRecord = earnings || {}
+​
+  /*TODO(TDK) why do we need to create a new date object here, it is a string coming in? */
+  const birthYear = new Date(birthDate).getFullYear()
+  const startEmploymentYear = (earnings && Object.keys(earnings) && Number(Object.keys(earnings)[0])) || birthYear + 18 
+  const retireYear = new Date(retireDate).getFullYear()
+  const endYear = retireYear
+​
+  var tempRecord = {} as EarningsRecord;
+  for (var i = startEmploymentYear; i <= endYear; i++) {
+    if (Object.keys(earningsRecord).includes(String(i))) {
+      tempRecord[i] = earningsRecord[i];
+    } else {
+      tempRecord[i] = 0;
+    }
+  }
+  // debugger
+  return tempRecord
+}
+
 /**
  * Helper function to get a Date object equivalent to the start of the date given
  */
@@ -87,7 +115,7 @@ export default function UserStateManager(props: UserStateManagerProps): JSX.Elem
     setRetireDate: date => setRetireDate(startOfDay(date)),
     setYear62,
     setHaveEarnings,
-    setEarnings,
+    setEarnings: (earnings) => setEarnings(mergeYears(earnings, birthDate, retireDate)),
     setEarningsFormat,
     setHaveSSAAccount,
     setIsEmploymentCovered,
@@ -97,7 +125,7 @@ export default function UserStateManager(props: UserStateManagerProps): JSX.Elem
     setUserProfile,
     setAwiTrendOrManualPrediction,
     setAwiTrendSelection,
-  }), [setBirthDate, setEarnings, setEarningsFormat, setHaveEarnings, setHaveSSAAccount, setIsEmploymentCovered, setPensionAmount, setPensionDateAwarded, setPensionOrRetirementAccount, setRetireDate, setUserProfile, setYear62, setAwiTrendOrManualPrediction, setAwiTrendSelection])
+  }), [setBirthDate, setEarnings, setEarningsFormat, setHaveEarnings, setHaveSSAAccount, setIsEmploymentCovered, setPensionAmount, setPensionDateAwarded, setPensionOrRetirementAccount, setRetireDate, setUserProfile, setYear62, setAwiTrendOrManualPrediction, setAwiTrendSelection, birthDate, retireDate])
 
   return (
     <UserStateContextProvider value={userState}>
