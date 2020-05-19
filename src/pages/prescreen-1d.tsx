@@ -189,6 +189,7 @@ class Prescreen1d extends React.Component<Prescreen1dProps> {
                   </QuestionText>
                 </label>
                 <FileUpload />
+                // <FileUpload manual={(earningsFormat === EarningsEnum.XML || earningsFormat === EarningsEnum.PDF) ? false : true} />
               </Card>
               </>
             )}
