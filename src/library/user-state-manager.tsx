@@ -39,13 +39,13 @@ function mergeYears(earnings: EarningsRecord, birthDate: Date | null, retireDate
   /* if we don't have other info, just return what was passed in */
   if (birthDate === null || retireDate === null) return earnings
   const earningsRecord = earnings || {}
-​
+
   /*TODO(TDK) why do we need to create a new date object here, it is a string coming in? */
   const birthYear = new Date(birthDate).getFullYear()
   const startEmploymentYear = (earnings && Object.keys(earnings) && Number(Object.keys(earnings)[0])) || birthYear + 18 
   const retireYear = new Date(retireDate).getFullYear()
   const endYear = retireYear
-​
+
   var tempRecord = {} as EarningsRecord;
   for (var i = startEmploymentYear; i <= endYear; i++) {
     if (Object.keys(earningsRecord).includes(String(i))) {
