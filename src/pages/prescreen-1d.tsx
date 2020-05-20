@@ -189,7 +189,7 @@ class Prescreen1d extends React.Component<Prescreen1dProps> {
                     Future Earnings
                   </QuestionText>
                 </label>
-                <FileUpload manual={isManual} />
+                <FileUpload manual={false} hideUploadButton={true} />
               </Card>
               </>
             )}
