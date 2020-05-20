@@ -30,7 +30,7 @@ export default () => (
     </TextBlock>
 
     <TextBlock>
-      You can appeal or request a waiver by calling Social Security or visiting
+      You can appeal or request a waiver by calling Social Security or by visiting
       your local field office. Make sure to have your Social Security number and
       the results from this app printed when you make an appointment. Find your{' '}
       <a href="https://www.ssa.gov/locator/">local field office here</a> or call{' '}
