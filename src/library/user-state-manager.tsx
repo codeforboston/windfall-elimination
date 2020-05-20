@@ -94,6 +94,7 @@ export default function UserStateManager(props: UserStateManagerProps): JSX.Elem
     birthDate: birthDate ? new Date(birthDate) : null,
     retireDate: retireDate ? new Date(retireDate) : null,
     fullRetirementAge: (birthDate && retireDate) ? dayjs(retireDate).diff(birthDate, 'year', true) : null,
+    isManual: (earningsFormat === EarningsEnum.XML || earningsFormat === EarningsEnum.PDF) ? false : true,
     fullRetirementAgeYearsOnly: (birthDate && retireDate) ? dayjs(retireDate).diff(birthDate, 'year', false) : null,
     fullRetirementAgeMonthsOnly: (birthDate && retireDate) ? dayjs(retireDate).diff(birthDate, 'month', false) % 12 : null,
     year62,

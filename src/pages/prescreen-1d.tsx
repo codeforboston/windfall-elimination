@@ -103,7 +103,8 @@ class Prescreen1d extends React.Component<Prescreen1dProps> {
         pensionDateAwarded,
         pensionAmount,
         awiTrendOrManualPrediction,
-        awiTrendSelection
+        awiTrendSelection,
+        isManual
       }
     } = this.props
     return (
@@ -188,7 +189,7 @@ class Prescreen1d extends React.Component<Prescreen1dProps> {
                     Future Earnings
                   </QuestionText>
                 </label>
-                <FileUpload manual={(sessionStorage.getItem('earningsFormat') === EarningsEnum.XML || sessionStorage.getItem('earningsFormat') === EarningsEnum.PDF) ? false : true} />
+                <FileUpload manual={isManual} />
               </Card>
               </>
             )}
