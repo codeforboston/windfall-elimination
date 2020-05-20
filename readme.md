@@ -7,6 +7,7 @@ This is a tool to help retirees affected by the Social Security Windfall Elimina
 * Official Social Security earnings record PDF scraping using PDF.js (and XML format parsing)
 * Typescript type checking to ensure matching types between replicated SSA algorithms and Gatsby/React.
 * Tests to compare output of known [documented](http://thadk.net/anypiamac-docs/html/) [examples](http://thadk.net/anypiamac-docs/) to the Microsoft Windows-based Social Security Detailed Calculator.
+* [Observable WEP calculation Prototype](https://observablehq.com/@thadk/windfall-awareness-notebook-prototype) - The earlier, alpha version of the calculator's math: Feb 2019.
 
 Join the Slack channel [#windfall-elimination](https://www.codeforboston.org/) for more information.
 
