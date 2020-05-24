@@ -270,8 +270,8 @@ class FileUpload extends React.Component<FileUploadProps, FileUploadState> {
     if (reader.target === null || reader.target.result === null) return
     //Returns first page of document
     var combinedValues = [];
+    let earningsPage = "";
     await pdfJS.getDocument(reader.target.result).promise.then(async (ssaDoc: pdfJS.PDFDocumentProxy) => {
-      var earningsPage;
       for (var page of Array(ssaDoc.numPages).keys()) {
         const docPage = ssaDoc.getPage(page + 1);
         await Promise.resolve(docPage)
@@ -286,6 +286,11 @@ class FileUpload extends React.Component<FileUploadProps, FileUploadState> {
               }
             }
           });
+      }
+
+      if (earningsPage === "") {
+        alert("Please upload a SSA compliant PDF");
+        return;
       }
 
       earningsPage.items.forEach(item => {
