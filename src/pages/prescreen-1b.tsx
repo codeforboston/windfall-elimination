@@ -26,7 +26,7 @@ const GlosaryStyle = styled.div`
      display: block;
      .css-1y9a2pj-GlossaryContainer.ezroa000::nth-of-type(2) {
       position: absolute;
-      top: 860px;     
+      top: 860px;
   }
 `;
 
@@ -69,8 +69,10 @@ interface Prescreen1bProps {
 }
 
 class Prescreen1b extends React.Component<Prescreen1bProps> {
+  myRef: any;
   constructor(props: Prescreen1bProps) {
     super(props);
+    this.myRef = React.createRef();
     this.showFileUpload = this.showFileUpload.bind(this);
     this.showManualTable = this.showManualTable.bind(this);
   }
@@ -119,6 +121,7 @@ class Prescreen1b extends React.Component<Prescreen1bProps> {
               {this.checkForBirthday()}
 
               <Card>
+                <button onClick={() => document.querySelector('body').scrollTo({left: 0, top: this.myRef.current.offsetTop, behavior: 'smooth'})}>click</button>
                 <QuestionText>Do you have a copy of your earnings record?</QuestionText>
                 <AnswerBox>
                   <RadioButton type="radio" name="haveEarnings" value="true" onChange={() => setHaveEarnings(true)} checked={haveEarnings === true} />
@@ -141,7 +144,7 @@ class Prescreen1b extends React.Component<Prescreen1bProps> {
           </CardGlossaryContainer>
 
           {haveEarnings === true ?
-            <Card>
+            <Card ref={this.myRef}>
               <QuestionText>What format is the copy of your earnings record?</QuestionText>
               <AnswerBox>
                 <RadioButton type="radio" name="earningsFormat" value={EarningsEnum.XML} onChange={() => setEarningsFormat(EarningsEnum.XML)} checked={earningsFormat === EarningsEnum.XML} />
@@ -281,33 +284,6 @@ the red box in the photo below.</ol>
             </> : null
           }
         </ContentContainer>
-        {/* <GlosaryStyle>
-          <Glossary 
-          title="MYSOCIALSECURITY"
-          link="https://www.ssa.gov/myaccount/"
-          linkText="Login or signup online for a MySocialSecurity using this link."
-          >
-          MySocialSecurity is the Social Security Administrations online service. With a MySocialSecurity account , you can download a copy of your earnings record to use for this question.
-          </Glossary>
-          {
-            this.showFileUpload() == true && <Glossary
-          title="IMPORTED RECORDS"
-          >
-           The values are imported from the file that you upload.
-           Please review them for accuracy and correct any errors that you find.
-          </Glossary>
-          }
-          {
-            this.showManualTable() === true && <Glossary
-          title="MANUAL RECORDS"
-          >
-           Please review the values so that the years match
-           and correct any errors that you find. The first row
-             may be a different year than on the paper
-             document.
-          </Glossary>
-          }
-          </GlosaryStyle> */}
       </React.Fragment>
     )
   }
