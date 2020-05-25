@@ -67,8 +67,10 @@ interface Prescreen1bProps {
 }
 
 class Prescreen1b extends React.Component<Prescreen1bProps> {
+  myRef: any;
   constructor(props: Prescreen1bProps) {
     super(props);
+    this.myRef = React.createRef();
     this.showFileUpload = this.showFileUpload.bind(this);
     this.showManualTable = this.showManualTable.bind(this);
   }
@@ -136,6 +138,7 @@ class Prescreen1b extends React.Component<Prescreen1bProps> {
               {this.checkForBirthday()}
 
               <Card>
+                <button onClick={() => document.querySelector('body').scrollTo({left: 0, top: this.myRef.current.offsetTop, behavior: 'smooth'})}>click</button>
                 <QuestionText>Do you have a copy of your earnings record?</QuestionText>
                 <AnswerBox>
                   <RadioButton type="radio" name="haveEarnings" value="true" onChange={() => setHaveEarnings(true)} checked={haveEarnings === true} />
@@ -158,7 +161,7 @@ class Prescreen1b extends React.Component<Prescreen1bProps> {
           </CardGlossaryContainer>
 
           {haveEarnings === true ?
-            <Card>
+            <Card ref={this.myRef}>
               <QuestionText>What format is the copy of your earnings record?</QuestionText>
               <AnswerBox>
                 <RadioButton type="radio" name="earningsFormat" value={EarningsEnum.XML} onChange={() => setEarningsFormat(EarningsEnum.XML)} checked={earningsFormat === EarningsEnum.XML} />
