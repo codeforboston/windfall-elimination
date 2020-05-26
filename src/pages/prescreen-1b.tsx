@@ -72,9 +72,15 @@ class Prescreen1b extends React.Component<Prescreen1bProps> {
   myRef: any;
   constructor(props: Prescreen1bProps) {
     super(props);
-    this.myRef = React.createRef();
+    this.myRef1 = React.createRef();
+    this.myRef2 = React.createRef();
     this.showFileUpload = this.showFileUpload.bind(this);
     this.showManualTable = this.showManualTable.bind(this);
+    this.scrollToElement = this.scrollToElement.bind(this);
+  }
+
+  scrollToElement() {
+    document.querySelector('body').scrollTo({ left: 0, top: this.myRef1.current.offsetTop, behavior: 'smooth' })
   }
 
   showFileUpload() {
@@ -124,11 +130,11 @@ class Prescreen1b extends React.Component<Prescreen1bProps> {
                 <button onClick={() => document.querySelector('body').scrollTo({left: 0, top: this.myRef.current.offsetTop, behavior: 'smooth'})}>click</button>
                 <QuestionText>Do you have a copy of your earnings record?</QuestionText>
                 <AnswerBox>
-                  <RadioButton type="radio" name="haveEarnings" value="true" onChange={() => setHaveEarnings(true)} checked={haveEarnings === true} />
+                  <RadioButton type="radio" name="haveEarnings" value="true" onChange={() => setHaveEarnings(true)} onClick={this.scrollToElement} checked={haveEarnings === true} />
                   <LabelText>Yes</LabelText>
                 </AnswerBox>
                 <AnswerBox>
-                  <RadioButton type="radio" name="haveEarnings" value="false" onChange={() => setHaveEarnings(false)} checked={haveEarnings === false} />
+                  <RadioButton type="radio" name="haveEarnings" value="false" onChange={() => setHaveEarnings(false)} onClick={this.scrollToElement} checked={haveEarnings === false} />
                   <LabelText>No</LabelText>
                 </AnswerBox>
               </Card>
@@ -142,9 +148,9 @@ class Prescreen1b extends React.Component<Prescreen1bProps> {
           </Glossary>
 
           </CardGlossaryContainer>
-
+          <div ref={this.myRef1}>
           {haveEarnings === true ?
-            <Card ref={this.myRef}>
+            <Card>
               <QuestionText>What format is the copy of your earnings record?</QuestionText>
               <AnswerBox>
                 <RadioButton type="radio" name="earningsFormat" value={EarningsEnum.XML} onChange={() => setEarningsFormat(EarningsEnum.XML)} checked={earningsFormat === EarningsEnum.XML} />
@@ -169,16 +175,18 @@ class Prescreen1b extends React.Component<Prescreen1bProps> {
             <Card>
               <QuestionText>Do you have a MySocialSecurity account?</QuestionText>
               <AnswerBox>
-                <RadioButton type="radio" name="haveSSAAccount" value="true" onChange={() => setHaveSSAAccount(true)} checked={haveSSAAccount === true} />
+                  <RadioButton type="radio" name="haveSSAAccount" value="true" onChange={() => setHaveSSAAccount(true)} onClick={() => document.querySelector('body').scrollTo({ left: 0, top: this.myRef2.current.offsetTop, behavior: 'smooth' })} checked={haveSSAAccount === true} />
                 <LabelText>Yes</LabelText>
               </AnswerBox>
               <AnswerBox>
-                <RadioButton type="radio" name="haveSSAAccount" value="false" onChange={() => setHaveSSAAccount(false)} checked={haveSSAAccount === false} />
+                  <RadioButton type="radio" name="haveSSAAccount" value="false" onChange={() => setHaveSSAAccount(false)} onClick={() => document.querySelector('body').scrollTo({ left: 0, top: this.myRef2.current.offsetTop, behavior: 'smooth' })} checked={haveSSAAccount === false} />
                 <LabelText>No</LabelText>
               </AnswerBox>
             </Card> : null
           }
+          </div>
 
+          <div ref={this.myRef2}>
           {haveEarnings === false && haveSSAAccount === true ?
             (
               <HowToContainer>
@@ -283,6 +291,7 @@ the red box in the photo below.</ol>
               </HowToContainer>
             </> : null
           }
+          </div>
         </ContentContainer>
       </React.Fragment>
     )
