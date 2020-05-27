@@ -72,16 +72,19 @@ class Prescreen1b extends React.Component<Prescreen1bProps> {
   myRef: any;
   constructor(props: Prescreen1bProps) {
     super(props);
-    this.myRef1 = React.createRef();
-    this.myRef2 = React.createRef();
+    this.earningsSelectRef = React.createRef();
+    this.howToRef = React.createRef();
+    this.earningsRecordRef = React.createRef();
     this.showFileUpload = this.showFileUpload.bind(this);
     this.showManualTable = this.showManualTable.bind(this);
     this.scrollToElement = this.scrollToElement.bind(this);
   }
 
-  scrollToElement() {
-    document.querySelector('body').scrollTo({ left: 0, top: this.myRef1.current.offsetTop, behavior: 'smooth' })
-  }
+  scrollToElement(ref) {
+      setTimeout(() => {
+        ref.current.scrollIntoView({ behavior: 'smooth' });
+      }, 100)
+    }
 
   showFileUpload() {
     const { userState: { haveEarnings, haveSSAAccount, earningsFormat } } = this.props
@@ -127,14 +130,13 @@ class Prescreen1b extends React.Component<Prescreen1bProps> {
               {this.checkForBirthday()}
 
               <Card>
-                <button onClick={() => document.querySelector('body').scrollTo({left: 0, top: this.myRef.current.offsetTop, behavior: 'smooth'})}>click</button>
                 <QuestionText>Do you have a copy of your earnings record?</QuestionText>
                 <AnswerBox>
-                  <RadioButton type="radio" name="haveEarnings" value="true" onChange={() => setHaveEarnings(true)} onClick={this.scrollToElement} checked={haveEarnings === true} />
+                  <RadioButton type="radio" name="haveEarnings" value="true" onChange={() => setHaveEarnings(true)} onClick={() => this.scrollToElement(this.earningsSelectRef)} checked={haveEarnings === true} />
                   <LabelText>Yes</LabelText>
                 </AnswerBox>
                 <AnswerBox>
-                  <RadioButton type="radio" name="haveEarnings" value="false" onChange={() => setHaveEarnings(false)} onClick={this.scrollToElement} checked={haveEarnings === false} />
+                  <RadioButton type="radio" name="haveEarnings" value="false" onChange={() => setHaveEarnings(false)} onClick={() => this.scrollToElement(this.earningsSelectRef)} checked={haveEarnings === false} />
                   <LabelText>No</LabelText>
                 </AnswerBox>
               </Card>
@@ -148,24 +150,24 @@ class Prescreen1b extends React.Component<Prescreen1bProps> {
           </Glossary>
 
           </CardGlossaryContainer>
-          <div ref={this.myRef1}>
+          <div ref={this.earningsSelectRef}>
           {haveEarnings === true ?
             <Card>
               <QuestionText>What format is the copy of your earnings record?</QuestionText>
               <AnswerBox>
-                <RadioButton type="radio" name="earningsFormat" value={EarningsEnum.XML} onChange={() => setEarningsFormat(EarningsEnum.XML)} checked={earningsFormat === EarningsEnum.XML} />
+                <RadioButton type="radio" name="earningsFormat" value={EarningsEnum.XML} onChange={() => setEarningsFormat(EarningsEnum.XML)} onClick={()=> this.scrollToElement(this.earningsRecordRef)} checked={earningsFormat === EarningsEnum.XML} />
                 <LabelText>XML file (MySocialSecurity)</LabelText>
               </AnswerBox>
               <AnswerBox>
-                <RadioButton type="radio" name="earningsFormat" value={EarningsEnum.PDF} onChange={() => setEarningsFormat(EarningsEnum.PDF)} checked={earningsFormat === EarningsEnum.PDF} />
+                <RadioButton type="radio" name="earningsFormat" value={EarningsEnum.PDF} onChange={() => setEarningsFormat(EarningsEnum.PDF)} onClick={()=> this.scrollToElement(this.earningsRecordRef)} checked={earningsFormat === EarningsEnum.PDF} />
                 <LabelText>PDF (MySocialSecurity)</LabelText>
               </AnswerBox>
               <AnswerBox>
-                <RadioButton type="radio" name="earningsFormat" value={EarningsEnum.PDFPRINT} onChange={() => setEarningsFormat(EarningsEnum.PDFPRINT)} checked={earningsFormat === EarningsEnum.PDFPRINT} />
+                <RadioButton type="radio" name="earningsFormat" value={EarningsEnum.PDFPRINT} onChange={() => setEarningsFormat(EarningsEnum.PDFPRINT)} onClick={()=> this.scrollToElement(this.earningsRecordRef)} checked={earningsFormat === EarningsEnum.PDFPRINT} />
                 <LabelText>PDF (scanned from print)</LabelText>
               </AnswerBox>
               <AnswerBox>
-                <RadioButton type="radio" name="earningsFormat" value={EarningsEnum.PAPER} onChange={() => setEarningsFormat(EarningsEnum.PAPER)} checked={earningsFormat === EarningsEnum.PAPER} />
+                <RadioButton type="radio" name="earningsFormat" value={EarningsEnum.PAPER} onChange={() => setEarningsFormat(EarningsEnum.PAPER)} onClick={()=> this.scrollToElement(this.earningsRecordRef)} checked={earningsFormat === EarningsEnum.PAPER} />
                 <LabelText>Paper (mailed from SSA)</LabelText>
               </AnswerBox>
             </Card> : null
@@ -175,18 +177,18 @@ class Prescreen1b extends React.Component<Prescreen1bProps> {
             <Card>
               <QuestionText>Do you have a MySocialSecurity account?</QuestionText>
               <AnswerBox>
-                  <RadioButton type="radio" name="haveSSAAccount" value="true" onChange={() => setHaveSSAAccount(true)} onClick={() => document.querySelector('body').scrollTo({ left: 0, top: this.myRef2.current.offsetTop, behavior: 'smooth' })} checked={haveSSAAccount === true} />
+                  <RadioButton type="radio" name="haveSSAAccount" value="true" onChange={() => setHaveSSAAccount(true)} onClick={() => this.scrollToElement(this.howToRef)} checked={haveSSAAccount === true} />
                 <LabelText>Yes</LabelText>
               </AnswerBox>
               <AnswerBox>
-                  <RadioButton type="radio" name="haveSSAAccount" value="false" onChange={() => setHaveSSAAccount(false)} onClick={() => document.querySelector('body').scrollTo({ left: 0, top: this.myRef2.current.offsetTop, behavior: 'smooth' })} checked={haveSSAAccount === false} />
+                  <RadioButton type="radio" name="haveSSAAccount" value="false" onChange={() => setHaveSSAAccount(false)} onClick={() => this.scrollToElement(this.howToRef)} checked={haveSSAAccount === false} />
                 <LabelText>No</LabelText>
               </AnswerBox>
             </Card> : null
           }
           </div>
 
-          <div ref={this.myRef2}>
+          <div ref={this.howToRef}>
           {haveEarnings === false && haveSSAAccount === true ?
             (
               <HowToContainer>
@@ -213,7 +215,7 @@ the red box in the photo below.</ol>
               </HowToContainer>
             ) : null
           }
-
+          <div ref={this.earningsRecordRef}>
           {this.showFileUpload() ?
             <HowToContainer>
               <Card>
@@ -264,7 +266,7 @@ the red box in the photo below.</ol>
             </div>
           )
           }
-
+          </div>
           {haveEarnings === false && haveSSAAccount === false ?
             <>
               <Card>
