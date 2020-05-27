@@ -69,7 +69,6 @@ interface Prescreen1bProps {
 }
 
 class Prescreen1b extends React.Component<Prescreen1bProps> {
-  myRef: any;
   constructor(props: Prescreen1bProps) {
     super(props);
     this.earningsSelectRef = React.createRef();
