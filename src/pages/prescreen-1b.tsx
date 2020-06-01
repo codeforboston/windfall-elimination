@@ -80,7 +80,7 @@ class Prescreen1b extends React.Component<Prescreen1bProps> {
 
   scrollToElement(ref) {
       setTimeout(() => {
-        ref.current.scrollIntoView({ behavior: 'smooth' });
+        ref.current.scrollIntoView({ behavior: 'smooth', block: 'start'  });
       }, 100)
     }
 
@@ -165,8 +165,8 @@ class Prescreen1b extends React.Component<Prescreen1bProps> {
             >
               MySocialSecurity is the Social Security Administrations online service. With a MySocialSecurity account , you can download a copy of your earnings record to use for this question.
           </Glossary>
-
           </CardGlossaryContainer>
+
           <div ref={this.earningsSelectRef}>
           {haveEarnings === true ?
             <Card>
