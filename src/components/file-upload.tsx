@@ -182,8 +182,8 @@ export class GenerateTable extends React.Component<GenerateTableProps> {
 
     return (
       <>
-        {earningsSize && <H2>Year-by-year Earning Records</H2> &&
-        <h3>{earningsSize} {earningsSize ? "rows" : ""} {displayFile}</h3>}
+        {(earningsSize && <H2>Year-by-year Earning Records</H2> &&
+        <h3>{earningsSize| ""} {earningsSize ? "rows" : ""} {displayFile || ""}</h3>) || ""}
         <DisplayTable>{tableRows}</DisplayTable>
       </>
     );
