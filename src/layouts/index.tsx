@@ -10,7 +10,6 @@ import UserStateManager from "../library/user-state-manager";
 import { breakPoints } from "../constants";
 
 const Wrapper = styled("div")`
-  display: block;
   overflow: hidden;
   position: relative;
   display: flex;
@@ -27,9 +26,11 @@ const Container = styled("div")`
   display: flex;
   font-family: 'Montserrat', sans-serif;
   min-height: 95vh;
-  max-width: ${breakPoints[2]};
   width: 100%;
   height: 100%;
+
+  /* The following line sets the max width of the design
+  breakPoint[5] is around 1440px so that creates whitespace at left */
   max-width: ${breakPoints[5]};
 `;
 
