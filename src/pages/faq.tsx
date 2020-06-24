@@ -37,9 +37,7 @@ export default () => (
       You can appeal or request a waiver by calling Social Security
        or visiting your local field office. Make sure to have your
         Social Security number and the results from this app printed
-         when you make an appointment. Find your 
-         <a href="https://www.ssa.gov/locator/">local field office 
-         here</a> or call <a href="tel:1-800-772-1213">1-800-772-1213</a>.
+         when you make an appointment. Find your <a href="https://www.ssa.gov/locator/">local field office here</a> or call <a href="tel:1-800-772-1213">1-800-772-1213</a>.
     </TextBlock>
 
     <H3>This result doesn’t match what Social Security told me.</H3>
@@ -67,8 +65,7 @@ export default () => (
   <H3>I&apos;d like to see WEP repealed. What do I do?</H3>
   <TextBlock>
   Congress has introduced several bills to repeal WEP since it
-   was first made law in the 1980s. However, none have passed.
-   &nbsp;<a href="https://www.house.gov/representatives/find-your-representative">Contact your representative in Congress here</a>.
+   was first made law in the 1980s. However, none have passed.&nbsp;<a href="https://www.house.gov/representatives/find-your-representative">Contact your representative in Congress here</a>.
   </TextBlock>
 	 <br></br>
 
