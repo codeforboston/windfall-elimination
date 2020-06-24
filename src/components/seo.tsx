@@ -82,6 +82,10 @@ export const SEO = ({ description, lang, meta, keywords, title }: Props) => {
           content: `website`
         },
         {
+          property: `og:image`,
+          content: `../images/windfall-logo-v5.png`
+        },
+        {
           name: `twitter:card`,
           content: `summary`
         },
@@ -96,7 +100,11 @@ export const SEO = ({ description, lang, meta, keywords, title }: Props) => {
         {
           name: `twitter:description`,
           content: metaDescription
-        }
+        },
+        {
+          name: `twitter:image`,
+          content: `../images/windfall-logo-v5.png`
+        },
       ]
         .concat(
           keywords.length > 0
