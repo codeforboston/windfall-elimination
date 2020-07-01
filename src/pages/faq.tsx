@@ -30,7 +30,7 @@ export default () => (
     </TextBlock>
 
     <TextBlock>
-      You can appeal or request a waiver by calling Social Security or visiting
+      You can appeal or request a waiver by calling Social Security or by visiting
       your local field office. Make sure to have your Social Security number and
       the results from this app printed when you make an appointment. Find your{' '}
       <a href="https://www.ssa.gov/locator/">local field office here</a> or call{' '}
@@ -61,6 +61,21 @@ export default () => (
       contacting Social Security, reach out to your Member of Congress for help
       (see below).
     </TextBlock>
+    <H3>What is the Windfall Elimination Provision (WEP) and how does it affect 
+      government workers like teachers or firefighters?</H3>
+  <TextBlock>
+  <p>WEP is a complicated provision that alters benefits of retirees who spent some
+   part of their career not paying into social security, often working for state
+   or local government.</p>
+  <p>Along with the somewhat simpler GPO (Government Pension Offset)
+   rules, they can often catch retirees in Massachusetts and 7-10 other states
+   off guard. This calculator aims to improve the experience for these and other
+   retirees in the United States.</p>
+
+   &nbsp;<a href="http://www.massretirees.com/wepgpo-explained">Read more at Mass Retirees</a>.
+  </TextBlock>
+	 <br></br>
+   
 
     <H3>I&apos;d like to see WEP repealed. What do I do?</H3>
     <TextBlock>
