@@ -1,5 +1,82 @@
 import * as dayjs from "dayjs";
 
+// Typescript's Record type assumes every key has a value, which is usually not true
+type Dictionary<K extends string | number, V> = Partial<Record<K, V>>
+
+// Map from line ID to full line string
+type PIALineMap = Dictionary<number, string>
+
+interface PIASerializer {
+  serialize: (data: Partial<PIAData>) => PIALineMap
+  deserialize: (lineMap: PIALineMap) => Partial<PIAData>
+}
+/*
+return ['01', this.ssn, this.sex, dayjs(this.birthDate).format("MMDDYYYY"),'\n', this.piaEverythingElse.join('\n')].join('');
+*/
+const basicInfoSerializer: PIASerializer = {
+  serialize: (data) => {
+    const line01 = {
+      1: `01 ${data.ssn} ${data.sex} ${dayjs(data.birthDate).format("MMDDYYYY")}`
+    }
+    const line02 = !data.dateOfDeath ? {} : {
+      2: `02 ${dayjs(data.dateOfDeath).format("MMDDYYYY")}`
+    }
+
+    return {...line01, ...line02}
+  },
+  deserialize: (lineMap) => {
+    const line01Str = lineMap[1]
+    const line02Str = lineMap[2]
+
+    const line01Data = line01Str ? {
+      ssn: parsePiaString(line01Str, 3, 11),
+      birthDate: parsePiaDate(line01Str, 13, 20),
+    } : {}
+
+    const line02Data = line02Str ? {
+      // Maybe don't even need the end index? If all dates have the same length
+      dateOfDeath: parsePiaDate(line02Str, 3, 10),
+    } : {}
+    return {...line01Data, line02Data}
+  }
+}
+
+const PIA_SERIALIZERS: PIASerializer[] = [
+  basicInfoSerializer,
+  // dateOfDeathSerializer,
+  // disabilityDatesSerializer,
+  //…
+]
+
+/**
+ * Given a list of lines in the AnyPIA format, return a map from
+ * line number to the line string itself.
+ */
+function createLineMap(lines: string[]): PIALineMap {
+  return lines.reduce((lineMap, line) => {
+    const lineNum = Number.parseInt(line.slice(0, 2))
+    return Object.assign(lineMap, {[lineNum]: line})
+  }, {})
+}
+
+function deserializePIAData(lines: string[]): Partial<PIAData> {
+  const lineMap = createLineMap(lines)
+  const deserializedData = PIA_SERIALIZERS.reduce((data, serializer) => (
+    Object.assign(data, serializer.deserialize(lineMap))
+  ), {})
+
+  return deserializedData
+}
+
+function serializePIAData(data: PIAData): PIALineMap {
+  const lines = PIA_SERIALIZERS.reduce((lineMap, serializer) => (
+    Object.assign(lineMap, serializer.serialize(data))
+  ), {})
+
+  return lines
+}
+
+
 enum PIASex {
   male = 0,
   female = 1,
@@ -9,21 +86,11 @@ interface PIAData {
   ssn?: string;
   birthDate?: Date;
   sex?: PIASex;
-  oasdiEarnings: Array<number>;
-  firstEarningYearActual: number;
-  lastEarningYearActual: number;
+  oasdiEarnings?: Array<number>;
+  firstEarningYearActual?: number;
+  lastEarningYearActual?: number;
   piaEverythingElse: string;
   
-}
-
-enum PIATypes {
-  piaString = "string",
-  piaSex = "piaSex",
-  piaDate = "date",
-  piaMonthYear = "monthyear",
-  piaInt = "int",
-  piaDecimal = "decimal",
-  piaFloat = "float",
 }
 
 class PIAFieldFormat {
@@ -93,51 +160,6 @@ function getPiaFieldFormats(lineNum:string):PIAFieldFormat[] {
 
 }
 
-function parsePiaLine(line: string): Partial<PIAData> {
-  let lineType = line.slice(0, 2);
-  console.log("lineType",lineType);
-  let dataFormats = getPiaFieldFormats(lineType);
-  let piaData:Partial<PIAData> = <Partial<PIAData>>{};
-  console.log("dataFormats",dataFormats);
-  if (dataFormats != null) {
-    dataFormats.forEach((fieldFormat) => {
-      let endPos:number = line.length
-      if (fieldFormat.end != undefined){endPos = fieldFormat.end;}
-      let dataStr = line.slice(fieldFormat.start - 1, endPos);
-
-      switch (fieldFormat.type) {
-        case PIATypes.piaDate:
-          let dateVal: Date = parsePiaDate(dataStr);
-          Object.assign(piaData,{[fieldFormat.name]:dateVal});
-          break;
-        case PIATypes.piaSex:
-          let gender: PIASex = parsePiaSex(dataStr);
-          Object.assign(piaData,{[fieldFormat.name]:gender});
-          break;
-        case PIATypes.piaInt:
-          let dataNum = parseInt(dataStr, 10);
-          piaData = Object.assign(piaData, {
-            [fieldFormat.name]: dataNum
-          });
-          break;
-        case PIATypes.piaDecimal:
-          break;
-        case PIATypes.piaFloat:
-          break;
-        case PIATypes.piaMonthYear:
-          break;
-        case PIATypes.piaString:
-          console.log(piaData)
-          piaData = Object.assign(piaData, {
-            [fieldFormat.name]: dataStr
-          });
-          break;
-      }
-    });
-  }
-  return piaData;
-}
-
 export class PiaFormat {
   piaAll: string;
   piaData: PIAData;
@@ -146,7 +168,7 @@ export class PiaFormat {
     const lines = piaInput.split("\n");
     this.piaData = <PIAData>{};
     lines.forEach((line) => {
-      Object.assign(this.piaData,parsePiaLine(line));
+      Object.assign(this.piaData, parsePiaLine(line));
     });
 
     // this.piaEverythingElse = lines
@@ -156,17 +178,19 @@ export class PiaFormat {
 
   outputPIA() {
 
+    serializePIAData(this.piaData)
+
     //TODO: save result from getPiaFieldFormats() at an earlier point.
     //it is a template for parsing lines. Should be the same for every
     // line passed in.
-    return [
-      "01",
-      JSON.stringify(this.piaData),
-      this.piaData.sex,
-      dayjs(this.piaData.birthDate).format("MMDDYYYY"),
-      "\n",
-      // this.piaEverythingElse.join("\n"),
-    ].join("");
+    // return [
+    //   "01",
+    //   JSON.stringify(this.piaData),
+    //   this.piaData.sex,
+    //   dayjs(this.piaData.birthDate).format("MMDDYYYY"),
+    //   "\n",
+    //   // this.piaEverythingElse.join("\n"),
+    // ].join("");
   }
 }
 
@@ -214,147 +238,3 @@ function parsePiaCurrency(val: string): Number {
 function parsePiaFloat(val: string): Number {
   return parseFloat(val);
 }
-
-
-
-// const constructPieceType = (value: string, ourType: PIATypesEnum) => {
-//   switch (ourType) {
-//     case PIATypesEnum.piaDate:
-//       if (value.length !== 8) {
-//         console.warn("piaFormat date is invalid length");
-//       }
-//       /* dayjs will use local timezone */
-//       /* starts in mmddyyyy, dayjs takes yyyy-mm-dd */
-//       return dayjs(
-//         [value.slice(4, 8), value.slice(0, 2), value.slice(2, 4)].join("-")
-//       ).toDate();
-//       break;
-//     case PIATypesEnum.piaInt:
-//       return new Number(value);
-//       break;
-//     case PIATypesEnum.piaString:
-//     default:
-//       return value;
-//       break;
-//   }
-//   return;
-// };
-
-
-
-//   }
-//     new PIAFieldFormat("ssn", 3, 11, PIATypes.piaString),
-//     new PIAFieldFormat("sex", 12, 12, PIATypes.piaGender),
-//     new PIAFieldFormat("birthDate", 12, 14, PIATypes.piaDate),
-//   ],
-// };
-/*
-  const lines = piaInput.split("\n").map((line) => [line.slice(0, 2), line])
-
-  let piaData: Partial<PiaData> = {}
-  let everythingElse = ""
-  lines.forEach(line => {
-    const [lineCode, strLine] = line
-    const parser = lineParsers[lineCode]
-    if (parser) {
-      Object.assign(piaData, parser(strLine))
-    }
-    else everythingElse = `${everythingElse}\n${strLine}`
-  })
-*/
-
-
-// export class PiaFormat {
-//   constructor(piaInput: string, fileName: string) {
-//     this.piaAll = piaInput;
-//     const lines = piaInput
-//       .split("\n")
-//       .map((n) => [n.slice(0, 2), n.slice(2)])
-//       .map((m) => piaLineParser(m[0], m[1]));
-
-//     /* we should not index this array from zero
-//     because the file format does not, just roll them
-//     into one object for every '01', '03', etc. line
-//     if it exists */
-//     this.ssn = lines[0][1][0].value;
-//     this.sex = lines[0][1][1].value;
-//     this.birthDate = lines[0][1][2].value;
-//     this.piaEverythingElse = lines.slice(1).map((n) => n.join(""));
-
-//     console.log(fileName, lines, this.birthDate, this.piaEverythingElse);
-//   }
-//   piaAll: string | undefined;
-//   piaEverythingElse: Array<string>;
-//   ssn: string;
-//   sex: Number;
-//   birthDate: Date;
-
-// }
-
-/* "01": (contents: string): Partial<PiaData> => {
-  return {
-    ssn: parsePiaString(contents.slice(3, 11)),
-    birthDate: parsePiaData(contents.slice(13, 20)),
-    sex: parsePiaSex(contents.slice(12, 13)),
-  }
-}*/
-
-// const piaOut = {
-//   "01": (contents:PiaData): string => {
-//     return 
-//       [writePiaString(ssn),
-//       writePiaDate(birthDate),
-//       writePiaGender(gender), 
-//       writePadding(2)
-//     ].join('')
-//   }
-// }
-
-
-// const piaLineFormats =  {
-//   "01": (contents: string): Partial<PiaData> => {
-//     return {
-//       ssn: parsePiaString(contents.slice(3,11)),
-//       birthDate: parsePiaDate(contents.slice(13,20)),
-//       sex: parsePiaGender(contents.slice(12,13))
-//     }
-//   }
-
-//     console.log(fileName, lines, this.birthDate, this.piaEverythingElse);
-//   }
-//   piaAll: string | undefined;
-//   piaEverythingElse: Array<string>;
-//   ssn: string;
-//   sex: Number;
-//   birthDate: Date;
-
-// }
-
-/* "01": (contents: string): Partial<PiaData> => {
-  return {
-    ssn: parsePiaString(contents.slice(3, 11)),
-    birthDate: parsePiaData(contents.slice(13, 20)),
-    sex: parsePiaSex(contents.slice(12, 13)),
-  }
-}*/
-
-// const piaOut = {
-//   "01": (contents:PiaData): string => {
-//     return 
-//       [writePiaString(ssn),
-//       writePiaDate(birthDate),
-//       writePiaGender(gender), 
-//       writePadding(2)
-//     ].join('')
-//   }
-// }
-
-
-// const piaLineFormats =  {
-//   "01": (contents: string): Partial<PiaData> => {
-//     return {
-//       ssn: parsePiaString(contents.slice(3,11)),
-//       birthDate: parsePiaDate(contents.slice(13,20)),
-//       sex: parsePiaGender(contents.slice(12,13))
-//     }
-//   }
