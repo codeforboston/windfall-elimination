@@ -84,7 +84,7 @@ export const SEO = ({ description, lang, meta, keywords, title }: Props) => {
         },
         {
           property: `og:image`,
-          content: path.resolve(`/icons/icon-512x512.png`)
+          content: `https://ssacalculator.org/icons/icon-512x512.png`
         },
         {
           name: `twitter:card`,
@@ -104,7 +104,7 @@ export const SEO = ({ description, lang, meta, keywords, title }: Props) => {
         },
         {
           name: `twitter:image`,
-          content: path.resolve(`/icons/icon-512x512.png`)
+          content: `https://ssacalculator.org/icons/icon-512x512.png`
         },
       ]
         .concat(
