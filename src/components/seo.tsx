@@ -9,6 +9,7 @@ import React from "react";
 import PropTypes from "prop-types";
 import Helmet from "react-helmet";
 import { useStaticQuery, graphql } from "gatsby";
+import * as path from "path";
 
 type Props = {
   description: string;
@@ -82,6 +83,10 @@ export const SEO = ({ description, lang, meta, keywords, title }: Props) => {
           content: `website`
         },
         {
+          property: `og:image`,
+          content: `https://ssacalculator.org/icons/icon-512x512.png`
+        },
+        {
           name: `twitter:card`,
           content: `summary`
         },
@@ -96,7 +101,11 @@ export const SEO = ({ description, lang, meta, keywords, title }: Props) => {
         {
           name: `twitter:description`,
           content: metaDescription
-        }
+        },
+        {
+          name: `twitter:image`,
+          content: `https://ssacalculator.org/icons/icon-512x512.png`
+        },
       ]
         .concat(
           keywords.length > 0
