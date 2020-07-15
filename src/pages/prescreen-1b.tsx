@@ -136,7 +136,16 @@ class Prescreen1b extends React.Component<Prescreen1bProps> {
 201
 402017221
 95 12 12`
-        
+
+// 20: correct number of characters on 20/21 based on 6,7 and 8. within 0 and 4 on 20.
+// 20 is one field
+// 21 is a field: array for all the types of taxes for years you're working (why is no taxes in our examples)
+// 22-29 is a field: array for all your earnings. really a single list. Serialized and deserialized in one
+// we need logic for the last one
+
+//cross validating line 20 correspond to 22-29
+//combine the related values
+
         const sample20pia = `01123450020006221952
 031072014
 0619662010

@@ -1,4 +1,5 @@
 import * as dayjs from "dayjs";
+import { number } from "prop-types";
 
 // Typescript's Record type assumes every key has a value, which is usually not true
 type Dictionary<K extends string | number, V> = Partial<Record<K, V>>;
@@ -10,6 +11,9 @@ class PIADate extends Date {}
 
 class PIAMonthYear extends Date {}
 
+class PIAYear extends Number {};
+class PIAEarnings extends Number {};
+
 interface PIASerializer {
   fieldFormats: Record<string, PIAFieldMeta>;
   serialize: (data: Partial<PIAData>) => PIALineMap;
@@ -18,13 +22,15 @@ interface PIASerializer {
 
 class PIAFieldMeta {
   start: number;
-  end: number;
-  constructor(start: number, end: number) {
+  end?: number;
+  constructor(start: number, end?: number) {
     this.start = start;
-    this.end = end;
+    if(end) {
+      this.end = end;
+    }
   }
   getBlank(): string {
-    let len = this.end - this.start + 1;
+    let len = this.end === undefined || this.end === null ? 0 : this.end - this.start + 1;
     return " ".repeat(len);
   }
 }
@@ -158,9 +164,70 @@ const benefitSerializer: PIASerializer = new (class {
   }
 })();
 
+/*
+OASDI stands for old age, survivors, and disability insurance tax,
+and the money that your employer collects goes to the federal government
+ in order to fund the Social Security program.
+return 
+*/
+const oasdiEarningsSerializer: PIASerializer = new (class {
+  fieldFormats: Record<string, PIAFieldMeta>;
+
+  // all start at 3 and continue for number of entries based on other values.
+  constructor() {
+    this.fieldFormats = {
+      firstEarningYearActual: new PIAFieldMeta(3,6),
+      lastEarningYearActual: new PIAFieldMeta(7,10),
+      typeOfEarnings: new PIAFieldMeta(3),
+      typeOfTaxes: new PIAFieldMeta(3),
+      oasdiEarnings: new PIAFieldMeta(3)
+    };
+  }
+
+  serialize(data: Partial<PIAData>): PIALineMap {
+    return
+  }
+  deserialize(lineMap: PIALineMap): Partial<PIAData> {
+    const line6Str = lineMap[6];
+    const line20Str = lineMap[20];
+    const line21Str = lineMap[21];
+    const line22Str = lineMap[22];
+
+    const line6Data = line6Str
+    ? {
+      firstEarningYearActual:  parseInt(piaSubstr(
+        line6Str,
+        this.fieldFormats.firstEarningYearActual.start,
+        this.fieldFormats.firstEarningYearActual.end || 0 //TODO: handle undefined
+      ), 10),
+      lastEarningYearActual: parseInt(piaSubstr(
+        line6Str,
+        this.fieldFormats.lastEarningYearActual.start,
+        this.fieldFormats.lastEarningYearActual.end || 0 //TODO: handle undefined
+      ), 10)
+    } : {};
+
+    //TODO: add line 7 and line 8 parsing for future year calcs.
+    
+    const line20Data = line20Str
+      ? {
+          typeOfEarnings: parsePiaTypeOfEarningsString(
+            line20Str,
+            this.fieldFormats.typeOfEarnings.start,
+            line6Data.firstEarningYearActual || 1950 //TODO: remove stub, calculate from line7 AND line 6.
+            )
+        }
+      : {};
+
+    return { ...line6Data, ...line20Data };
+  }
+})();
+
+
 const PIA_SERIALIZERS: PIASerializer[] = [
   basicInfoSerializer,
   benefitSerializer,
+  oasdiEarningsSerializer,
   // dateOfDeathSerializer,
   // disabilityDatesSerializer,
   //…
@@ -172,7 +239,7 @@ const PIA_SERIALIZERS: PIASerializer[] = [
  */
 function createLineMap(lines: string[]): PIALineMap {
   return lines.reduce((lineMap, line) => {
-    const lineNum = Number.parseInt(line.slice(0, 2));
+    const lineNum = parseInt(line.slice(0, 2), 10);
     return Object.assign(lineMap, { [lineNum]: line });
   }, {});
 }
@@ -206,6 +273,20 @@ enum SSABenefitType {
   disability = 3,
 }
 
+/* http://thadk.net/anypiamac-docs/html/Forms/type_of_earnings.html */
+enum PIATypeOfEarnings {
+  entered_earnings = 0,
+  maximum = 1,
+  high = 2,
+  average = 3,
+  low = 4,
+}
+
+enum PIATypeOfTaxes {
+  employee_taxes = 0,
+  self_employed_taxes = 1
+}
+
 interface PIAData {
   ssn?: string;
   birthDate?: PIADate;
@@ -214,9 +295,11 @@ interface PIAData {
   typeOfBenefit?: SSABenefitType;
   monthYearBenefit?: PIAMonthYear;
   monthYearEntitlement?: PIAMonthYear;
-  oasdiEarnings?: Array<number>;
-  firstEarningYearActual?: number;
-  lastEarningYearActual?: number;
+  firstEarningYearActual?: PIAYear;
+  lastEarningYearActual?: PIAYear;
+  typeOfEarnings?: Map<PIAYear, PIATypeOfEarnings>; 
+  typeOfTaxes?: Map<PIAYear, PIATypeOfTaxes>;
+  oasdiEarnings?: Map<PIAYear, PIAEarnings>;
   piaEverythingElse?: string;
 }
 
@@ -264,7 +347,7 @@ function parsePiaMonthYear(
 
 function parsePiaSex(lineStr: string, start: number, end: number): PIASex {
   let genderStr = piaSubstr(lineStr, start, end);
-  let genInt = parseInt(genderStr);
+  let genInt = parseInt(genderStr, 10);
   let sex: PIASex = genInt;
   return sex;
 }
@@ -275,9 +358,27 @@ function parseSSABenefitType(
   end: number
 ): SSABenefitType {
   let benStr = piaSubstr(lineStr, start, end);
-  let benInt = parseInt(benStr);
+  let benInt = parseInt(benStr, 10);
   let ssaBen: SSABenefitType = benInt;
   return ssaBen;
+}
+
+function parsePiaTypeOfEarningsString(
+  lineStr: string,
+  startCharacter: number,
+  startYear: PIAYear
+
+): Map<PIAYear,PIATypeOfEarnings> {
+  let toeMap = new Map<PIAYear, PIATypeOfEarnings>();
+  const zeroIndexStartCharacter = startCharacter - 1;
+
+  let currentYear = Number(startYear); 
+  for (var i = zeroIndexStartCharacter; i < lineStr.length; i++) {
+    let val : PIATypeOfEarnings  = parseInt(lineStr.charAt(i), 10)
+    toeMap.set(currentYear, val);
+    currentYear = currentYear + 1;
+  }
+  return toeMap;
 }
 
 function parsePiaDate(lineStr: string, start: number, end: number): PIADate {
