@@ -222,7 +222,26 @@ const oasdiEarningsSerializer: PIASerializer = new (class {
   }
 
   serialize(data: Partial<PIAData>): PIALineMap {
-    return;
+    const line6 = {
+      6: `06${
+        data.firstEarningYearActual != undefined
+          ? data.firstEarningYearActual
+          : this.fieldFormats.firstEarningYearActual.getBlank()
+      }${
+        data.lastEarningYearActual != undefined
+          ? data.lastEarningYearActual
+          : this.fieldFormats.lastEarningYearActual.getBlank()
+      }`,
+    };
+
+    //    const line20 = {
+    //      20: `20${
+    //        data.typeOfEarnings != undefined
+    //        ?
+    //        :this.fieldFormats.typeOfEarnings.getBlank()
+    //      }`,
+    //    };
+    return { ...line6 };
   }
   deserialize(lineMap: PIALineMap): Partial<PIAData> {
     const line6Str = lineMap[6];
@@ -265,19 +284,56 @@ const oasdiEarningsSerializer: PIASerializer = new (class {
       } else {
         oasdiLine = lineMap[i] || "";
         oasdiLine = oasdiLine.trim();
-        debugger
+        debugger;
         const parsedLine = parseYearEarningsLineString(
           oasdiLine,
           this.fieldFormats.oasdiEarnings.startChar,
           lineYear,
           this.fieldFormats.oasdiEarnings.fieldCharLength
         );
-        oasdiData = new Map<PIAYear, PIAEarnings>([...Array.from(oasdiData.entries()),...Array.from(parsedLine.entries())])
+        oasdiData = new Map<PIAYear, PIAEarnings>([
+          ...Array.from(oasdiData.entries()),
+          ...Array.from(parsedLine.entries()),
+        ]);
         // ([...oasdiData, ...parsedLine ]);
-        lineYear = lineYear +=
-          Math.floor(oasdiLine.length / this.fieldFormats.oasdiEarnings.fieldCharLength);
+        lineYear = lineYear += Math.floor(
+          oasdiLine.length / this.fieldFormats.oasdiEarnings.fieldCharLength
+        );
       }
     }
+
+    lineYear = line6Data.firstEarningYearActual || 1950; //TODO: remove stub, calculate from line7 AND line 6.
+    var hiData: Map<PIAYear, PIAEarnings> = new Map<PIAYear, PIAEarnings>();
+    var hiLine: string;
+    for (
+      var i = this.fieldFormats.hiEarnings.startLine;
+      i <= this.fieldFormats.hiEarnings.endLine;
+      i++
+    ) {
+      if (lineMap[i] == "") {
+        break;
+      } else {
+        hiLine = lineMap[i] || "";
+        hiLine = hiLine.trim();
+        const parsedLine = parseYearEarningsLineString(
+          hiLine,
+          this.fieldFormats.hiEarnings.startChar,
+          lineYear,
+          this.fieldFormats.hiEarnings.fieldCharLength
+        );
+        hiData = new Map<PIAYear, PIAEarnings>([
+          ...Array.from(hiData.entries()),
+          ...Array.from(parsedLine.entries()),
+        ]);
+        lineYear = lineYear += Math.floor(
+          hiLine.length / this.fieldFormats.hiEarnings.fieldCharLength
+        );
+      }
+    }
+
+    var line30To37Data: Partial<PIAData> = {
+      hiEarnings: hiData,
+    };
 
     let line22To29Data: Partial<PIAData> = {
       oasdiEarnings: oasdiData,
@@ -293,9 +349,14 @@ const oasdiEarningsSerializer: PIASerializer = new (class {
         }
       : {};
 
-    console.log({ ...line6Data, ...line20Data, ...line22To29Data })
+    console.log({ ...line6Data, ...line20Data, ...line22To29Data });
 
-    return { ...line6Data, ...line20Data, ...line22To29Data };
+    return {
+      ...line6Data,
+      ...line20Data,
+      ...line22To29Data,
+      ...line30To37Data,
+    };
   }
 })();
 
@@ -375,6 +436,7 @@ interface PIAData {
   typeOfEarnings?: Map<PIAYear, PIATypeOfEarnings>;
   typeOfTaxes?: Map<PIAYear, PIATypeOfTaxes>;
   oasdiEarnings?: Map<PIAYear, PIAEarnings>;
+  hiEarnings?: Map<PIAYear, PIAEarnings>;
   piaEverythingElse?: string;
 }
 
