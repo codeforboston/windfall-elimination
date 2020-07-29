@@ -1,4 +1,4 @@
-import dayjs from 'dayjs';
+import dayjs from "dayjs";
 
 /* based on http://thadk.net/anypiamac-docs/html/General/structure.html 
 copied from SSA AnyPIA downloadable package */
@@ -9,12 +9,12 @@ type Dictionary<K extends string | number, V> = Partial<Record<K, V>>;
 // Map from line ID to full line string
 type PIALineMap = Dictionary<number, string>;
 
-class PIADate extends Date {};
+class PIADate extends Date {}
 
-class PIAMonthYear extends Date {};
+class PIAMonthYear extends Date {}
 
-class PIAYear extends Number {};
-class PIAEarnings extends Number {};
+class PIAYear extends Number {}
+class PIAEarnings extends Number {}
 
 interface PIASerializer {
   fieldFormats: Record<string, PIAFieldMeta>;
@@ -447,7 +447,7 @@ const monthlyNoncoveredPensionSerializer: PIASerializer = new (class {
       12: `12${
         data.monthlyNoncoveredPensionAmount != undefined
           ? data.monthlyNoncoveredPensionAmount
-              ?.toFixed(2)
+              .toFixed(2)
               .padStart(
                 this.fieldFormats.monthlyNoncoveredPensionAmount
                   .fieldCharLength,
@@ -768,14 +768,12 @@ export class PiaFormat {
   outputPIA() {
     var linesRecords = serializePIAData(this.piaData);
     const lines = Object.entries(linesRecords)
-      .sort(
-        (a: Array<any>, b: Array<any>) => {
-          if (a[0] === b[0]){
-            console.warn(a[0],"line is serialized more than once")
-          }
-          return parseInt(a[0], 10) - parseInt(b[0], 10);
+      .sort((a: Array<any>, b: Array<any>) => {
+        if (a[0] === b[0]) {
+          console.warn(a[0], "line is serialized more than once");
         }
-      ) //make sure lines ordered
+        return parseInt(a[0], 10) - parseInt(b[0], 10);
+      }) //make sure lines ordered
       .map((m) => m[1]) //remove line numbers
       .reduce((n, acc) => [n, acc].join("\n").trim(), ""); //add newlines
 
