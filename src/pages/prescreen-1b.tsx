@@ -173,9 +173,9 @@ class Prescreen1b extends React.Component<Prescreen1bProps> {
         const pia1Inputter = new PiaFormat(sample1pia, "sample1.pia");
         const pia20Inputter = new PiaFormat(sample20pia, "sample20.pia");
         const pia25Inputter = new PiaFormat(sample25pia, "sample25.pia");
-        console.log(pia1Inputter.outputPIA())
-        console.log(pia20Inputter.outputPIA())
-        console.log(pia25Inputter.outputPIA())
+        console.assert(pia1Inputter.outputPIA() === sample1pia,"sample1.pia",pia1Inputter.outputPIA())
+        console.assert(pia20Inputter.outputPIA() === sample20pia,"sample20.pia",pia20Inputter.outputPIA())
+        console.assert(pia25Inputter.outputPIA() === sample25pia,"sample25.pia",pia25Inputter.outputPIA())
 
     return (
       <React.Fragment>
