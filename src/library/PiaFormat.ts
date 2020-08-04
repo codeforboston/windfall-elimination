@@ -239,7 +239,18 @@ const oasdiEarningsSerializer: PIASerializer = new (class {
       }`,
     };
 
-    //TODO: line20, line21
+    //TODO: line20, line2
+    const line20 = {
+      20: `20${
+        data.typeOfEarnings != undefined
+          ? Array.from(data.typeOfEarnings.entries())
+              .sort((a: Array<any>, b: Array<any>) => a[0] - b[0])
+              .map((entry) => entry[1])
+              .join("")
+          : this.fieldFormats.typeOfEarnings.getBlank()
+      }
+      `,
+    };
 
     const chunkArray = (chunkSize: number) => (array: Array<any>) => {
       return array.reduce((acc, each, index, src) => {
@@ -287,7 +298,7 @@ const oasdiEarningsSerializer: PIASerializer = new (class {
       ...line6,
       //...line7,
       //...line8,
-      //...line20,
+      ...(data.typeOfEarnings && line20),
       //...line21,
       ...line22to29,
     };
