@@ -701,9 +701,10 @@ function createLineMap(lines: string[]): PIALineMap {
 
 function deserializePIAData(lines: string[]): PIAData {
   const lineMap = createLineMap(lines);
+  const piaDataInit = initializePiaData();
   const deserializedData = PIA_SERIALIZERS.reduce(
     (data, serializer) => Object.assign(data, serializer.deserialize(lineMap)),
-    {}
+    piaDataInit
   );
 
   return deserializedData;
@@ -765,6 +766,228 @@ interface PIAData {
   pastProjectionStubString?: string;
   futureProjectionStubString?: string;
   piaEverythingElse?: string;
+}
+
+//Getter Setter Interface
+interface PIADataAdapter {
+  getSSN(): string | undefined;
+  setSSN(value: string | undefined): void;
+
+  getBirthDate(): PIADate | undefined;
+  setBirthDate(value: PIADate | undefined): void;
+
+  getSex(): PIASex | undefined;
+  setSex(value: PIASex | undefined): void;
+
+  getDateOfDeath(): PIADate | undefined;
+  setDateOfDeath(value: PIADate | undefined): void;
+
+  getTypeOfBenefit(): SSABenefitType | undefined;
+  setTypeOfBenefit(value: SSABenefitType | undefined): void;
+
+  getMonthYearBenefit(): PIAMonthYear | undefined;
+  setMonthYearBenefit(value: PIAMonthYear | undefined): void;
+
+  getMonthYearEntitlement(): PIAMonthYear | undefined;
+  setMonthYearEntitelemnt(value: PIAMonthYear | undefined): void;
+
+  getFirstEarningYearActual(): PIAYear | undefined;
+  setFirstEarningYearActual(value: PIAYear | undefined): void;
+
+  getLastEarningYearActual(): PIAYear | undefined;
+  setLastEarningYearActual(value: PIAYear | undefined): void;
+
+  getTypeOfEarnings(): Map<PIAYear, PIATypeOfEarnings> | undefined;
+  setTypeOfEarnings(value: Map<PIAYear, PIATypeOfEarnings> | undefined): void;
+
+  getTypeOfTaxes(): Map<PIAYear, PIATypeOfTaxes> | undefined;
+  setTypeOfTaxes(value: Map<PIAYear, PIATypeOfTaxes> | undefined): void;
+
+  getOasdiEarnings(): Map<PIAYear, PIAEarnings> | undefined;
+  setOasdiEarnings(value: Map<PIAYear, PIAEarnings> | undefined): void;
+
+  getHiEarnings(): Map<PIAYear, PIAEarnings> | undefined;
+  setHiEarnings(value: Map<PIAYear, PIAEarnings> | undefined): void;
+
+  getMonthlyNoncoveredPensionAmount(): PIAEarnings | undefined;
+  setMonthlyNoncoveredPensionAmount(value: PIAEarnings | undefined): void;
+
+  getMonthYearEntitlementNoncoveredPension(): PIAMonthYear | undefined;
+  setMonthYearEntitlementNoncoveredPension(
+    value: PIAMonthYear | undefined
+  ): void;
+
+  getNameOfWorker(): string | undefined;
+  setNameOfWorker(value: string | undefined): void;
+
+  getOldQuartersOfCoverageStubString(): string | undefined;
+  setOldQuartersOfCoverageStubString(value: string | undefined): void;
+
+  getWageBaseStubString(): string | undefined;
+  setWageBaseStubString(value: string | undefined): void;
+
+  getPastProjectionStubString(): string | undefined;
+  setPastProjectionStubString(value: string | undefined): void;
+
+  getFutureProjectionStubString(): string | undefined;
+  setFutureProjectionStubString(value: string | undefined): void;
+
+  getPiaEverythingElse(): string | undefined;
+  setPiaEverythingElse(value: string | undefined): void;
+}
+
+function initializePiaData(): PIAData & PIADataAdapter {
+  const piaData: PIAData & PIADataAdapter = {
+    ssn: undefined,
+    birthDate: undefined,
+    sex: undefined,
+    dateOfDeath: undefined,
+    typeOfBenefit: undefined,
+    monthYearBenefit: undefined,
+    monthYearEntitlement: undefined,
+    firstEarningYearActual: undefined,
+    lastEarningYearActual: undefined,
+    typeOfEarnings: undefined,
+    typeOfTaxes: undefined,
+    oasdiEarnings: undefined,
+    hiEarnings: undefined,
+    monthlyNoncoveredPensionAmount: undefined,
+    monthYearEntitlementNoncoveredPension: undefined,
+    nameOfWorker: undefined,
+    oldQuartersOfCoverageStubString: undefined,
+    wageBaseStubString: undefined,
+    pastProjectionStubString: undefined,
+    futureProjectionStubString: undefined,
+    piaEverythingElse: undefined,
+
+    getSSN() {
+      return this.ssn;
+    },
+    setSSN(value) {
+      this.ssn = value;
+    },
+    getBirthDate() {
+      return this.birthDate;
+    },
+    setBirthDate(value) {
+      this.birthDate = value;
+    },
+    getSex() {
+      return this.sex;
+    },
+    setSex(value) {
+      this.sex = value;
+    },
+    getDateOfDeath() {
+      return this.dateOfDeath;
+    },
+    setDateOfDeath(value) {
+      this.dateOfDeath = value;
+    },
+    getTypeOfBenefit() {
+      return this.typeOfBenefit;
+    },
+    setTypeOfBenefit(value) {
+      this.typeOfBenefit = value;
+    },
+    getMonthYearBenefit() {
+      return this.monthYearBenefit;
+    },
+    setMonthYearBenefit(value) {
+      this.monthYearBenefit = value;
+    },
+    getMonthYearEntitlement() {
+      return this.monthYearEntitlement;
+    },
+    setMonthYearEntitelemnt(value) {
+      this.monthYearEntitlement = value;
+    },
+    getFirstEarningYearActual() {
+      return this.firstEarningYearActual;
+    },
+    setFirstEarningYearActual(value) {
+      this.firstEarningYearActual = value;
+    },
+    getLastEarningYearActual() {
+      return this.lastEarningYearActual;
+    },
+    setLastEarningYearActual(value) {
+      this.lastEarningYearActual = value;
+    },
+    getTypeOfEarnings() {
+      return this.typeOfEarnings;
+    },
+    setTypeOfEarnings(value) {
+      this.typeOfEarnings = value;
+    },
+    getTypeOfTaxes() {
+      return this.typeOfTaxes;
+    },
+    setTypeOfTaxes(value) {
+      this.typeOfTaxes = value;
+    },
+    getOasdiEarnings() {
+      return this.oasdiEarnings;
+    },
+    setOasdiEarnings(value) {
+      this.oasdiEarnings = value;
+    },
+    getHiEarnings() {
+      return this.hiEarnings;
+    },
+    setHiEarnings(value) {
+      this.hiEarnings = value;
+    },
+    getMonthlyNoncoveredPensionAmount() {
+      return this.monthlyNoncoveredPensionAmount;
+    },
+    setMonthlyNoncoveredPensionAmount(value) {
+      this.monthlyNoncoveredPensionAmount = value;
+    },
+    getMonthYearEntitlementNoncoveredPension() {
+      return this.monthYearEntitlementNoncoveredPension;
+    },
+    setMonthYearEntitlementNoncoveredPension(value) {
+      this.monthYearEntitlementNoncoveredPension = value;
+    },
+    getNameOfWorker() {
+      return this.nameOfWorker;
+    },
+    setNameOfWorker(value) {
+      this.nameOfWorker = value;
+    },
+    getOldQuartersOfCoverageStubString() {
+      return this.oldQuartersOfCoverageStubString;
+    },
+    setOldQuartersOfCoverageStubString(value) {
+      this.oldQuartersOfCoverageStubString = value;
+    },
+    getWageBaseStubString() {
+      return this.wageBaseStubString;
+    },
+    setWageBaseStubString(value) {
+      this.wageBaseStubString = value;
+    },
+    getPastProjectionStubString() {
+      return this.pastProjectionStubString;
+    },
+    setPastProjectionStubString(value) {
+      this.pastProjectionStubString = value;
+    },
+    getFutureProjectionStubString() {
+      return this.futureProjectionStubString;
+    },
+    setFutureProjectionStubString(value) {
+      this.futureProjectionStubString = value;
+    },
+    getPiaEverythingElse() {
+      return this.piaEverythingElse;
+    },
+    setPiaEverythingElse(value) {
+      this.piaEverythingElse = value;
+    },
+  };
+  return piaData;
 }
 
 export class PiaFormat {
