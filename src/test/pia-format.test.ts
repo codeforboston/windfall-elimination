@@ -1,8 +1,6 @@
-import {
-    PiaFormat
-  } from "../library/PiaFormat";
+import { PiaFormat } from "../library/pia/pia-format";
 
-const sample1pia= `01123450001001151954
+const sample1pia = `01123450001001151954
 031012020
 0619752019
 071  0.002008
@@ -10,9 +8,9 @@ const sample1pia= `01123450001001151954
 16Sample 1
 201
 402017221
-95 12 12`
+95 12 12`;
 
-        const sample20pia = `01123450020006221952
+const sample20pia = `01123450020006221952
 031072014
 0619662010
 12   1500.00062010
@@ -24,8 +22,8 @@ const sample1pia= `01123450001001151954
 25       0.00       0.00       0.00       0.00       0.00       0.00   20000.00  104400.00  105480.00  108000.00
 26  113040.00  117000.00  122400.00  128160.00   35000.00
 95 40 40`;
-    
-        const sample25pia = `01123450025009021960
+
+const sample25pia = `01123450025009021960
 031092022
 0619812020
 072  0.001990
@@ -38,27 +36,24 @@ const sample1pia= `01123450001001151954
 402017551`;
 
 describe("Sample 1, 20 and 25 AnyPIA (Full Retirement)", () => {
+  const pia1Inputter = new PiaFormat(sample1pia, "sample1.pia");
+  const pia20Inputter = new PiaFormat(sample20pia, "sample20.pia");
+  const pia25Inputter = new PiaFormat(sample25pia, "sample25.pia");
 
-    const pia1Inputter = new PiaFormat(sample1pia, "sample1.pia");
-    const pia20Inputter = new PiaFormat(sample20pia, "sample20.pia");
-    const pia25Inputter = new PiaFormat(sample25pia, "sample25.pia");
+  it("Deserializing Sample1.pia results in the same serialization", async () => {
+    expect.assertions(1);
 
-	it("Deserializing Sample1.pia results in the same serialization", async () => {
-		expect.assertions(1);
+    expect(pia1Inputter.outputPia()).toBe(sample1pia);
+  });
 
-		expect(pia1Inputter.outputPIA() ).toBe(sample1pia)
-	})
+  it("Deserializing Sample20.pia results in the same serialization", async () => {
+    expect.assertions(1);
 
-	it("Deserializing Sample20.pia results in the same serialization", async () => {
-		expect.assertions(1);
+    expect(pia20Inputter.outputPia()).toBe(sample20pia);
+  });
+  it("Deserializing Sample25.pia results in the same serialization", async () => {
+    expect.assertions(1);
 
-		expect(pia20Inputter.outputPIA() ).toBe(sample20pia)
-
-  	})
-	it("Deserializing Sample25.pia results in the same serialization", async () => {
-		expect.assertions(1);
-
-		expect(pia25Inputter.outputPIA() ).toBe(sample25pia)
-
-  	})
-})
+    expect(pia25Inputter.outputPia()).toBe(sample25pia);
+  });
+});

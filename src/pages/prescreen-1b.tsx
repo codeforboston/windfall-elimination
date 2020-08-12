@@ -22,9 +22,7 @@ import {
   UserStateActions,
   useUserStateActions,
 } from "../library/user-state-actions-context";
-import {
-  PiaFormat
-} from "../library/PiaFormat";
+import { PiaFormat } from "../library/pia/pia-format";
 
 export const SsaImage = styled("img")`
   border: 1px solid #dddddd;
@@ -127,7 +125,7 @@ class Prescreen1b extends React.Component<Prescreen1bProps> {
       },
     } = this.props;
 
-    const sample1pia= `01123450001001151954
+    const sample1pia = `01123450001001151954
 031012020
 0619752019
 071  0.002008
@@ -135,18 +133,18 @@ class Prescreen1b extends React.Component<Prescreen1bProps> {
 16Sample 1
 201
 402017221
-95 12 12`
+95 12 12`;
 
-// 20: correct number of characters on 20/21 based on 6,7 and 8. within 0 and 4 on 20.
-// 20 is one field
-// 21 is a field: array for all the types of taxes for years you're working (why is no taxes in our examples)
-// 22-29 is a field: array for all your earnings. really a single list. Serialized and deserialized in one
-// we need logic for the last one
+    // 20: correct number of characters on 20/21 based on 6,7 and 8. within 0 and 4 on 20.
+    // 20 is one field
+    // 21 is a field: array for all the types of taxes for years you're working (why is no taxes in our examples)
+    // 22-29 is a field: array for all your earnings. really a single list. Serialized and deserialized in one
+    // we need logic for the last one
 
-//cross validating line 20 correspond to 22-29
-//combine the related values
+    //cross validating line 20 correspond to 22-29
+    //combine the related values
 
-        const sample20pia = `01123450020006221952
+    const sample20pia = `01123450020006221952
 031072014
 0619662010
 12   1500.00062010
@@ -158,8 +156,8 @@ class Prescreen1b extends React.Component<Prescreen1bProps> {
 25       0.00       0.00       0.00       0.00       0.00       0.00   20000.00  104400.00  105480.00  108000.00
 26  113040.00  117000.00  122400.00  128160.00   35000.00
 95 40 40`;
-    
-        const sample25pia = `01123450025009021960
+
+    const sample25pia = `01123450025009021960
 031092022
 0619812020
 072  0.001990
@@ -170,12 +168,25 @@ class Prescreen1b extends React.Component<Prescreen1bProps> {
 23    4000.00    6000.00    6000.00    6000.00    6000.00    6000.00    6000.00    6000.00    6000.00    6000.00
 24    6000.00    8000.00
 402017551`;
-        const pia1Inputter = new PiaFormat(sample1pia, "sample1.pia");
-        const pia20Inputter = new PiaFormat(sample20pia, "sample20.pia");
-        const pia25Inputter = new PiaFormat(sample25pia, "sample25.pia");
-        console.assert(pia1Inputter.outputPIA() === sample1pia,"sample1.pia",pia1Inputter.outputPIA())
-        console.assert(pia20Inputter.outputPIA() === sample20pia,"sample20.pia",pia20Inputter.outputPIA())
-        console.assert(pia25Inputter.outputPIA() === sample25pia,"sample25.pia",pia25Inputter.outputPIA())
+    const pia1Inputter = new PiaFormat(sample1pia, "sample1.pia");
+    const pia20Inputter = new PiaFormat(sample20pia, "sample20.pia");
+    const pia25Inputter = new PiaFormat(sample25pia, "sample25.pia");
+    console.assert(
+      pia1Inputter.outputPia() === sample1pia,
+      "sample1.pia",
+      pia1Inputter.outputPia()
+    );
+    console.assert(
+      pia20Inputter.outputPia() === sample20pia,
+      "sample20.pia",
+      pia20Inputter.outputPia()
+    );
+    console.log(pia25Inputter.outputPia());
+    console.assert(
+      pia25Inputter.outputPia() === sample25pia,
+      "sample25.pia",
+      pia25Inputter.outputPia()
+    );
 
     return (
       <React.Fragment>
@@ -317,19 +328,18 @@ class Prescreen1b extends React.Component<Prescreen1bProps> {
                 <H2>HOW-TO</H2>
                 <h3>Download your earnings record from MySocialSecurity</h3>
                 <WarningBox>
-                  This how-to will show you how to download your personal
-                  Social Security information. Only follow these steps if
-                  you are using a private computer. If you only have access
-                  to a public computer - like those at a library, school, or
-                  computer lab - please click here to be shown instructions
-                  for requesting a physical copy of your earnings record in
-                  the mail.
+                  This how-to will show you how to download your personal Social
+                  Security information. Only follow these steps if you are using
+                  a private computer. If you only have access to a public
+                  computer - like those at a library, school, or computer lab -
+                  please click here to be shown instructions for requesting a
+                  physical copy of your earnings record in the mail.
                 </WarningBox>
                 <ul>
                   <ol>1) Log in to your MySocialSecurity account</ol>
                   <ol>
-                    2) Click on “Download Your Statement Data”, as seen in
-                    the red box in the photo below.
+                    2) Click on “Download Your Statement Data”, as seen in the
+                    red box in the photo below.
                   </ol>
                   <SsaImage src="https://user-images.githubusercontent.com/50156013/56998273-bcd78800-6b78-11e9-86b5-9db06d292a4c.jpg" />
                   <ol>3) Save the XML file to your computer.</ol>
@@ -383,37 +393,41 @@ class Prescreen1b extends React.Component<Prescreen1bProps> {
           )}
 
           {haveEarnings === false && haveSSAAccount === false ? (
-                <>
-                  <HowToContainer>
-                    <Card>
-                      <H2>HOW-TO</H2>
-                      <h3>
-                        Request a copy of your earnings report through the mail
-                      </h3>
-                      <WarningBox>
-                        We cannot estimate your WEP without a copy of your
-                        earnings record. The How-to’s linked below will tell you how to
-                        get your earnings record through the mail, or by signing
-                        up for a MySocialSecurity account online.
-                      </WarningBox>
-                    </Card>
-                  </HowToContainer>
-                  <HowToContainer>
-                    <Card>
-                      <H2>Browse to the HOW-TO</H2>
-                      <ul>
-                      <li><Link href="https://faq.ssa.gov/en-us/Topic/article/KA-01741">
+            <>
+              <HowToContainer>
+                <Card>
+                  <H2>HOW-TO</H2>
+                  <h3>
+                    Request a copy of your earnings report through the mail
+                  </h3>
+                  <WarningBox>
+                    We cannot estimate your WEP without a copy of your earnings
+                    record. The How-to’s linked below will tell you how to get
+                    your earnings record through the mail, or by signing up for
+                    a MySocialSecurity account online.
+                  </WarningBox>
+                </Card>
+              </HowToContainer>
+              <HowToContainer>
+                <Card>
+                  <H2>Browse to the HOW-TO</H2>
+                  <ul>
+                    <li>
+                      <Link href="https://faq.ssa.gov/en-us/Topic/article/KA-01741">
                         Read the guide.
-                      </Link></li>
-                      <li><Link href="https://secure.ssa.gov/RIL/SiView.action">
+                      </Link>
+                    </li>
+                    <li>
+                      <Link href="https://secure.ssa.gov/RIL/SiView.action">
                         Signup or login to your online account at
                         MySocialSecurity
-                      </Link></li>
-                      </ul>
-                    </Card>
-                  </HowToContainer>
-                </>
-              ) : null}
+                      </Link>
+                    </li>
+                  </ul>
+                </Card>
+              </HowToContainer>
+            </>
+          ) : null}
         </ContentContainer>
       </React.Fragment>
     );
