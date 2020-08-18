@@ -14,7 +14,10 @@ export async function finalCalculation(
   //const userFullRetireDate = getFullRetirementDate(new Date(birthDatePicked));
 
   const piaFormat = new PiaFormat();
-  //piaFormat.setBirthDate(birthDatePicked).setEntitlementDate(retireDatePicked).setOsdiEarnings(earnings);
+  piaFormat
+    .setBirthDate(new Date(birthDatePicked))
+    .setEntitlementDate(new Date(retireDatePicked));
+  //.setOsdiEarnings(new Number(earnings)); //TODO - provide year.
   const userProfile: UserProfile = {
     "Standard PIA": "0",
     "WEP PIA": "0", //.toFixed(2),

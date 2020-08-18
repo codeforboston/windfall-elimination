@@ -878,6 +878,29 @@ export class PiaFormat {
     this.piaData = deserializePiaData(lines);
   }
   //TODO - getters and setters for retire date, birthdate and earnings.
+  setBirthDate(date: PiaTypes.PiaDate) {
+    this.piaData.birthDate = date;
+    return this;
+  }
+
+  getBirthDate() {
+    return this.piaData.birthDate;
+  }
+
+  setEntitlementDate(monthYear: PiaTypes.PiaMonthYear) {
+    this.piaData.monthYearBenefit = monthYear;
+    return this;
+  }
+
+  getEntitlementDate() {
+    return this.piaData.monthYearBenefit;
+  }
+
+  setOsdiEarnings(year: Number, earnings: Number) {
+    this.piaData.oasdiEarnings?.set(year, earnings);
+    return this;
+  }
+
   outputPia() {
     var linesRecords = serializePiaData(this.piaData);
     const lines = Object.entries(linesRecords)
