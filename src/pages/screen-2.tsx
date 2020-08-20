@@ -124,7 +124,7 @@ export class Screen2 extends React.Component<Screen2Props, Screen2State> {
     }
 
     const userAIME = ObsFuncs.getAIMEFromEarnings(earnings, year62);
-    //const piaUserCal = await finalCalculation(userDOB, userDOR, earnings);
+    const piaUserCal = await finalCalculation(userDOB, userDOR, userPension, earnings);
     const userCalc = await ObsFuncs.finalCalculation(
       userDOB,
       userDOR,

@@ -1,5 +1,6 @@
 import * as PiaTypes from "./pia-types";
 import * as PiaUtils from "./pia-utils";
+import { EarningsRecord, EarningsMap } from "../user-state-context";
 
 /* based on http://thadk.net/anypiamac-docs/html/General/structure.html 
 copied from SSA AnyPia downloadable package */
@@ -416,13 +417,6 @@ const oasdiEarningsSerializer: PiaSerializer = new (class {
         }
       : {};
 
-    console.log({
-      ...line6Data,
-      ...line20Data,
-      ...line22To29Data,
-      ...line30To37Data,
-    });
-
     return {
       ...line6Data,
       //...line7,
@@ -693,8 +687,8 @@ function createLineMap(lines: string[]): PiaTypes.PiaLineMap {
     const lineNum = parseInt(line.slice(0, 2), 10);
     return Object.assign(lineMap, { [lineNum]: line });
   }, {});
-}
 
+}
 function deserializePiaData(lines: string[]): PiaTypes.PiaData {
   const lineMap = createLineMap(lines);
   const piaDataInit = initializePiaData();
@@ -711,7 +705,6 @@ function serializePiaData(data: PiaTypes.PiaData): PiaTypes.PiaLineMap {
     (lineMap, serializer) => Object.assign(lineMap, serializer.serialize(data)),
     {}
   );
-  console.log(data);
   return lines;
 }
 
@@ -721,7 +714,7 @@ function initializePiaData(): PiaTypes.PiaData & PiaTypes.PiaDataAdapter {
     birthDate: undefined,
     sex: undefined,
     dateOfDeath: undefined,
-    typeOfBenefit: undefined,
+    typeOfBenefit: PiaTypes.SSABenefitType.old_age,
     monthYearBenefit: undefined,
     monthYearEntitlement: undefined,
     firstEarningYearActual: undefined,
@@ -870,13 +863,19 @@ function initializePiaData(): PiaTypes.PiaData & PiaTypes.PiaDataAdapter {
 }
 
 export class PiaFormat {
-  piaAll: string;
+  piaAll: string|null;
   piaData: PiaTypes.PiaData;
-  constructor(piaInput: string, fileName: string) {
+
+  constructor(piaInput: string) {
     this.piaAll = piaInput;
-    const lines = piaInput.split("\n");
-    this.piaData = deserializePiaData(lines);
+    if (piaInput == ''){
+      this.piaData = initializePiaData();
+    } else {
+      const lines = piaInput.split("\n");
+      this.piaData = deserializePiaData(lines);
+    }
   }
+
   //TODO - getters and setters for retire date, birthdate and earnings.
   setBirthDate(date: PiaTypes.PiaDate) {
     this.piaData.birthDate = date;
@@ -887,18 +886,27 @@ export class PiaFormat {
     return this.piaData.birthDate;
   }
 
+
   setEntitlementDate(monthYear: PiaTypes.PiaMonthYear) {
-    this.piaData.monthYearBenefit = monthYear;
+    this.piaData.monthYearEntitlement = monthYear;
     return this;
   }
 
   getEntitlementDate() {
-    return this.piaData.monthYearBenefit;
+    return this.piaData.monthYearEntitlement;
   }
 
-  setOsdiEarnings(year: Number, earnings: Number) {
-    this.piaData.oasdiEarnings?.set(year, earnings);
+  setOasdiEarnings(oasdiEarnings: EarningsMap) {
+    this.piaData.oasdiEarnings = oasdiEarnings;
+    this.piaData.firstEarningYearActual = Math.min(...Array.from(oasdiEarnings.keys()));
+    this.piaData.lastEarningYearActual = Math.max(...Array.from(oasdiEarnings.keys()));
+    
+    //TODO: set typeOfTaxes for each earning year to 0 by default, if not set.
     return this;
+  }
+
+  getOasdiEarnings() {
+    return this.piaData.oasdiEarnings;
   }
 
   outputPia() {

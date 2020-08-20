@@ -1,4 +1,10 @@
 import { PiaFormat } from "../library/pia/pia-format";
+import { delayedRetirementValues, fullRetirementValues, sample20RetirementValues } from "../library/testFiles";
+import {
+  getRawEarnings,
+} from "../library/observable-functions"
+import { PiaYear, PiaEarnings } from "src/library/pia/pia-types";
+import { EarningsMap } from "src/library/user-state-context";
 
 const sample1pia = `01123450001001151954
 031012020
@@ -36,9 +42,9 @@ const sample25pia = `01123450025009021960
 402017551`;
 
 describe("Sample 1, 20 and 25 AnyPIA (Full Retirement)", () => {
-  const pia1Inputter = new PiaFormat(sample1pia, "sample1.pia");
-  const pia20Inputter = new PiaFormat(sample20pia, "sample20.pia");
-  const pia25Inputter = new PiaFormat(sample25pia, "sample25.pia");
+  const pia1Inputter = new PiaFormat(sample1pia);
+  const pia20Inputter = new PiaFormat(sample20pia);
+  const pia25Inputter = new PiaFormat(sample25pia);
 
   it("Deserializing Sample1.pia results in the same serialization", async () => {
     expect.assertions(1);
@@ -56,4 +62,54 @@ describe("Sample 1, 20 and 25 AnyPIA (Full Retirement)", () => {
 
     expect(pia25Inputter.outputPia()).toBe(sample25pia);
   });
+});
+
+describe("Blank string instantiation of PiaFormat", () => {
+
+  it("Deserializing empty pia results in error", async () => {
+    expect.assertions(1);
+
+    const throwAnError = () => {
+      const emptyPiaInputter = new PiaFormat(``);
+      emptyPiaInputter.outputPia()
+    }
+    expect(throwAnError).toThrowError("Cannot read property 'map' of undefined");
+  });
+
+  it("Deserializing empty pia, after a few setters results in a mocked serialization", async () => {
+    expect.assertions(1);
+
+    const earnings = fullRetirementValues['osss:OnlineSocialSecurityStatementData']['osss:EarningsRecord']['osss:Earnings'];
+    const userDOB = new Date("1947-10-10");
+    const userDOR = new Date("2013-10-10"); // 66 is their full retirement age
+    const rawEarnings = getRawEarnings(earnings)
+    const userPension = 0;
+
+    //convert all keys and values to int's (keys in js objects always strings)
+    const onlyIntsObject = Object.entries(rawEarnings).map((n) =>
+      n.map((m) => parseInt(m + "", 10))
+    );
+
+    const earningsRecords: EarningsMap = new Map<PiaYear, PiaEarnings>(
+      onlyIntsObject
+    );
+    console.log("in the test",userDOB.toISOString())
+
+    const piaFormat = new PiaFormat(``)
+      .setBirthDate(userDOB)
+      .setEntitlementDate(userDOR)
+      //set??Pension(userPension)
+      .setOasdiEarnings(earningsRecords);
+
+    expect(piaFormat.outputPia()).toBe(`01          10091947
+031102013
+0619632014
+22      42.00     309.00     499.00     163.00      72.00    2104.00    6315.00    7158.00    6283.00    6784.00
+23    6798.00    5280.00    3027.00    9357.00   10434.00   10981.00   12531.00   13766.00   15063.00   16125.00
+24   17093.00   18573.00   21606.00   23354.00   25179.00   24951.00   27881.00   28613.00   30623.00   31064.00
+25   31812.00   30913.00   32475.00   33553.00   34524.00   21552.00       0.00       0.00       0.00       0.00
+26    7158.00       0.00    7158.00    8543.00    9776.00       0.00       0.00       0.00       0.00       0.00
+27       0.00      -1.00`);
+  });
+
 });

@@ -27,6 +27,7 @@ export function parsePiaMonthYear(
   var piaMonth: PiaTypes.PiaMonthYear = dayjs(
     [parseInt(year, 10), parseInt(month, 10), 1].join("-")
   ).toDate();
+  console.log("inside pia-format:",piaMonth.toISOString())
   return piaMonth;
 }
 
@@ -102,6 +103,8 @@ export function parsePiaDate(
   let piaDate: PiaTypes.PiaDate = dayjs(
     [parseInt(year, 10), parseInt(month, 10), parseInt(day, 10)].join("-")
   ).toDate();
+  console.log("inside pia-format piaDate:",piaDate.toISOString())
+
   return piaDate;
 }
 

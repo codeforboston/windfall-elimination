@@ -1,4 +1,5 @@
 import * as React from 'react'
+import { PiaYear, PiaEarnings } from './pia/pia-types'
 
 export enum EarningsEnum {
   XML = "XML",
@@ -7,6 +8,7 @@ export enum EarningsEnum {
   PAPER = "PAPER"
 }
 
+export type EarningsMap = Map<PiaYear,PiaEarnings>;
 export interface EarningsRecord {
   [year: string]: number
 }
