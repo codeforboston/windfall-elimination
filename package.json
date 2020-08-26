@@ -41,7 +41,8 @@
     "react-slick": "^0.25.2",
     "sharp": "^0.25.1",
     "typescript": "^3.3.4000",
-    "use-persisted-state": "^0.3.0"
+    "use-persisted-state": "^0.3.0",
+    "core-js": "3.6.5"
   },
   "devDependencies": {
     "@babel/plugin-proposal-nullish-coalescing-operator": "^7.8.3",

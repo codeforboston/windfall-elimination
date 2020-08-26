@@ -113,7 +113,6 @@ const basicInfoSerializer: PiaSerializer = new (class {
           ),
         }
       : {};
-
     const line02Data = line02Str
       ? {
           // Maybe don't even need the end index? If all dates have the same length
@@ -705,6 +704,7 @@ function serializePiaData(data: PiaTypes.PiaData): PiaTypes.PiaLineMap {
     (lineMap, serializer) => Object.assign(lineMap, serializer.serialize(data)),
     {}
   );
+
   return lines;
 }
 
