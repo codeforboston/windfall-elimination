@@ -1,3 +1,13 @@
+import 'core-js/modules/es6.typed-array.float32-array';
+import 'core-js/modules/es6.typed-array.float64-array';
+import 'core-js/modules/es6.typed-array.int16-array';
+import 'core-js/modules/es6.typed-array.int32-array';
+import 'core-js/modules/es6.typed-array.int8-array';
+import 'core-js/modules/es6.typed-array.uint16-array';
+import 'core-js/modules/es6.typed-array.uint32-array';
+import 'core-js/modules/es6.typed-array.uint8-array';
+import 'core-js/modules/es6.typed-array.uint8-clamped-array'
+// See: https://stackoverflow.com/questions/63592691/core-js-cannot-resolve-core-js-modules-es6-typed-uint32-array/63592692#63592692
 
 var Module = (function() {
   var _scriptDir = '/anypiajs.wasm';

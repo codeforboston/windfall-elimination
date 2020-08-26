@@ -1,7 +1,7 @@
 import { PiaFormat } from "./pia-format";
 import { UserProfile, EarningsRecord, EarningsMap } from "../user-state-context";
 import { PiaYear, PiaEarnings } from "./pia-types";
-import Module from '../anypiajs.mjs'
+import Module from '../anypiajs.mjs' //remember https://stackoverflow.com/a/63592692/272018
 
 ///////////////////////////////
 // Final Calculation Display //
