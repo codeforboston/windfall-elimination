@@ -219,7 +219,7 @@ export class Screen2 extends React.Component<Screen2Props, Screen2State> {
                     name="preferPiaUserCalc"
                     value="true"
                     onChange={ () => { 			setPreferPiaUserCalc(true);
-                     performCalc();
+                     this.performCalc();
                      }
                     }
                     checked={preferPiaUserCalc === true}                    
