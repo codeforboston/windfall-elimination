@@ -218,7 +218,10 @@ export class Screen2 extends React.Component<Screen2Props, Screen2State> {
                     type="radio"
                     name="preferPiaUserCalc"
                     value="true"
-                    onChange={ () => setPreferPiaUserCalc(true)}
+                    onChange={ () => { 			setPreferPiaUserCalc(true);
+                     performCalc();
+                     }
+                    }
                     checked={preferPiaUserCalc === true}                    
                   />
                   <LabelText>
