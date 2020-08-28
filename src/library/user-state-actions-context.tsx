@@ -15,6 +15,7 @@ export interface UserStateActions {
   setPensionAmount: (amount: number) => void
   setPensionDateAwarded: (date: Date) => void
   setUserProfile: (profile: UserProfile) => void
+  setPreferPiaUserCalc: (setPreferPiaUserCalc: boolean) => void
 }
 
 const UserStateActionsContext = React.createContext<UserStateActions | null>(null)

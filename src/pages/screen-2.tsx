@@ -1,6 +1,6 @@
 import React from "react";
 import styled from "@emotion/styled";
-import { ButtonLink, SEO, H2, WarningBox, Glossary } from "../components";
+import { ButtonLink, SEO, H2, WarningBox, Glossary, AnswerBox, LabelText, RadioButton, QuestionText } from "../components";
 import * as ObsFuncs from "../library/observable-functions";
 import { fontSizes } from "../constants";
 import {
@@ -84,6 +84,7 @@ export class Screen2 extends React.Component<Screen2Props, Screen2State> {
         pensionOrRetirementAccount,
         pensionAmount,
         pensionDateAwarded,
+        preferPiaUserCalc,
       },
     } = this.props;
     if (!birthDate) throw Error();
@@ -124,7 +125,7 @@ export class Screen2 extends React.Component<Screen2Props, Screen2State> {
     }
 
     const userAIME = ObsFuncs.getAIMEFromEarnings(earnings, year62);
-    const piaUserCal = await finalCalculation(userDOB, userDOR, userPension, earnings);
+    const piaUserCalc = await finalCalculation(userDOB, userDOR, userPension, earnings);
     const userCalc = await ObsFuncs.finalCalculation(
       userDOB,
       userDOR,
@@ -133,8 +134,12 @@ export class Screen2 extends React.Component<Screen2Props, Screen2State> {
       userPension,
       userAIME
     );
-    //return piaUserCal;
+    
+    if (!preferPiaUserCalc) {
     return userCalc;
+    } else {
+    return piaUserCalc;
+    }
   };
 
   performCalc = async () => {
@@ -173,8 +178,9 @@ export class Screen2 extends React.Component<Screen2Props, Screen2State> {
   };
 
   render() {
-    const { userState } = this.props;
-    const { fullRetirementAge, userProfile } = userState;
+    const { userState, userStateActions} = this.props;
+    const { fullRetirementAge, userProfile, preferPiaUserCalc } = userState;
+    const { setPreferPiaUserCalc } = userStateActions;
 
     return (
       <React.Fragment>
@@ -201,43 +207,73 @@ export class Screen2 extends React.Component<Screen2Props, Screen2State> {
               </label>
             </WarningBox>
           ) : (
-            <Flex>
-              <Text>
-                Based on the information you provided, your retirement benefits
+              <Flex>
+
+                <QuestionText>
+                  Which calculator would you like to see results of?
+                  </QuestionText>
+
+                <AnswerBox>
+                  <RadioButton
+                    type="radio"
+                    name="preferPiaUserCalc"
+                    value="true"
+                    onChange={ () => setPreferPiaUserCalc(true)}
+                    checked={preferPiaUserCalc === true}                    
+                  />
+                  <LabelText>
+                    Official Social Security<br>
+                  </br> Calculator(AnyPIA)
+                  </LabelText>
+                </AnswerBox>
+
+                <AnswerBox>
+                  <RadioButton
+                    type="radio"
+                    name="preferPiaUserCalc"
+                    value="false"
+                    onChange={ () => setPreferPiaUserCalc(false)}
+                    checked={preferPiaUserCalc === false}
+                  />
+                  <LabelText>Our Calculator</LabelText>
+                </AnswerBox>
+
+                <Text>
+                  Based on the information you provided, your retirement benefits
                 will be calculated by Social Security as follows:{" "}
-              </Text>
-              <MonthlyBenefit
-                text={"Full Retirement Age"}
-                number={userProfile["MPB"]}
-              />
-              {this.state.testAge ? (
-                <>
-                  <Text>
-                    However, Social Security changes your monthly benefit amount
-                    if you begin to claim benefits before or after your full
-                    retirement age. Use the slider below to see how your planned
-                    date of retirement will affect your monthly benefit amount.
+                </Text>
+                <MonthlyBenefit
+                  text={"Full Retirement Age"}
+                  number={userProfile["MPB"]}
+                />
+                {this.state.testAge ? (
+                  <>
+                    <Text>
+                      However, Social Security changes your monthly benefit amount
+                      if you begin to claim benefits before or after your full
+                      retirement age. Use the slider below to see how your planned
+                      date of retirement will affect your monthly benefit amount.
                   </Text>
-                  <AgeSlider
-                    age={this.state.testAge}
-                    handleChange={this.handleRetireChange}
-                    fullRetirementAge={fullRetirementAge ?? undefined}
-                  />
-                  <MonthlyBenefit
-                    text={`age ${this.state.testAge}`}
-                    number={
-                      this.state.testProfile && this.state.testProfile["MPB"]
-                    }
-                  />
-                </>
-              ) : null}
-              <ButtonContainer>
-                <ButtonLink to="/print/" disabled={this.state.error !== null}>
-                  Print Results
+                    <AgeSlider
+                      age={this.state.testAge}
+                      handleChange={this.handleRetireChange}
+                      fullRetirementAge={fullRetirementAge ?? undefined}
+                    />
+                    <MonthlyBenefit
+                      text={`age ${this.state.testAge}`}
+                      number={
+                        this.state.testProfile && this.state.testProfile["MPB"]
+                      }
+                    />
+                  </>
+                ) : null}
+                <ButtonContainer>
+                  <ButtonLink to="/print/" disabled={this.state.error !== null}>
+                    Print Results
                 </ButtonLink>
-              </ButtonContainer>
-            </Flex>
-          )}
+                </ButtonContainer>
+              </Flex>
+            )}
         </ContentContainer>
         <Glossary
           title="FULL RETIREMENT AGE"

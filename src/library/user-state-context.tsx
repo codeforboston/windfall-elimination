@@ -47,6 +47,7 @@ export interface UserState {
   pensionAmount: number | null
   pensionDateAwarded: Date | null
   userProfile: UserProfile | null
+  preferPiaUserCalc: boolean | null
 }
 
 const UserStateContext = React.createContext<UserState | null>(null)
