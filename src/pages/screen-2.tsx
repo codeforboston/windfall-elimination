@@ -177,10 +177,18 @@ export class Screen2 extends React.Component<Screen2Props, Screen2State> {
       });
   };
 
+  handlePreferPiaUserCalcChange = async () => {
+    const { setPreferPiaUserCalc} = this.props.userStateActions;
+
+    setPreferPiaUserCalc(preferPiaUserCalc.target.value);
+  
+    this.performCalc();
+  };
+
   render() {
-    const { userState, userStateActions} = this.props;
+    const { userState } = this.props;
     const { fullRetirementAge, userProfile, preferPiaUserCalc } = userState;
-    const { setPreferPiaUserCalc } = userStateActions;
+    
 
     return (
       <React.Fragment>
@@ -218,7 +226,7 @@ export class Screen2 extends React.Component<Screen2Props, Screen2State> {
                     type="radio"
                     name="preferPiaUserCalc"
                     value="true"
-                    onChange={ () => setPreferPiaUserCalc(true)}
+                    onChange={this.handlePreferPiaUserCalcChange}
                     checked={preferPiaUserCalc === true}                    
                   />
                   <LabelText>
@@ -232,7 +240,7 @@ export class Screen2 extends React.Component<Screen2Props, Screen2State> {
                     type="radio"
                     name="preferPiaUserCalc"
                     value="false"
-                    onChange={ () => setPreferPiaUserCalc(false)}
+                    onChange={this.handlePreferPiaUserCalcChange}
                     checked={preferPiaUserCalc === false}
                   />
                   <LabelText>Our Calculator</LabelText>
