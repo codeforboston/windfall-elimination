@@ -66,6 +66,12 @@ export class Screen2 extends React.Component<Screen2Props, Screen2State> {
   };
 
   componentDidMount() {
+
+    const { userStateActions } = this.props;
+    const { setPreferPiaUserCalc } = userStateActions;
+
+    setPreferPiaUserCalc(true);
+    
     this.performCalc().catch((err) => {
       console.error("err", err);
       this.setState({
@@ -177,18 +183,10 @@ export class Screen2 extends React.Component<Screen2Props, Screen2State> {
       });
   };
 
-  handlePreferPiaUserCalcChange = async () => {
-    const { setPreferPiaUserCalc} = this.props.userStateActions;
-
-    setPreferPiaUserCalc(preferPiaUserCalc.target.value);
-  
-    this.performCalc();
-  };
-
   render() {
-    const { userState } = this.props;
+    const { userState, userStateActions } = this.props;
+    const { setPreferPiaUserCalc } = userStateActions;
     const { fullRetirementAge, userProfile, preferPiaUserCalc } = userState;
-    
 
     return (
       <React.Fragment>
@@ -226,7 +224,10 @@ export class Screen2 extends React.Component<Screen2Props, Screen2State> {
                     type="radio"
                     name="preferPiaUserCalc"
                     value="true"
-                    onChange={this.handlePreferPiaUserCalcChange}
+                    onChange={ () => {setPreferPiaUserCalc(true);
+                     this.performCalc();
+                     }
+                    }
                     checked={preferPiaUserCalc === true}                    
                   />
                   <LabelText>
@@ -240,7 +241,10 @@ export class Screen2 extends React.Component<Screen2Props, Screen2State> {
                     type="radio"
                     name="preferPiaUserCalc"
                     value="false"
-                    onChange={this.handlePreferPiaUserCalcChange}
+                    onChange={ () => {setPreferPiaUserCalc(false);
+                      this.performCalc();
+                      }
+                    }
                     checked={preferPiaUserCalc === false}
                   />
                   <LabelText>Our Calculator</LabelText>
