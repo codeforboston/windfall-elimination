@@ -57,6 +57,7 @@ class Prescreen1a extends React.Component<Prescreen1aProps, Prescreen1aState> {
       userStateActions.setYear62(year62)
       var fullRetirementAge = 0;
 
+      //use the raw value because of the delay in setting local/session storage.
       fullRetirementAge = await ObsFuncs.getFullRetirementDateSimple(value)
       this.setRetireDate(value, fullRetirementAge)
     } else if (value === null) {

@@ -59,7 +59,7 @@ export default function UserStateManager(props: UserStateManagerProps): JSX.Elem
   const [pensionAmount, setPensionAmount] = usePensionAmountState<number | null>(null)
   const [pensionDateAwarded, setPensionDateAwarded] = usePensionDateAwarded<Date | null>(null)
   const [userProfile, setUserProfile] = useUserProfile<UserProfile | null>(null)
-  const [preferPiaUserCalc, setPreferPiaUserCalc] = usePreferPiaUserCalcState<boolean | null>(null)
+  const [preferPiaUserCalc, setPreferPiaUserCalc] = usePreferPiaUserCalcState<boolean | null>(false)
 
   const userState: UserState = useMemo(() => ({
     birthDate: birthDate ? new Date(birthDate) : null,

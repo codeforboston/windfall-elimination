@@ -17,11 +17,11 @@ const Number = styled.div`
   width: 20%;
 `
 
-const MonthlyBenefit = ({text, number}) => {
-  const numFormatted = format("$,.2f")(number)
+const MonthlyBenefit = ({text, number, isFRA}) => {
+  const numFormatted = format("$,.2f")(number);
   return (
     <Benefit>
-      Monthly benefit at {text} (FRA)
+      Monthly benefit at {text} {isFRA ? "(FRA)" : ""}
       <Number>{numFormatted}</Number>
     </Benefit>
   )

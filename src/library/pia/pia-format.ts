@@ -903,6 +903,12 @@ export class PiaFormat {
       ...Array.from(oasdiEarnings.keys())
     );
 
+    // this.piaData.oldQuartersOfCoverageStubString = PiaUtils.piaSubstr(
+    //   '95 40 40',
+    //   3,
+    //   8
+    // );
+
     //TODO: set typeOfTaxes for each earning year to 0 by default, if not set.
     return this;
   }
@@ -915,8 +921,11 @@ export class PiaFormat {
     return this.piaData.monthlyNoncoveredPensionAmount;
   }
 
-  setMonthlyNoncoveredPensionAmount(amount: PiaTypes.PiaEarnings) {
-    this.piaData.monthlyNoncoveredPensionAmount = amount;
+  setMonthlyNoncoveredPensionAmount(amount: PiaTypes.PiaEarnings | null | undefined) {
+    this.piaData.monthlyNoncoveredPensionAmount = amount || undefined;
+    //TODO: if needed, support date of entitlement to noncovered pension (it may not matter)
+    // http://thadk.net/anypiamac-docs/html/Forms/Date_of_entitlement_for_noncovered_pension.html
+    // this.piaData.monthYearEntitlementNoncoveredPension = PiaUtils.parsePiaMonthYear('062010',1,6);
     return this;
   }
 
