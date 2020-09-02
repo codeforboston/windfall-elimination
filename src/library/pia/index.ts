@@ -1,7 +1,11 @@
 import { PiaFormat } from "./pia-format";
-import { UserProfile, EarningsRecord, EarningsMap } from "../user-state-context";
+import {
+  UserProfile,
+  EarningsRecord,
+  EarningsMap,
+} from "../user-state-context";
 import { PiaYear, PiaEarnings } from "./pia-types";
-import Module from '../anypiajs.mjs' //remember https://stackoverflow.com/a/63592692/272018
+import Module from "../anypiajs.mjs"; //remember https://stackoverflow.com/a/63592692/272018
 
 ///////////////////////////////
 // Final Calculation Display //
@@ -13,25 +17,25 @@ export async function finalCalculation(
   userPension: number,
   earningsObj: EarningsRecord
 ) {
-
   //convert all keys and values to int's (keys in js objects always strings)
-  const onlyIntsObject = Object.entries(earningsObj)
-                            .map(n => n.map(m => parseInt(m+"", 10) ));
+  const onlyIntsObject = Object.entries(earningsObj).map((n) =>
+    n.map((m) => parseInt(m + "", 10))
+  );
 
   const earningsRecords: EarningsMap = new Map<PiaYear, PiaEarnings>(
     onlyIntsObject
-  )
+  );
 
   //const userFullRetireDate = getFullRetirementDate(new Date(birthDatePicked));
 
-  const piaFormat = new PiaFormat('').setBirthDate(new Date(birthDatePicked))
+  const piaFormat = new PiaFormat("")
+    .setBirthDate(new Date(birthDatePicked))
     .setEntitlementDate(new Date(retireDatePicked))
-    //set??Pension(userPension)
+    .setMonthlyNoncoveredPensionAmount(userPension)
     .setOasdiEarnings(earningsRecords);
-  console.warn("no pension passed yet")
-  
+
   const piaOutput = piaFormat.outputPia();
-  console.log(piaOutput)
+  console.log(piaOutput);
   /*  const knownGood = `01          06221952
 031072014
 0619662010
@@ -53,23 +57,29 @@ export async function finalCalculation(
   const resultString = onePIADoc.getResult();
   const resultObj = JSON.parse(resultString);
 
-  //API typos: NoncoveredPosion;PIAAfterWindwfall 
-  console.log("results:",consoleOutput, resultObj)
+  //API typos: NoncoveredPosion;PIAAfterWindwfall
+  console.log("results:", consoleOutput, resultObj);
   const calculation = resultObj.Calculation;
   const userProfile: UserProfile = {
     "Standard PIA": calculation.InsuranceAmount,
-    "WEP PIA": calculation["PIAAfterWindwfall"] && calculation["PIAAfterWindwfall"].Total,
-    "WEP Diff": "" + (calculation.InsuranceAmount - (calculation["PIAAfterWindwfall"] && calculation["PIAAfterWindwfall"].Total)),
-    "MPB": calculation.Benefit,
-    "yearsSubstantialEarnings": calculation.YearsOfCoverageForWindfall,
-    "pensionNonCoveredMonthly": calculation.NoncoveredPosion && calculation.NoncoveredPosion.MonthlyPension,
-    "aime": calculation.AIME && calculation.AIME.AME,
-    "fullRetireDate": new Date("2040-1-1").toLocaleDateString("en-US")
-
-  }
-  console.warn("DUMMY fullRetireDate until it can be added:")
-  console.log(userProfile)
-
+    "WEP PIA":
+      calculation["PIAAfterWindwfall"] &&
+      calculation["PIAAfterWindwfall"].Total,
+    "WEP Diff":
+      "" +
+      (calculation.InsuranceAmount -
+        (calculation["PIAAfterWindwfall"] &&
+          calculation["PIAAfterWindwfall"].Total)),
+    MPB: calculation.Benefit,
+    yearsSubstantialEarnings: calculation.YearsOfCoverageForWindfall,
+    pensionNonCoveredMonthly:
+      calculation.NoncoveredPosion &&
+      calculation.NoncoveredPosion.MonthlyPension,
+    aime: calculation.AIME && calculation.AIME.AME,
+    fullRetireDate: new Date("2040-1-1").toLocaleDateString("en-US"),
+  };
+  console.warn("DUMMY fullRetireDate until it can be added:");
+  console.log(userProfile);
 
   return userProfile;
 }
