@@ -686,7 +686,6 @@ function createLineMap(lines: string[]): PiaTypes.PiaLineMap {
     const lineNum = parseInt(line.slice(0, 2), 10);
     return Object.assign(lineMap, { [lineNum]: line });
   }, {});
-
 }
 function deserializePiaData(lines: string[]): PiaTypes.PiaData {
   const lineMap = createLineMap(lines);
@@ -863,12 +862,12 @@ function initializePiaData(): PiaTypes.PiaData & PiaTypes.PiaDataAdapter {
 }
 
 export class PiaFormat {
-  piaAll: string|null;
+  piaAll: string | null;
   piaData: PiaTypes.PiaData;
 
   constructor(piaInput: string) {
     this.piaAll = piaInput;
-    if (piaInput == ''){
+    if (piaInput == "") {
       this.piaData = initializePiaData();
     } else {
       const lines = piaInput.split("\n");
@@ -886,7 +885,6 @@ export class PiaFormat {
     return this.piaData.birthDate;
   }
 
-
   setEntitlementDate(monthYear: PiaTypes.PiaMonthYear) {
     this.piaData.monthYearEntitlement = monthYear;
     return this;
@@ -898,15 +896,28 @@ export class PiaFormat {
 
   setOasdiEarnings(oasdiEarnings: EarningsMap) {
     this.piaData.oasdiEarnings = oasdiEarnings;
-    this.piaData.firstEarningYearActual = Math.min(...Array.from(oasdiEarnings.keys()));
-    this.piaData.lastEarningYearActual = Math.max(...Array.from(oasdiEarnings.keys()));
-    
+    this.piaData.firstEarningYearActual = Math.min(
+      ...Array.from(oasdiEarnings.keys())
+    );
+    this.piaData.lastEarningYearActual = Math.max(
+      ...Array.from(oasdiEarnings.keys())
+    );
+
     //TODO: set typeOfTaxes for each earning year to 0 by default, if not set.
     return this;
   }
 
   getOasdiEarnings() {
     return this.piaData.oasdiEarnings;
+  }
+
+  getMonthlyNoncoveredPensionAmount() {
+    return this.piaData.monthlyNoncoveredPensionAmount;
+  }
+
+  setMonthlyNoncoveredPensionAmount(amount: PiaTypes.PiaEarnings) {
+    this.piaData.monthlyNoncoveredPensionAmount = amount;
+    return this;
   }
 
   outputPia() {
