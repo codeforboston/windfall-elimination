@@ -57,9 +57,36 @@ describe("Sample 1, 20 and 25 AnyPIA (Full Retirement)", () => {
 
   it("Deserializing Sample20.pia results in the same serialization", async () => {
     expect.assertions(1);
+    //Background finance info for Sample20
+    const earnings =
+      fullRetirementValues["osss:OnlineSocialSecurityStatementData"][
+        "osss:EarningsRecord"
+      ]["osss:Earnings"];
+
+    const userDOB = dayjs("1952-06-22").toDate();
+    const userDOR = dayjs("2018-06-22").toDate(); // 66yo is their full retirement age.
+    //const year62 = "2014";
+    const rawEarnings = getRawEarnings(earnings);
+    const userPension = 1500;
+
+    //convert all keys and values to int's (keys in js objects always strings)
+    const onlyIntsObject = Object.entries(rawEarnings).map((n) =>
+      n.map((m) => parseInt(m + "", 10))
+    );
+
+    const earningsRecords: EarningsMap = new Map<PiaYear, PiaEarnings>(
+      onlyIntsObject
+    );
+
+    const piaFormat = new PiaFormat(``)
+      .setBirthDate(userDOB)
+      .setEntitlementDate(userDOR)
+      .setMonthlyNoncoveredPensionAmount(userPension)
+      .setOasdiEarnings(earningsRecords);
 
     expect(pia20Inputter.outputPia()).toBe(sample20pia);
   });
+
   it("Deserializing Sample25.pia results in the same serialization", async () => {
     expect.assertions(1);
 
@@ -122,4 +149,17 @@ describe("Blank string instantiation of PiaFormat", () => {
 26    7158.00       0.00    7158.00    8543.00    9776.00       0.00       0.00       0.00       0.00       0.00
 27       0.00      -1.00`);
   });
+
+  //it('Sample 20 AnyPIA (Full Retirement)')
+  //describe("Sample 20 AnyPIA (Full Retirement)", async () => {
+  //   //Background finance info for Sample20
+  //   const earnings =
+  //     sample20RetirementValues["osss:OnlineSocialSecurityStatementData"][
+  //       "osss:EarningsRecord"
+  //     ]["osss:Earnings"];
+  //   const userDOB = new Date("1952-06-22");
+  //   const userDOR = new Date("2018-06-22"); // 66yo is their full retirement age.
+  //   const year62 = "2014";
+  //   const rawEarnings = getRawEarnings(earnings);
+  //   const userPension = 1500;
 });
