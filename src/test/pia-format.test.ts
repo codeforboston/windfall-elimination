@@ -1,8 +1,10 @@
 import { PiaFormat } from "../library/pia/pia-format";
-import { delayedRetirementValues, fullRetirementValues, sample20RetirementValues } from "../library/testFiles";
 import {
-  getRawEarnings,
-} from "../library/observable-functions"
+  delayedRetirementValues,
+  fullRetirementValues,
+  sample20RetirementValues,
+} from "../library/testFiles";
+import { getRawEarnings } from "../library/observable-functions";
 import { PiaYear, PiaEarnings } from "src/library/pia/pia-types";
 import { EarningsMap } from "src/library/user-state-context";
 import dayjs from "dayjs";
@@ -58,6 +60,7 @@ describe("Sample 1, 20 and 25 AnyPIA (Full Retirement)", () => {
 
     expect(pia20Inputter.outputPia()).toBe(sample20pia);
   });
+
   it("Deserializing Sample25.pia results in the same serialization", async () => {
     expect.assertions(1);
 
@@ -66,29 +69,33 @@ describe("Sample 1, 20 and 25 AnyPIA (Full Retirement)", () => {
 });
 
 describe("Blank string instantiation of PiaFormat", () => {
-
   it("Deserializing empty pia results in error", async () => {
     expect.assertions(1);
 
     const throwAnError = () => {
       const emptyPiaInputter = new PiaFormat(``);
-      emptyPiaInputter.outputPia()
-    }
-    expect(throwAnError).toThrowError("Cannot read property 'map' of undefined");
+      emptyPiaInputter.outputPia();
+    };
+    expect(throwAnError).toThrowError(
+      "Cannot read property 'map' of undefined"
+    );
   });
 
   it("Deserializing empty pia, after a few setters results in a mocked serialization", async () => {
     expect.assertions(1);
 
-    const earnings = fullRetirementValues['osss:OnlineSocialSecurityStatementData']['osss:EarningsRecord']['osss:Earnings'];
+    const earnings =
+      fullRetirementValues["osss:OnlineSocialSecurityStatementData"][
+        "osss:EarningsRecord"
+      ]["osss:Earnings"];
 
     /* Use dayjs constructor to avoid bug with test runner that generate UTC dates
        with new Date('1947-10-10') and then is confusing.
     */
-    const userDOB =  dayjs('1947-10-10').toDate();
-    const userDOR =  dayjs('2013-10-10').toDate(); // 66 is their full retirement age
+    const userDOB = dayjs("1947-10-10").toDate();
+    const userDOR = dayjs("2013-10-10").toDate(); // 66 is their full retirement age
 
-    const rawEarnings = getRawEarnings(earnings)
+    const rawEarnings = getRawEarnings(earnings);
     const userPension = 0;
 
     //convert all keys and values to int's (keys in js objects always strings)
@@ -103,7 +110,7 @@ describe("Blank string instantiation of PiaFormat", () => {
     const piaFormat = new PiaFormat(``)
       .setBirthDate(userDOB)
       .setEntitlementDate(userDOR)
-      //set??Pension(userPension)
+      .setMonthlyNoncoveredPensionAmount(userPension)
       .setOasdiEarnings(earningsRecords);
 
     expect(piaFormat.outputPia()).toBe(`01          10101947
@@ -117,4 +124,34 @@ describe("Blank string instantiation of PiaFormat", () => {
 27       0.00      -1.00`);
   });
 
+  it("Sample 20 AnyPIA (Full Retirement)", async () => {
+    //Background finance info for Sample20
+    const earnings =
+      sample20RetirementValues["osss:OnlineSocialSecurityStatementData"][
+        "osss:EarningsRecord"
+      ]["osss:Earnings"];
+
+    const userS20DOB = dayjs("1952-06-22").toDate();
+    const userS20DOR = dayjs("2014-07-22").toDate(); // 66yo is their full retirement age.
+    //const year62 = "2014";
+    const rawEarnings = getRawEarnings(earnings);
+    const userPension = 1500;
+
+    //convert all keys and values to int's (keys in js objects always strings)
+    const onlyIntsObject = Object.entries(rawEarnings).map((n) =>
+      n.map((m) => parseInt(m + "", 10))
+    );
+
+    const earningsSample20Records: EarningsMap = new Map<PiaYear, PiaEarnings>(
+      onlyIntsObject
+    );
+
+    const piaSample20Format = new PiaFormat(``)
+      .setBirthDate(userS20DOB)
+      .setEntitlementDate(userS20DOR)
+      .setMonthlyNoncoveredPensionAmount(userPension)
+      .setOasdiEarnings(earningsSample20Records);
+
+    expect(piaSample20Format.outputPia()).toBe(sample20pia);
+  });
 });
