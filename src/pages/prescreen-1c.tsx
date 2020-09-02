@@ -171,7 +171,7 @@ Social Security record?
               link="https://secure.ssa.gov/apps10/poms.nsf/lnx/0300605364"
               linkText="Read the Social Security Administration’s guidance on what counts as a pension here."
               >
-              A pension can be a monthly pension paid our of your employer’s retirement fund, or a lump sum like a 401(k) or other retirement account based on non-covered employment.
+              A pension can be a monthly pension paid out of your employer’s retirement fund, or a lump sum like a 401(k) or other retirement account based on non-covered employment.
               </Glossary>
             </CardGlossaryContainer>
             )}
