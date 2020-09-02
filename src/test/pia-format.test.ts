@@ -68,6 +68,21 @@ describe("Sample 1, 20 and 25 AnyPIA (Full Retirement)", () => {
   });
 });
 
+/* no sex or social security number on 01,
+ no month-yr on line 12.
+ no name on line 16,
+ no tax type on line 20,
+ no line 95 */
+const sample20piaSimplified = `01          06221952
+031072014
+0619662010
+12   1500.00
+22     800.00    4100.00    4000.00    3700.00    4600.00    7300.00    9000.00   10800.00   12000.00   11700.00
+23   14100.00    6400.00   11600.00    5000.00       0.00       0.00       0.00       0.00       0.00       0.00
+24       0.00       0.00       0.00       0.00       0.00       0.00       0.00       0.00       0.00       0.00
+25       0.00       0.00       0.00       0.00       0.00       0.00   20000.00  104400.00  105480.00  108000.00
+26  113040.00  117000.00  122400.00  128160.00   35000.00`;
+
 describe("Blank string instantiation of PiaFormat", () => {
   it("Deserializing empty pia results in error", async () => {
     expect.assertions(1);
@@ -152,6 +167,6 @@ describe("Blank string instantiation of PiaFormat", () => {
       .setMonthlyNoncoveredPensionAmount(userPension)
       .setOasdiEarnings(earningsSample20Records);
 
-    expect(piaSample20Format.outputPia()).toBe(sample20pia);
+    expect(piaSample20Format.outputPia()).toBe(sample20piaSimplified);
   });
 });
