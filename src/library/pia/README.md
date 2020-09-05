@@ -6,19 +6,25 @@
 
 Written in the early 2000s and maintained, the official Social Security Administration **Detailed Calculator** is a comprehensive benefit calculator which is designed to compute historical benefits as well as estimate future benefits. 
 
-It is also known as `AnyPIA.exe` (Windows) and `AnyPIAb.exe` (command line console app.)
+For short, it is known as `AnyPIA.exe` (Windows) and `AnyPIAb.exe` (command line console app).
 
-The Windfall project's own calculator could not determine future benefit for people more than a year or so away from retirement eligible age (62) because it would depends on annual Social Security Trustee report details about the economy, fund, and cost of living. 
+The Windfall project's own calculator could not determine future benefit for people more than a year or so away from retirement eligible age—62 years old. That calculation would depends on annual Social Security Trustee report details about the economy, trust fund, and cost of living.  
+
+Rather than maintain these details, we decided our efforts were best spent on enabling the existing open source Windows tool to be a browser-based tool too. For this, 6 volunteers created [AnyPIAJS](https://github.com/codeforboston/anypia-js) in early/mid 2020 ([Alex J](https://github.com/alexjcode/), [Alex M](https://github.com/mrpippy), [Anne Meeker](https://www.linkedin.com/in/anne-meeker-60837b123), [Thad K](https://github.com/thadk), [Paavan B](https://github.com/paavanb), [Tony Dean](https://github.com/tdean1991/), and [Brendan S](https://github.com/mrpippy)).
 
 ![Screenshot of the Windows version of AnyPIA](https://user-images.githubusercontent.com/283343/82394467-1d04ca80-9a17-11ea-841f-fd651352024a.png)
 _Screenshot of the Linux/Windows `anypiab` console (left) and desktop Mac/Windows versions of AnyPIA (right). Output is more specific in the Mac/Windows version at right._
 
-This document is broken into the two parts used to support the social security detailed calculator: 1) the string converter, and 2) the C++ actual policy logic which opens the string and provides calculations.
+All versions of the government AnyPIA can load a [multiline string-based file format](http://thadk.net/anypiamac-docs/html/General/structure.html) `.pia` but they cannot load the personalized XML/PDF earnings file offered by SSA.gov to retirees. With existing official tools, retirees always have to key their career earnings.
 
-## PiaFormat.ts string class
+This document is broken into the two parts used to support the social security detailed calculator: 
+1. the string manipulator for strings in the `.pia` format which allows us to pass in parsed earnings read from XML or PDF from SSA.gov, and 
+2. the C++ actual policy logic which opens the string and provides calculations.
+
+## 1. PiaFormat.ts string class
 
 - Implemented by [Code for Boston](https://codeforboston.org) in this folder.
-- Written in TypeScript to read (deserialize) and write (serialize) the AnyPIA string format specified in documentation
+- Written in TypeScript to read (deserialize) and write (serialize) the AnyPIA multi-line string format specified in documentation
 - Based on http://thadk.net/anypiamac-docs/html/General/structure.html copied from SSA AnyPIA package
 - only a subset of the possible ~97 lines are implemented, but class is designed to support the whole format.
 - We selected earnings, personal details, pension, and entitlement date as first lines implemented
@@ -26,7 +32,7 @@ This document is broken into the two parts used to support the social security d
 - The next lines to support will be around future calculations for https://github.com/codeforboston/windfall-elimination/issues/190
 - This class does not interact with the C++ policy logic. That needs glue code in `index.ts` as shown in the next major section.
 
-### Example of deserializing and reserializing AnyPIA format string
+### Example of deserializing and re-serializing AnyPIA format string
 
 This file is the [sample20.pia (details)](http://thadk.net/anypiamac-docs/html/Samples/sample_22.html) provided with official AnyPIA app:
 
@@ -63,9 +69,9 @@ Generate the AnyPIA format string like the known good one but based on the perso
 
 [outputs similar to format shown above starting with `01`]
 
-## AnyPIAJS Policy Logic and Detailed Social Security Calculator
+## 2. AnyPIAJS Policy Logic and Detailed Social Security Calculator
 
-- Based on: https://www.ssa.gov/OACT/anypia/anypia.html
+- Based on public domain open source code at: https://www.ssa.gov/OACT/anypia/anypia.html
 - Implemented at: https://github.com/codeforboston/anypia-js
 - Conversion to Javascript using [Emscripten](https://emscripten.org/) tool.
 - `AnyPIAJS` is a C++ class wrapper which is exported using Emscripten, around the `anypiab` console API.
