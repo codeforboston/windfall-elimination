@@ -20,7 +20,7 @@ This document is broken into the two parts used to support the social security d
 - Implemented by [Code for Boston](https://codeforboston.org) in this folder.
 - Written in TypeScript to read (deserialize) and write (serialize) the AnyPIA string format specified in documentation
 - Based on http://thadk.net/anypiamac-docs/html/General/structure.html copied from SSA AnyPIA package
-- only a subset of the possible ~95 lines are implemented, but class is designed to support the whole format.
+- only a subset of the possible ~97 lines are implemented, but class is designed to support the whole format.
 - We selected earnings, personal details, pension, and entitlement date as first lines implemented
 - A few less important lines are stubbed so can be deserialized and re-serialized
 - The next lines to support will be around future calculations for https://github.com/codeforboston/windfall-elimination/issues/190
@@ -28,10 +28,10 @@ This document is broken into the two parts used to support the social security d
 
 ### Example of deserializing and reserializing AnyPIA format string
 
-This file is the `sample20.pia` provided with official AnyPIA app:
+This file is the [sample20.pia (details)](http://thadk.net/anypiamac-docs/html/Samples/sample_22.html) provided with official AnyPIA app:
 
 ```
-const piaFormat(`01          06221952
+const piaFormatExample = new piaFormat(`01          06221952
 031072014
 0619662010
 12   1500.00062010
@@ -42,7 +42,8 @@ const piaFormat(`01          06221952
 24       0.00       0.00       0.00       0.00       0.00       0.00       0.00       0.00       0.00       0.00
 25       0.00       0.00       0.00       0.00       0.00       0.00   20000.00  104400.00  105480.00  108000.00
 26  113040.00  117000.00  122400.00  128160.00   35000.00
-95 40 40`).outputPIA();
+95 40 40`)
+const piaOutput = piaFormatExample.outputPIA();
 ```
 
 [outputs the same string]
@@ -52,12 +53,12 @@ const piaFormat(`01          06221952
 Generate the AnyPIA format string like the known good one but based on the personalized user input
 
 ```
-    const piaFormat = new PiaFormat("")
+    const piaBlankFormatExample = new PiaFormat("")
     .setBirthDate(new Date(birthDatePicked))
     .setEntitlementDate(new Date(retireDatePicked))
     .setMonthlyNoncoveredPensionAmount(userPension)
     .setOasdiEarnings(earningsRecords);
-    const piaOutput = piaFormat.outputPIA();
+    const piaOutput = piaBlankFormatExample.outputPIA();
 ```
 
 [outputs similar to format shown above starting with `01`]
