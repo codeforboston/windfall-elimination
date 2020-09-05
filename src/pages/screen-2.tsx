@@ -332,7 +332,7 @@ export class Screen2 extends React.Component<Screen2Props, Screen2State> {
                 >
                   You have a choice of calculator between the one based on our
                   research which does not calculate down to the month level and
-                  one very powerful offical one by the Social Security
+                  one very powerful official one by the Social Security
                   Administration. They may have been updated at different times.
                 </Glossary>
               </CardGlossaryContainer>

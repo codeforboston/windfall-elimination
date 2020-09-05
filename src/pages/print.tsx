@@ -37,6 +37,7 @@ export const ResultsCard = styled('div')`
     padding: 10px 15px;
     margin: 5px;
   }
+  overflow: scroll;
 `;
 
 const Row = styled.div`
