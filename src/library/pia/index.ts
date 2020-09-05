@@ -5,7 +5,10 @@ import {
   EarningsMap,
 } from "../user-state-context";
 import { PiaYear, PiaEarnings } from "./pia-types";
+
 import Module from "../anypiajs.mjs"; //remember https://stackoverflow.com/a/63592692/272018
+// The above ES6 module is built from SSA.gov open source C++ AnyPIA by
+// https://github.com/codeforboston/anypia-js and requires the wasm file too.
 
 ///////////////////////////////
 // Final Calculation Display //
@@ -30,10 +33,11 @@ export async function finalCalculation (
   earningsObj: EarningsRecord | null
 ) {
 
-  // quit out if earningsObj is null, it is meaningless
+  // quit out if earningsObj is null
   if (earningsObj === null) {
     return emptyUserProfile ; 
   }
+
   //convert all keys and values to int's (keys in js objects always strings)
   const onlyIntsObject = Object.entries(earningsObj).map((n) =>
     n.map((m) => parseInt(m + "", 10))
@@ -43,8 +47,8 @@ export async function finalCalculation (
     onlyIntsObject
   );
 
-  //const userFullRetireDate = getFullRetirementDate(new Date(birthDatePicked));
-
+  // Generate the AnyPIA format string like the known good one but
+  //  based on the personalized user input
   const piaFormat = new PiaFormat("")
     .setBirthDate(new Date(birthDatePicked))
     .setEntitlementDate(new Date(retireDatePicked))
@@ -53,6 +57,9 @@ export async function finalCalculation (
 
   const piaOutput = piaFormat.outputPia();
   console.log(piaOutput);
+
+  //Here's a known good AnyPIA format string for example: specifies mostly the
+  // same things as above.
   const knownGood = `01          06221952
 031072014
 0619662010
@@ -66,23 +73,34 @@ export async function finalCalculation (
 26  113040.00  117000.00  122400.00  128160.00   35000.00
 95 40 40`;
 
+  //Download the 2mb WASM file with the C++ policy logic, with a promise.
   const AnyPIAJS = await new Module();
+  
+  //Instantiate AnyPIAJS C++ class we wrapped the original SSA AnyPIAB class with.
   const onePIADoc = new AnyPIAJS.PIADoc();
 
   //If you forget to send a newline at the end, AnyPIAJS seems to ignore the last line.
   const consoleOutput = onePIADoc.calculate(piaOutput + "\n");
 
+  //Request a JSON dump from AnyPIAJS
   const resultString = onePIADoc.getResult();
   const resultObj = JSON.parse(resultString);
+
+  //Cross check with known good value via new instance of same API.
   const knownGoodPIADoc = new AnyPIAJS.PIADoc();
   const consoleOutputKnownGood = knownGoodPIADoc.calculate(knownGood + "\n");
-
   const resultStringKnownGood = knownGoodPIADoc.getResult();
   const resultObjKnownGood = JSON.parse(resultStringKnownGood);
 
-  //API typos: NoncoveredPosion;PIAAfterWindwfall
+  //TODO: fix C++ JSON API typos: NoncoveredPosion;PIAAfterWindwfall
   console.log("results:", consoleOutput, resultObj);
   console.error("knownGood:", consoleOutputKnownGood, resultObjKnownGood);
+
+  //TODO: add fullRetirementDate to C++ JSON API instead of stub date 2040-1-1
+  //const userFullRetireDate = getFullRetirementDate(new Date(birthDatePicked));
+
+
+  // Convert to web calculator display UserProfile format
   const calculation = resultObj.Calculation;
   const userProfile: UserProfile = {
     "Standard PIA": calculation.InsuranceAmount,
