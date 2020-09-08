@@ -92,10 +92,7 @@ export class Screen2 extends React.Component<Screen2Props, Screen2State> {
   componentDidMount() {
     const { userState } = this.props;
     const { preferPiaUserCalc, retireDate } = userState;
-    // const { setDesiredRetireDate } = userStateActions;
-
-    // setDesiredRetireDate(retireDate);
-
+    
     this.performCalc(retireDate, preferPiaUserCalc).catch((err) => {
       console.error("err", err);
       this.setState({
@@ -187,7 +184,6 @@ export class Screen2 extends React.Component<Screen2Props, Screen2State> {
     );
     setUserProfile(userCalc);
 
-    //yearsDiff is now calculated with the desiredRetireDateValue passed into performCalc.
     const yearsDiff = dayjs(desiredRetireDateValue).year() - dayjs(userDOB).year();
     const clampedYearsDiff =
       yearsDiff < 62 ? 62 : yearsDiff > 70 ? 70 : yearsDiff;
@@ -200,7 +196,6 @@ export class Screen2 extends React.Component<Screen2Props, Screen2State> {
   ) => {
     const {
       userState: { birthDate, preferPiaUserCalc },
-      // userStateActions: { setDesiredRetireDate },
     } = this.props;
     if (!birthDate) return;
 
@@ -220,8 +215,6 @@ export class Screen2 extends React.Component<Screen2Props, Screen2State> {
       userDOR,
       preferPiaUserCalcValueFastOrSlow
     );
-
-    // setDesiredRetireDate(userDOR);
 
     if (userCalc)
       this.setState({
