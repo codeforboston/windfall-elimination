@@ -12,6 +12,8 @@ import {
   LabelText,
   H2,
   Glossary,
+  CardGlossaryContainer,
+  ContentContainer,
   AnswerInputDiscouragePlaceholder
 } from "../components";
 import {PensionEnum, useUserState, UserState} from '../library/user-state-context'
@@ -27,21 +29,6 @@ const StyledDatePicker = styled(DatePicker)`
   &::placeholder {
     font-size: 18px;
     font-family: 'Montserrat',sans-serif;
-  }
-`;
-
-const ContentContainer = styled.div`
-  width: 100%;
- 
-`;
-
-const CardGlossaryContainer = styled.div`
-  display: flex;
-  justify-content: space-between;
-  margin: auto 0;
-  
-  @media (max-width: 767px){
-    display: block;
   }
 `;
 

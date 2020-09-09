@@ -895,7 +895,15 @@ export class PiaFormat {
   }
 
   setOasdiEarnings(oasdiEarnings: EarningsMap) {
-    this.piaData.oasdiEarnings = oasdiEarnings;
+
+    function mapMap(map, fn) {
+      return new Map(Array.from(map, ([key, value]) => [key, fn(value, key, map)]));
+    }
+
+    // use mapMap to strip out all of the -1 values and replace them with 0.
+    this.piaData.oasdiEarnings = mapMap(oasdiEarnings, (v,k)=> (v && v===-1|| v==="-1")? 0 : v );
+
+    
     this.piaData.firstEarningYearActual = Math.min(
       ...Array.from(oasdiEarnings.keys())
     );

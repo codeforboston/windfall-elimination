@@ -12,6 +12,8 @@ import {
   AnswerBox,
   Glossary,
   WarningBox,
+  CardGlossaryContainer,
+  ContentContainer
 } from "../components";
 import {
   UserState,
@@ -30,22 +32,8 @@ export const SsaImage = styled("img")`
   margin-top: 25px;
 `;
 
-const CardGlossaryContainer = styled.div`
-  display: flex;
-  justify-content: space-between;
-  margin: auto 0;
-
-  @media (max-width: 767px) {
-    display: block;
-  }
-`;
-
 const HowToContainer = styled.div`
   display: block;
-`;
-
-const ContentContainer = styled.div`
-  width: 100%;
 `;
 
 const TopQuestionAndTitle = styled.div`

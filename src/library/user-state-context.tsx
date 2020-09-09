@@ -28,7 +28,8 @@ export interface UserProfile {
   yearsSubstantialEarnings: number
   pensionNonCoveredMonthly: number | null | undefined
   aime: number
-  fullRetireDate: string
+  fullRetireDate: string,
+  calculatorType: string,
 }
 
 export interface UserState {

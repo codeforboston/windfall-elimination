@@ -11,6 +11,8 @@ import {
   RadioButton,
   QuestionText,
   Card,
+  ContentContainer,
+  CardGlossaryContainer,
 } from "../components";
 import * as ObsFuncs from "../library/observable-functions";
 import { fontSizes } from "../constants";
@@ -31,13 +33,6 @@ import "rc-slider/assets/index.css";
 import dayjs from "dayjs";
 import { finalCalculation } from "../library/pia/index";
 
-const ContentContainer = styled.div`
-  width: 100%;
-  @media (min-width: 768px) {
-    width: 70%;
-  }
-`;
-
 const ButtonContainer = styled.div`
   display: flex;
   flex-direction: row;
@@ -47,24 +42,16 @@ const ButtonContainer = styled.div`
   margin-top: 30px;
 `;
 
-const Flex = styled.div`
-  display: flex;
-  flex-direction: column;
+const LeaveGutterAtRight = styled.div`
+  width: 68%;
+  @media (max-width: 767px) {
+    width: 100%;
+  }
 `;
 
 const Text = styled.div`
   margin: 10px 5px 40px;
   font-size: ${fontSizes[1]};
-`;
-
-const CardGlossaryContainer = styled.div`
-  display: flex;
-  justify-content: space-between;
-  margin: auto 0;
-
-  @media (max-width: 767px) {
-    display: block;
-  }
 `;
 
 interface Screen2Props {
@@ -92,7 +79,7 @@ export class Screen2 extends React.Component<Screen2Props, Screen2State> {
   componentDidMount() {
     const { userState } = this.props;
     const { preferPiaUserCalc, retireDate } = userState;
-    
+
     this.performCalc(retireDate, preferPiaUserCalc).catch((err) => {
       console.error("err", err);
       this.setState({
@@ -170,7 +157,10 @@ export class Screen2 extends React.Component<Screen2Props, Screen2State> {
     }
   };
 
-  performCalc = async (desiredRetireDateValue: Date, preferPiaUserCalcValue: boolean | null) => {
+  performCalc = async (
+    desiredRetireDateValue: Date,
+    preferPiaUserCalcValue: boolean | null
+  ) => {
     const {
       userState: { birthDate, retireDate },
       userStateActions: { setUserProfile },
@@ -182,9 +172,11 @@ export class Screen2 extends React.Component<Screen2Props, Screen2State> {
       retireDate,
       preferPiaUserCalcValue
     );
+    console.log("performCalc:",userCalc);
     setUserProfile(userCalc);
 
-    const yearsDiff = dayjs(desiredRetireDateValue).year() - dayjs(userDOB).year();
+    const yearsDiff =
+      dayjs(desiredRetireDateValue).year() - dayjs(userDOB).year();
     const clampedYearsDiff =
       yearsDiff < 62 ? 62 : yearsDiff > 70 ? 70 : yearsDiff;
     this.handleRetireChange(clampedYearsDiff, preferPiaUserCalcValue);
@@ -216,6 +208,7 @@ export class Screen2 extends React.Component<Screen2Props, Screen2State> {
       preferPiaUserCalcValueFastOrSlow
     );
 
+    console.log("performCalc:", userCalc);
     if (userCalc)
       this.setState({
         desiredRetireDate: userDOR,
@@ -233,37 +226,99 @@ export class Screen2 extends React.Component<Screen2Props, Screen2State> {
       <React.Fragment>
         <SEO title="Screen 2" />
         <ContentContainer>
-          <H2>Results</H2>
-          {this.state.userWEP === true ? (
-            <WarningBox>
-              <label>
-                Based on the information you provided, your benefits are
-                affected by the Windfall Elimination Provision. The Windfall
-                Elimination Provision is a Social Security rule that reduces
-                retirement benefits for retirees with access to a pension based
-                on non-covered employment. Click Benefit Formula at left to read
-                more.
-              </label>
-            </WarningBox>
-          ) : null}
-          {this.state.error || !userProfile ? (
-            <WarningBox>
-              <label>
-                Please go back and fill out all information to calculate
-                results.{" "}
-              </label>
-            </WarningBox>
-          ) : (
-            <Flex>
+          <CardGlossaryContainer>
+            <LeaveGutterAtRight>
+              <H2>Results</H2>
+
+              {this.state.userWEP === true ? (
+                <WarningBox>
+                  <label>
+                    Based on the information you provided, your benefits are
+                    affected by the Windfall Elimination Provision. The Windfall
+                    Elimination Provision is a Social Security rule that reduces
+                    retirement benefits for retirees with access to a pension
+                    based on non-covered employment. Click Benefit Formula at
+                    left to read more.
+                  </label>
+                </WarningBox>
+              ) : null}
+              {(this.state.error || !userProfile) && (
+                <WarningBox>
+                  <label>
+                    Please go back and fill out all information to calculate
+                    results.{" "}
+                  </label>
+                </WarningBox>
+              )}
+              <QuestionText>
+                Which calculator would you like to see results of?
+              </QuestionText>
+
+              <Card>
+                <AnswerBox>
+                  <RadioButton
+                    type="radio"
+                    name="preferPiaUserCalc"
+                    value="true"
+                    onChange={() => {
+                      setPreferPiaUserCalc(true);
+                      this.performCalc(this.state.desiredRetireDate, true);
+                    }}
+                    checked={preferPiaUserCalc === true}
+                  />
+                  <LabelText>
+                    SSA Detailed <br />
+                    Calculator (AnyPIA)
+                  </LabelText>
+                </AnswerBox>
+
+                <AnswerBox>
+                  <RadioButton
+                    type="radio"
+                    name="preferPiaUserCalc"
+                    value="false"
+                    onChange={() => {
+                      setPreferPiaUserCalc(false);
+                      this.performCalc(this.state.desiredRetireDate, false);
+                    }}
+                    checked={preferPiaUserCalc === false}
+                  />
+                  <LabelText>
+                    Windfall Awareness
+                    <br /> Calculator
+                  </LabelText>
+                </AnswerBox>
+              </Card>
+            </LeaveGutterAtRight>
+              <Glossary title="Choice of Calculators">
+                There are two calculators available to you. Choose the Social
+                Security Detailed calculator if you are younger than 60 years
+                old. Windfall Awareness calculator is more stable and so is the
+                default, for now.
+              </Glossary>
+          </CardGlossaryContainer>
+
+          {(!this.state.error && userProfile) && (
+            <React.Fragment>
+            <CardGlossaryContainer>
+            <LeaveGutterAtRight>
               <Text>
                 Based on the information you provided, your retirement benefits
                 will be calculated by Social Security as follows:{" "}
               </Text>
-              <MonthlyBenefit
-                text={"Full Retirement Age"}
-                number={userProfile["MPB"]}
-                isFRA={true}
-              />
+                <MonthlyBenefit
+                  text={"Full Retirement Age"}
+                  number={userProfile["MPB"]}
+                  isFRA={true}
+                />
+                </LeaveGutterAtRight>
+                <Glossary title="FULL RETIREMENT AGE">
+                  Your Full Retirement Age for Social Security is based on when
+                  you were born.
+                </Glossary>
+              </CardGlossaryContainer>
+              <CardGlossaryContainer>
+              <LeaveGutterAtRight>
               {this.state.testAge ? (
                 <>
                   <Text>
@@ -287,70 +342,36 @@ export class Screen2 extends React.Component<Screen2Props, Screen2State> {
                   />
                 </>
               ) : null}
+              </LeaveGutterAtRight>
+              {preferPiaUserCalc && (
+                <React.Fragment>
+                   <div></div>
+                  <Glossary
+                    title="Detailed Calculator"
+                    link="https://www.ssa.gov/oact/anypia/anypia.html"
+                    linkText="Info on the Detailed Calculator on SSA.gov"
+                  >
+                    The current version of the Social Security Detailed
+                    Calculator is 2020.1, which was released on December 31,
+                    2019. It updates the 2019.2 version with the new economic
+                    information from the automatic adjustments announced on
+                    October 10, 2019.
+                  </Glossary>
+                  </React.Fragment>
+              )}
+                              </CardGlossaryContainer>
+
+
               <ButtonContainer>
                 <ButtonLink to="/print/" isDisabled={this.state.error !== null}>
                   Print Results
                 </ButtonLink>
               </ButtonContainer>
 
-              <QuestionText>
-                Which calculator would you like to see results of?
-              </QuestionText>
 
-              <CardGlossaryContainer>
-                <Card>
-                <AnswerBox>
-                  <RadioButton
-                    type="radio"
-                    name="preferPiaUserCalc"
-                    value="true"
-                    onChange={() => {
-                      setPreferPiaUserCalc(true);
-                      this.performCalc(this.state.desiredRetireDate, true);
-                    }}
-                    checked={preferPiaUserCalc === true}
-                  />
-                  <LabelText>
-                    Official Social Security<br></br> Calculator(AnyPIA)
-                  </LabelText>
-                </AnswerBox>
-
-                <AnswerBox>
-                  <RadioButton
-                    type="radio"
-                    name="preferPiaUserCalc"
-                    value="false"
-                    onChange={() => {
-                      setPreferPiaUserCalc(false);
-                      this.performCalc(this.state.desiredRetireDate, false);
-                    }}
-                    checked={preferPiaUserCalc === false}
-                  />
-                  <LabelText>Our Calculator</LabelText>
-                </AnswerBox>
-                </Card>
-                <Glossary
-                  title="Choice of Calculators"
-                  link="https://www.ssa.gov/planners/retire/retirechart.html"
-                  linkText=""
-                >
-                  You have a choice of calculator between the one based on our
-                  research which does not calculate down to the month level and
-                  one very powerful official one by the Social Security
-                  Administration. They may have been updated at different times.
-                </Glossary>
-              </CardGlossaryContainer>
-            </Flex>
+            </React.Fragment>
           )}
         </ContentContainer>
-        <Glossary
-          title="FULL RETIREMENT AGE"
-          link="https://www.ssa.gov/planners/retire/retirechart.html"
-          linkText=""
-        >
-          Your Full Retirement Age for Social Security is based on when you were
-          born.
-        </Glossary>
       </React.Fragment>
     );
   }

@@ -208,7 +208,7 @@ class Print extends React.Component<PrintProps> {
     if (!userProfile) return null
 
     /* AIME does not have $format, has a comma */
-    const userAIME = format(",.2r")(userProfile.aime)
+    const userAIME = format(",.4r")(userProfile.aime)
     const userFRD = userProfile.fullRetireDate
     const userYSE = userProfile.yearsSubstantialEarnings
     /* Pension has $format, no cents */

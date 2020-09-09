@@ -24,6 +24,7 @@ const emptyUserProfile: UserProfile = {
   pensionNonCoveredMonthly: 0,
   aime: 0,
   fullRetireDate: new Date("2040-1-1").toLocaleDateString("en-US"),
+  calculatorType: 'blank'
 }
 
 export async function finalCalculation (
@@ -119,9 +120,9 @@ export async function finalCalculation (
       calculation.NoncoveredPosion.MonthlyPension,
     aime: calculation.AIME && calculation.AIME.AME,
     fullRetireDate: new Date("2040-1-1").toLocaleDateString("en-US"),
+    calculatorType: 'anypia'
   };
   console.warn("DUMMY fullRetireDate until it can be added:");
-  console.log(userProfile);
 
   return userProfile;
 }
