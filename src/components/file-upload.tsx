@@ -404,6 +404,7 @@ class FileUpload extends React.Component<FileUploadProps, FileUploadState> {
               <UploadIconWrap>
                 <FontAwesomeIcon icon={faUpload} />
               </UploadIconWrap>
+              Select Earnings Record file
             </UploadLabel>
             <UploadInput
               type="file"
