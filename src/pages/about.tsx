@@ -3,7 +3,9 @@ import styled from "@emotion/styled";
 import {
   TextBlock,
   H3,
-  PrintButton
+  PrintButton,
+  UnorderedList,
+  ListItem
 } from "../components";
 
 const AboutContainer = styled.div`
@@ -24,15 +26,24 @@ export default () => (
     </TextBlock>
 
     <H3>[LEGAL DISCLAIMER]</H3>
-      <TextBlock>
-        It will not ask you for any information that could put your identity at
-        risk. This app will also not store your data, although you can save or
-        print out your results at the end.
+    <TextBlock>
+      It will not ask you for any information that could put your identity at
+      risk. This app will also not store your data, although you can save or
+      print out your results at the end.
       </TextBlock>
 
-	 <br></br>
-	<PrintButton onClick={() => window.open("https://github.com/codeforboston/windfall-elimination")}>
-		See Our Work on GitHub
+    <H3>Credits</H3>
+    <TextBlock>
+      <UnorderedList>
+        <ListItem>
+          Font Awesome by Dave Gandy - <a href="http://fontawesome.io" target="_blank">http://fontawesome.io</a>
+        </ListItem>
+      </UnorderedList>
+    </TextBlock>
+
+    <br></br>
+    <PrintButton onClick={() => window.open("https://github.com/codeforboston/windfall-elimination")}>
+      See Our Work on GitHub
 	</PrintButton>
 
   </AboutContainer>
