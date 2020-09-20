@@ -2,6 +2,9 @@ import React from "react";
 import styled from "@emotion/styled";
 import fastXml from "fast-xml-parser";
 import pdfJS from "pdfjs-dist";
+import { FontAwesomeIcon } from '@fortawesome/react-fontawesome'
+import { faUpload } from '@fortawesome/free-solid-svg-icons'
+
 import { spacing, colors, fontSizes } from "../constants";
 import {  H2 } from "../components";
 import { getRawEarnings } from "../library/observable-functions";
@@ -43,9 +46,14 @@ export const UploadLabel = styled("label")`
   font-size: ${fontSizes[1]};
   width: 300px;
   height: 50px;
-  padding-top 13px;
+  padding-top: 13px;
   padding-bottom: 3px;
   cursor: pointer;
+`;
+
+export const UploadIconWrap = styled.div`
+  display: inline-block;
+  margin-right: 10px;
 `;
 
 export const DisplayTable = styled.div`
@@ -393,7 +401,10 @@ class FileUpload extends React.Component<FileUploadProps, FileUploadState> {
         {!manual && (
           <UploadButton>
             <UploadLabel htmlFor="inputfile" className="btn">
-              Upload Earnings Record
+              <UploadIconWrap>
+                <FontAwesomeIcon icon={faUpload} />
+              </UploadIconWrap>
+              Select Earnings Record file
             </UploadLabel>
             <UploadInput
               type="file"
