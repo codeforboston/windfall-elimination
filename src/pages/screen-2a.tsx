@@ -81,6 +81,22 @@ const renderSections = ({ isInCarousel }: { isInCarousel?: boolean } = {}) => {
         <br />
         You get 90% of what falls under this bend point.
       </p>
+       <Table>
+        <tr>
+          <TD>step1</TD>
+          <TD>step2</TD>
+          <TD>step3</TD>
+          <TD>PIA</TD>
+        </tr>
+        <tr>
+         <TD>$805</TD>
+          <TD>0</TD>
+     
+          <TD>0</TD>
+          <TD>$100</TD>
+        </tr>
+      </Table>
+
       <Image src={stepImg1} />
     </Section>,
 
@@ -155,6 +171,13 @@ const ArrowElement = styled.div<{ isArrowLeft?: boolean }>`
     color: ${colors.purple};
     font-size: 2.5rem;
   }
+`;
+
+const Table = styled.table`
+margin-left: auto;
+margin-right: auto;
+width: 60%;
+border: solid;
 `;
 
 export default Screen2a;
