@@ -2,7 +2,11 @@ import { PiaFormat } from "../library/pia/pia-format";
 import {
   delayedRetirementValues,
   fullRetirementValues,
+  sample1RetirementValues,
+  sample2RetirementValues,
   sample20RetirementValues,
+  sample25RetirementValues
+
 } from "../library/testFiles";
 import { getRawEarnings } from "../library/observable-functions";
 import { PiaYear, PiaEarnings } from "src/library/pia/pia-types";
