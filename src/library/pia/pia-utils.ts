@@ -2,9 +2,9 @@ import * as PiaTypes from "./pia-types";
 import dayjs from "dayjs";
 
 export function piaSubstr(str: string, start: number, end: number): string {
-  let start_pos = start - 1;
-  let str_len = end - start + 1;
-  return str.substr(start_pos, str_len);
+  const startPos = start - 1;
+  const strLen = end - start + 1;
+  return str.substr(startPos, strLen);
 }
 
 export function parsePiaString(
@@ -19,12 +19,12 @@ export function parsePiaMonthYear(
   start: number,
   end: number
 ): PiaTypes.PiaMonthYear {
-  let moyrStr = piaSubstr(lineStr, start, end);
-  let month = moyrStr.slice(0, 2);
-  let year = moyrStr.slice(2);
+  const moyrStr = piaSubstr(lineStr, start, end);
+  const month = moyrStr.slice(0, 2);
+  const year = moyrStr.slice(2);
   // console.log(moyrStr, "month", month, "year", year);
   /* starts in mmyyyy, dayjs takes yyyy-mm-dd */
-  var piaMonth: PiaTypes.PiaMonthYear = dayjs(
+  const piaMonth: PiaTypes.PiaMonthYear = dayjs(
     [parseInt(year, 10), parseInt(month, 10), 1].join("-")
   ).toDate();
 
@@ -36,9 +36,9 @@ export function parsePiaSex(
   start: number,
   end: number
 ): PiaTypes.PiaSex {
-  let genderStr = piaSubstr(lineStr, start, end);
-  let genInt = parseInt(genderStr, 10);
-  let sex: PiaTypes.PiaSex = genInt;
+  const genderStr = piaSubstr(lineStr, start, end);
+  const genInt = parseInt(genderStr, 10);
+  const sex: PiaTypes.PiaSex = genInt;
   return sex;
 }
 
@@ -47,9 +47,9 @@ export function parseSSABenefitType(
   start: number,
   end: number
 ): PiaTypes.SSABenefitType {
-  let benStr = piaSubstr(lineStr, start, end);
-  let benInt = parseInt(benStr, 10);
-  let ssaBen: PiaTypes.SSABenefitType = benInt;
+  const benStr = piaSubstr(lineStr, start, end);
+  const benInt = parseInt(benStr, 10);
+  const ssaBen: PiaTypes.SSABenefitType = benInt;
   return ssaBen;
 }
 
@@ -59,10 +59,10 @@ export function parseYearEarningsLineString(
   startYear: PiaTypes.PiaYear,
   dataEntryLength: number
 ): Map<PiaTypes.PiaYear, PiaTypes.PiaEarnings> {
-  let yrDataMap = new Map<PiaTypes.PiaYear, PiaTypes.PiaEarnings>();
+  const yrDataMap = new Map<PiaTypes.PiaYear, PiaTypes.PiaEarnings>();
   const zeroIndexStartChar = startCharacter - 1;
   let currentYear = Number(startYear);
-  for (var i = zeroIndexStartChar; i < lineStr.length; i += dataEntryLength) {
+  for (let i = zeroIndexStartChar; i < lineStr.length; i += dataEntryLength) {
     let val: PiaTypes.PiaEarnings = parsePiaCurrency(
       lineStr.substr(i, dataEntryLength)
     );
@@ -77,11 +77,11 @@ export function parsePiaTypeOfEarningsString(
   startCharacter: number,
   startYear: PiaTypes.PiaYear
 ): Map<PiaTypes.PiaYear, PiaTypes.PiaTypeOfEarnings> {
-  let toeMap = new Map<PiaTypes.PiaYear, PiaTypes.PiaTypeOfEarnings>();
+  const toeMap = new Map<PiaTypes.PiaYear, PiaTypes.PiaTypeOfEarnings>();
   const zeroIndexStartCharacter = startCharacter - 1;
 
   let currentYear = Number(startYear);
-  for (var i = zeroIndexStartCharacter; i < lineStr.length; i++) {
+  for (let i = zeroIndexStartCharacter; i < lineStr.length; i++) {
     let val: PiaTypes.PiaTypeOfEarnings = parseInt(lineStr.charAt(i), 10);
     toeMap.set(currentYear, val);
     currentYear = currentYear + 1;
@@ -94,20 +94,20 @@ export function parsePiaDate(
   start: number,
   end: number
 ): PiaTypes.PiaDate {
-  let mdyStr = piaSubstr(lineStr, start, end);
-  let month = mdyStr.slice(0, 2);
-  let day = mdyStr.slice(2, 4);
-  let year = mdyStr.slice(4);
+  const mdyStr = piaSubstr(lineStr, start, end);
+  const month = mdyStr.slice(0, 2);
+  const day = mdyStr.slice(2, 4);
+  const year = mdyStr.slice(4);
   /* dayjs will use local timezone */
   /* starts in mmddyyyy, dayjs takes yyyy-mm-dd */
-  let piaDate: PiaTypes.PiaDate = dayjs(
+  const piaDate: PiaTypes.PiaDate = dayjs(
     [parseInt(year, 10), parseInt(month, 10), parseInt(day, 10)].join("-")
   ).toDate();
 
   return piaDate;
 }
 
-//Parces a pia currency values
+//Parses a pia currency values
 export function parsePiaCurrency(val: string): Number {
   val = val.replace(".", "");
   return parseInt(val) / 100.0;

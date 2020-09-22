@@ -17,14 +17,14 @@ export enum PiaSex {
 }
 
 export enum SSABenefitType {
-  old_age = 1,
+  oldAge = 1,
   survivor = 2,
   disability = 3,
 }
 
 /* http://thadk.net/anypiamac-docs/html/Forms/type_of_earnings.html */
 export enum PiaTypeOfEarnings {
-  entered_earnings = 0,
+  enteredEarnings= 0,
   maximum = 1,
   high = 2,
   average = 3,
@@ -32,8 +32,8 @@ export enum PiaTypeOfEarnings {
 }
 
 export enum PiaTypeOfTaxes {
-  employee_taxes = 0,
-  self_employed_taxes = 1,
+  employeeTaxes = 0,
+  selfEmployedTaxes = 1,
 }
 
 export interface PiaData {

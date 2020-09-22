@@ -713,7 +713,7 @@ function initializePiaData(): PiaTypes.PiaData & PiaTypes.PiaDataAdapter {
     birthDate: undefined,
     sex: undefined,
     dateOfDeath: undefined,
-    typeOfBenefit: PiaTypes.SSABenefitType.old_age,
+    typeOfBenefit: PiaTypes.SSABenefitType.oldAge,
     monthYearBenefit: undefined,
     monthYearEntitlement: undefined,
     firstEarningYearActual: undefined,
