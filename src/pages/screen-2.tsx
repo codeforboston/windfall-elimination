@@ -175,8 +175,8 @@ export class Screen2 extends React.Component<Screen2Props, Screen2State> {
     console.log("performCalc:",userCalc);
     setUserProfile(userCalc);
 
-    const yearsDiff =
-      dayjs(desiredRetireDateValue).year() - dayjs(userDOB).year();
+    const yearsDiff = dayjs(desiredRetireDateValue).diff((dayjs(userDOB)),'year', true);
+    
     const clampedYearsDiff =
       yearsDiff < 62 ? 62 : yearsDiff > 70 ? 70 : yearsDiff;
     this.handleRetireChange(clampedYearsDiff, preferPiaUserCalcValue);
