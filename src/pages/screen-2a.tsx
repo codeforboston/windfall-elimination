@@ -1,7 +1,8 @@
 import styled from "@emotion/styled";
 import SectionsCarousel from "react-slick";
 import { breakPoints, colors } from "../constants";
-import { H2, SEO, TD } from "../components";
+import { H2, SEO} from "../components";
+import {TD} from "../components/file-upload";
 import stepImg1 from "../images/step1.png";
 import stepImg2 from "../images/step2.png";
 import stepImg3 from "../images/step3.png";
@@ -177,7 +178,6 @@ const Table = styled.table`
 margin-left: auto;
 margin-right: auto;
 width: 60%;
-border: solid;
 `;
 
 export default Screen2a;
