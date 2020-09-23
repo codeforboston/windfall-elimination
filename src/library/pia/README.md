@@ -2,7 +2,7 @@
 
 - See: https://www.ssa.gov/OACT/anypia/anypia.html
 - and: https://github.com/codeforboston/anypia-js
-- [General Introduction](./README-nontechnical.md) and [main project details](../../)
+- [General Introduction](./README-nontechnical.md) and [Main Project Details](../../)
 
 Written and maintained since the early 2000s, the official Social Security Administration's **Detailed Calculator (AnyPIA)** is a comprehensive benefit calculator which is designed to compute historical benefits as well as estimate future benefits. 
 

@@ -5,6 +5,10 @@ export const TextBlock = styled.div`
   font-family: 'Montserrat', sans-serif;
   font-size: ${fontSizes[0]}
 `;
+export const H4 = styled.h4`
+  font-family: 'Merriweather', serif;
+  color: ${colors.purple};
+`;
 
 export const H3 = styled.h3`
   font-family: 'Merriweather', serif;

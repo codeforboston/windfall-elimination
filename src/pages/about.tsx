@@ -3,6 +3,7 @@ import styled from "@emotion/styled";
 import {
   TextBlock,
   H3,
+  H4,
   PrintButton,
   UnorderedList,
   ListItem
@@ -34,7 +35,12 @@ export default () => (
       print out your results at the end.
       </TextBlock>
 
-    <H3>Credits</H3>
+    <br></br>
+    <PrintButton onClick={() => window.open("https://github.com/codeforboston/windfall-elimination")}>
+    <FontAwesomeIcon icon={faFileCode} /> See Our Work on GitHub
+	</PrintButton>
+
+    <H4>Credits</H4>
     <TextBlock>
       <UnorderedList>
         <ListItem>
@@ -42,11 +48,6 @@ export default () => (
         </ListItem>
       </UnorderedList>
     </TextBlock>
-
-    <br></br>
-    <PrintButton onClick={() => window.open("https://github.com/codeforboston/windfall-elimination")}>
-    <FontAwesomeIcon icon={faFileCode} /> See Our Work on GitHub
-	</PrintButton>
 
   </AboutContainer>
 

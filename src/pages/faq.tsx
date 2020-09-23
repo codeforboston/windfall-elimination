@@ -117,6 +117,9 @@ export default () => (
        they can get the most accurate benefits calculation. We also provide
         other helpful contextual information from caseworkers's interviews with
          300 constituents.  </p>
+         <p>See the 
+           <a href="https://github.com/codeforboston/windfall-elimination/blob/develop/src/library/pia/README-nontechnical.md">
+             Github repository for more detailed information</a></p>
     </TextBlock>
 	 <br></br>
    

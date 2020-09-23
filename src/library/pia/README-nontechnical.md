@@ -12,7 +12,7 @@ The Windfall project's own calculator could not determine future benefit for peo
 
 Rather than maintain these details, we decided our efforts were best spent on extending the existing AnyPIA Windows tool to work as part of this browser-based tool as well. For this, 6 volunteers from Code for Boston and Congressman Seth Moulton's caseworkers created [AnyPIAJS](https://github.com/codeforboston/anypia-js) in early/mid 2020 ([Alex J](https://github.com/alexjcode/), [Alex M](https://github.com/mrpippy), [Anne Meeker](https://www.linkedin.com/in/anne-meeker-60837b123), [Thad K](https://github.com/thadk), [Paavan B](https://github.com/paavanb), [Tony Dean](https://github.com/tdean1991/), and [Brendan S](https://github.com/mrpippy)).
 
-<p><img alt="Screenshot of the Windows version of AnyPIA" src="https://user-images.githubusercontent.com/283343/94048036-e8c46080-fda0-11ea-907b-2a3f295a2976.png" height="300" /></p>
+<p><img alt="Screenshot of the Windows version of AnyPIA" src="https://user-images.githubusercontent.com/283343/94060669-51680900-fdb2-11ea-8b94-5dc5a9277aaf.png" height="300" /></p>
 
 _Screenshot of original desktop Windows version of AnyPIA._
 
