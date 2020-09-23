@@ -33,7 +33,7 @@ export const Screen2a: FunctionComponent<Screen2aProps> = () => {
   // } = this.props;
 
   const userState = useUserState();
-  debugger
+  // debugger
   const Arrow = ({ className, onClick }: {
     className?: string,
     onClick?: () => void
