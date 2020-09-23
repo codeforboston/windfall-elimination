@@ -2,7 +2,7 @@ import styled from "@emotion/styled";
 import SectionsCarousel from "react-slick";
 import { breakPoints, colors } from "../constants";
 import { H2, SEO} from "../components";
-import {TD} from "../components/file-upload";
+import {TD, DisplayTable, TableHeader, TableRow} from "../components/file-upload";
 import stepImg1 from "../images/step1.png";
 import stepImg2 from "../images/step2.png";
 import stepImg3 from "../images/step3.png";
@@ -82,21 +82,21 @@ const renderSections = ({ isInCarousel }: { isInCarousel?: boolean } = {}) => {
         <br />
         You get 90% of what falls under this bend point.
       </p>
-       <Table>
-        <tr>
+       <DisplayTable>
+        <TableHeader>
           <TD>step1</TD>
           <TD>step2</TD>
           <TD>step3</TD>
           <TD>PIA</TD>
-        </tr>
-        <tr>
+        </TableHeader>
+        <TableRow>
          <TD>$805</TD>
           <TD>0</TD>
      
           <TD>0</TD>
           <TD>$100</TD>
-        </tr>
-      </Table>
+        </TableRow>
+      </DisplayTable>
 
       <Image src={stepImg1} />
     </Section>,
@@ -172,12 +172,6 @@ const ArrowElement = styled.div<{ isArrowLeft?: boolean }>`
     color: ${colors.purple};
     font-size: 2.5rem;
   }
-`;
-
-const Table = styled.table`
-margin-left: auto;
-margin-right: auto;
-width: 60%;
 `;
 
 export default Screen2a;
