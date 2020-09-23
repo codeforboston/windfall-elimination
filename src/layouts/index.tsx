@@ -72,6 +72,7 @@ const LINKSPATH = [
   {path: "/prescreen-1a/", label: "Background"},
   {path: "/prescreen-1b/", label: "Earnings"},
   {path: "/prescreen-1c/", label: "Employment Status"},
+  {path: "/prescreen-1d/", label: "Future Earnings"},
   {path: "/screen-2/", label: "Results"},
   {path: "/screen-2a/", label: "Benefit Formula"},
   // {path: "/screen-2b/", label: "OVERPAYMENT"},

@@ -10,6 +10,8 @@ type ContextProps = {
   socialSecurityBenefitsAmount: number;
   yearsOfSubstantialEarnings: number;
   amountOfNonCoveredPension: number;
+  awiTrendOrManualPrediction: boolean;
+  awiTrendSelection: boolean;
 };
 
 const QuestionContext = React.createContext<ContextProps>(null!);
@@ -24,7 +26,9 @@ export class QuestionProvider extends React.Component<Props, State> {
     dateOfBirth: "",
     socialSecurityBenefitsAmount: 0,
     yearsOfSubstantialEarnings: 0,
-    amountOfNonCoveredPension: 0
+    amountOfNonCoveredPension: 0,
+    awiTrendOrManualPrediction: false,
+    awiTrendSelection: false,
   };
   public render() {
     const { children } = this.props;
@@ -38,7 +42,9 @@ export class QuestionProvider extends React.Component<Props, State> {
           dateOfBirth: this.state.dateOfBirth,
           socialSecurityBenefitsAmount: this.state.socialSecurityBenefitsAmount,
           yearsOfSubstantialEarnings: this.state.yearsOfSubstantialEarnings,
-          amountOfNonCoveredPension: this.state.yearsOfSubstantialEarnings
+          amountOfNonCoveredPension: this.state.yearsOfSubstantialEarnings,
+          awiTrendOrManualPrediction: this.state.awiTrendOrManualPrediction,
+          awiTrendSelection: this.state.awiTrendSelection
         }}
       >
         {/* <QuestionValues values={this.state} /> */}
@@ -72,6 +78,12 @@ const QuestionValues: React.FC<QuestionValuesProps> = ({ values }) => (
       <div>Years of earnings: {values.yearsOfSubstantialEarnings}</div>
       <div>
         Amount of non-covered pension: {values.amountOfNonCoveredPension}
+      </div>
+      <div>
+      Type of AWI Prediction: {values.awiTrendOrManualPrediction}
+      </div>
+      <div>
+      Economic Trend: {values.awiTrendSelection}
       </div>
     </div>
   </Card>
