@@ -2,13 +2,38 @@ import styled from "@emotion/styled";
 import SectionsCarousel from "react-slick";
 import { breakPoints, colors } from "../constants";
 import { H2, SEO} from "../components";
-import {TD, DisplayTable, TableHeader, TableRow} from "../components/file-upload";
 import stepImg1 from "../images/step1.png";
 import stepImg2 from "../images/step2.png";
 import stepImg3 from "../images/step3.png";
 import finalImg from "../images/final.png";
+import {radii, spacing } from "../constants";
+import { FunctionComponent } from 'react'; 
+import {
+  UserState,
+  EarningsEnum,
+  useUserState,
+} from "../library/user-state-context";
+import {
+  UserStateActions,
+  useUserStateActions,
+} from "../library/user-state-actions-context";
 
-const Screen2a = () => {
+
+
+interface Screen2aProps {
+  userState: UserState;
+  userStateActions: UserStateActions;
+}
+
+
+
+export const Screen2a: FunctionComponent<Screen2aProps> = () => {
+  // const {
+  //     userState: { haveEarnings, haveSSAAccount, earningsFormat },
+  // } = this.props;
+
+  const userState = useUserState();
+  debugger
   const Arrow = ({ className, onClick }: {
     className?: string,
     onClick?: () => void
@@ -83,19 +108,19 @@ const renderSections = ({ isInCarousel }: { isInCarousel?: boolean } = {}) => {
         You get 90% of what falls under this bend point.
       </p>
        <DisplayTable>
-        <TableHeader>
-          <TD>step1</TD>
-          <TD>step2</TD>
-          <TD>step3</TD>
-          <TD>PIA</TD>
-        </TableHeader>
-        <TableRow>
-         <TD>$805</TD>
-          <TD>0</TD>
+        <tr>
+          <TableHeader>step1</TableHeader>
+          <TableHeader>step2</TableHeader>
+          <TableHeader>step3</TableHeader>
+          <TableHeader>PIA</TableHeader>
+        </tr>
+        <tr>
+         <td>$805</td>
+          <td>0</td>
      
-          <TD>0</TD>
-          <TD>$100</TD>
-        </TableRow>
+          <td>0</td>
+          <td>$100</td>
+        </tr>
       </DisplayTable>
 
       <Image src={stepImg1} />
@@ -173,5 +198,26 @@ const ArrowElement = styled.div<{ isArrowLeft?: boolean }>`
     font-size: 2.5rem;
   }
 `;
+
+export const DisplayTable = styled("table")`
+  table-layout: fixed;
+  border: 1px solid black;
+  border-radius: ${radii[0]};
+  margin: auto;
+`;
+
+export const TableHeader = styled("th")`
+  background-color: #dddddd;
+  border: 1px solid #888888;
+  text-align: left;
+  padding: 8px;
+`;
+
+export const td= styled("tr")`
+  border: 1px solid #888888;
+  text-align: center;
+  padding: 8px;
+`;
+
 
 export default Screen2a;
