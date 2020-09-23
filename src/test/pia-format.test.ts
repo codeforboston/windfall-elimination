@@ -1,3 +1,9 @@
+/**
+ * NOTE: to delete
+ * Make tests for sample 25, 1, 2 (see bottomost test)
+ * Make simplified version
+ */
+
 import { PiaFormat } from "../library/pia/pia-format";
 import {
   delayedRetirementValues,
@@ -72,11 +78,38 @@ describe("Sample 1, 20 and 25 AnyPIA (Full Retirement)", () => {
   });
 });
 
-/* no sex or social security number on 01,
- no month-yr on line 12.
- no name on line 16,
- no tax type on line 20,
- no line 95 */
+/* 
+  Simplified sample PIAs were created by running working PiaFormat
+  on sample retirement values
+  Changes between samplePia and simplified samplePia:
+    no sex or social security number on 01,
+    no month-yr on line 12.
+    no name on line 16,
+    no tax type on line 20,
+    no line 95 
+*/
+
+// sample1PiaSimplified contains more data than sample1pia
+const sample1PiaSimplified = `01          06221952
+031072014
+0619752019
+12   1500.00
+22   14100.00   15300.00   16500.00   17700.00   22900.00   25900.00   29700.00   32400.00   35700.00   37800.00
+23   39600.00   42000.00   43800.00   45000.00   48000.00   51300.00   53400.00   55500.00   57600.00   60600.00
+24   61200.00   62700.00   65400.00   68400.00   72600.00   76200.00   80400.00   84900.00   87000.00   87900.00
+25   90000.00   94200.00   97500.00  102000.00  106800.00  106800.00  106800.00  110100.00  113700.00  117000.00
+26  118500.00  118500.00  127200.00  128400.00  132900.00`;
+
+const sample2piaSimplified = `01          06221952
+031072014
+0619752019
+12   1500.00
+22   14100.00   15300.00   16500.00   17700.00   22900.00   25900.00   29700.00   32400.00   35700.00   37800.00
+23   39600.00   42000.00   43800.00   45000.00   48000.00   51300.00   53400.00   55500.00   57600.00   60600.00
+24   61200.00   62700.00   65400.00   68400.00   72600.00   76200.00   80400.00   84900.00   87000.00   87900.00
+25   90000.00   94200.00   97500.00  102000.00  106800.00  106800.00  106800.00  110100.00  113700.00  117000.00
+26  118500.00  118500.00  127200.00  128400.00  132900.00`;
+
 const sample20piaSimplified = `01          06221952
 031072014
 0619662010
@@ -86,6 +119,47 @@ const sample20piaSimplified = `01          06221952
 24       0.00       0.00       0.00       0.00       0.00       0.00       0.00       0.00       0.00       0.00
 25       0.00       0.00       0.00       0.00       0.00       0.00   20000.00  104400.00  105480.00  108000.00
 26  113040.00  117000.00  122400.00  128160.00   35000.00`;
+
+const sample25piaSimplified = `01          06221952
+031072014
+0619812019
+12   1500.00
+22    2000.00    2000.00    2000.00    2000.00    2000.00    2000.00    2000.00    2000.00    2000.00    2000.00
+23    4000.00    4000.00    4000.00    4000.00    4000.00    4000.00    4000.00    4000.00    4000.00    4000.00
+24    6000.00    6000.00    6000.00    6000.00    6000.00    6000.00    6000.00    6000.00    6000.00    6000.00
+25    8000.00    8000.00  113700.00    8000.00    8000.00    8000.00    8000.00    8000.00    8000.00`;
+
+// Generic function for creating full retirement sample PiaFormat
+function createPiaSampleFormat(sampleRetirementValues: any) {
+  //Background finance info for sample
+  const earnings =
+    sampleRetirementValues["osss:OnlineSocialSecurityStatementData"][
+    "osss:EarningsRecord"
+    ]["osss:Earnings"];
+  
+  const userDOB = dayjs("1952-06-22").toDate();
+  const userDOR = dayjs("2014-07-22").toDate(); // 66yo is their full retirement age.
+  //const year62 = "2014";
+  const rawEarnings = getRawEarnings(earnings);
+  const userPension = 1500;
+
+  //convert all keys and values to int's (keys in js objects always strings)
+  const onlyIntsObject = Object.entries(rawEarnings).map((n) =>
+    n.map((m) => parseInt(m + "", 10))
+  );
+
+  const earningsSample20Records: EarningsMap = new Map<PiaYear, PiaEarnings>(
+    onlyIntsObject
+  );
+
+  const piaSampleFormat = new PiaFormat(``)
+    .setBirthDate(userDOB)
+    .setEntitlementDate(userDOR)
+    .setMonthlyNoncoveredPensionAmount(userPension)
+    .setOasdiEarnings(earningsSample20Records);
+
+  return piaSampleFormat;
+}
 
 describe("Blank string instantiation of PiaFormat", () => {
   it("Deserializing empty pia results in error", async () => {
@@ -105,7 +179,7 @@ describe("Blank string instantiation of PiaFormat", () => {
 
     const earnings =
       fullRetirementValues["osss:OnlineSocialSecurityStatementData"][
-        "osss:EarningsRecord"
+      "osss:EarningsRecord"
       ]["osss:Earnings"];
 
     /* Use dayjs constructor to avoid bug with test runner that generate UTC dates
@@ -143,34 +217,23 @@ describe("Blank string instantiation of PiaFormat", () => {
 27       0.00       0.00`);
   });
 
-  it("Sample 20 AnyPIA (Full Retirement)", async () => {
-    //Background finance info for Sample20
-    const earnings =
-      sample20RetirementValues["osss:OnlineSocialSecurityStatementData"][
-        "osss:EarningsRecord"
-      ]["osss:Earnings"];
+  it("Sample 1 AnyPIA (Full Retirement)", () => {
+    const piaSample1Format = createPiaSampleFormat(sample1RetirementValues);
+    expect(piaSample1Format.outputPia()).toBe(sample1PiaSimplified);
+  });
 
-    const userS20DOB = dayjs("1952-06-22").toDate();
-    const userS20DOR = dayjs("2014-07-22").toDate(); // 66yo is their full retirement age.
-    //const year62 = "2014";
-    const rawEarnings = getRawEarnings(earnings);
-    const userPension = 1500;
+  it("Sample 2 AnyPIA (Full Retirement)", () => {
+    const piaSample2Format = createPiaSampleFormat(sample2RetirementValues);
+    expect(piaSample2Format.outputPia()).toBe(sample2piaSimplified);
+  });
 
-    //convert all keys and values to int's (keys in js objects always strings)
-    const onlyIntsObject = Object.entries(rawEarnings).map((n) =>
-      n.map((m) => parseInt(m + "", 10))
-    );
-
-    const earningsSample20Records: EarningsMap = new Map<PiaYear, PiaEarnings>(
-      onlyIntsObject
-    );
-
-    const piaSample20Format = new PiaFormat(``)
-      .setBirthDate(userS20DOB)
-      .setEntitlementDate(userS20DOR)
-      .setMonthlyNoncoveredPensionAmount(userPension)
-      .setOasdiEarnings(earningsSample20Records);
-
+  it("Sample 20 AnyPIA (Full Retirement)", () => {
+    const piaSample20Format = createPiaSampleFormat(sample20RetirementValues);
     expect(piaSample20Format.outputPia()).toBe(sample20piaSimplified);
+  });
+
+  it("Sample 25 AnyPIA (Full Retirement)", () => {
+    const piaSample25Format = createPiaSampleFormat(sample25RetirementValues);
+    expect(piaSample25Format.outputPia()).toBe(sample25piaSimplified);
   });
 });
