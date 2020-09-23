@@ -17,6 +17,7 @@ import {
   UserStateActions,
   useUserStateActions,
 } from "../library/user-state-actions-context";
+import { format } from 'd3-format';
 
 
 
@@ -32,8 +33,8 @@ export const Screen2a: FunctionComponent<Screen2aProps> = () => {
   //     userState: { haveEarnings, haveSSAAccount, earningsFormat },
   // } = this.props;
 
-  const userState = useUserState();
-  // debugger
+  
+ // debugger
   const Arrow = ({ className, onClick }: {
     className?: string,
     onClick?: () => void
@@ -44,6 +45,7 @@ export const Screen2a: FunctionComponent<Screen2aProps> = () => {
       onClick={onClick}
     />
   );
+
 
   return (
     <Wrapper>
@@ -74,7 +76,16 @@ export const Screen2a: FunctionComponent<Screen2aProps> = () => {
 };
 
 const renderSections = ({ isInCarousel }: { isInCarousel?: boolean } = {}) => {
-  const key = `screen-2a-${isInCarousel ? "carousel" : "list"}-section-`
+  const userState = useUserState(); // react hook always on top of functional components
+  const key = `screen-2a-${isInCarousel ? "carousel" : "list"}-section-`;
+  const userStateTablePage1 = userState && userState.userProfile && userState.userProfile.bendPoints;
+  const beforeFirstBendPoint = (userStateTablePage1 && userStateTablePage1[0] && userStateTablePage1[0].Amount) || 805.5;
+  const afterFirstBendPoint = (userStateTablePage1 && userStateTablePage1[1] && userStateTablePage1[1].Amount) || 1440.64;
+  const pastSecondBendPoint = (userStateTablePage1 && userStateTablePage1[2] && userStateTablePage1[2].Amount) || 90.45;
+  var totalPrimaryInsuranceAmount = beforeFirstBendPoint + afterFirstBendPoint + pastSecondBendPoint;
+  const formatValue = format('$,.4r');
+  console.log('userStateTablePage1',  userStateTablePage1) ;
+
 
   return ([
     <Section isInCarousel={isInCarousel} key={key + "1"}>
@@ -115,11 +126,10 @@ const renderSections = ({ isInCarousel }: { isInCarousel?: boolean } = {}) => {
           <TableHeader>PIA</TableHeader>
         </tr>
         <tr>
-         <td>$805</td>
-          <td>0</td>
-     
-          <td>0</td>
-          <td>$100</td>
+          <td>{formatValue(beforeFirstBendPoint)}</td>
+          <td></td>
+          <td></td>
+          <td></td>
         </tr>
       </DisplayTable>
 
@@ -132,6 +142,20 @@ const renderSections = ({ isInCarousel }: { isInCarousel?: boolean } = {}) => {
         Social Security calculates how much of your AIME fall below your first
         and second <em> bend points. </em>
       </p>
+       <DisplayTable>
+        <tr>
+          <TableHeader>step1</TableHeader>
+          <TableHeader>step2</TableHeader>
+          <TableHeader>step3</TableHeader>
+          <TableHeader>PIA</TableHeader>
+        </tr>
+        <tr>
+          <td>{formatValue(beforeFirstBendPoint)}</td>
+          <td>{formatValue(afterFirstBendPoint)}</td>
+          <td></td>
+        <td></td>
+        </tr>
+      </DisplayTable>
       <Image src={stepImg2} />
     </Section>,
 
@@ -141,6 +165,20 @@ const renderSections = ({ isInCarousel }: { isInCarousel?: boolean } = {}) => {
         Social Security calculates how much of your AIME fall below your second
         <em> bend point. </em>
       </p>
+       <DisplayTable>
+        <tr>
+          <TableHeader>step1</TableHeader>
+          <TableHeader>step2</TableHeader>
+          <TableHeader>step3</TableHeader>
+          <TableHeader>PIA</TableHeader>
+        </tr>
+        <tr>
+          <td>{formatValue(beforeFirstBendPoint)}</td>
+          <td>{formatValue(afterFirstBendPoint)}</td>
+          <td>{formatValue(pastSecondBendPoint)}</td>
+        <td></td>
+        </tr>
+      </DisplayTable>      
       <Image src={stepImg3} />
     </Section>,
 
@@ -150,6 +188,21 @@ const renderSections = ({ isInCarousel }: { isInCarousel?: boolean } = {}) => {
         Finally, Social Security adds the results of the three previous steps
         altogether.
       </p>
+       <DisplayTable>
+        <tr>
+          <TableHeader>step1</TableHeader>
+          <TableHeader>step2</TableHeader>
+          <TableHeader>step3</TableHeader>
+          <TableHeader>PIA</TableHeader>
+        </tr>
+        <tr>
+          <td>{formatValue(beforeFirstBendPoint)}</td>
+          <td>{formatValue(afterFirstBendPoint)}</td>
+          <td>{formatValue(pastSecondBendPoint)}</td>
+        <td>{formatValue(totalPrimaryInsuranceAmount)}</td>
+        </tr>
+      </DisplayTable>
+
       <Image src={finalImg} />
     </Section>
   ])

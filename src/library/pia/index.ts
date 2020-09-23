@@ -120,7 +120,8 @@ export async function finalCalculation (
       calculation.NoncoveredPosion.MonthlyPension,
     aime: calculation.AIME && calculation.AIME.AME,
     fullRetireDate: new Date("2040-1-1").toLocaleDateString("en-US"),
-    calculatorType: 'anypia'
+    calculatorType: 'anypia',
+    bendPoints: calculation.PIAEligibility
   };
   console.warn("DUMMY fullRetireDate until it can be added:");
 

@@ -19,6 +19,11 @@ export enum PensionEnum {
   NONEOFABOVE = "NONEOFABOVE"
 }
 
+interface BendPoints {
+  Amount: number;
+  Percent: number;
+}
+
 // Calculated results for the user
 export interface UserProfile {
   'Standard PIA': string
@@ -30,7 +35,9 @@ export interface UserProfile {
   aime: number
   fullRetireDate: string,
   calculatorType: string,
+  bendPoints: BendPoints[]
 }
+
 
 export interface UserState {
   birthDate: Date | null
