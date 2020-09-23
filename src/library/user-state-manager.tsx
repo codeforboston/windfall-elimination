@@ -23,6 +23,7 @@ const usePensionOrRetirementAccountState = createPersistedState('pensionOrRetire
 const usePensionAmountState = createPersistedState('pensionAmount', global.sessionStorage)
 const usePensionDateAwarded = createPersistedState('dateAwarded', global.sessionStorage)
 const useUserProfile = createPersistedState('UserProfile', global.sessionStorage);
+const usePreferPiaUserCalcState = createPersistedState('preferPiaUserCalcState', global.sessionStorage);
 
 
 // TODO The following should eventually be derived from the state values persisted to storage
@@ -58,6 +59,7 @@ export default function UserStateManager(props: UserStateManagerProps): JSX.Elem
   const [pensionAmount, setPensionAmount] = usePensionAmountState<number | null>(null)
   const [pensionDateAwarded, setPensionDateAwarded] = usePensionDateAwarded<Date | null>(null)
   const [userProfile, setUserProfile] = useUserProfile<UserProfile | null>(null)
+  const [preferPiaUserCalc, setPreferPiaUserCalc] = usePreferPiaUserCalcState<boolean | null>(false)
 
   const userState: UserState = useMemo(() => ({
     birthDate: birthDate ? new Date(birthDate) : null,
@@ -75,7 +77,8 @@ export default function UserStateManager(props: UserStateManagerProps): JSX.Elem
     pensionAmount,
     pensionDateAwarded,
     userProfile,
-  }), [birthDate, earnings, earningsFormat, haveEarnings, haveSSAAccount, isEmploymentCovered, pensionAmount, pensionDateAwarded, pensionOrRetirementAccount, retireDate, userProfile, year62])
+    preferPiaUserCalc,
+  }), [birthDate, earnings, earningsFormat, haveEarnings, haveSSAAccount, isEmploymentCovered, pensionAmount, pensionDateAwarded, pensionOrRetirementAccount, retireDate, userProfile, year62, preferPiaUserCalc])
 
   const actions: UserStateActions = useMemo(
     () => ({
@@ -91,6 +94,7 @@ export default function UserStateManager(props: UserStateManagerProps): JSX.Elem
       setPensionAmount,
       setPensionDateAwarded,
       setUserProfile,
+      setPreferPiaUserCalc
     }),
     [
       setBirthDate,
@@ -105,6 +109,7 @@ export default function UserStateManager(props: UserStateManagerProps): JSX.Elem
       setRetireDate,
       setUserProfile,
       setYear62,
+      setPreferPiaUserCalc,
     ]
   );
 

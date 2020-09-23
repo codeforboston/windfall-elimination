@@ -2,7 +2,7 @@ import React, { Fragment } from "react";
 import styled from "@emotion/styled";
 import { StaticQuery, graphql } from "gatsby";
 import { Location } from "@reach/router";
-import { Header, QuestionProvider, Footer, ButtonLink } from "../components";
+import { Header, Footer, ButtonLink } from "../components";
 import "./layout.css";
 import { ProgressTracker } from "../components/progress-tracker";
 import { ProgressTrackerMobile} from "../components/progress-tracker-mobile";
@@ -34,37 +34,11 @@ const Container = styled("div")`
   max-width: ${breakPoints[5]};
 `;
 
-  /* TODO(tdk): merge below to fix radiobuttons */
-//   @media (max-width: ${breakPoints[3]}) {
-//     overflow: scroll;
-//     width: 100%;
-//   }
-// ;
-
-// const ChildWrapper = styled.div`
-//   margin:  10px 70px 15px 30px;
-//   padding:  10px 10px 15px 10px;
-//   flex: 1 1 auto;
-//   min-width: 0;
-//   display: flex;
-
-//   @media (max-width: ${breakPoints[3]}) {
-//     display: block;
-//     margin: 10px;
-//     padding: 0;
-//   }
-
 const Main = styled("main")`
   display: flex;
   flex-direction: row;
   justify-content: space-between;
 
-  /* TODO(tdk): merge below to fix radiobuttons */
-  // padding: 0 15px 95px 15px;
-  // @media (max-width: 767px) {
-  //   overflow: scroll;
-  //   width: 100%;
-  //   padding: 0 0 95px 0;
   background: white;
   height: fit-content;
   margin-top: 6rem;
@@ -138,10 +112,7 @@ const Layout = ({ children }) => (
           </Location>
           <Main id='child-wrapper'>
             <UserStateManager>
-              {/* TODO test out this provider */}
-              <QuestionProvider>
                 {children}
-              </QuestionProvider>
             </UserStateManager>
           </Main>
         </Container>

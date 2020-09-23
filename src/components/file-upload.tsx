@@ -88,7 +88,6 @@ export const TableInput = styled("input")`
 `;
 
 export const YearLabel = styled("label")`
-  background-color: #dddddd;
   font-weight: 800;
 `;
 
@@ -97,7 +96,8 @@ export const InputField = styled.div`
 `;
 
 export const TD = styled.div`
-  border: 2px solid ${colors.gray};
+  border: 2px solid ${props =>
+    props.error ? colors.red : colors.gray };
   border-radius: 3px;
   display: flex;
   width: 240px;
@@ -105,11 +105,20 @@ export const TD = styled.div`
 `;
 
 export const LabelBox = styled.div`
-  background-color: #dddddd;
+  background-color: ${props =>
+    props.error ? '#ffe6e6' : '#dddddd' };
   border-radius: 3px 0 0 3px;
   padding: 10px;
   width: 60px;
 `;
+
+const WarningBoxTight = styled.div`
+  border-left: 3px solid ${colors.red};
+  background-color: #ffe6e6;
+  padding: 10px;
+  margin-top: 25px;
+  width: 220px;
+`
 
 interface GenerateTableProps {
   parsedXml: EarningsRecord | null
@@ -145,10 +154,11 @@ export class GenerateTable extends React.Component<GenerateTableProps> {
         const earningValueXML = parsedXml[year]
           ? { defaultValue: parsedXml[year] }
           : { placeholder: 0 };
+        const needAYearSet = earningValueXML && earningValueXML.defaultValue==-1
         return (
           <React.Fragment key={"earning" + i}>
-            <TD>
-              <LabelBox>
+            <TD error={needAYearSet}>
+              <LabelBox error={needAYearSet}>
                 <YearLabel>{year}</YearLabel>
               </LabelBox>
               <TableInput
@@ -157,6 +167,12 @@ export class GenerateTable extends React.Component<GenerateTableProps> {
                 onChange={e => handleInputEarnings(year, e.target.value)}
               />
             </TD>
+            {needAYearSet && <WarningBoxTight>
+                SSA did not have earnings for this year yet. 
+                Maybe your taxes are still being processed.
+                 Please replace -1 with the appropriate value.
+                  Otherwise 0 will be used.
+              </WarningBoxTight>}
           </React.Fragment>
         );
       });
@@ -169,7 +185,7 @@ export class GenerateTable extends React.Component<GenerateTableProps> {
         return (
           <React.Fragment key={"earning" + key}>
             <TD>
-              <LabelBox>
+              <LabelBox error={false}>
                 <YearLabel>{year}</YearLabel>
               </LabelBox>
               <TableInput

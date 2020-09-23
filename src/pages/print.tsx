@@ -37,6 +37,7 @@ export const ResultsCard = styled('div')`
     padding: 10px 15px;
     margin: 5px;
   }
+  overflow: scroll;
 `;
 
 const Row = styled.div`
@@ -207,7 +208,7 @@ class Print extends React.Component<PrintProps> {
     if (!userProfile) return null
 
     /* AIME does not have $format, has a comma */
-    const userAIME = format(",.2r")(userProfile.aime)
+    const userAIME = format(",.4r")(userProfile.aime)
     const userFRD = userProfile.fullRetireDate
     const userYSE = userProfile.yearsSubstantialEarnings
     /* Pension has $format, no cents */

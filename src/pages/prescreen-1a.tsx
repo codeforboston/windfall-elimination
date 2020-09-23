@@ -57,6 +57,9 @@ class Prescreen1a extends React.Component<Prescreen1aProps, Prescreen1aState> {
       userStateActions.setYear62(year62)
       var fullRetirementAge = 0;
 
+      //TODO: use the getFullRetirementAge from whichever calculator is picked
+      // so we dont need to update the tables by hand
+      //use the raw value because of the delay in setting local/session storage.
       fullRetirementAge = await ObsFuncs.getFullRetirementDateSimple(value)
       this.setRetireDate(value, fullRetirementAge)
     } else if (value === null) {
@@ -86,9 +89,17 @@ class Prescreen1a extends React.Component<Prescreen1aProps, Prescreen1aState> {
   //   }
 
   render() {
-    const { userState } = this.props
+    const { userState, userStateActions } = this.props
     const { birthDate, retireDate, fullRetirementAgeYearsOnly, fullRetirementAgeMonthsOnly } = userState
     const retireDateYear = retireDate ? retireDate.getFullYear() : null
+
+    // 1959 doesn't work in 2020 on our WA calculator
+    //TODO: determine what the threshold is using retire or birthdate
+    const needsSSADetailCalc = retireDateYear && retireDateYear >= 2025;
+    if( needsSSADetailCalc ) {
+      userStateActions.setPreferPiaUserCalc(true)
+    }
+
     return (
       <div>
         <SEO
@@ -121,7 +132,7 @@ class Prescreen1a extends React.Component<Prescreen1aProps, Prescreen1aState> {
         {retireDateYear && (
           <Card>
             <H4>Retirement Age</H4>
-            <p>
+            <div>
               Your Full Retirement Age (FRA) to collect Social Security
                   Benefits is {fullRetirementAgeYearsOnly} years
                   {fullRetirementAgeMonthsOnly
@@ -132,22 +143,22 @@ class Prescreen1a extends React.Component<Prescreen1aProps, Prescreen1aState> {
                 <sup>1</sup>
               </a>
                   , which is in year {retireDateYear}.
-                  {/* TODO remove this and replace with a function that
-                       checks the tables' isActualValue's*/
-                retireDateYear >= 2025 ? (
+                  {
+                 needsSSADetailCalc ? ( 
                   <WarningBox>
                     <label>
-                      This app may not be able to accurately calculate your
-                      results because it is still too many years away.
-                      Extrapolation based on the economy and Social
-                      Security&apos;s Trustees Report may be added in a future
-                      version.
-                      </label>
+                      Your retirement eligibility may still be too many years away to calculate
+                      your benefit without making some assumptions. To help, a recent Social
+                      Security&apos;s Trustees Report<a href="https://www.ssa.gov/oact/tr/">
+                <sup>2</sup>
+              </a> is built into Detailed Calculator estimates. <p>At the results 
+              page, try the included SSA Detailed Calculator rather than
+                       our Windfall Awareness Calculator.</p></label>
                   </WarningBox>
                 ) : (
                     ""
                   )}
-            </p>
+            </div>
           </Card>
         )}
       </div>

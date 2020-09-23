@@ -554,6 +554,7 @@ async function finalCalculation(birthDatePicked, retireDatePicked, yearof62yo, y
     pensionNonCoveredMonthly: pensionNonCoveredMonthly,
     aime: AIMEPicked,
     fullRetireDate: userFullRetireDate,
+    calculatorType: 'windfallawareness'
   }
 
   return userProfile

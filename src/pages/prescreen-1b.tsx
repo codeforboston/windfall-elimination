@@ -12,6 +12,8 @@ import {
   AnswerBox,
   Glossary,
   WarningBox,
+  CardGlossaryContainer,
+  ContentContainer
 } from "../components";
 import {
   UserState,
@@ -22,6 +24,7 @@ import {
   UserStateActions,
   useUserStateActions,
 } from "../library/user-state-actions-context";
+import { PiaFormat } from "../library/pia/pia-format";
 
 export const SsaImage = styled("img")`
   border: 1px solid #dddddd;
@@ -29,22 +32,8 @@ export const SsaImage = styled("img")`
   margin-top: 25px;
 `;
 
-const CardGlossaryContainer = styled.div`
-  display: flex;
-  justify-content: space-between;
-  margin: auto 0;
-
-  @media (max-width: 767px) {
-    display: block;
-  }
-`;
-
 const HowToContainer = styled.div`
   display: block;
-`;
-
-const ContentContainer = styled.div`
-  width: 100%;
 `;
 
 const TopQuestionAndTitle = styled.div`
@@ -123,6 +112,8 @@ class Prescreen1b extends React.Component<Prescreen1bProps> {
         setEarningsFormat,
       },
     } = this.props;
+
+
     return (
       <React.Fragment>
         <SEO
@@ -263,19 +254,18 @@ class Prescreen1b extends React.Component<Prescreen1bProps> {
                 <H2>HOW-TO</H2>
                 <h3>Download your earnings record from MySocialSecurity</h3>
                 <WarningBox>
-                  This how-to will show you how to download your personal
-                  Social Security information. Only follow these steps if
-                  you are using a private computer. If you only have access
-                  to a public computer - like those at a library, school, or
-                  computer lab - please click here to be shown instructions
-                  for requesting a physical copy of your earnings record in
-                  the mail.
+                  This how-to will show you how to download your personal Social
+                  Security information. Only follow these steps if you are using
+                  a private computer. If you only have access to a public
+                  computer - like those at a library, school, or computer lab -
+                  please click here to be shown instructions for requesting a
+                  physical copy of your earnings record in the mail.
                 </WarningBox>
                 <ul>
                   <ol>1) Log in to your MySocialSecurity account</ol>
                   <ol>
-                    2) Click on “Download Your Statement Data”, as seen in
-                    the red box in the photo below.
+                    2) Click on “Download Your Statement Data”, as seen in the
+                    red box in the photo below.
                   </ol>
                   <SsaImage src="https://user-images.githubusercontent.com/50156013/56998273-bcd78800-6b78-11e9-86b5-9db06d292a4c.jpg" />
                   <ol>3) Save the XML file to your computer.</ol>
@@ -329,37 +319,41 @@ class Prescreen1b extends React.Component<Prescreen1bProps> {
           )}
 
           {haveEarnings === false && haveSSAAccount === false ? (
-                <>
-                  <HowToContainer>
-                    <Card>
-                      <H2>HOW-TO</H2>
-                      <h3>
-                        Request a copy of your earnings report through the mail
-                      </h3>
-                      <WarningBox>
-                        We cannot estimate your WEP without a copy of your
-                        earnings record. The How-to’s linked below will tell you how to
-                        get your earnings record through the mail, or by signing
-                        up for a MySocialSecurity account online.
-                      </WarningBox>
-                    </Card>
-                  </HowToContainer>
-                  <HowToContainer>
-                    <Card>
-                      <H2>Browse to the HOW-TO</H2>
-                      <ul>
-                      <li><Link href="https://faq.ssa.gov/en-us/Topic/article/KA-01741">
+            <>
+              <HowToContainer>
+                <Card>
+                  <H2>HOW-TO</H2>
+                  <h3>
+                    Request a copy of your earnings report through the mail
+                  </h3>
+                  <WarningBox>
+                    We cannot estimate your WEP without a copy of your earnings
+                    record. The How-to’s linked below will tell you how to get
+                    your earnings record through the mail, or by signing up for
+                    a MySocialSecurity account online.
+                  </WarningBox>
+                </Card>
+              </HowToContainer>
+              <HowToContainer>
+                <Card>
+                  <H2>Browse to the HOW-TO</H2>
+                  <ul>
+                    <li>
+                      <Link href="https://faq.ssa.gov/en-us/Topic/article/KA-01741">
                         Read the guide.
-                      </Link></li>
-                      <li><Link href="https://secure.ssa.gov/RIL/SiView.action">
+                      </Link>
+                    </li>
+                    <li>
+                      <Link href="https://secure.ssa.gov/RIL/SiView.action">
                         Signup or login to your online account at
                         MySocialSecurity
-                      </Link></li>
-                      </ul>
-                    </Card>
-                  </HowToContainer>
-                </>
-              ) : null}
+                      </Link>
+                    </li>
+                  </ul>
+                </Card>
+              </HowToContainer>
+            </>
+          ) : null}
         </ContentContainer>
       </React.Fragment>
     );

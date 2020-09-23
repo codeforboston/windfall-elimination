@@ -1,4 +1,5 @@
 import * as React from 'react'
+import { PiaYear, PiaEarnings } from './pia/pia-types'
 
 export enum EarningsEnum {
   XML = "XML",
@@ -7,6 +8,7 @@ export enum EarningsEnum {
   PAPER = "PAPER"
 }
 
+export type EarningsMap = Map<PiaYear,PiaEarnings>;
 export interface EarningsRecord {
   [year: string]: number
 }
@@ -26,7 +28,8 @@ export interface UserProfile {
   yearsSubstantialEarnings: number
   pensionNonCoveredMonthly: number | null | undefined
   aime: number
-  fullRetireDate: string
+  fullRetireDate: string,
+  calculatorType: string,
 }
 
 export interface UserState {
@@ -45,6 +48,7 @@ export interface UserState {
   pensionAmount: number | null
   pensionDateAwarded: Date | null
   userProfile: UserProfile | null
+  preferPiaUserCalc: boolean | null
 }
 
 const UserStateContext = React.createContext<UserState | null>(null)
