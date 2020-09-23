@@ -268,7 +268,7 @@ export class Screen2 extends React.Component<Screen2Props, Screen2State> {
                   />
                   <LabelText>
                     SSA Detailed <br />
-                    Calculator (AnyPIA)
+                    Calculator (AnyPIA-JS)
                   </LabelText>
                 </AnswerBox>
 

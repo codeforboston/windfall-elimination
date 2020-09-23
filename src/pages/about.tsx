@@ -7,6 +7,8 @@ import {
   UnorderedList,
   ListItem
 } from "../components";
+import { FontAwesomeIcon } from '@fortawesome/react-fontawesome'
+import { faFileCode } from '@fortawesome/free-solid-svg-icons'
 
 const AboutContainer = styled.div`
   display: block;
@@ -43,7 +45,7 @@ export default () => (
 
     <br></br>
     <PrintButton onClick={() => window.open("https://github.com/codeforboston/windfall-elimination")}>
-      See Our Work on GitHub
+    <FontAwesomeIcon icon={faFileCode} /> See Our Work on GitHub
 	</PrintButton>
 
   </AboutContainer>

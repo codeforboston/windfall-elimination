@@ -2,7 +2,7 @@
   "name": "windfall-awareness",
   "private": true,
   "description": "a tool to help retirees affected by the Social Security Windfall Elimination Provision",
-  "version": "0.1.0",
+  "version": "0.5.0",
   "author": "Code for Boston <hello@codeforboston.org>",
   "dependencies": {
     "@emotion/core": "^10.0.10",

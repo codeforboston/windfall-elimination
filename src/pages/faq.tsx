@@ -75,6 +75,50 @@ export default () => (
    &nbsp;<a href="http://www.massretirees.com/wepgpo-explained">Read more at Mass Retirees</a>.
   </TextBlock>
 	 <br></br>
+
+   <H3>What is the Detailed Calculator or AnyPIA-JS?</H3>
+    <TextBlock>
+      <p>
+      Written and maintained since the early 2000s, the official Social Security Administration's <a href="https://www.ssa.gov/OACT/anypia/anypia.html">Detailed Calculator</a> is a comprehensive benefit calculator which is designed to compute historical benefits as well as estimate future benefits.
+      </p>
+      <p>
+      For short, it is known as AnyPIA.exe in Windows.
+      </p>
+      <p>
+      The Windfall project's own calculator could not determine future benefit 
+      for people more than a year or so away
+       from retirement eligible age—62 years old. That calculation requires 
+       synthesizing predictions from the annual Social Security Trustee report,
+        locating details such as: anticipated economic trends, changes in the
+         trust fund, and adjustments in cost of living.
+            </p>
+    </TextBlock>
+    <TextBlock>
+    Rather than maintain these details, we decided our efforts were best spent
+     on extending the existing AnyPIA Windows tool to work as a browser-based 
+     tool as well. For this, 6 volunteers from Code for Boston and Congressman
+      Seth Moulton's caseworkers created AnyPIAJS in early/mid 2020.
+    <p><img alt="Screenshot of the Windows version of AnyPIA" 
+    src="https://user-images.githubusercontent.com/283343/94048036-e8c46080-fda0-11ea-907b-2a3f295a2976.png"
+     height="300" /></p>
+    <p>Screenshot of original desktop Windows version of AnyPIA.</p>
+    <p>The <a href="https://www.ssa.gov/myaccount/">My SocialSecurity.gov</a> website allows
+       Social Security card holders to download all their earnings records at 
+       once, as a PDF or XML file. The information is sourced from the card 
+       holder's tax filings. One challenge for card holders who want to plan 
+       ahead for their retirement is that the current AnyPIA Detailed Calculator
+        can only load an old format called ".pia", but it cannot load either the XML or the PDF file. 
+        This means that the best tools for planners are out of sync with each other.
+         Basically, with existing official tools, retirees always have to track
+          down and manually type in their entire career earnings.</p>
+    <p> To solve this problem Code for Boston volunteers and Congressman Seth
+       Moulton's office case workers built AnyPIA-JS. It can do the best 
+       calculations and take the card holders' most convenient data, so that 
+       they can get the most accurate benefits calculation. We also provide
+        other helpful contextual information from caseworkers's interviews with
+         300 constituents.  </p>
+    </TextBlock>
+	 <br></br>
    
 
     <H3>I&apos;d like to see WEP repealed. What do I do?</H3>

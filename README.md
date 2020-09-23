@@ -1,14 +1,14 @@
 ## Windfall Elimination Provision, USA Social Security
 
-This is a tool to help retirees affected by the Social Security Windfall Elimination Provision (WEP). WEP mostly affects public servants like teachers and firefighters, and can mean a reduction in SSA benefits of up to 50%. This tool will help affected workers better plan retirement and self-advocate with the Social Security administration.
+This is a tool to help retirees affected by the Social Security Windfall Elimination Provision (WEP). WEP mostly affects public servants like teachers and firefighters, and can mean a reduction in SSA benefits of up to 50%. This tool will help affected workers, and anyone with a social security card, better plan retirement and self-advocate with the Social Security administration.
 
 ## What is inside?
 * [SSACalculator.org App](https://ssacalculator.org) for best user experience on tablets, ideally pursued with a case worker.
-* Official Social Security earnings record PDF scraping using PDF.js (and XML format parsing)
+* Official MySocialSecurity.org earnings record PDF scraping using `PDF.js` (and official XML format parsing)
 * Typescript type checking to ensure matching types between replicated SSA algorithms and Gatsby/React.
 * Tests to compare output of known [documented](http://thadk.net/anypiamac-docs/html/) [examples](http://thadk.net/anypiamac-docs/) to the Microsoft Windows-based Social Security Detailed Calculator.
-* [AnyPIAJS and PiaFormat.ts](https://github.com/thadk/windfall-elimination/blob/piaFormat/src/library/pia/README.md) allowing use of the Social Security Detailed Calculator in this app.
-* [Observable WEP calculation Prototype](https://observablehq.com/@thadk/windfall-awareness-notebook-prototype) - The earlier, alpha version of the calculator's math: Feb 2019.
+* [AnyPIAJS and PiaFormat.ts](https://github.com/codeforboston/windfall-elimination/tree/develop/src/library/pia) allowing use of the (originally Windows-based) Social Security [Detailed Calculator](https://ssa.gov/OACT/anypia/anypia.html) from within this app, without any sending data away from the user's browser.
+* [Observable WEP calculation Prototype](https://observablehq.com/@thadk/windfall-awareness-notebook-prototype) - The earlier, alpha version of the calculator's math: from Feb 2019.
 
 Join the Slack channel [#windfall-elimination](https://www.codeforboston.org/) for more information.
 

@@ -2,26 +2,29 @@
 
 - See: https://www.ssa.gov/OACT/anypia/anypia.html
 - and: https://github.com/codeforboston/anypia-js
+- [General Introduction](./README-nontechnical.md) and [main project details](../../)
 
-
-Written in the early 2000s and maintained, the official Social Security Administration **Detailed Calculator** is a comprehensive benefit calculator which is designed to compute historical benefits as well as estimate future benefits. 
+Written and maintained since the early 2000s, the official Social Security Administration's **Detailed Calculator (AnyPIA)** is a comprehensive benefit calculator which is designed to compute historical benefits as well as estimate future benefits. 
 
 For short, it is known as `AnyPIA.exe` (Windows) and `AnyPIAb.exe` (command line console app).
 
-The Windfall project's own calculator could not determine future benefit for people more than a year or so away from retirement eligible age—62 years old. That calculation would depends on annual Social Security Trustee report details about the economy, trust fund, and cost of living.  
+The Windfall project's own calculator could not determine future benefit for people more than a year or so away from retirement eligible age—62 years old. That calculation requires synthesizing predictions from the annual Social Security Trustee report, locating details such as: anticipated economic trends, changes in the trust fund, and adjustments in cost of living.  
 
-Rather than maintain these details, we decided our efforts were best spent on enabling the existing open source Windows tool to be a browser-based tool too. For this, 6 volunteers created [AnyPIAJS](https://github.com/codeforboston/anypia-js) in early/mid 2020 ([Alex J](https://github.com/alexjcode/), [Alex M](https://github.com/mrpippy), [Anne Meeker](https://www.linkedin.com/in/anne-meeker-60837b123), [Thad K](https://github.com/thadk), [Paavan B](https://github.com/paavanb), [Tony Dean](https://github.com/tdean1991/), and [Brendan S](https://github.com/mrpippy)).
+Rather than maintain these details, we decided our efforts were best spent on extending the existing AnyPIA Windows tool to work as part of this browser-based tool as well. For this, 6 volunteers from Code for Boston and Congressman Seth Moulton's caseworkers created [AnyPIAJS](https://github.com/codeforboston/anypia-js) in early/mid 2020 ([Alex J](https://github.com/alexjcode/), [Alex M](https://github.com/mrpippy), [Anne Meeker](https://www.linkedin.com/in/anne-meeker-60837b123), [Thad K](https://github.com/thadk), [Paavan B](https://github.com/paavanb), [Tony Dean](https://github.com/tdean1991/), and [Brendan S](https://github.com/mrpippy)).
 
-![Screenshot of the Windows version of AnyPIA](https://user-images.githubusercontent.com/283343/82394467-1d04ca80-9a17-11ea-841f-fd651352024a.png)
+<p><img alt="Screenshot of the Windows version of AnyPIA" src="https://user-images.githubusercontent.com/283343/82394467-1d04ca80-9a17-11ea-841f-fd651352024a.png" width="400" /></p>
+
 _Screenshot of the Linux/Windows `anypiab` console (left) and desktop Mac/Windows versions of AnyPIA (right). Output is more specific in the Mac/Windows version at right._
 
-All versions of the government AnyPIA can load a [multiline string-based file format](http://thadk.net/anypiamac-docs/html/General/structure.html) `.pia` but they cannot load the personalized XML/PDF earnings file offered by SSA.gov to retirees. With existing official tools, retirees always have to key their career earnings.
+The [My SocialSecurity.gov](https://www.ssa.gov/myaccount/) website allows Social Security card holders to download all their earnings records at once, as a PDF or XML file. The information is sourced from the card holder's tax filings. One challenge for card holders who want to plan ahead for their retirement is that the current AnyPIA Detailed Calculator can only load a [text file format](http://thadk.net/anypiamac-docs/html/General/structure.html) called `.pia`, but it cannot load either the XML or the PDF file. This means that the best tools for planners are out of sync with each other. Basically, with existing official tools, retirees always have to track down and manually type in their entire career earnings.
 
-This document is broken into the two parts used to support the social security detailed calculator: 
-1. the string manipulator for strings in the `.pia` format which allows us to pass in parsed earnings read from XML or PDF from SSA.gov, and 
-2. the C++ actual policy logic which opens the string and provides calculations.
+To solve this problem Code for Boston volunteers and Congressman Seth Moulton's office case workers built AnyPIAJS. It can do the best calculations and take the card holders' most convenient data, so that they can get the most accurate benefits calculation. We also provide other helpful contextual information from caseworkers's interviews with 300 constituents.  
 
-## 1. PiaFormat.ts string class
+This technical document is broken into the two parts used to support the social security detailed calculator: 
+1. the text manipulator for text in the `.pia` format which allows us to pass in parsed earnings read from XML or PDF from SSA.gov, and 
+2. the C++ actual policy logic which opens the text file and provides calculations.
+
+## 1. PiaFormat.ts text utility
 
 - Implemented by [Code for Boston](https://codeforboston.org) in this folder.
 - Written in TypeScript to read (deserialize) and write (serialize) the AnyPIA multi-line string format specified in documentation
@@ -71,10 +74,10 @@ Generate the AnyPIA format string like the known good one but based on the perso
 
 ## 2. AnyPIAJS Policy Logic and Detailed Social Security Calculator
 
-- Based on public domain open source code at: https://www.ssa.gov/OACT/anypia/anypia.html
+- Based on public domain code at: https://www.ssa.gov/OACT/anypia/anypia.html
 - Implemented at: https://github.com/codeforboston/anypia-js
-- Conversion to Javascript using [Emscripten](https://emscripten.org/) tool.
-- `AnyPIAJS` is a C++ class wrapper which is exported using Emscripten, around the `anypiab` console API.
+- Conversion to Javascript from Windows, using [Emscripten](https://emscripten.org/) tool.
+- `AnyPIAJS` is a C++ class wrapper which is exported using Emscripten, around the original `anypiab` console API. The wrapper should continue to support future AnyPIA releases by the SSA without major changes.
 - `AnyPIAJS` offers a new results API that replicates many of the features of the Windows/Mac output with JSON structure.
 - The wrapper should be compatible with new annual versions of AnyPIA.
 
