@@ -55,7 +55,7 @@ export const Screen2a: FunctionComponent<Screen2aProps> = () => {
       />
       <H2> Benefit Formula </H2>
         <SectionsList>
-          {renderSections()}
+          {SliderSections()}
         </SectionsList>
         <SectionsCarousel
           arrows={true}
@@ -69,13 +69,13 @@ export const Screen2a: FunctionComponent<Screen2aProps> = () => {
           slidesToShow={1}
           speed={700}
         >
-          {renderSections({ isInCarousel: true })}
+          {SliderSections({ isInCarousel: true })}
         </SectionsCarousel>
     </Wrapper>
   )
 };
 
-const renderSections = ({ isInCarousel }: { isInCarousel?: boolean } = {}) => {
+const SliderSections = ({ isInCarousel }: { isInCarousel?: boolean } = {}) => {
   const userState = useUserState(); // react hook always on top of functional components
   const key = `screen-2a-${isInCarousel ? "carousel" : "list"}-section-`;
   const userStateTablePage1 = userState && userState.userProfile && userState.userProfile.bendPoints;
