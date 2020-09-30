@@ -93,11 +93,10 @@ const SliderSections = ({ isInCarousel }: { isInCarousel?: boolean } = {}) => {
   const pastSecondBendPoint = (userStateTablePage1 && userStateTablePage1[2] && userStateTablePage1[2].Amount) ?? 90.45;
   const pastSecondBendPointPercent = (userStateTablePage1 && userStateTablePage1[2] && userStateTablePage1[2].Percent) || 0.15;
   var totalPrimaryInsuranceAmount = beforeFirstBendPoint + afterFirstBendPoint + pastSecondBendPoint;
-  const formatValue = format('$,.4r');
+  const formatValue = format('$,.1f');
   const formatPercent = format('.0%');
   const explanationAIME = (yearOf62: number | null, aime: number | null): string => {
-    //   For this
-    //       example, we are using the bend points for someone who turned 62 in 2018,
+    //   For this    //       example, we are using the bend points for someone who turned 62 in 2018,
     //       and had AIME of $6,000.
     if (yearOf62 === null || aime === null) {
       return `For this example, we are using the bend points for someone who turned 62 in 2018, and had AIME of $6,000.`
