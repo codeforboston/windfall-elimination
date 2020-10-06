@@ -138,10 +138,13 @@ const SliderSections = ({ isInCarousel }: { isInCarousel?: boolean } = {}) => {
       </p>
       <DisplayTable>
         <tr>
-          <TableHeader>step1</TableHeader>
-          <TableHeader>step2</TableHeader>
-          <TableHeader>step3</TableHeader>
-          <TableHeader>PIA</TableHeader>
+          <TableHeader colSpan={4}>Primary Insurance Amount Formula</TableHeader>
+        </tr>
+        <tr>
+          <td>step 1</td>
+          <td>step 2</td>
+          <td>step 3</td>
+          <td>PIA</td>
         </tr>
         <tr>
           <td>{formatValue(beforeFirstBendPoint)}</td>
@@ -160,6 +163,11 @@ const SliderSections = ({ isInCarousel }: { isInCarousel?: boolean } = {}) => {
         </tr>
       </table>
 
+      <p>However, if you answered “Yes” to the first question in the “Employment Status” section of this website,
+         the amount you get back of this first bucket will be different. To learn more, please see the 
+         <a href="https://www.ssa.gov/pubs/EN-05-10045.pdf">Windfall Elimination Provision pamphlet</a>
+      </p>
+
     </Section>,
 
     <Section isInCarousel={isInCarousel} key={key + "3"}>
@@ -170,10 +178,13 @@ const SliderSections = ({ isInCarousel }: { isInCarousel?: boolean } = {}) => {
       </p>
       <DisplayTable>
         <tr>
-          <TableHeader>step1</TableHeader>
-          <TableHeader>step2</TableHeader>
-          <TableHeader>step3</TableHeader>
-          <TableHeader>PIA</TableHeader>
+          <TableHeader colSpan={4}>AIME or Average Income Monthly Earnings</TableHeader>
+        </tr>
+        <tr>
+          <td>step 1</td>
+          <td>step 2</td>
+          <td>step 3</td>
+          <td>PIA</td>
         </tr>
         <tr>
           <td>{formatValue(beforeFirstBendPoint)}</td>
@@ -204,10 +215,13 @@ const SliderSections = ({ isInCarousel }: { isInCarousel?: boolean } = {}) => {
       </p>
       <DisplayTable>
         <tr>
-          <TableHeader>step1</TableHeader>
-          <TableHeader>step2</TableHeader>
-          <TableHeader>step3</TableHeader>
-          <TableHeader>PIA</TableHeader>
+          <TableHeader colSpan={4}>AIME or Average Income Monthly Earnings</TableHeader>
+        </tr>
+        <tr>
+          <td>step 1</td>
+          <td>step 2</td>
+          <td>step 3</td>
+          <td>PIA</td>
         </tr>
         <tr>
           <td>{formatValue(beforeFirstBendPoint)}</td>
@@ -239,10 +253,13 @@ const SliderSections = ({ isInCarousel }: { isInCarousel?: boolean } = {}) => {
       </p>
       <DisplayTable>
         <tr>
-          <TableHeader>step1</TableHeader>
-          <TableHeader>step2</TableHeader>
-          <TableHeader>step3</TableHeader>
-          <TableHeader>PIA</TableHeader>
+          <TableHeader colSpan={4}>AIME or Average Income Monthly Earnings</TableHeader>
+        </tr>
+        <tr>
+          <td>step 1</td>
+          <td>step 2</td>
+          <td>step 3</td>
+          <td>PIA</td>
         </tr>
         <tr>
           <td>{formatValue(beforeFirstBendPoint)}</td>
@@ -265,13 +282,29 @@ const SliderSections = ({ isInCarousel }: { isInCarousel?: boolean } = {}) => {
         </tr>
         <tr>
           <td colSpan={3}>
-            Remember: this is the basic amount you are padi before Social Security adjusts
+            Remember: this is the basic amount you are paid before Social Security adjusts
             your benefits lower for early retirement, or higher for delayed retirement.
           </td>
         </tr>
       </ChartTable>
 
+    </Section>,
+
+    <Section isInCarousel={isInCarousel} key={key + "6"}>
+    <div style={{ margin: "auto" }}>
+      <h3>Commonly Asked Questions </h3>
+
+      <p>I currently have an overpayment, so what should I do?</p>
+      <a href="https://www.ssa.gov/pubs/EN-05-10098.pdf">See the SSA document on Overpayments</a>
+
+      <p>How can I work on changing this law?</p>
+      <a href="https://www.house.gov/representatives/find-your-representative">Find your Representative</a>
+
+      <p>How can I talk with my representative about Social Security?</p>
+      <a href="https://casework.civicapp.us/casework/">Request for your Representative's staff to look at your case</a>
+    </div>
     </Section>
+    
   ])
 };
 
