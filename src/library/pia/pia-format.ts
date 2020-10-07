@@ -569,8 +569,115 @@ Maximum wage base projection indicator
 1 for automatic projection
 2 for ad hoc bases
 */
-const wageBaseSerializer: PiaSerializer = new (class {
+const forwardProjectionSerializer: PiaSerializer = new (class {
   fieldFormats: Record<string, PiaFieldMeta>;
+  constructor() {
+    this.fieldFormats = {
+      forwardProjectionType: new PiaFieldMeta().setStartChar(3).setEndChar(3),
+      forwardProjectionPercentage: new PiaFieldMeta()
+        .setStartChar(4)
+        .setEndChar(9),
+      lastYearForwardEarningsProjections: new PiaFieldMeta()
+        .setStartChar(10)
+        .setEndChar(13),
+      firstYearBenefitProjection: new PiaFieldMeta()
+        .setStartChar(3)
+        .setEndChar(6),
+      benefitIncreaseAssumption: new PiaFieldMeta()
+        .setStartChar(7)
+        .setEndChar(7),
+      avgWageIncreaseAssumption: new PiaFieldMeta()
+        .setStartChar(8)
+        .setStartChar(8),
+      maxWageBaseProjectionInd: new PiaFieldMeta()
+        .setStartChar(9)
+        .setEndChar(9),
+    };
+  }
+  serialize(data: Partial<PiaTypes.PiaData>): PiaTypes.PiaLineMap {
+    const line8 = {
+      8: `08${
+        data.forwardProjectionType != undefined
+          ? data.forwardProjectionType
+          : this.fieldFormats.forwardProjectionType.getBlank()
+      }${
+        data.forwardProjectionPercentage != undefined
+          ? data.forwardProjectionPercentage //TODO handle string conversion
+          : this.fieldFormats.forwardProjectionPercentage.getBlank()
+      }${
+        data.lastYearForwardEarningsProjections != undefined
+          ? data.lastYearForwardEarningsProjections
+          : this.fieldFormats.lastYearForwardEarningsProjections.getBlank()
+      }`,
+    };
+    const line40 = {
+      40: `40${
+        data.firstYearBenefitProjection != undefined
+          ? data.firstYearBenefitProjection
+          : this.fieldFormats.firstYearBenefitProjection.getBlank()
+      }
+      ${
+        data.benefitIncreaseAssumption != undefined
+          ? data.benefitIncreaseAssumption
+          : this.fieldFormats.benefitIncreaseAssumption.getBlank()
+      }${
+        data.avgWageIncreaseAssumption != undefined
+          ? data.avgWageIncreaseAssumption
+          : this.fieldFormats.avgWageIncreaseAssumption.getBlank()
+      }${
+        data.maxWageBaseProjectionInd != undefined
+          ? data.maxWageBaseProjectionInd
+          : this.fieldFormats.maxWageBaseProjectionInd.getBlank()
+      }`,
+    };
+    const hasAnyLine8 =
+      data.forwardProjectionType ||
+      data.forwardProjectionPercentage ||
+      data.lastYearForwardEarningsProjections;
+    const hasAnyLine40 =
+      data.firstYearBenefitProjection ||
+      data.benefitIncreaseAssumption ||
+      data.avgWageIncreaseAssumption ||
+      data.maxWageBaseProjectionInd;
+    return { ...(hasAnyLine8 && line8), ...(hasAnyLine40 && line40) };
+  }
+  deserialize(lineMap: PiaTypes.PiaLineMap): Partial<PiaTypes.PiaData> {
+    let line8 = lineMap[8];
+    let line8Data = line8
+      ? {
+          forwardProjectionType: parseInt(
+            PiaUtils.piaSubstr(
+              line8,
+              this.fieldFormats.forwardProjectionType.startChar,
+              this.fieldFormats.forwardProjectionType.endLine
+            ),
+            10
+          ),
+          forwardProjectionPercentage: parseInt(
+            PiaUtils.piaSubstr(
+              line8,
+              this.fieldFormats.forwardProjectionPercentage.startLine,
+              this.fieldFormats.forwardProjectionPercentage.endLine
+            ),
+            10
+          ),
+          lastYearForwardEarningsProjections: parseInt(
+            PiaUtils.piaSubstr(
+              line8,
+              this.fieldFormats.lastYearForwardEarningsProjections.startLine,
+              this.fieldFormats.lastYearForwardEarningsProjections.endChar
+            ),
+            10
+          ),
+        }
+      : {};
+    return { ...line8Data };
+  }
+})();
+/** 
+const wageBaseSerializer: PiaSerializer = new (class {
+  fieldFormats: Record<string, Pi
+}aFieldMeta>;
   constructor() {
     this.fieldFormats = {
       wageBaseStubString: new PiaFieldMeta().setStartChar(3).setEndChar(9),
@@ -588,7 +695,7 @@ const wageBaseSerializer: PiaSerializer = new (class {
     return { ...(data.wageBaseStubString && line40) };
   }
   deserialize(lineMap: PiaTypes.PiaLineMap): Partial<PiaTypes.PiaData> {
-    let line40 = lineMap[40];
+    //let line40 = lineMap[40];
 
     let line40Data = line40
       ? {
@@ -602,6 +709,7 @@ const wageBaseSerializer: PiaSerializer = new (class {
     return { ...line40Data };
   }
 })();
+**/
 
 /* implement lines 7 and 8, and related lines, in oasdiEarningsSerializer and delete this */
 const earningsProjectionStubSerializer: PiaSerializer = new (class {
@@ -625,17 +733,17 @@ const earningsProjectionStubSerializer: PiaSerializer = new (class {
       }`,
     };
 
-    const line8 = {
-      8: `08${
-        data.futureProjectionStubString != undefined
-          ? data.futureProjectionStubString
-          : this.fieldFormats.futureProjectionStubString.getBlank()
-      }`,
-    };
+    //const line8 = {
+    // 8: `08${
+    //   data.futureProjectionStubString != undefined
+    ///     ? data.futureProjectionStubString
+    //     : this.fieldFormats.futureProjectionStubString.getBlank()
+    //  }`,
+    //};
 
     return {
       ...(data.pastProjectionStubString && line7),
-      ...(data.futureProjectionStubString && line8),
+      //   ...(data.futureProjectionStubString && line8),
     };
   }
   deserialize(lineMap: PiaTypes.PiaLineMap): Partial<PiaTypes.PiaData> {
@@ -671,7 +779,7 @@ const Pia_SERIALIZERS: PiaSerializer[] = [
   monthlyNoncoveredPensionSerializer,
   nameOfWorkerSerializer,
   oldQuartersOfCoverageSerializer,
-  wageBaseSerializer,
+  //wageBaseSerializer,
   earningsProjectionStubSerializer, //remove me as soon as implemented in oasdiEarningSerializer
   // disabilityDatesSerializer,
   //…
@@ -726,10 +834,17 @@ function initializePiaData(): PiaTypes.PiaData & PiaTypes.PiaDataAdapter {
     monthYearEntitlementNoncoveredPension: undefined,
     nameOfWorker: undefined,
     oldQuartersOfCoverageStubString: undefined,
-    wageBaseStubString: undefined,
+    //wageBaseStubString: undefined,
     pastProjectionStubString: undefined,
-    futureProjectionStubString: undefined,
+    //futureProjectionStubString: undefined,
     piaEverythingElse: undefined,
+    forwardProjectionType: undefined,
+    forwardProjectionPercentage: undefined,
+    lastYearForwardEarningsProjections: undefined,
+    firstYearBenefitProjection: undefined,
+    benefitIncreaseAssumption: undefined,
+    avgWageIncreaseAssumption: undefined,
+    maxWageBaseProjectionInd: undefined,
 
     getSSN() {
       return this.ssn;
@@ -833,23 +948,11 @@ function initializePiaData(): PiaTypes.PiaData & PiaTypes.PiaDataAdapter {
     setOldQuartersOfCoverageStubString(value) {
       this.oldQuartersOfCoverageStubString = value;
     },
-    getWageBaseStubString() {
-      return this.wageBaseStubString;
-    },
-    setWageBaseStubString(value) {
-      this.wageBaseStubString = value;
-    },
     getPastProjectionStubString() {
       return this.pastProjectionStubString;
     },
     setPastProjectionStubString(value) {
       this.pastProjectionStubString = value;
-    },
-    getFutureProjectionStubString() {
-      return this.futureProjectionStubString;
-    },
-    setFutureProjectionStubString(value) {
-      this.futureProjectionStubString = value;
     },
     getPiaEverythingElse() {
       return this.piaEverythingElse;
@@ -895,15 +998,17 @@ export class PiaFormat {
   }
 
   setOasdiEarnings(oasdiEarnings: EarningsMap) {
-
     function mapMap(map, fn) {
-      return new Map(Array.from(map, ([key, value]) => [key, fn(value, key, map)]));
+      return new Map(
+        Array.from(map, ([key, value]) => [key, fn(value, key, map)])
+      );
     }
 
     // use mapMap to strip out all of the -1 values and replace them with 0.
-    this.piaData.oasdiEarnings = mapMap(oasdiEarnings, (v,k)=> (v && v===-1|| v==="-1")? 0 : v );
+    this.piaData.oasdiEarnings = mapMap(oasdiEarnings, (v, k) =>
+      (v && v === -1) || v === "-1" ? 0 : v
+    );
 
-    
     this.piaData.firstEarningYearActual = Math.min(
       ...Array.from(oasdiEarnings.keys())
     );
@@ -929,7 +1034,9 @@ export class PiaFormat {
     return this.piaData.monthlyNoncoveredPensionAmount;
   }
 
-  setMonthlyNoncoveredPensionAmount(amount: PiaTypes.PiaEarnings | null | undefined) {
+  setMonthlyNoncoveredPensionAmount(
+    amount: PiaTypes.PiaEarnings | null | undefined
+  ) {
     this.piaData.monthlyNoncoveredPensionAmount = amount || undefined;
     //TODO: if needed, support date of entitlement to noncovered pension (it may not matter)
     // http://thadk.net/anypiamac-docs/html/Forms/Date_of_entitlement_for_noncovered_pension.html

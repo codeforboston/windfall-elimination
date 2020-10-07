@@ -24,11 +24,45 @@ export enum SSABenefitType {
 
 /* http://thadk.net/anypiamac-docs/html/Forms/type_of_earnings.html */
 export enum PiaTypeOfEarnings {
-  enteredEarnings= 0,
+  enteredEarnings = 0,
   maximum = 1,
   high = 2,
   average = 3,
   low = 4,
+}
+
+// Line 8
+export enum PiaTypeOfProjections {
+  noProjection = 0,
+  projectionRelatedToAverageWageIncrease = 1,
+  projectionByAConstantPercentage = 2,
+}
+
+//Line 40
+export enum PiaTypeOfBenefitIncreaseAssumption {
+  alternative1Optimistic = 1,
+  alternative2Intermediate = 2,
+  alternative3Pessimistic = 3,
+  noFutureIncreases = 4,
+  other = 5,
+}
+
+//Line 40
+export enum PiaTypeOfWageIncreaseAssumption {
+  alternative1Optimistic = 1,
+  alternative2Intermediate = 2,
+  alternative3Pessimistic = 3,
+  noFutureIncreases = 4,
+  other = 5,
+}
+
+//Line 40,
+export enum PiaTypeOfMaxWageBaseProjection {
+  alternative1Optimistic = 1,
+  alternative2Intermediate = 2,
+  alternative3Pessimistic = 3,
+  noFutureIncreases = 4,
+  other = 5,
 }
 
 export enum PiaTypeOfTaxes {
@@ -54,9 +88,17 @@ export interface PiaData {
   monthYearEntitlementNoncoveredPension?: PiaMonthYear;
   nameOfWorker?: string; //line16
   oldQuartersOfCoverageStubString?: string;
-  wageBaseStubString?: string;
+  //wageBaseStubString?: string; //line 40
   pastProjectionStubString?: string;
-  futureProjectionStubString?: string;
+  //futureProjectionStubString?: string;
+  forwardProjectionType?: PiaTypeOfProjections; //line 8
+  forwardProjectionPercentage?: number; //line 8
+  lastYearForwardEarningsProjections?: PiaYear; //line 8
+  firstYearBenefitProjection?: PiaYear; //line 40, computation year
+  benefitIncreaseAssumption?: PiaTypeOfBenefitIncreaseAssumption; //line 40
+  avgWageIncreaseAssumption?: PiaTypeOfWageIncreaseAssumption; //line 40
+  maxWageBaseProjectionInd?: PiaTypeOfMaxWageBaseProjection; //line 40
+
   piaEverythingElse?: string;
 }
 
@@ -115,14 +157,8 @@ export interface PiaDataAdapter {
   getOldQuartersOfCoverageStubString(): string | undefined;
   setOldQuartersOfCoverageStubString(value: string | undefined): void;
 
-  getWageBaseStubString(): string | undefined;
-  setWageBaseStubString(value: string | undefined): void;
-
   getPastProjectionStubString(): string | undefined;
   setPastProjectionStubString(value: string | undefined): void;
-
-  getFutureProjectionStubString(): string | undefined;
-  setFutureProjectionStubString(value: string | undefined): void;
 
   getPiaEverythingElse(): string | undefined;
   setPiaEverythingElse(value: string | undefined): void;
