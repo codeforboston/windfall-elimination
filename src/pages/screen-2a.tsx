@@ -80,6 +80,18 @@ export const Screen2a: FunctionComponent<Screen2aProps> = () => {
   )
 };
 
+const BarChart = (bottomPercent: number) => {
+  console.log('bottomPercent: ', bottomPercent.bottomPercent);
+  return (
+       <div className="barContainer">
+          <div className="barTop" style={{height:`${200 - 200*bottomPercent.bottomPercent}px`}}>10%</div>
+ 
+          <div className="barBottom"style={{height:`${200*bottomPercent.bottomPercent}px`}}>90%</div>
+   
+       </div>
+  )
+};
+
 const SliderSections = ({ isInCarousel }: { isInCarousel?: boolean } = {}) => {
   const userState = useUserState(); // react hook always on top of functional components
   const key = `screen-2a-${isInCarousel ? "carousel" : "list"}-section-`;
@@ -105,7 +117,6 @@ const SliderSections = ({ isInCarousel }: { isInCarousel?: boolean } = {}) => {
       return `In your case, the bend points are for people who turned 62 in ${yearOf62} year and had an AIME of $${aime}`
     }
   };
-
 
   return ([
     <Section isInCarousel={isInCarousel} key={key + "1"}>
@@ -156,7 +167,14 @@ const SliderSections = ({ isInCarousel }: { isInCarousel?: boolean } = {}) => {
 
       <table>
         <tr>
-          <td><Image src={stepImg1} /></td>
+          <td style={{display:"flex", flexDirection:"column"}}>
+            <svg style={{width:"100", height:"400"}}>
+              <rect style={{width:"100", height:`${400*beforeFirstBendPointPercent}px`}}/>
+              <rect style={{width:"100", height:`${400 - 400*beforeFirstBendPointPercent}px`, fill:"red"}}/>
+              <text x="20" y="30">10%</text>
+             </svg>
+        
+          </td>
         </tr>
         <tr>
           <td>You get back {formatPercent(beforeFirstBendPointPercent)} of the Amount, or {formatValue(beforeFirstBendPoint)}</td>
@@ -194,16 +212,32 @@ const SliderSections = ({ isInCarousel }: { isInCarousel?: boolean } = {}) => {
         </tr>
       </DisplayTable>
 
-      <table>
+      <TableStep2 style={{columnWidth:"20px"}}>
         <tr>
-          <td><Image src={stepImg2_1} /></td>
-          <td><Image src={stepImg2_2} /></td>
+          <td></td>
+        </tr>
+        <tr>
+          <td>
+            <BarChart bottomPercent={beforeFirstBendPointPercent}/>
+          </td>
+          <td style={{borderRight:"1px dashed black"}}></td>
+          <td></td>
+          <td>
+            <div style={{height:"200"}}>
+            <div style={{height:`${200*afterFirstBendPointPercent}px`, backgroundColor:"black", justifyContent:"center", display:"flex", alignItems:"center"}}> 10%</div>
+            <div style={{height:`${200 - 200*afterFirstBendPointPercent}px`, backgroundColor:"red", justifyContent:"center", display:"flex", alignItems:"center"}}>62%</div>
+            </div>
+          </td>
+          <td style={{borderRight:"1px dashed black"}}></td>
         </tr>
         <tr>
           <td>You get back {formatPercent(beforeFirstBendPointPercent)} of the amount, or {formatValue(beforeFirstBendPoint)}</td>
+          <td></td>
+          <td></td>
           <td>You get back {formatPercent(afterFirstBendPointPercent)} of the amount, or {formatValue(afterFirstBendPoint)}</td>
+          <td></td>
         </tr>
-      </table>
+      </TableStep2>
 
     </Section>,
 
@@ -295,18 +329,42 @@ const SliderSections = ({ isInCarousel }: { isInCarousel?: boolean } = {}) => {
       <h3>Commonly Asked Questions </h3>
 
       <p>I currently have an overpayment, so what should I do?</p>
-      <a href="https://www.ssa.gov/pubs/EN-05-10098.pdf">See the SSA document on Overpayments</a>
+      <a href="https://www.ssa.gov/pubs/EN-05-10098.pdf" target="_blank">See the SSA document on Overpayments</a>
 
       <p>How can I work on changing this law?</p>
-      <a href="https://www.house.gov/representatives/find-your-representative">Find your Representative</a>
+      <a href="https://www.house.gov/representatives/find-your-representative" target="_blank">Find your Representative</a>
 
       <p>How can I talk with my representative about Social Security?</p>
-      <a href="https://casework.civicapp.us/casework/">Request for your Representative's staff to look at your case</a>
+      <a href="https://casework.civicapp.us/casework/" target="_blank">Request for your Representative's staff to look at your case</a>
     </div>
     </Section>
     
   ])
 };
+
+const TableStep2 = styled.table`
+  td {
+    width: 20%;
+  };
+
+  .barContainer {
+    height: 200px;
+  };
+
+  .barTop {
+    background-color: black;
+    display: flex; 
+    justify-content: center; 
+    align-items: center ;
+  };
+
+  .barBottom {
+    background-color: red;
+    justify-content: center;
+    display: flex;
+    align-items: center;
+  }
+`;
 
 const Wrapper = styled.div`
   width: 100%;
