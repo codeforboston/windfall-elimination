@@ -261,7 +261,7 @@ const oasdiEarningsSerializer: PiaSerializer = new (class {
         )
       );
 
-    const line22to29 = chunkedIncome
+    const line22to29 =  chunkedIncome && chunkedIncome
       .map((pageOfEarnings: Array<Array<any>>, i: number) => ({
         //variable obj key for the 9 lines, template with 10 entries of page
         [i + 22]: `${i + 22}${
