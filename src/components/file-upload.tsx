@@ -216,6 +216,7 @@ export class GenerateTable extends React.Component<GenerateTableProps> {
 
 interface FileUploadProps {
   manual: boolean
+  hideUploadButton: boolean | null
   userState: UserState
   userStateActions: UserStateActions
 }
@@ -411,10 +412,11 @@ class FileUpload extends React.Component<FileUploadProps, FileUploadState> {
   }
 
   render() {
-    const {manual, userState: {earnings}} = this.props
+    const {manual, hideUploadButton, userState: {earnings}} = this.props
+
     return (
       <div className="upload-form">
-        {!manual && (
+        {!manual && !hideUploadButton && (
           <UploadButton>
             <UploadLabel htmlFor="inputfile" className="btn">
               <UploadIconWrap>
@@ -450,10 +452,10 @@ class FileUpload extends React.Component<FileUploadProps, FileUploadState> {
 type FileUploadWrapperProps = Omit<FileUploadProps, 'userState' | 'userStateActions'>
 
 export default function FileUploadWrapper(props: FileUploadWrapperProps) {
-  const {manual} = props
+  const {manual, hideUploadButton} = props
   const userStateActions = useUserStateActions()
   const userState = useUserState()
   return (
-    <FileUpload manual={manual} userState={userState} userStateActions={userStateActions} />
+    <FileUpload manual={manual} hideUploadButton={hideUploadButton} userState={userState} userStateActions={userStateActions} />
   )
 }
