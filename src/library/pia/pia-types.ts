@@ -10,7 +10,7 @@ export class PiaMonthYear extends Date {}
 
 export class PiaYear extends Number {}
 export class PiaEarnings extends Number {}
-
+export class PiaFloat extends Number {}
 export enum PiaSex {
   male = 0,
   female = 1,
@@ -92,7 +92,7 @@ export interface PiaData {
   pastProjectionStubString?: string;
   //futureProjectionStubString?: string;
   forwardProjectionType?: PiaTypeOfProjections; //line 8
-  forwardProjectionPercentage?: number; //line 8
+  forwardProjectionPercentage?: PiaFloat; //line 8
   lastYearForwardEarningsProjections?: PiaYear; //line 8
   firstYearBenefitProjection?: PiaYear; //line 40, computation year
   benefitIncreaseAssumption?: PiaTypeOfBenefitIncreaseAssumption; //line 40

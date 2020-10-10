@@ -588,7 +588,7 @@ const forwardProjectionSerializer: PiaSerializer = new (class {
         .setEndChar(7),
       avgWageIncreaseAssumption: new PiaFieldMeta()
         .setStartChar(8)
-        .setStartChar(8),
+        .setEndChar(8),
       maxWageBaseProjectionInd: new PiaFieldMeta()
         .setStartChar(9)
         .setEndChar(9),
@@ -602,7 +602,12 @@ const forwardProjectionSerializer: PiaSerializer = new (class {
           : this.fieldFormats.forwardProjectionType.getBlank()
       }${
         data.forwardProjectionPercentage != undefined
-          ? data.forwardProjectionPercentage //TODO handle string conversion
+          ? PiaUtils.formatPiaFloat(data.forwardProjectionPercentage).padStart(
+              this.fieldFormats.forwardProjectionPercentage.endChar -
+                this.fieldFormats.forwardProjectionPercentage.startChar +
+                1,
+              " "
+            )
           : this.fieldFormats.forwardProjectionPercentage.getBlank()
       }${
         data.lastYearForwardEarningsProjections != undefined
@@ -615,8 +620,7 @@ const forwardProjectionSerializer: PiaSerializer = new (class {
         data.firstYearBenefitProjection != undefined
           ? data.firstYearBenefitProjection
           : this.fieldFormats.firstYearBenefitProjection.getBlank()
-      }
-      ${
+      }${
         data.benefitIncreaseAssumption != undefined
           ? data.benefitIncreaseAssumption
           : this.fieldFormats.benefitIncreaseAssumption.getBlank()
@@ -630,6 +634,7 @@ const forwardProjectionSerializer: PiaSerializer = new (class {
           : this.fieldFormats.maxWageBaseProjectionInd.getBlank()
       }`,
     };
+
     const hasAnyLine8 =
       data.forwardProjectionType ||
       data.forwardProjectionPercentage ||
@@ -649,67 +654,67 @@ const forwardProjectionSerializer: PiaSerializer = new (class {
             PiaUtils.piaSubstr(
               line8,
               this.fieldFormats.forwardProjectionType.startChar,
-              this.fieldFormats.forwardProjectionType.endLine
+              this.fieldFormats.forwardProjectionType.endChar
             ),
             10
           ),
-          forwardProjectionPercentage: parseInt(
+          forwardProjectionPercentage: PiaUtils.parsePiaFloat(
             PiaUtils.piaSubstr(
               line8,
-              this.fieldFormats.forwardProjectionPercentage.startLine,
-              this.fieldFormats.forwardProjectionPercentage.endLine
-            ),
-            10
+              this.fieldFormats.forwardProjectionPercentage.startChar,
+              this.fieldFormats.forwardProjectionPercentage.endChar
+            )
           ),
           lastYearForwardEarningsProjections: parseInt(
             PiaUtils.piaSubstr(
               line8,
-              this.fieldFormats.lastYearForwardEarningsProjections.startLine,
+              this.fieldFormats.lastYearForwardEarningsProjections.startChar,
               this.fieldFormats.lastYearForwardEarningsProjections.endChar
             ),
             10
           ),
         }
       : {};
-    return { ...line8Data };
-  }
-})();
-/** 
-const wageBaseSerializer: PiaSerializer = new (class {
-  fieldFormats: Record<string, Pi
-}aFieldMeta>;
-  constructor() {
-    this.fieldFormats = {
-      wageBaseStubString: new PiaFieldMeta().setStartChar(3).setEndChar(9),
-    };
-  }
-  serialize(data: Partial<PiaTypes.PiaData>): PiaTypes.PiaLineMap {
-    const line40 = {
-      40: `40${
-        data.wageBaseStubString != undefined
-          ? data.wageBaseStubString
-          : this.fieldFormats.wageBaseStubString.getBlank()
-      }`,
-    };
-
-    return { ...(data.wageBaseStubString && line40) };
-  }
-  deserialize(lineMap: PiaTypes.PiaLineMap): Partial<PiaTypes.PiaData> {
-    //let line40 = lineMap[40];
-
+    let line40 = lineMap[40];
     let line40Data = line40
       ? {
-          wageBaseStubString: PiaUtils.piaSubstr(
-            line40,
-            this.fieldFormats.wageBaseStubString.startChar,
-            this.fieldFormats.wageBaseStubString.endChar
+          firstYearBenefitProjection: parseInt(
+            PiaUtils.piaSubstr(
+              line40,
+              this.fieldFormats.firstYearBenefitProjection.startChar,
+              this.fieldFormats.firstYearBenefitProjection.endChar
+            ),
+            10
+          ),
+          benefitIncreaseAssumption: parseInt(
+            PiaUtils.piaSubstr(
+              line40,
+              this.fieldFormats.benefitIncreaseAssumption.startChar,
+              this.fieldFormats.benefitIncreaseAssumption.endChar
+            ),
+            10
+          ),
+          avgWageIncreaseAssumption: parseInt(
+            PiaUtils.piaSubstr(
+              line40,
+              this.fieldFormats.avgWageIncreaseAssumption.startChar,
+              this.fieldFormats.avgWageIncreaseAssumption.endChar
+            ),
+            10
+          ),
+          maxWageBaseProjectionInd: parseInt(
+            PiaUtils.piaSubstr(
+              line40,
+              this.fieldFormats.maxWageBaseProjectionInd.startChar,
+              this.fieldFormats.maxWageBaseProjectionInd.endChar
+            ),
+            10
           ),
         }
       : {};
-    return { ...line40Data };
+    return { ...line8Data, ...line40Data };
   }
 })();
-**/
 
 /* implement lines 7 and 8, and related lines, in oasdiEarningsSerializer and delete this */
 const earningsProjectionStubSerializer: PiaSerializer = new (class {
@@ -719,9 +724,9 @@ const earningsProjectionStubSerializer: PiaSerializer = new (class {
       pastProjectionStubString: new PiaFieldMeta()
         .setStartChar(3)
         .setEndChar(13),
-      futureProjectionStubString: new PiaFieldMeta()
-        .setStartChar(3)
-        .setEndChar(13),
+      // futureProjectionStubString: new PiaFieldMeta()
+      //    .setStartChar(3)
+      //    .setEndChar(13),
     };
   }
   serialize(data: Partial<PiaTypes.PiaData>): PiaTypes.PiaLineMap {
@@ -748,7 +753,7 @@ const earningsProjectionStubSerializer: PiaSerializer = new (class {
   }
   deserialize(lineMap: PiaTypes.PiaLineMap): Partial<PiaTypes.PiaData> {
     let line7 = lineMap[7];
-    let line8 = lineMap[8];
+    //let line8 = lineMap[8];
 
     let line7Data = line7
       ? {
@@ -759,16 +764,16 @@ const earningsProjectionStubSerializer: PiaSerializer = new (class {
           ),
         }
       : {};
-    let line8Data = line8
-      ? {
-          futureProjectionStubString: PiaUtils.piaSubstr(
-            line8,
-            this.fieldFormats.futureProjectionStubString.startChar,
-            this.fieldFormats.futureProjectionStubString.endChar
-          ),
-        }
-      : {};
-    return { ...line7Data, ...line8Data };
+    //let line8Data = line8
+    //   ? {
+    //       futureProjectionStubString: PiaUtils.piaSubstr(
+    //        line8,
+    //        this.fieldFormats.futureProjectionStubString.startChar,
+    //        this./fieldFormats.futureProjectionStubString.endChar
+    //       ),
+    //      }
+    //     : {};
+    return { ...line7Data };
   }
 })();
 
@@ -779,6 +784,7 @@ const Pia_SERIALIZERS: PiaSerializer[] = [
   monthlyNoncoveredPensionSerializer,
   nameOfWorkerSerializer,
   oldQuartersOfCoverageSerializer,
+  forwardProjectionSerializer,
   //wageBaseSerializer,
   earningsProjectionStubSerializer, //remove me as soon as implemented in oasdiEarningSerializer
   // disabilityDatesSerializer,
