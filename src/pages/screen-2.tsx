@@ -64,15 +64,20 @@ interface Screen2State {
   userWEP: boolean | null;
   error: string | null;
   testAge: number | null;
+  testAgeMonthsOnly: number | null;
+  testAgeYearsOnly: number | null;
   testProfile: UserProfile | null;
 }
 
 export class Screen2 extends React.Component<Screen2Props, Screen2State> {
+
   public state: Screen2State = {
     desiredRetireDate: this.props.userState.retireDate,
     userWEP: null,
     error: null,
     testAge: null,
+    testAgeMonthsOnly: this.props.userState.fullRetirementAgeMonthsOnly,
+    testAgeYearsOnly: this.props.userState.fullRetirementAgeYearsOnly,
     testProfile: null,
   };
 
@@ -172,18 +177,18 @@ export class Screen2 extends React.Component<Screen2Props, Screen2State> {
       retireDate,
       preferPiaUserCalcValue
     );
-    console.log("performCalc:",userCalc);
     setUserProfile(userCalc);
 
-    const yearsDiff = dayjs(desiredRetireDateValue).diff(dayjs(userDOB),'year', true);
-    
+    const yearsDiff = dayjs(desiredRetireDateValue).diff(dayjs(userDOB),'year');
+    const monthsDiff = dayjs(desiredRetireDateValue).diff(dayjs(userDOB),'month') - (yearsDiff * 12);
     const clampedYearsDiff =
       yearsDiff < 62 ? 62 : yearsDiff > 70 ? 70 : yearsDiff;
-    this.handleRetireChange(clampedYearsDiff, preferPiaUserCalcValue);
+    this.handleRetireChange(clampedYearsDiff, monthsDiff, preferPiaUserCalcValue);
   };
 
   handleRetireChange = async (
-    age: number,
+    ageYearsOnly: number,
+    ageMonthsOnly: number,
     preferPiaUserCalcValue: boolean | null
   ) => {
     const {
@@ -194,13 +199,22 @@ export class Screen2 extends React.Component<Screen2Props, Screen2State> {
     // use the passed in value for fast updating, fall back to sessionStorage.
     const preferPiaUserCalcValueFastOrSlow =
       preferPiaUserCalcValue || preferPiaUserCalc;
+
+    const retireAge = ageYearsOnly + (ageMonthsOnly/12);
+    console.log('retireAge:', retireAge)
+
+    console.log('ageMonthsOnly:', ageMonthsOnly)
+    console.log('ageYearsOnly:', ageYearsOnly)
+
     //if 62 yo, add an extra month, as required by AnyPIA calculator.
-    const adjustMonthsFor62yo = age === 62 ? 1 : 0;
+    const adjustMonthsFor62yo = retireAge === 62 ? 1 : 0;
+
 
     const userDOB = birthDate.toLocaleDateString("en-US");
-    const retireMonth = age * 12;
+
     const userDOR = dayjs(userDOB)
-      .add(retireMonth, "month")
+      .add(ageYearsOnly, "year")
+      .add(ageMonthsOnly, "month")
       .add(adjustMonthsFor62yo, "month")
       .toDate();
 
@@ -209,11 +223,12 @@ export class Screen2 extends React.Component<Screen2Props, Screen2State> {
       preferPiaUserCalcValueFastOrSlow
     );
 
-    console.log("performCalc:", userCalc);
     if (userCalc)
       this.setState({
         desiredRetireDate: userDOR,
-        testAge: age,
+        testAge: retireAge,
+        testAgeYearsOnly: ageYearsOnly,
+        testAgeMonthsOnly: ageMonthsOnly,
         testProfile: userCalc,
       });
   };
@@ -221,7 +236,7 @@ export class Screen2 extends React.Component<Screen2Props, Screen2State> {
   render() {
     const { userState, userStateActions } = this.props;
     const { setPreferPiaUserCalc } = userStateActions;
-    const { fullRetirementAge, userProfile, preferPiaUserCalc } = userState;
+    const { fullRetirementAge, fullRetirementAgeYearsOnly, fullRetirementAgeMonthsOnly, userProfile, preferPiaUserCalc } = userState;
 
     return (
       <React.Fragment>
@@ -329,9 +344,12 @@ export class Screen2 extends React.Component<Screen2Props, Screen2State> {
                     date of retirement will affect your monthly benefit amount.
                   </Text>
                   <AgeSlider
-                    age={this.state.testAge}
+                    ageMonthsOnly={this.state.testAgeMonthsOnly}
+                    ageYearsOnly={this.state.testAgeYearsOnly}
                     handleChange={this.handleRetireChange}
                     fullRetirementAge={fullRetirementAge ?? undefined}
+                    fullRetirementAgeYearsOnly={fullRetirementAgeYearsOnly ?? undefined}
+                    fullRetirementAgeMonthsOnly={fullRetirementAgeMonthsOnly ?? undefined}
                     preferPiaUserCalcValue={preferPiaUserCalc}
                   />
                   <MonthlyBenefit
