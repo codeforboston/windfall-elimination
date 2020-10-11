@@ -117,6 +117,10 @@ export function parsePiaFloat(val: string): Number {
   return parseFloat(val);
 }
 
+export function formatPiaFloat(val: Number): string {
+  return val.toFixed(2);
+}
+
 export function formatPiaDateStr(date: PiaTypes.PiaDate): string {
   return dayjs(date).format("MMDDYYYY");
 }
