@@ -61,6 +61,7 @@ const AgeSlider = ({ preferPiaUserCalcValue, ageYearsOnly, ageMonthsOnly, handle
           marginBottom: 60
         }}
         defaultValue={ageMonthsOnly}
+        disabled={ ageYearsOnly === 70 ? true : false}
         min={0} max={11}
         marks=
         {{
