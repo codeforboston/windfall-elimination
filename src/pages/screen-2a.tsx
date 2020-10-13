@@ -2,10 +2,6 @@ import styled from "@emotion/styled";
 import SectionsCarousel from "react-slick";
 import { breakPoints, colors } from "../constants";
 import { H2, SEO } from "../components";
-import stepImg1 from "../images/step1.png";
-import stepImg2 from "../images/step2.png";
-import stepImg2_1 from "../images/step2.1.png";
-import stepImg2_2 from "../images/step2.2.png";
 import stepImg3_1 from "../images/step3.1.png";
 import stepImg3_2 from "../images/step3.2.png";
 import stepImg3_3 from "../images/step3.3.png";
@@ -81,13 +77,11 @@ export const Screen2a: FunctionComponent<Screen2aProps> = () => {
 };
 
 const BarChart = (bottomPercent: number) => {
-  console.log('bottomPercent: ', bottomPercent.bottomPercent);
+  // console.log('bottomPercent: ', bottomPercent.bottomPercent);
   return (
        <div className="barContainer">
-          <div className="barTop" style={{height:`${200 - 200*bottomPercent.bottomPercent}px`}}>10%</div>
- 
-          <div className="barBottom"style={{height:`${200*bottomPercent.bottomPercent}px`}}>90%</div>
-   
+          <div className="barTop" style={{height:`${200 - 200 * bottomPercent.bottomPercent}px`}}></div>
+          <div className="barBottom"style={{height:`${200 * bottomPercent.bottomPercent}px`}}>{bottomPercent.bottomPercent * 100}%</div>
        </div>
   )
 };
@@ -165,21 +159,39 @@ const SliderSections = ({ isInCarousel }: { isInCarousel?: boolean } = {}) => {
         </tr>
       </DisplayTable>
 
-      <table>
+      <TableBarChart style={{columnWidth:"20px", marginTop:"20px"}}>
+      <tr>
+          <td>1st Bucket</td>
+          <td>1st Bend Point = ${beforeFirstBendPoint}</td>
+          <td></td>
+          <td></td>
+          <td></td>
+          <td></td>
+          <td></td>
+          <td></td>
+        </tr>
         <tr>
-          <td style={{display:"flex", flexDirection:"column"}}>
-            <svg style={{width:"100", height:"400"}}>
-              <rect style={{width:"100", height:`${400*beforeFirstBendPointPercent}px`}}/>
-              <rect style={{width:"100", height:`${400 - 400*beforeFirstBendPointPercent}px`, fill:"red"}}/>
-              <text x="20" y="30">10%</text>
-             </svg>
-        
+          <td>
+            <BarChart bottomPercent={beforeFirstBendPointPercent}/>
           </td>
+          <td style={{borderRight:"1px dashed black"}}></td>
+          <td></td>
+          <td></td>
+          <td></td>
+          <td></td>
+          <td></td>
+          <td></td>
         </tr>
         <tr>
-          <td>You get back {formatPercent(beforeFirstBendPointPercent)} of the Amount, or {formatValue(beforeFirstBendPoint)}</td>
+          <td colSpan={2}>You get back {formatPercent(beforeFirstBendPointPercent)} of the amount, or {formatValue(beforeFirstBendPoint)}</td>
+          <td></td>
+          <td></td>
+          <td></td>
+          <td></td>
+          <td></td>
+          <td></td>
         </tr>
-      </table>
+      </TableBarChart>
 
       <p>However, if you answered “Yes” to the first question in the “Employment Status” section of this website,
          the amount you get back of this first bucket will be different. To learn more, please see the 
@@ -211,9 +223,16 @@ const SliderSections = ({ isInCarousel }: { isInCarousel?: boolean } = {}) => {
           <td></td>
         </tr>
       </DisplayTable>
-
-      <TableStep2 style={{columnWidth:"20px"}}>
-        <tr>
+      
+      <TableBarChart style={{columnWidth:"20px", marginTop:"20px"}}>
+      <tr>
+          <td>1st Bucket</td>
+          <td>1st Bend Point = ${beforeFirstBendPoint}</td>
+          <td></td>
+          <td>2nd Bucket</td>
+          <td>2nd Bend Point = ${afterFirstBendPoint}</td>
+          <td></td>
+          <td></td>
           <td></td>
         </tr>
         <tr>
@@ -223,21 +242,23 @@ const SliderSections = ({ isInCarousel }: { isInCarousel?: boolean } = {}) => {
           <td style={{borderRight:"1px dashed black"}}></td>
           <td></td>
           <td>
-            <div style={{height:"200"}}>
-            <div style={{height:`${200*afterFirstBendPointPercent}px`, backgroundColor:"black", justifyContent:"center", display:"flex", alignItems:"center"}}> 10%</div>
-            <div style={{height:`${200 - 200*afterFirstBendPointPercent}px`, backgroundColor:"red", justifyContent:"center", display:"flex", alignItems:"center"}}>62%</div>
-            </div>
+            <BarChart bottomPercent={afterFirstBendPointPercent}/>
           </td>
           <td style={{borderRight:"1px dashed black"}}></td>
+          <td></td>
+          <td></td>
+          <td></td>
         </tr>
         <tr>
-          <td>You get back {formatPercent(beforeFirstBendPointPercent)} of the amount, or {formatValue(beforeFirstBendPoint)}</td>
+          <td colSpan={2}>You get back {formatPercent(beforeFirstBendPointPercent)} of the amount, or {formatValue(beforeFirstBendPoint)}</td>
+          <td></td>
+          <td colSpan={2}>You get back {formatPercent(afterFirstBendPointPercent)} of the amount, or {formatValue(afterFirstBendPoint)}</td>
           <td></td>
           <td></td>
-          <td>You get back {formatPercent(afterFirstBendPointPercent)} of the amount, or {formatValue(afterFirstBendPoint)}</td>
+          <td></td>
           <td></td>
         </tr>
-      </TableStep2>
+      </TableBarChart>
 
     </Section>,
 
@@ -265,18 +286,39 @@ const SliderSections = ({ isInCarousel }: { isInCarousel?: boolean } = {}) => {
         </tr>
       </DisplayTable>
 
-      <ChartTable>
-        <tr>
-          <td><Image src={stepImg3_1} /></td>
-          <td><Image src={stepImg3_2} /></td>
-          <td><Image src={stepImg3_3} /></td>
+      <TableBarChart style={{columnWidth:"20px", marginTop:"20px"}}>
+      <tr>
+          <td>1st Bucket</td>
+          <td>1st Bend Point = ${beforeFirstBendPoint}</td>
+          <td></td>
+          <td>2nd Bucket</td>
+          <td>2nd Bend Point = ${afterFirstBendPoint}</td>
+          <td></td>
+          <td>3rd Bucket</td>
+          <td></td>
         </tr>
         <tr>
-          <td>You get back {formatPercent(beforeFirstBendPointPercent)} of the amount, or {formatValue(beforeFirstBendPoint)}</td>
-          <td>You get back {formatPercent(afterFirstBendPointPercent)} of the amount, or {formatValue(afterFirstBendPoint)}</td>
-          <td>You get back {formatPercent(pastSecondBendPointPercent)} of the amount, or {formatValue(pastSecondBendPoint)}</td>
+          <td>
+            <BarChart bottomPercent={beforeFirstBendPointPercent}/>
+          </td>
+          <td style={{borderRight:"1px dashed black"}}></td>
+          <td></td>
+          <td>
+            <BarChart bottomPercent={afterFirstBendPointPercent}/>
+          </td>
+          <td style={{borderRight:"1px dashed black"}}></td>
+          <td></td>
+          <td><BarChart bottomPercent={pastSecondBendPointPercent}/></td>
         </tr>
-      </ChartTable>
+        <tr>
+          <td colSpan={2}>You get back {formatPercent(beforeFirstBendPointPercent)} of the amount, or {formatValue(beforeFirstBendPoint)}</td>
+          <td></td>
+          <td colSpan={2}>You get back {formatPercent(afterFirstBendPointPercent)} of the amount, or {formatValue(afterFirstBendPoint)}</td>
+          <td></td>
+          <td colSpan={2}>You get back {formatPercent(pastSecondBendPointPercent)} of the amount, or {formatValue(pastSecondBendPoint)}</td>
+        </tr>
+      </TableBarChart>
+
     </Section>,
 
     <Section isInCarousel={isInCarousel} key={key + "5"}>
@@ -303,24 +345,44 @@ const SliderSections = ({ isInCarousel }: { isInCarousel?: boolean } = {}) => {
         </tr>
       </DisplayTable>
 
-      <ChartTable>
-        <tr>
-          <td style={{ width: "203px" }}><Image src={stepImg3_1} /></td>
-          <td style={{ width: "220px" }}><Image src={stepImg3_2} /></td>
-          <td style={{ width: "132px" }}><Image src={stepImg3_3} /></td>
+      <TableBarChart style={{columnWidth:"20px", marginTop:"20px"}}>
+      <tr>
+          <td>1st Bucket</td>
+          <td>1st Bend Point = ${beforeFirstBendPoint}</td>
+          <td></td>
+          <td>2nd Bucket</td>
+          <td>2nd Bend Point = ${afterFirstBendPoint}</td>
+          <td></td>
+          <td>3rd Bucket</td>
+          <td></td>
         </tr>
         <tr>
-          <td>You get back {formatPercent(beforeFirstBendPointPercent)} of the amount, or {formatValue(beforeFirstBendPoint)}</td>
-          <td>You get back {formatPercent(afterFirstBendPointPercent)} of the amount, or {formatValue(afterFirstBendPoint)}</td>
-          <td>You get back {formatPercent(pastSecondBendPointPercent)} of the amount, or {formatValue(pastSecondBendPoint)}</td>
+          <td>
+            <BarChart bottomPercent={beforeFirstBendPointPercent}/>
+          </td>
+          <td style={{borderRight:"1px dashed black"}}></td>
+          <td></td>
+          <td>
+            <BarChart bottomPercent={afterFirstBendPointPercent}/>
+          </td>
+          <td style={{borderRight:"1px dashed black"}}></td>
+          <td></td>
+          <td><BarChart bottomPercent={pastSecondBendPointPercent}/></td>
         </tr>
         <tr>
-          <td colSpan={3}>
+          <td colSpan={2}>You get back {formatPercent(beforeFirstBendPointPercent)} of the amount, or {formatValue(beforeFirstBendPoint)}</td>
+          <td></td>
+          <td colSpan={2}>You get back {formatPercent(afterFirstBendPointPercent)} of the amount, or {formatValue(afterFirstBendPoint)}</td>
+          <td></td>
+          <td colSpan={2}>You get back {formatPercent(pastSecondBendPointPercent)} of the amount, or {formatValue(pastSecondBendPoint)}</td>
+        </tr>
+        <tr>
+          <td colSpan={8}>
             Remember: this is the basic amount you are paid before Social Security adjusts
             your benefits lower for early retirement, or higher for delayed retirement.
           </td>
         </tr>
-      </ChartTable>
+      </TableBarChart>
 
     </Section>,
 
@@ -342,9 +404,9 @@ const SliderSections = ({ isInCarousel }: { isInCarousel?: boolean } = {}) => {
   ])
 };
 
-const TableStep2 = styled.table`
+const TableBarChart = styled.table`
   td {
-    width: 20%;
+    width: 12.5%;
   };
 
   .barContainer {
@@ -352,14 +414,14 @@ const TableStep2 = styled.table`
   };
 
   .barTop {
-    background-color: black;
+    background-color: #dddddd;
     display: flex; 
     justify-content: center; 
     align-items: center ;
   };
 
   .barBottom {
-    background-color: red;
+    background-color: #433A74;
     justify-content: center;
     display: flex;
     align-items: center;
