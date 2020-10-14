@@ -1049,6 +1049,74 @@ export class PiaFormat {
     // this.piaData.monthYearEntitlementNoncoveredPension = PiaUtils.parsePiaMonthYear('062010',1,6);
     return this;
   }
+  getForwardProjectionType() {
+    return this.piaData.forwardProjectionType;
+  }
+
+  setForwardProjectionType(type: PiaTypes.PiaTypeOfProjections | undefined) {
+    this.piaData.forwardProjectionType = type;
+    return this;
+  }
+
+  getForwardProjectionPecentage() {
+    return this.piaData.forwardProjectionType;
+  }
+
+  setForwardProjectionPercentage(percentage: PiaTypes.PiaFloat | undefined) {
+    this.piaData.forwardProjectionPercentage = percentage;
+    return this;
+  }
+
+  getLastYearForwardEarningsProjection() {
+    return this.piaData.lastYearForwardEarningsProjections;
+  }
+
+  setLastYearForwardEarningsProjection(lastYear: PiaTypes.PiaYear | undefined) {
+    this.piaData.lastYearForwardEarningsProjections = lastYear;
+    return this;
+  }
+
+  getFirstYearBenefitProjection() {
+    return this.piaData.firstYearBenefitProjection;
+  }
+
+  setFirstYearBenefitProjection(projection: PiaTypes.PiaYear | undefined) {
+    this.piaData.firstYearBenefitProjection = projection;
+    return this;
+  }
+
+  getBenefitIncreaseAssumption() {
+    return this.piaData.benefitIncreaseAssumption;
+  }
+
+  setBenefitIncreaseAssumption(
+    assumption: PiaTypes.PiaTypeOfBenefitIncreaseAssumption | undefined
+  ) {
+    this.piaData.benefitIncreaseAssumption = assumption;
+    return this;
+  }
+
+  getAvgWageIncreaseAssumption() {
+    return this.piaData.avgWageIncreaseAssumption;
+  }
+
+  setAvgWageIncreaseAssumption(
+    assumption: PiaTypes.PiaTypeOfWageIncreaseAssumption | undefined
+  ) {
+    this.piaData.avgWageIncreaseAssumption = assumption;
+    return this;
+  }
+
+  getMaxWageBaseProjectionInd() {
+    return this.piaData.maxWageBaseProjectionInd;
+  }
+
+  setMaxWageBaseProjectionInd(
+    indicator: PiaTypes.PiaTypeOfMaxWageBaseProjection | undefined
+  ) {
+    this.piaData.maxWageBaseProjectionInd = indicator;
+    return this;
+  }
 
   outputPia() {
     var linesRecords = serializePiaData(this.piaData);
