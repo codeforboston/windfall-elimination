@@ -88,26 +88,26 @@ describe("Sample 1, 20 and 25 AnyPIA (Full Retirement)", () => {
 */
 
 // sample1PiaSimplified contains more data than sample1pia
+// Original line 06: 19752019
 const sample1PiaSimplified = `01          01151954
 031012020
-0619752019
 071  0.002008
 081  0.002008
-16Sample 1
 201
 402017221
 95 12 12
-`;
+06`;
 
+// Original line 06: 19752019
 const sample2piaSimplified = `01          01151954
 031012020
-0619752019
+19752019
 071  0.002008
 081  0.002008
-16Sample 2
 201
 402017551
-95 12 12`;
+95 12 12
+06`;
 
 const sample20piaSimplified = `01          06221952
 031072014
@@ -119,16 +119,17 @@ const sample20piaSimplified = `01          06221952
 25       0.00       0.00       0.00       0.00       0.00       0.00   20000.00  104400.00  105480.00  108000.00
 26  113040.00  117000.00  122400.00  128160.00   35000.00`;
 
+// Original line 06: 19812020
 const sample25piaSimplified = `01          09021960
 031092022
-0619812020
 072  0.001990
 082  0.002011
 12   1500.00102022
 22    2000.00    4000.00    4000.00    4000.00    4000.00    4000.00    4000.00    4000.00    4000.00    4000.00
 23    4000.00    6000.00    6000.00    6000.00    6000.00    6000.00    6000.00    6000.00    6000.00    6000.00
 24    6000.00    8000.00
-402017551`;
+402017551
+06`;
 
 // Generic function for creating full retirement sample PiaFormat
 function createPiaSampleFormat(dob: string, dor: string, pension?: number, sampleRetirementValues?: any) {
