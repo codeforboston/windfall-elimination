@@ -1,5 +1,7 @@
 {
-  "plugins": ["@babel/plugin-proposal-nullish-coalescing-operator"],
+  "plugins": [
+    "@babel/plugin-syntax-nullish-coalescing-operator"
+  ],
   "presets": [
     [
       "babel-preset-gatsby"

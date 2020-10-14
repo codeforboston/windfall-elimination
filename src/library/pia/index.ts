@@ -7,6 +7,7 @@ import {
 import { PiaYear, PiaEarnings } from "./pia-types";
 
 import Module from "../anypiajs.mjs"; //remember https://stackoverflow.com/a/63592692/272018
+import { bendpoints } from "src/static/json";
 // The above ES6 module is built from SSA.gov open source C++ AnyPIA by
 // https://github.com/codeforboston/anypia-js and requires the wasm file too.
 
@@ -103,6 +104,9 @@ export async function finalCalculation (
 
   // Convert to web calculator display UserProfile format
   const calculation = resultObj.Calculation;
+  const usePIAAfterWindwfall = calculation.YearsOfCoverageForWindfall
+                            && calculation.YearsOfCoverageForWindfall > 0
+                            && calculation.YearsOfCoverageForWindfall < 30
   const userProfile: UserProfile = {
     "Standard PIA": calculation.InsuranceAmount,
     "WEP PIA":
@@ -120,8 +124,10 @@ export async function finalCalculation (
       calculation.NoncoveredPosion.MonthlyPension,
     aime: calculation.AIME && calculation.AIME.AME,
     fullRetireDate: new Date("2040-1-1").toLocaleDateString("en-US"),
-    calculatorType: 'anypia'
+    calculatorType: 'anypia',
+    bendPoints: usePIAAfterWindwfall ? calculation.PIAAfterWindwfall : calculation.PIAEligibility
   };
+  console.log("usePIAAfterWindwfall", usePIAAfterWindwfall);
   console.warn("DUMMY fullRetireDate until it can be added:");
 
   return userProfile;
