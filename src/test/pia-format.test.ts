@@ -9,8 +9,8 @@ import {
   delayedRetirementValues,
   fullRetirementValues,
   sample20RetirementValues,
-  sample25RetirementValues
-
+  sample25RetirementValues,
+  sample25RetirementValuesExplicit,
 } from "../library/testFiles";
 import { getRawEarnings } from "../library/observable-functions";
 import { PiaYear, PiaEarnings } from "src/library/pia/pia-types";
@@ -125,7 +125,6 @@ const sample25piaSimplified = `01          09021960
 072  0.001990
 082  0.002011
 12   1500.00102022
-16Sample 25
 22    2000.00    4000.00    4000.00    4000.00    4000.00    4000.00    4000.00    4000.00    4000.00    4000.00
 23    4000.00    6000.00    6000.00    6000.00    6000.00    6000.00    6000.00    6000.00    6000.00    6000.00
 24    6000.00    8000.00
@@ -247,7 +246,7 @@ describe("Blank string instantiation of PiaFormat", () => {
   });
 
   it("Sample 25 AnyPIA (Full Retirement)", () => {
-    const piaSample25Format = createPiaSampleFormat('1960-09-02', '2022-09-02', undefined, sample25RetirementValues);
+    const piaSample25Format = createPiaSampleFormat('1960-09-02', '2022-09-02', undefined, sample25RetirementValuesExplicit);
     expect(piaSample25Format.outputPia()).toBe(sample25piaSimplified);
   });
 });
