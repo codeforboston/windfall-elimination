@@ -2,11 +2,6 @@ import styled from "@emotion/styled";
 import SectionsCarousel from "react-slick";
 import { breakPoints, colors } from "../constants";
 import { H2, SEO } from "../components";
-import stepImg3_1 from "../images/step3.1.png";
-import stepImg3_2 from "../images/step3.2.png";
-import stepImg3_3 from "../images/step3.3.png";
-import stepImg3 from "../images/step3.png";
-import finalImg from "../images/final.png";
 import { radii, spacing } from "../constants";
 import { FunctionComponent } from 'react';
 import {
@@ -159,7 +154,7 @@ const SliderSections = ({ isInCarousel }: { isInCarousel?: boolean } = {}) => {
         </tr>
       </DisplayTable>
 
-      <TableBarChart style={{columnWidth:"20px", marginTop:"20px"}}>
+      <TableBarChart style={{columnWidth:"20px"}}>
       <tr>
           <td>1st Bucket</td>
           <td>1st Bend Point = ${beforeFirstBendPoint}</td>
@@ -224,7 +219,7 @@ const SliderSections = ({ isInCarousel }: { isInCarousel?: boolean } = {}) => {
         </tr>
       </DisplayTable>
       
-      <TableBarChart style={{columnWidth:"20px", marginTop:"20px"}}>
+      <TableBarChart style={{columnWidth:"20px"}}>
       <tr>
           <td>1st Bucket</td>
           <td>1st Bend Point = ${beforeFirstBendPoint}</td>
@@ -286,7 +281,7 @@ const SliderSections = ({ isInCarousel }: { isInCarousel?: boolean } = {}) => {
         </tr>
       </DisplayTable>
 
-      <TableBarChart style={{columnWidth:"20px", marginTop:"20px"}}>
+      <TableBarChart style={{columnWidth:"20px"}}>
       <tr>
           <td>1st Bucket</td>
           <td>1st Bend Point = ${beforeFirstBendPoint}</td>
@@ -345,7 +340,7 @@ const SliderSections = ({ isInCarousel }: { isInCarousel?: boolean } = {}) => {
         </tr>
       </DisplayTable>
 
-      <TableBarChart style={{columnWidth:"20px", marginTop:"20px"}}>
+      <TableBarChart style={{columnWidth:"20px"}}>
       <tr>
           <td>1st Bucket</td>
           <td>1st Bend Point = ${beforeFirstBendPoint}</td>
@@ -376,13 +371,9 @@ const SliderSections = ({ isInCarousel }: { isInCarousel?: boolean } = {}) => {
           <td></td>
           <td colSpan={2}>You get back {formatPercent(pastSecondBendPointPercent)} of the amount, or {formatValue(pastSecondBendPoint)}</td>
         </tr>
-        <tr>
-          <td colSpan={8}>
-            Remember: this is the basic amount you are paid before Social Security adjusts
-            your benefits lower for early retirement, or higher for delayed retirement.
-          </td>
-        </tr>
       </TableBarChart>
+      <p>Remember: this is the basic amount you are paid before Social Security adjusts
+         your benefits lower for early retirement, or higher for delayed retirement.</p>
 
     </Section>,
 
@@ -405,6 +396,10 @@ const SliderSections = ({ isInCarousel }: { isInCarousel?: boolean } = {}) => {
 };
 
 const TableBarChart = styled.table`
+  font-size: 75%;
+  margin-bottom: 20px;
+  margin-top: 20px;
+
   td {
     width: 12.5%;
   };
