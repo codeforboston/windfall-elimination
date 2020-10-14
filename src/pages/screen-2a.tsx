@@ -136,24 +136,7 @@ const SliderSections = ({ isInCarousel }: { isInCarousel?: boolean } = {}) => {
         <br />
         You get {formatPercent(beforeFirstBendPointPercent)} of what falls under this bend point.
       </p>
-      <DisplayTable>
-        <tr>
-          <TableHeader colSpan={4}>Primary Insurance Amount Formula</TableHeader>
-        </tr>
-        <tr>
-          <td>step 1</td>
-          <td>step 2</td>
-          <td>step 3</td>
-          <td>PIA</td>
-        </tr>
-        <tr>
-          <td>{formatValue(beforeFirstBendPoint)}</td>
-          <td></td>
-          <td></td>
-          <td></td>
-        </tr>
-      </DisplayTable>
-
+     
       <TableBarChart style={{columnWidth:"20px"}}>
       <tr>
           <td>1st Bucket</td>
@@ -188,6 +171,25 @@ const SliderSections = ({ isInCarousel }: { isInCarousel?: boolean } = {}) => {
         </tr>
       </TableBarChart>
 
+      <DisplayTable>
+        <tr>
+          <TableHeader colSpan={4}>Primary Insurance Amount Formula</TableHeader>
+        </tr>
+        <tr>
+          <td>step 1</td>
+          <td>step 2</td>
+          <td>step 3</td>
+          <td>PIA</td>
+        </tr>
+        <tr>
+          <td>{formatValue(beforeFirstBendPoint)}</td>
+          <td></td>
+          <td></td>
+          <td></td>
+        </tr>
+      </DisplayTable>
+
+
       <p>However, if you answered “Yes” to the first question in the “Employment Status” section of this website,
          the amount you get back of this first bucket will be different. To learn more, please see the 
          <a href="https://www.ssa.gov/pubs/EN-05-10045.pdf">Windfall Elimination Provision pamphlet</a>
@@ -201,23 +203,6 @@ const SliderSections = ({ isInCarousel }: { isInCarousel?: boolean } = {}) => {
         Social Security calculates how much of your AIME fall below your first
         and second <em> bend points. </em>
       </p>
-      <DisplayTable>
-        <tr>
-          <TableHeader colSpan={4}>AIME or Average Income Monthly Earnings</TableHeader>
-        </tr>
-        <tr>
-          <td>step 1</td>
-          <td>step 2</td>
-          <td>step 3</td>
-          <td>PIA</td>
-        </tr>
-        <tr>
-          <td>{formatValue(beforeFirstBendPoint)}</td>
-          <td>{formatValue(afterFirstBendPoint)}</td>
-          <td></td>
-          <td></td>
-        </tr>
-      </DisplayTable>
       
       <TableBarChart style={{columnWidth:"20px"}}>
       <tr>
@@ -255,6 +240,25 @@ const SliderSections = ({ isInCarousel }: { isInCarousel?: boolean } = {}) => {
         </tr>
       </TableBarChart>
 
+      <DisplayTable>
+        <tr>
+          <TableHeader colSpan={4}>AIME or Average Income Monthly Earnings</TableHeader>
+        </tr>
+        <tr>
+          <td>step 1</td>
+          <td>step 2</td>
+          <td>step 3</td>
+          <td>PIA</td>
+        </tr>
+        <tr>
+          <td>{formatValue(beforeFirstBendPoint)}</td>
+          <td>{formatValue(afterFirstBendPoint)}</td>
+          <td></td>
+          <td></td>
+        </tr>
+      </DisplayTable>
+      
+
     </Section>,
 
     <Section isInCarousel={isInCarousel} key={key + "4"}>
@@ -263,6 +267,40 @@ const SliderSections = ({ isInCarousel }: { isInCarousel?: boolean } = {}) => {
         Social Security calculates how much of your AIME fall below your second
         <em> bend point. </em>
       </p>
+    
+      <TableBarChart style={{columnWidth:"20px"}}>
+      <tr>
+          <td>1st Bucket</td>
+          <td>1st Bend Point = ${beforeFirstBendPoint}</td>
+          <td></td>
+          <td>2nd Bucket</td>
+          <td>2nd Bend Point = ${afterFirstBendPoint}</td>
+          <td></td>
+          <td>3rd Bucket</td>
+          <td></td>
+        </tr>
+        <tr>
+          <td>
+            <BarChart bottomPercent={beforeFirstBendPointPercent}/>
+          </td>
+          <td style={{borderRight:"1px dashed black"}}></td>
+          <td></td>
+          <td>
+            <BarChart bottomPercent={afterFirstBendPointPercent}/>
+          </td>
+          <td style={{borderRight:"1px dashed black"}}></td>
+          <td></td>
+          <td><BarChart bottomPercent={pastSecondBendPointPercent}/></td>
+        </tr>
+        <tr>
+          <td colSpan={2}>You get back {formatPercent(beforeFirstBendPointPercent)} of the amount, or {formatValue(beforeFirstBendPoint)}</td>
+          <td></td>
+          <td colSpan={2}>You get back {formatPercent(afterFirstBendPointPercent)} of the amount, or {formatValue(afterFirstBendPoint)}</td>
+          <td></td>
+          <td colSpan={2}>You get back {formatPercent(pastSecondBendPointPercent)} of the amount, or {formatValue(pastSecondBendPoint)}</td>
+        </tr>
+      </TableBarChart>
+
       <DisplayTable>
         <tr>
           <TableHeader colSpan={4}>AIME or Average Income Monthly Earnings</TableHeader>
@@ -280,6 +318,16 @@ const SliderSections = ({ isInCarousel }: { isInCarousel?: boolean } = {}) => {
           <td></td>
         </tr>
       </DisplayTable>
+
+
+    </Section>,
+
+    <Section isInCarousel={isInCarousel} key={key + "5"}>
+      <h3> Final Calculation </h3>
+      <p>
+        Finally, Social Security adds the results of the three previous steps
+        altogether.
+      </p>
 
       <TableBarChart style={{columnWidth:"20px"}}>
       <tr>
@@ -314,14 +362,6 @@ const SliderSections = ({ isInCarousel }: { isInCarousel?: boolean } = {}) => {
         </tr>
       </TableBarChart>
 
-    </Section>,
-
-    <Section isInCarousel={isInCarousel} key={key + "5"}>
-      <h3> Final Calculation </h3>
-      <p>
-        Finally, Social Security adds the results of the three previous steps
-        altogether.
-      </p>
       <DisplayTable>
         <tr>
           <TableHeader colSpan={4}>AIME or Average Income Monthly Earnings</TableHeader>
@@ -339,39 +379,6 @@ const SliderSections = ({ isInCarousel }: { isInCarousel?: boolean } = {}) => {
           <td>{formatValue(totalPrimaryInsuranceAmount)}</td>
         </tr>
       </DisplayTable>
-
-      <TableBarChart style={{columnWidth:"20px"}}>
-      <tr>
-          <td>1st Bucket</td>
-          <td>1st Bend Point = ${beforeFirstBendPoint}</td>
-          <td></td>
-          <td>2nd Bucket</td>
-          <td>2nd Bend Point = ${afterFirstBendPoint}</td>
-          <td></td>
-          <td>3rd Bucket</td>
-          <td></td>
-        </tr>
-        <tr>
-          <td>
-            <BarChart bottomPercent={beforeFirstBendPointPercent}/>
-          </td>
-          <td style={{borderRight:"1px dashed black"}}></td>
-          <td></td>
-          <td>
-            <BarChart bottomPercent={afterFirstBendPointPercent}/>
-          </td>
-          <td style={{borderRight:"1px dashed black"}}></td>
-          <td></td>
-          <td><BarChart bottomPercent={pastSecondBendPointPercent}/></td>
-        </tr>
-        <tr>
-          <td colSpan={2}>You get back {formatPercent(beforeFirstBendPointPercent)} of the amount, or {formatValue(beforeFirstBendPoint)}</td>
-          <td></td>
-          <td colSpan={2}>You get back {formatPercent(afterFirstBendPointPercent)} of the amount, or {formatValue(afterFirstBendPoint)}</td>
-          <td></td>
-          <td colSpan={2}>You get back {formatPercent(pastSecondBendPointPercent)} of the amount, or {formatValue(pastSecondBendPoint)}</td>
-        </tr>
-      </TableBarChart>
       <p>Remember: this is the basic amount you are paid before Social Security adjusts
          your benefits lower for early retirement, or higher for delayed retirement.</p>
 
