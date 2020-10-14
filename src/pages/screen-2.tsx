@@ -234,7 +234,7 @@ export class Screen2 extends React.Component<Screen2Props, Screen2State> {
   render() {
     const { userState, userStateActions } = this.props;
     const { setPreferPiaUserCalc } = userStateActions;
-    const { fullRetirementAge, fullRetirementAgeYearsOnly, fullRetirementAgeMonthsOnly, userProfile, preferPiaUserCalc } = userState;
+    const { fullRetirementAge, fullRetirementAgeYearsOnly, fullRetirementAgeMonthsOnly, userProfile, preferPiaUserCalc, retireDate, birthDate } = userState;
 
     return (
       <React.Fragment>
@@ -348,10 +348,12 @@ export class Screen2 extends React.Component<Screen2Props, Screen2State> {
                     fullRetirementAge={fullRetirementAge ?? undefined}
                     fullRetirementAgeYearsOnly={fullRetirementAgeYearsOnly ?? undefined}
                     fullRetirementAgeMonthsOnly={fullRetirementAgeMonthsOnly ?? undefined}
+                    fullRetirementDate={retireDate}
+                    birthDate={birthDate}
                     preferPiaUserCalcValue={preferPiaUserCalc}
                   />
                   <MonthlyBenefit
-                    text={`age ${this.state.testAge}`}
+                    text={`age ${this.state.testAgeYearsOnly} and ${this.state.testAgeMonthsOnly} months`}
                     number={
                       this.state.testProfile && this.state.testProfile["MPB"]
                     }

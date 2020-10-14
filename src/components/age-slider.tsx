@@ -1,5 +1,6 @@
 import React from 'react'
 import Slider from 'rc-slider';
+import dayjs from "dayjs";
 import { colors } from '../constants'
 
 const defaultFRA = () => {
@@ -7,7 +8,15 @@ const defaultFRA = () => {
   return 67;
 }
 
-const AgeSlider = ({ preferPiaUserCalcValue, ageYearsOnly, ageMonthsOnly, handleChange, fullRetirementAgeYearsOnly, fullRetirementAgeMonthsOnly, fullRetirementAge = defaultFRA() }) => {
+const AgeSlider = ({ fullRetirementDate, birthDate, preferPiaUserCalcValue, ageYearsOnly, ageMonthsOnly, handleChange, fullRetirementAgeYearsOnly, fullRetirementAgeMonthsOnly, fullRetirementAge = defaultFRA() }) => {
+
+  const fullRetirementMonthLabel = dayjs(fullRetirementDate).format('MMM');
+  const birthMonthLabel = dayjs(birthDate).format('MMM');
+  const eleventhMonthLabel = dayjs(birthDate).add(11, 'month').format('MMM');
+  console.log(fullRetirementMonthLabel);
+  console.log(birthMonthLabel);
+  console.log(eleventhMonthLabel);
+  
   return (
     <React.Fragment>
       <Slider
@@ -66,19 +75,19 @@ const AgeSlider = ({ preferPiaUserCalcValue, ageYearsOnly, ageMonthsOnly, handle
         marks=
         {{
           0: {
-            label: <strong style={{ "fontSize": "18px" }}>0</strong>,
+          label: <strong style={{ "fontSize": "18px" }}>{birthMonthLabel}</strong>,
             style: {
               color: colors.black,
             }
           },
           [fullRetirementAgeMonthsOnly]: {
-            label: <strong style={{ "fontSize": "18px" }}>FRA: {fullRetirementAgeMonthsOnly}</strong>,
+            label: <strong style={{ "fontSize": "18px" }}>FRA: {fullRetirementMonthLabel}</strong>,
             style: {
               color: colors.black,
             }
           },
           11: {
-            label: <strong style={{ "fontSize": "18px" }}>11</strong>,
+          label: <strong style={{ "fontSize": "18px" }}>{eleventhMonthLabel}</strong>,
             style: {
               color: colors.black,
             }
