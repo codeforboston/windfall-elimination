@@ -32,6 +32,7 @@ import MonthlyBenefit from "../components/monthly-benefit";
 import "rc-slider/assets/index.css";
 import dayjs from "dayjs";
 import { finalCalculation } from "../library/pia/index";
+import { Agent } from "http";
 
 const ButtonContainer = styled.div`
   display: flex;
@@ -201,7 +202,7 @@ export class Screen2 extends React.Component<Screen2Props, Screen2State> {
       preferPiaUserCalcValue || preferPiaUserCalc;
 
     //if 70 yo, set month of retirement to 0, as 70 yo is the maximum retirement age. If 62 yo, set minimum months to 1, as 62 and 1 month is the minimum retirement age.
-    const ageMonthsOnlyToUse = (ageYearsOnly === 70 ? 0 : ageMonthsOnly) || (ageYearsOnly === 62 && ageMonthsOnly === 0 ? 1: ageMonthsOnly);
+    const ageMonthsOnlyToUse = ageYearsOnly === 70 ? 0 : ((ageYearsOnly === 62) && (ageMonthsOnly === 0)) ? 1 : ageMonthsOnly;
 
     const retireAge = ageYearsOnly + (ageMonthsOnlyToUse / 12);
 
@@ -344,7 +345,7 @@ export class Screen2 extends React.Component<Screen2Props, Screen2State> {
                     fullRetirementAge={fullRetirementAge ?? undefined}
                     fullRetirementAgeYearsOnly={fullRetirementAgeYearsOnly ?? undefined}
                     fullRetirementAgeMonthsOnly={fullRetirementAgeMonthsOnly ?? undefined}
-                    fullRetirementDate={retireDate}
+                    retireDate={retireDate}
                     birthDate={birthDate}
                     preferPiaUserCalcValue={preferPiaUserCalc}
                   />
