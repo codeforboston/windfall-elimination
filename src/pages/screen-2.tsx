@@ -101,6 +101,8 @@ export class Screen2 extends React.Component<Screen2Props, Screen2State> {
         pensionOrRetirementAccount,
         pensionAmount,
         pensionDateAwarded,
+        awiTrendOrManualPrediction,
+        awiTrendSelection,
         // preferPiaUserCalc, //use the one passed in, in order to avoid localStorage delay.
       },
     } = this.props;
@@ -142,7 +144,8 @@ export class Screen2 extends React.Component<Screen2Props, Screen2State> {
     }
 
     if (preferPiaUserCalcValue) {
-      return await finalCalculation(userDOB, userDOR, userPension, earnings);
+      return await finalCalculation(userDOB, userDOR, userPension, earnings, awiTrendOrManualPrediction,
+        awiTrendSelection);
     } else {
       const userAIME = ObsFuncs.getAIMEFromEarnings(earnings, year62);
       //be aware: this userDOR may be accepting a string: ambiguous.

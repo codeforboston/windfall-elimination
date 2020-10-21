@@ -1,5 +1,6 @@
 import * as React from "react";
-import { PiaYear, PiaEarnings } from "./pia/pia-types";
+import { PiaYear, PiaEarnings, PiaTypeOfBenefitIncreaseAssumption} from "../library/pia/pia-types";
+export {PiaTypeOfBenefitIncreaseAssumption};
 
 export enum EarningsEnum {
   XML = "XML",
@@ -24,11 +25,11 @@ export enum FutureAwiPredictionEnum {
   MANUAL = "MANUAL",
 }
 
-export enum FutureAwiTrendEnum {
-  INTERMEDIATE = "INTERMEDIATE",
-  LOW = "LOW",
-  HIGH = "HIGH",
-}
+// export enum FutureAwiTrendEnum {
+//   INTERMEDIATE = "INTERMEDIATE",
+//   LOW = "LOW",
+//   HIGH = "HIGH",
+// }
 
 // Calculated results for the user
 export interface UserProfile {
@@ -61,7 +62,7 @@ export interface UserState {
   userProfile: UserProfile | null;
   preferPiaUserCalc: boolean | null;
   awiTrendOrManualPrediction: FutureAwiPredictionEnum | null;
-  awiTrendSelection: FutureAwiTrendEnum | null;
+  awiTrendSelection: PiaTypeOfBenefitIncreaseAssumption | null;
 }
 
 const UserStateContext = React.createContext<UserState | null>(null);

@@ -17,7 +17,7 @@ import {
   WarningBox,
   AnswerInputDiscouragePlaceholder
 } from "../components";
-import {FutureAwiPredictionEnum, FutureAwiTrendEnum, EarningsEnum, useUserState, UserState} from '../library/user-state-context'
+import {FutureAwiPredictionEnum, PiaTypeOfBenefitIncreaseAssumption, EarningsEnum, useUserState, UserState} from '../library/user-state-context';
 import {useUserStateActions, UserStateActions} from '../library/user-state-actions-context'
 
 const StyledDatePicker = styled(DatePicker)`
@@ -85,13 +85,9 @@ class Prescreen1d extends React.Component<Prescreen1dProps> {
     const selectValueString = e.target.value;
     switch (e.target.name) {
       case "awiTrendSelection":
-        console.log('awiTrendSelection', selectValueString)
-        console.log('props', this.props)
-        setAwiTrendSelection(selectValueString as FutureAwiTrendEnum)
+        setAwiTrendSelection(parseInt(selectValueString, 10) as PiaTypeOfBenefitIncreaseAssumption)
         break;
       case "awiTrendOrManualPrediction":
-        console.log('awiTrendOrManualPrediction', selectValueString)
-        console.log('props', this.props)
         setAwiTrendOrManualPrediction(selectValueString as FutureAwiPredictionEnum)
         break;
     }
@@ -160,15 +156,15 @@ class Prescreen1d extends React.Component<Prescreen1dProps> {
                 Which trend would you like to use to predict your future earnings?
                 </QuestionText>
                 <AnswerBox>
-                  <RadioButton type="radio" name="awiTrendSelection" value={FutureAwiTrendEnum.INTERMEDIATE} onChange={this.handleSelection} checked={awiTrendSelection === FutureAwiTrendEnum.INTERMEDIATE} />
+                  <RadioButton type="radio" name="awiTrendSelection" value={PiaTypeOfBenefitIncreaseAssumption.alternative2Intermediate} onChange={this.handleSelection} checked={awiTrendSelection === PiaTypeOfBenefitIncreaseAssumption.alternative2Intermediate} />
                   <LabelText>Int (Between Low and High)</LabelText>
                 </AnswerBox>
                 <AnswerBox>
-                  <RadioButton type="radio" name="awiTrendSelection" value={FutureAwiTrendEnum.LOW} onChange={this.handleSelection} checked={awiTrendSelection === FutureAwiTrendEnum.LOW} />
+                  <RadioButton type="radio" name="awiTrendSelection" value={PiaTypeOfBenefitIncreaseAssumption.alternative3Pessimistic} onChange={this.handleSelection} checked={awiTrendSelection === PiaTypeOfBenefitIncreaseAssumption.alternative3Pessimistic} />
                   <LabelText>Low (Economy doesn’t go well)</LabelText>
                 </AnswerBox>
                 <AnswerBox>
-                  <RadioButton type="radio" name="awiTrendSelection" value={FutureAwiTrendEnum.HIGH} onChange={this.handleSelection} checked={awiTrendSelection === FutureAwiTrendEnum.HIGH} />
+                  <RadioButton type="radio" name="awiTrendSelection" value={PiaTypeOfBenefitIncreaseAssumption.alternative1Optimistic} onChange={this.handleSelection} checked={awiTrendSelection === PiaTypeOfBenefitIncreaseAssumption.alternative1Optimistic} />
                   <LabelText>High (Economy goes well)</LabelText>
                 </AnswerBox>
               </Card>

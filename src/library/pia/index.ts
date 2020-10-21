@@ -1,10 +1,11 @@
-import { PiaFormat } from "./pia-format";
+import { PiaFormat} from "./pia-format";
 import {
   UserProfile,
   EarningsRecord,
   EarningsMap,
+  FutureAwiPredictionEnum,
 } from "../user-state-context";
-import { PiaYear, PiaEarnings } from "./pia-types";
+import { PiaYear, PiaEarnings, PiaTypeOfWageIncreaseAssumption} from "./pia-types";
 
 import Module from "../anypiajs.mjs"; //remember https://stackoverflow.com/a/63592692/272018
 // The above ES6 module is built from SSA.gov open source C++ AnyPIA by
@@ -31,7 +32,9 @@ export async function finalCalculation (
   birthDatePicked: string,
   retireDatePicked: Date,
   userPension: number | null | undefined,
-  earningsObj: EarningsRecord | null
+  earningsObj: EarningsRecord | null,
+  awiTrendOrManualPrediction: FutureAwiPredictionEnum | null,
+  awiTrendSelection: PiaTypeOfWageIncreaseAssumption  | null
 ) {
 
   // quit out if earningsObj is null
@@ -54,7 +57,14 @@ export async function finalCalculation (
     .setBirthDate(new Date(birthDatePicked))
     .setEntitlementDate(new Date(retireDatePicked))
     .setMonthlyNoncoveredPensionAmount(userPension)
-    .setOasdiEarnings(earningsRecords);
+    .setOasdiEarnings(earningsRecords)
+    .setAvgWageIncreaseAssumption(awiTrendSelection)
+    .setBenefitIncreaseAssumption(5)
+    .setMaxWageBaseProjectionInd(1)
+    .setFirstYearBenefitProjection(2020)
+    .setForwardProjectionType(0)
+    .setLastYearForwardEarningsProjection(2010)
+    .setForwardProjectionPercentage(0.1);
 
   const piaOutput = piaFormat.outputPia();
   console.log(piaOutput);
