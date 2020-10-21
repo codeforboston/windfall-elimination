@@ -13,9 +13,6 @@ const AgeSlider = ({ fullRetirementDate, birthDate, preferPiaUserCalcValue, ageY
   const fullRetirementMonthLabel = dayjs(fullRetirementDate).format('MMM');
   const birthMonthLabel = dayjs(birthDate).format('MMM');
   const eleventhMonthLabel = dayjs(birthDate).add(11, 'month').format('MMM');
-  console.log(fullRetirementMonthLabel);
-  console.log(birthMonthLabel);
-  console.log(eleventhMonthLabel);
   
   return (
     <React.Fragment>
