@@ -200,20 +200,16 @@ export class Screen2 extends React.Component<Screen2Props, Screen2State> {
     const preferPiaUserCalcValueFastOrSlow =
       preferPiaUserCalcValue || preferPiaUserCalc;
 
-    //if 70 yo, set month of retirement to 0, as 70 yo is the maximum retirement age.
-    const ageMonthsOnlyToUse = ageYearsOnly === 70 ? 0 : ageMonthsOnly;
+    //if 70 yo, set month of retirement to 0, as 70 yo is the maximum retirement age. If 62 yo, set minimum months to 1, as 62 and 1 month is the minimum retirement age.
+    const ageMonthsOnlyToUse = (ageYearsOnly === 70 ? 0 : ageMonthsOnly) || (ageYearsOnly === 62 && ageMonthsOnly === 0 ? 1: ageMonthsOnly);
 
     const retireAge = ageYearsOnly + (ageMonthsOnlyToUse / 12);
-
-    //if 62 yo, add an extra month, as required by AnyPIA calculator.
-    const adjustMonthsFor62yo = retireAge === 62 ? 1 : 0;
 
     const userDOB = birthDate.toLocaleDateString("en-US");
 
     const userDOR = dayjs(userDOB)
       .add(ageYearsOnly, "year")
       .add(ageMonthsOnlyToUse, "month")
-      .add(adjustMonthsFor62yo, "month")
       .toDate();
 
     const userCalc = await this.computeUserCalc(
