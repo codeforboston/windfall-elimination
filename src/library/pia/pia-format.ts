@@ -198,8 +198,8 @@ const oasdiEarningsSerializer: PiaSerializer = new (class {
   // all start at 3 and continue for number of entries based on other values.
   constructor() {
     this.fieldFormats = {
-      firstEarningYearActual: new PiaFieldMeta().setStartChar(3).setEndChar(6),
-      lastEarningYearActual: new PiaFieldMeta().setStartChar(7).setEndChar(10),
+      firstEarningYear: new PiaFieldMeta().setStartChar(3).setEndChar(6),
+      lastEarningYear: new PiaFieldMeta().setStartChar(7).setEndChar(10),
       typeOfEarnings: new PiaFieldMeta().setStartChar(3).setFieldCharLength(1), //TODO: use fieldCharLength with generic
       typeOfTaxes: new PiaFieldMeta().setStartChar(3), //line21
       oasdiEarnings: new PiaFieldMeta()
@@ -212,6 +212,14 @@ const oasdiEarningsSerializer: PiaSerializer = new (class {
         .setStartLine(30)
         .setEndLine(37)
         .setFieldCharLength(11),
+      forwardProjectionType: new PiaFieldMeta().setStartChar(3).setEndChar(3),
+      forwardProjectionPercentage: new PiaFieldMeta()
+        .setStartChar(4)
+        .setEndChar(9),
+      firstYearForwardEarningsProjections: new PiaFieldMeta()
+        .setStartChar(10)
+        .setEndChar(13),
+      
     };
   }
 
@@ -227,6 +235,32 @@ const oasdiEarningsSerializer: PiaSerializer = new (class {
           : this.fieldFormats.lastEarningYear.getBlank()
       }`,
     };
+    const line8 = {
+      8: `08${
+        data.forwardProjectionType != undefined
+          ? data.forwardProjectionType
+          : this.fieldFormats.forwardProjectionType.getBlank()
+      }${
+        data.forwardProjectionPercentage != undefined
+          ? PiaUtils.formatPiaFloat(data.forwardProjectionPercentage).padStart(
+              this.fieldFormats.forwardProjectionPercentage.endChar -
+                this.fieldFormats.forwardProjectionPercentage.startChar +
+                1,
+              " "
+            )
+          : this.fieldFormats.forwardProjectionPercentage.getBlank()
+      }${
+        data.firstYearForwardEarningsProjections != undefined
+          ? data.firstYearForwardEarningsProjections
+          : this.fieldFormats.firstYearForwardEarningsProjections.getBlank()
+      }`,
+    };
+
+    const hasAnyLine8 =
+      data.forwardProjectionType ||
+      data.forwardProjectionPercentage ||
+      data.firstYearForwardEarningsProjections;
+    
 
     //TODO: line20, line2
     const line20 = {
@@ -277,6 +311,7 @@ const oasdiEarningsSerializer: PiaSerializer = new (class {
                     " "
                   )
                 )
+    
                 .join("") //join is converting the array to a string with "" as a separator
             : this.fieldFormats.oasdiEarnings.getBlank()
         }`,
@@ -286,7 +321,7 @@ const oasdiEarningsSerializer: PiaSerializer = new (class {
     return {
       ...line6,
       //...line7,
-      //...line8,
+      ...(hasAnyLine8 && line8), 
       ...(data.typeOfEarnings && line20),
       //...line21,
       ...line22to29,
@@ -322,7 +357,34 @@ const oasdiEarningsSerializer: PiaSerializer = new (class {
     /* TODO deserialize line 7 (backward projections of income)
         and 8 (forward projection of income)
         8 is more useful than 7 but sample25 sort of has examples of both*/
-
+    let line8 = lineMap[8];
+    let line8Data = line8
+      ? {
+          forwardProjectionType: parseInt(
+            PiaUtils.piaSubstr(
+              line8,
+              this.fieldFormats.forwardProjectionType.startChar,
+              this.fieldFormats.forwardProjectionType.endChar
+            ),
+            10
+          ),
+          forwardProjectionPercentage: PiaUtils.parsePiaFloat(
+            PiaUtils.piaSubstr(
+              line8,
+              this.fieldFormats.forwardProjectionPercentage.startChar,
+              this.fieldFormats.forwardProjectionPercentage.endChar
+            )
+          ),
+          lastYearForwardEarningsProjections: parseInt(
+            PiaUtils.piaSubstr(
+              line8,
+              this.fieldFormats.firstYearForwardEarningsProjections.startChar,
+              this.fieldFormats.firstYearForwardEarningsProjections.endChar
+            ),
+            10
+          ),
+        }
+      : {};
     /* process line 22-29 for lifetime OASDI earnings */
     var lineYear = line6Data.firstEarningYear || 1950; //TODO: remove stub, calculate from line7 AND line 6.
     let oasdiData: Map<PiaTypes.PiaYear, PiaTypes.PiaEarnings> = new Map<
@@ -412,7 +474,7 @@ const oasdiEarningsSerializer: PiaSerializer = new (class {
           typeOfEarnings: PiaUtils.parsePiaTypeOfEarningsString(
             line20Str,
             this.fieldFormats.typeOfEarnings.startChar,
-            line6Data.firstEarningYearActual || 1950 //TODO: remove stub, calculate from line7 AND line 6.
+            line6Data.firstEarningYear || 1950 //TODO: remove stub, calculate from line7 AND line 6.
           ),
         }
       : {};
@@ -420,7 +482,7 @@ const oasdiEarningsSerializer: PiaSerializer = new (class {
     return {
       ...line6Data,
       //...line7,
-      //...line8,
+      ...line8Data,
       ...line20Data,
       ...line22To29Data,
       ...line30To37Data,
@@ -574,17 +636,10 @@ const forwardProjectionSerializer: PiaSerializer = new (class {
   fieldFormats: Record<string, PiaFieldMeta>;
   constructor() {
     this.fieldFormats = {
-      forwardProjectionType: new PiaFieldMeta().setStartChar(3).setEndChar(3),
-      forwardProjectionPercentage: new PiaFieldMeta()
-        .setStartChar(4)
-        .setEndChar(9),
-      lastYearForwardEarningsProjections: new PiaFieldMeta()
-        .setStartChar(10)
-        .setEndChar(13),
-      firstYearBenefitProjection: new PiaFieldMeta()
+      firstYearProjectedEarningsForQC: new PiaFieldMeta()
         .setStartChar(3)
         .setEndChar(6),
-      benefitIncreaseAssumption: new PiaFieldMeta()
+      earningsForQCIncreaseAssumption: new PiaFieldMeta()
         .setStartChar(7)
         .setEndChar(7),
       avgWageIncreaseAssumption: new PiaFieldMeta()
@@ -595,37 +650,18 @@ const forwardProjectionSerializer: PiaSerializer = new (class {
         .setEndChar(9),
     };
   }
-  //TODO line 8 serializers and deserializes should be placed with line 6
+  
   serialize(data: Partial<PiaTypes.PiaData>): PiaTypes.PiaLineMap {
-    const line8 = {
-      8: `08${
-        data.forwardProjectionType != undefined
-          ? data.forwardProjectionType
-          : this.fieldFormats.forwardProjectionType.getBlank()
-      }${
-        data.forwardProjectionPercentage != undefined
-          ? PiaUtils.formatPiaFloat(data.forwardProjectionPercentage).padStart(
-              this.fieldFormats.forwardProjectionPercentage.endChar -
-                this.fieldFormats.forwardProjectionPercentage.startChar +
-                1,
-              " "
-            )
-          : this.fieldFormats.forwardProjectionPercentage.getBlank()
-      }${
-        data.firstYearForwardEarningsProjections != undefined
-          ? data.firstYearForwardEarningsProjections
-          : this.fieldFormats.lastYearForwardEarningsProjections.getBlank()
-      }`,
-    };
+
     const line40 = {
       40: `40${
         data.firstYearProjectedEarningsForQC != undefined
           ? data.firstYearProjectedEarningsForQC
-          : this.fieldFormats.firstYearBenefitProjection.getBlank()
+          : this.fieldFormats.firstYearProjectedEarningsForQC.getBlank()
       }${
         data.earningsForQCIncreaseAssumption != undefined
           ? data.earningsForQCIncreaseAssumption
-          : this.fieldFormats.benefitIncreaseAssumption.getBlank()
+          : this.fieldFormats.earningsForQCIncreaseAssumption.getBlank()
       }${
         data.avgWageIncreaseAssumption != undefined
           ? data.avgWageIncreaseAssumption
@@ -637,62 +673,31 @@ const forwardProjectionSerializer: PiaSerializer = new (class {
       }`,
     };
 
-    const hasAnyLine8 =
-      data.forwardProjectionType ||
-      data.forwardProjectionPercentage ||
-      data.firstYearForwardEarningsProjections;
     const hasAnyLine40 =
       data.firstYearProjectedEarningsForQC ||
       data.earningsForQCIncreaseAssumption||
       data.avgWageIncreaseAssumption ||
       data.maxWageBaseProjectionInd;
-    return { ...(hasAnyLine8 && line8), ...(hasAnyLine40 && line40) };
+    return { ...(hasAnyLine40 && line40) };
   }
   deserialize(lineMap: PiaTypes.PiaLineMap): Partial<PiaTypes.PiaData> {
-    let line8 = lineMap[8];
-    let line8Data = line8
-      ? {
-          forwardProjectionType: parseInt(
-            PiaUtils.piaSubstr(
-              line8,
-              this.fieldFormats.forwardProjectionType.startChar,
-              this.fieldFormats.forwardProjectionType.endChar
-            ),
-            10
-          ),
-          forwardProjectionPercentage: PiaUtils.parsePiaFloat(
-            PiaUtils.piaSubstr(
-              line8,
-              this.fieldFormats.forwardProjectionPercentage.startChar,
-              this.fieldFormats.forwardProjectionPercentage.endChar
-            )
-          ),
-          lastYearForwardEarningsProjections: parseInt(
-            PiaUtils.piaSubstr(
-              line8,
-              this.fieldFormats.lastYearForwardEarningsProjections.startChar,
-              this.fieldFormats.lastYearForwardEarningsProjections.endChar
-            ),
-            10
-          ),
-        }
-      : {};
+    
     let line40 = lineMap[40];
     let line40Data = line40
       ? {
-          firstYearBenefitProjection: parseInt(
+          firstYearProjectedEarningsForQC: parseInt(
             PiaUtils.piaSubstr(
               line40,
-              this.fieldFormats.firstYearBenefitProjection.startChar,
-              this.fieldFormats.firstYearBenefitProjection.endChar
+              this.fieldFormats.firstYearProjectedEarningsForQC.startChar,
+              this.fieldFormats.firstYearProjectedEarningsForQC.endChar
             ),
             10
           ),
-          benefitIncreaseAssumption: parseInt(
+          earningsForQCIncreaseAssumption: parseInt(
             PiaUtils.piaSubstr(
               line40,
-              this.fieldFormats.benefitIncreaseAssumption.startChar,
-              this.fieldFormats.benefitIncreaseAssumption.endChar
+              this.fieldFormats.earningsForQCIncreaseAssumption.startChar,
+              this.fieldFormats.earningsForQCIncreaseAssumption.endChar
             ),
             10
           ),
@@ -714,7 +719,7 @@ const forwardProjectionSerializer: PiaSerializer = new (class {
           ),
         }
       : {};
-    return { ...line8Data, ...line40Data };
+    return {  ...line40Data };
   }
 })();
 
@@ -1023,13 +1028,13 @@ export class PiaFormat {
     //TODO - this may not necessary map to first and last year of reported earnings.
     // this includes both projected and entered earnings.
     //We may need to remove this line altogether.
-    this.piaData.firstEarningYear = Math.min(
-      ...Array.from(oasdiEarnings.keys())
-    );
+    //this.piaData.firstEarningYear = Math.min(
+    //  ...Array.from(oasdiEarnings.keys())
+    //);
     
-    this.piaData.lastEarningYear = Math.max(
-      ...Array.from(oasdiEarnings.keys())
-    );
+    //this.piaData.lastEarningYear = Math.max(
+    //  ...Array.from(oasdiEarnings.keys())
+    //);
 
     // this.piaData.oldQuartersOfCoverageStubString = PiaUtils.piaSubstr(
     //   '95 40 40',
