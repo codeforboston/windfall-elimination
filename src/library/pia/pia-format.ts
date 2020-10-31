@@ -1,6 +1,7 @@
 import * as PiaTypes from "./pia-types";
 import * as PiaUtils from "./pia-utils";
 import { EarningsRecord, EarningsMap } from "../user-state-context";
+import { log2 } from "dist/dist/dist/dist/public/vendors~pdfjsWorker.render-page";
 
 /* based on http://thadk.net/anypiamac-docs/html/General/structure.html 
 copied from SSA AnyPia downloadable package */
@@ -217,13 +218,13 @@ const oasdiEarningsSerializer: PiaSerializer = new (class {
   serialize(data: Partial<PiaTypes.PiaData>): PiaTypes.PiaLineMap {
     const line6 = {
       6: `06${
-        data.firstEarningYearActual != undefined
-          ? data.firstEarningYearActual
-          : this.fieldFormats.firstEarningYearActual.getBlank()
+        data.firstEarningYear != undefined
+          ? data.firstEarningYear
+          : this.fieldFormats.firstEarningYear.getBlank()
       }${
-        data.lastEarningYearActual != undefined
-          ? data.lastEarningYearActual
-          : this.fieldFormats.lastEarningYearActual.getBlank()
+        data.lastEarningYear != undefined
+          ? data.lastEarningYear
+          : this.fieldFormats.lastEarningYear.getBlank()
       }`,
     };
 
@@ -299,19 +300,19 @@ const oasdiEarningsSerializer: PiaSerializer = new (class {
 
     const line6Data = line6Str
       ? {
-          firstEarningYearActual: parseInt(
+          firstEarningYear: parseInt(
             PiaUtils.piaSubstr(
               line6Str,
-              this.fieldFormats.firstEarningYearActual.startChar,
-              this.fieldFormats.firstEarningYearActual.endChar || 0 //TODO: handle undefined
+              this.fieldFormats.firstEarningYear.startChar,
+              this.fieldFormats.firstEarningYear.endChar || 0 //TODO: handle undefined
             ),
             10
           ),
-          lastEarningYearActual: parseInt(
+          lastEarningYear: parseInt(
             PiaUtils.piaSubstr(
               line6Str,
-              this.fieldFormats.lastEarningYearActual.startChar,
-              this.fieldFormats.lastEarningYearActual.endChar || 0 //TODO: handle undefined
+              this.fieldFormats.lastEarningYear.startChar,
+              this.fieldFormats.lastEarningYear.endChar || 0 //TODO: handle undefined
             ),
             10
           ),
@@ -323,7 +324,7 @@ const oasdiEarningsSerializer: PiaSerializer = new (class {
         8 is more useful than 7 but sample25 sort of has examples of both*/
 
     /* process line 22-29 for lifetime OASDI earnings */
-    var lineYear = line6Data.firstEarningYearActual || 1950; //TODO: remove stub, calculate from line7 AND line 6.
+    var lineYear = line6Data.firstEarningYear || 1950; //TODO: remove stub, calculate from line7 AND line 6.
     let oasdiData: Map<PiaTypes.PiaYear, PiaTypes.PiaEarnings> = new Map<
       PiaTypes.PiaYear,
       PiaTypes.PiaEarnings
@@ -355,7 +356,7 @@ const oasdiEarningsSerializer: PiaSerializer = new (class {
       }
     }
 
-    lineYear = line6Data.firstEarningYearActual || 1950; //TODO: remove stub, calculate from line7 AND line 6.
+    lineYear = line6Data.firstEarningYear || 1950; //TODO: remove stub, calculate from line7 AND line 6.
     var hiData: Map<PiaTypes.PiaYear, PiaTypes.PiaEarnings> = new Map<
       PiaTypes.PiaYear,
       PiaTypes.PiaEarnings
@@ -594,6 +595,7 @@ const forwardProjectionSerializer: PiaSerializer = new (class {
         .setEndChar(9),
     };
   }
+  //TODO line 8 serializers and deserializes should be placed with line 6
   serialize(data: Partial<PiaTypes.PiaData>): PiaTypes.PiaLineMap {
     const line8 = {
       8: `08${
@@ -610,19 +612,19 @@ const forwardProjectionSerializer: PiaSerializer = new (class {
             )
           : this.fieldFormats.forwardProjectionPercentage.getBlank()
       }${
-        data.lastYearForwardEarningsProjections != undefined
-          ? data.lastYearForwardEarningsProjections
+        data.firstYearForwardEarningsProjections != undefined
+          ? data.firstYearForwardEarningsProjections
           : this.fieldFormats.lastYearForwardEarningsProjections.getBlank()
       }`,
     };
     const line40 = {
       40: `40${
-        data.firstYearBenefitProjection != undefined
-          ? data.firstYearBenefitProjection
+        data.firstYearProjectedEarningsForQC != undefined
+          ? data.firstYearProjectedEarningsForQC
           : this.fieldFormats.firstYearBenefitProjection.getBlank()
       }${
-        data.benefitIncreaseAssumption != undefined
-          ? data.benefitIncreaseAssumption
+        data.earningsForQCIncreaseAssumption != undefined
+          ? data.earningsForQCIncreaseAssumption
           : this.fieldFormats.benefitIncreaseAssumption.getBlank()
       }${
         data.avgWageIncreaseAssumption != undefined
@@ -638,10 +640,10 @@ const forwardProjectionSerializer: PiaSerializer = new (class {
     const hasAnyLine8 =
       data.forwardProjectionType ||
       data.forwardProjectionPercentage ||
-      data.lastYearForwardEarningsProjections;
+      data.firstYearForwardEarningsProjections;
     const hasAnyLine40 =
-      data.firstYearBenefitProjection ||
-      data.benefitIncreaseAssumption ||
+      data.firstYearProjectedEarningsForQC ||
+      data.earningsForQCIncreaseAssumption||
       data.avgWageIncreaseAssumption ||
       data.maxWageBaseProjectionInd;
     return { ...(hasAnyLine8 && line8), ...(hasAnyLine40 && line40) };
@@ -745,7 +747,7 @@ const earningsProjectionStubSerializer: PiaSerializer = new (class {
     //     : this.fieldFormats.futureProjectionStubString.getBlank()
     //  }`,
     //};
-
+    
     return {
       ...(data.pastProjectionStubString && line7),
       //   ...(data.futureProjectionStubString && line8),
@@ -773,6 +775,10 @@ const earningsProjectionStubSerializer: PiaSerializer = new (class {
     //       ),
     //      }
     //     : {};
+    if (line7Data != {}) {
+      console.warn("Line 7 (backwards projections) is not supported by pia-format");
+      
+    }
     return { ...line7Data };
   }
 })();
@@ -830,8 +836,8 @@ function initializePiaData(): PiaTypes.PiaData & PiaTypes.PiaDataAdapter {
     typeOfBenefit: PiaTypes.SSABenefitType.oldAge,
     monthYearBenefit: undefined,
     monthYearEntitlement: undefined,
-    firstEarningYearActual: undefined,
-    lastEarningYearActual: undefined,
+    firstEarningYear: undefined,
+    lastEarningYear: undefined,
     typeOfEarnings: undefined,
     typeOfTaxes: undefined,
     oasdiEarnings: undefined,
@@ -846,9 +852,9 @@ function initializePiaData(): PiaTypes.PiaData & PiaTypes.PiaDataAdapter {
     piaEverythingElse: undefined,
     forwardProjectionType: undefined,
     forwardProjectionPercentage: undefined,
-    lastYearForwardEarningsProjections: undefined,
-    firstYearBenefitProjection: undefined,
-    benefitIncreaseAssumption: undefined,
+    firstYearForwardEarningsProjections: undefined,
+    firstYearProjectedEarningsForQC: undefined,
+    earningsForQCIncreaseAssumption: undefined,
     avgWageIncreaseAssumption: undefined,
     maxWageBaseProjectionInd: undefined,
 
@@ -894,17 +900,17 @@ function initializePiaData(): PiaTypes.PiaData & PiaTypes.PiaDataAdapter {
     setMonthYearEntitelemnt(value) {
       this.monthYearEntitlement = value;
     },
-    getFirstEarningYearActual() {
-      return this.firstEarningYearActual;
+    getFirstEarningYear() {
+      return this.firstEarningYear;
     },
-    setFirstEarningYearActual(value) {
-      this.firstEarningYearActual = value;
+    setFirstEarningYear(value) {
+      this.firstEarningYear = value;
     },
-    getLastEarningYearActual() {
-      return this.lastEarningYearActual;
+    getLastEarningYear() {
+      return this.lastEarningYear;
     },
-    setLastEarningYearActual(value) {
-      this.lastEarningYearActual = value;
+    setLastEarningYear(value) {
+      this.lastEarningYear = value;
     },
     getTypeOfEarnings() {
       return this.typeOfEarnings;
@@ -1014,11 +1020,14 @@ export class PiaFormat {
     this.piaData.oasdiEarnings = mapMap(oasdiEarnings, (v, k) =>
       (v && v === -1) || v === "-1" ? 0 : v
     );
-
-    this.piaData.firstEarningYearActual = Math.min(
+    //TODO - this may not necessary map to first and last year of reported earnings.
+    // this includes both projected and entered earnings.
+    //We may need to remove this line altogether.
+    this.piaData.firstEarningYear = Math.min(
       ...Array.from(oasdiEarnings.keys())
     );
-    this.piaData.lastEarningYearActual = Math.max(
+    
+    this.piaData.lastEarningYear = Math.max(
       ...Array.from(oasdiEarnings.keys())
     );
 
@@ -1067,32 +1076,32 @@ export class PiaFormat {
     return this;
   }
 
-  getLastYearForwardEarningsProjection() {
-    return this.piaData.lastYearForwardEarningsProjections;
+  getFirstYearForwardEarningsProjection() {
+    return this.piaData.firstYearForwardEarningsProjections;
   }
 
-  setLastYearForwardEarningsProjection(lastYear: PiaTypes.PiaYear | undefined) {
-    this.piaData.lastYearForwardEarningsProjections = lastYear;
+  setFirstYearForwardEarningsProjection(lastYear: PiaTypes.PiaYear | undefined) {
+    this.piaData.firstYearForwardEarningsProjections = lastYear;
     return this;
   }
 
-  getFirstYearBenefitProjection() {
-    return this.piaData.firstYearBenefitProjection;
+  getFirstYearProjectedEarningsForQC() {
+    return this.piaData.firstYearProjectedEarningsForQC;
   }
 
-  setFirstYearBenefitProjection(projection: PiaTypes.PiaYear | undefined) {
-    this.piaData.firstYearBenefitProjection = projection;
+  setFirstYearProjectedEarningsForQC(projection: PiaTypes.PiaYear | undefined) {
+    this.piaData.firstYearProjectedEarningsForQC = projection;
     return this;
   }
 
-  getBenefitIncreaseAssumption() {
-    return this.piaData.benefitIncreaseAssumption;
+  getEarningsForQCIncreaseAssumption() {
+    return this.piaData.earningsForQCIncreaseAssumption;
   }
 
-  setBenefitIncreaseAssumption(
+  setEarningsForQCIncreaseAssumption(
     assumption: PiaTypes.PiaTypeOfBenefitIncreaseAssumption | undefined
   ) {
-    this.piaData.benefitIncreaseAssumption = assumption;
+    this.piaData.earningsForQCIncreaseAssumption = assumption;
     return this;
   }
 

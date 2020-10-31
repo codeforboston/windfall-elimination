@@ -78,8 +78,8 @@ export interface PiaData {
   typeOfBenefit?: SSABenefitType; //line 4
   monthYearBenefit?: PiaMonthYear;
   monthYearEntitlement?: PiaMonthYear;
-  firstEarningYearActual?: PiaYear; //line6
-  lastEarningYearActual?: PiaYear;
+  firstEarningYear?: PiaYear; //line6 //first year of projected and inputed earnings
+  lastEarningYear?: PiaYear; //end of projected and inputed earnings
   typeOfEarnings?: Map<PiaYear, PiaTypeOfEarnings>; //line20
   typeOfTaxes?: Map<PiaYear, PiaTypeOfTaxes>; //line21
   oasdiEarnings?: Map<PiaYear, PiaEarnings>; //line22-29
@@ -93,9 +93,9 @@ export interface PiaData {
   //futureProjectionStubString?: string;
   forwardProjectionType?: PiaTypeOfProjections; //line 8
   forwardProjectionPercentage?: PiaFloat; //line 8
-  lastYearForwardEarningsProjections?: PiaYear; //line 8
-  firstYearBenefitProjection?: PiaYear; //line 40, computation year
-  benefitIncreaseAssumption?: PiaTypeOfBenefitIncreaseAssumption; //line 40
+  firstYearForwardEarningsProjections?: PiaYear; //line 8
+  firstYearProjectedEarningsForQC?: PiaYear; //line 40
+  earningsForQCIncreaseAssumption?: PiaTypeOfBenefitIncreaseAssumption; //line 40
   avgWageIncreaseAssumption?: PiaTypeOfWageIncreaseAssumption; //line 40
   maxWageBaseProjectionInd?: PiaTypeOfMaxWageBaseProjection; //line 40
 
@@ -125,11 +125,11 @@ export interface PiaDataAdapter {
   getMonthYearEntitlement(): PiaMonthYear | undefined;
   setMonthYearEntitelemnt(value: PiaMonthYear | undefined): void;
 
-  getFirstEarningYearActual(): PiaYear | undefined;
-  setFirstEarningYearActual(value: PiaYear | undefined): void;
+  getFirstEarningYear(): PiaYear | undefined;
+  setFirstEarningYear(value: PiaYear | undefined): void;
 
-  getLastEarningYearActual(): PiaYear | undefined;
-  setLastEarningYearActual(value: PiaYear | undefined): void;
+  getLastEarningYear(): PiaYear | undefined;
+  setLastEarningYear(value: PiaYear | undefined): void;
 
   getTypeOfEarnings(): Map<PiaYear, PiaTypeOfEarnings> | undefined;
   setTypeOfEarnings(value: Map<PiaYear, PiaTypeOfEarnings> | undefined): void;
