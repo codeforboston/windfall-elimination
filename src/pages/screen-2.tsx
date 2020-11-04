@@ -101,6 +101,7 @@ export class Screen2 extends React.Component<Screen2Props, Screen2State> {
         pensionOrRetirementAccount,
         pensionAmount,
         pensionDateAwarded,
+        expectedLastEarningYear,
         awiTrendOrManualPrediction,
         awiTrendSelection,
         // preferPiaUserCalc, //use the one passed in, in order to avoid localStorage delay.
@@ -144,7 +145,7 @@ export class Screen2 extends React.Component<Screen2Props, Screen2State> {
     }
 
     if (preferPiaUserCalcValue) {
-      return await finalCalculation(userDOB, userDOR, userPension, earnings, awiTrendOrManualPrediction,
+      return await finalCalculation(userDOB, userDOR, userPension, earnings, expectedLastEarningYear, awiTrendOrManualPrediction,
         awiTrendSelection);
     } else {
       const userAIME = ObsFuncs.getAIMEFromEarnings(earnings, year62);

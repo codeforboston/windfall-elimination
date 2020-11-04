@@ -78,12 +78,16 @@ class Prescreen1d extends React.Component<Prescreen1dProps> {
   handleSelection = (e: React.ChangeEvent<HTMLInputElement>) => {
     const {
       userStateActions: {
+        setExpectedLastEarningYear,
         setAwiTrendOrManualPrediction,
         setAwiTrendSelection
       }
     } = this.props
     const selectValueString = e.target.value;
     switch (e.target.name) {
+      case "expectedLastEarningYear":
+        setExpectedLastEarningYear(parseInt(selectValueString, 10))
+        break;
       case "awiTrendSelection":
         setAwiTrendSelection(parseInt(selectValueString, 10) as PiaTypeOfBenefitIncreaseAssumption)
         break;
@@ -98,6 +102,7 @@ class Prescreen1d extends React.Component<Prescreen1dProps> {
       userState: {
         pensionDateAwarded,
         pensionAmount,
+        expectedLastEarningYear,
         awiTrendOrManualPrediction,
         awiTrendSelection,
         isManual
@@ -112,6 +117,19 @@ class Prescreen1d extends React.Component<Prescreen1dProps> {
         <ContentContainer>
           <CardGlossaryContainer>
           <TopQuestionAndTitle><H2>Your Earnings In the Years Ahead</H2>
+            <Card>
+                <label>
+                  <QuestionText>
+                    Please enter the last year you expect to earn.
+                  </QuestionText>
+                  <AnswerInputDiscouragePlaceholder
+                    name="expectedLastEarningYear"
+                    defaultValue={expectedLastEarningYear ?? undefined}
+                    placeholder={'2020'}  
+                    onChange={this.handleSelection}
+                  ></AnswerInputDiscouragePlaceholder>
+                </label>
+            </Card>
             <Card>
               <QuestionText>
                 How would you like to estimate your future earnings?

@@ -60,6 +60,10 @@ const usePreferPiaUserCalcState = createPersistedState(
   "preferPiaUserCalcState",
   global.sessionStorage
 );
+const useExpectedLastEarningYear = createPersistedState(
+  "ExpectedLastEarningYear",
+  global.sessionStorage
+);
 const useAwiTrendOrManualPrediction = createPersistedState(
   "awiTrendOrManualPrediction",
   global.sessionStorage
@@ -152,9 +156,6 @@ export default function UserStateManager(
     pensionOrRetirementAccount,
     setPensionOrRetirementAccount,
   ] = usePensionOrRetirementAccountState<PensionEnum | null>(null);
-  const [pensionAmount, setPensionAmount] = usePensionAmountState<
-    number | null
-  >(null);
   const [
     pensionDateAwarded,
     setPensionDateAwarded,
@@ -165,6 +166,12 @@ export default function UserStateManager(
   const [preferPiaUserCalc, setPreferPiaUserCalc] = usePreferPiaUserCalcState<
     boolean | null
   >(false);
+  const [pensionAmount, setPensionAmount] = usePensionAmountState<
+  number | null
+>(null);
+  const [expectedLastEarningYear, setExpectedLastEarningYear] = useExpectedLastEarningYear<
+  number | null
+  >(2020);
   const [
     awiTrendOrManualPrediction,
     setAwiTrendOrManualPrediction,
@@ -206,6 +213,7 @@ export default function UserStateManager(
       pensionDateAwarded,
       userProfile,
       preferPiaUserCalc,
+      expectedLastEarningYear,
       awiTrendOrManualPrediction,
       awiTrendSelection,
     }),
@@ -243,6 +251,7 @@ export default function UserStateManager(
       setPensionDateAwarded,
       setUserProfile,
       setPreferPiaUserCalc,
+      setExpectedLastEarningYear,
       setAwiTrendOrManualPrediction,
       setAwiTrendSelection,
     }),
@@ -260,6 +269,7 @@ export default function UserStateManager(
       setPensionDateAwarded,
       setUserProfile,
       setPreferPiaUserCalc,
+      setExpectedLastEarningYear,
       setAwiTrendOrManualPrediction,
       setAwiTrendSelection,
     ]

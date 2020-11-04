@@ -61,6 +61,7 @@ export interface UserState {
   pensionDateAwarded: Date | null;
   userProfile: UserProfile | null;
   preferPiaUserCalc: boolean | null;
+  expectedLastEarningYear: number | null;
   awiTrendOrManualPrediction: FutureAwiPredictionEnum | null;
   awiTrendSelection: PiaTypeOfBenefitIncreaseAssumption | null;
 }

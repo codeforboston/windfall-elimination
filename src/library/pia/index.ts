@@ -33,6 +33,7 @@ export async function finalCalculation (
   retireDatePicked: Date,
   userPension: number | null | undefined,
   earningsObj: EarningsRecord | null,
+  expectedLastEarningYear: number | null,
   awiTrendOrManualPrediction: FutureAwiPredictionEnum | null,
   awiTrendSelection: PiaTypeOfWageIncreaseAssumption  | null
 ) {
@@ -75,7 +76,7 @@ export async function finalCalculation (
     .setMonthlyNoncoveredPensionAmount(userPension)
     .setOasdiEarnings(earningsRecords)
     .setFirstEarningYear(1981)
-    .setLastEarningYear(2020)
+    .setLastEarningYear(expectedLastEarningYear || mapLastEarningYear)
     .setAvgWageIncreaseAssumption(awiTrendSelection)
     .setEarningsForQCIncreaseAssumption(5)
     .setMaxWageBaseProjectionInd(1)

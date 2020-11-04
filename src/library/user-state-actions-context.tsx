@@ -23,6 +23,7 @@ export interface UserStateActions {
   setPensionDateAwarded: (date: Date) => void;
   setUserProfile: (profile: UserProfile) => void;
   setPreferPiaUserCalc: (setPreferPiaUserCalc: boolean) => void;
+  setExpectedLastEarningYear: (expectedLastEarningYear: number) => void;
   setAwiTrendOrManualPrediction: (value: FutureAwiPredictionEnum) => void;
   setAwiTrendSelection: (value: PiaTypeOfBenefitIncreaseAssumption ) => void;
 }
