@@ -905,18 +905,6 @@ function initializePiaData(): PiaTypes.PiaData & PiaTypes.PiaDataAdapter {
     setMonthYearEntitelemnt(value) {
       this.monthYearEntitlement = value;
     },
-    getFirstEarningYear() {
-      return this.firstEarningYear;
-    },
-    setFirstEarningYear(value) {
-      this.firstEarningYear = value;
-    },
-    getLastEarningYear() {
-      return this.lastEarningYear;
-    },
-    setLastEarningYear(value) {
-      this.lastEarningYear = value;
-    },
     getTypeOfEarnings() {
       return this.typeOfEarnings;
     },
@@ -1048,6 +1036,22 @@ export class PiaFormat {
 
   getOasdiEarnings() {
     return this.piaData.oasdiEarnings;
+  }
+
+  getFirstEarningYear() {
+    return this.piaData.firstEarningYear;
+  }
+
+  setFirstEarningYear(value: PiaTypes.PiaYear) {
+    this.piaData.firstEarningYear = value;
+    return this;
+  }
+  getLastEarningYear() {
+    return this.piaData.lastEarningYear;
+  }
+  setLastEarningYear(value: PiaTypes.PiaYear) {
+    this.piaData.lastEarningYear = value;
+    return this;
   }
 
   getMonthlyNoncoveredPensionAmount() {

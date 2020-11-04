@@ -51,6 +51,22 @@ export async function finalCalculation (
     onlyIntsObject
   );
 
+  function mapMap(map, fn) {
+    return new Map(
+      Array.from(map, ([key, value]) => [key, fn(value, key, map)])
+    );
+  }
+
+  const mapOasdiEarnings = mapMap(earningsRecords, (v, k) =>
+    (v && v === -1) || v === "-1" ? 0 : v
+  );
+  const mapFirstEarningYear = Math.min(
+    ...Array.from(mapOasdiEarnings.keys())
+  );
+  const mapLastEarningYear = Math.max(
+    ...Array.from(mapOasdiEarnings.keys())
+  );
+
   // Generate the AnyPIA format string like the known good one but
   //  based on the personalized user input
   const piaFormat = new PiaFormat("")
@@ -58,12 +74,14 @@ export async function finalCalculation (
     .setEntitlementDate(new Date(retireDatePicked))
     .setMonthlyNoncoveredPensionAmount(userPension)
     .setOasdiEarnings(earningsRecords)
+    .setFirstEarningYear(1981)
+    .setLastEarningYear(2020)
     .setAvgWageIncreaseAssumption(awiTrendSelection)
-    .setBenefitIncreaseAssumption(5)
+    .setEarningsForQCIncreaseAssumption(5)
     .setMaxWageBaseProjectionInd(1)
-    .setFirstYearBenefitProjection(2020)
+    .setFirstYearProjectedEarningsForQC(2020)
     .setForwardProjectionType(0)
-    .setLastYearForwardEarningsProjection(2010)
+    .setFirstYearForwardEarningsProjection(2010)
     .setForwardProjectionPercentage(0.1);
 
   const piaOutput = piaFormat.outputPia();
