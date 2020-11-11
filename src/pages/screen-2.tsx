@@ -348,7 +348,7 @@ export class Screen2 extends React.Component<Screen2Props, Screen2State> {
                     fullRetirementAge={fullRetirementAge ?? undefined}
                     fullRetirementAgeYearsOnly={fullRetirementAgeYearsOnly ?? undefined}
                     fullRetirementAgeMonthsOnly={fullRetirementAgeMonthsOnly ?? undefined}
-                    fullretirementDate={retireDate}
+                    fullRetirementDate={retireDate}
                     birthDate={birthDate}
                     preferPiaUserCalcValue={preferPiaUserCalc}
                   />
