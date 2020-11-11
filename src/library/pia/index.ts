@@ -1,11 +1,12 @@
-import { PiaFormat} from "./pia-format";
+import { PiaFormat } from "./pia-format";
 import {
   UserProfile,
   EarningsRecord,
   EarningsMap,
   FutureAwiPredictionEnum,
 } from "../user-state-context";
-import { PiaYear, PiaEarnings, PiaTypeOfWageIncreaseAssumption} from "./pia-types";
+import { PiaYear, PiaEarnings, PiaTypeOfWageIncreaseAssumption, PiaTypeOfProjections, PiaTypeOfBenefitIncreaseAssumption, PiaTypeOfMaxWageBaseProjection } from "./pia-types";
+import dayjs from "dayjs";
 
 import Module from "../anypiajs.mjs"; //remember https://stackoverflow.com/a/63592692/272018
 // The above ES6 module is built from SSA.gov open source C++ AnyPIA by
@@ -28,19 +29,19 @@ const emptyUserProfile: UserProfile = {
   calculatorType: 'blank'
 }
 
-export async function finalCalculation (
+export async function finalCalculation(
   birthDatePicked: string,
   retireDatePicked: Date,
   userPension: number | null | undefined,
   earningsObj: EarningsRecord | null,
   expectedLastEarningYear: number | null,
   awiTrendOrManualPrediction: FutureAwiPredictionEnum | null,
-  awiTrendSelection: PiaTypeOfWageIncreaseAssumption  | null
+  awiTrendSelection: PiaTypeOfWageIncreaseAssumption | null
 ) {
 
   // quit out if earningsObj is null
   if (earningsObj === null) {
-    return emptyUserProfile ; 
+    return emptyUserProfile;
   }
 
   //convert all keys and values to int's (keys in js objects always strings)
@@ -52,11 +53,13 @@ export async function finalCalculation (
     onlyIntsObject
   );
 
-  function mapMap(map, fn) {
+  function mapMap(map: EarningsMap, fn: (v: PiaEarnings | "-1", k: PiaYear, map: EarningsMap) => any) {
     return new Map(
-      Array.from(map, ([key, value]) => [key, fn(value, key, map)])
+      Array.from(map, ([key, value]) => [key.valueOf(), fn(value, key, map)])
     );
   }
+
+  //todo 
 
   const mapOasdiEarnings = mapMap(earningsRecords, (v, k) =>
     (v && v === -1) || v === "-1" ? 0 : v
@@ -68,6 +71,8 @@ export async function finalCalculation (
     ...Array.from(mapOasdiEarnings.keys())
   );
 
+    //todo
+  const weNeedAssumptions = dayjs(birthDatePicked).diff(dayjs(), "year") < 70
   // Generate the AnyPIA format string like the known good one but
   //  based on the personalized user input
   const piaFormat = new PiaFormat("")
@@ -75,15 +80,18 @@ export async function finalCalculation (
     .setEntitlementDate(new Date(retireDatePicked))
     .setMonthlyNoncoveredPensionAmount(userPension)
     .setOasdiEarnings(earningsRecords)
-    .setFirstEarningYear(1981)
-    .setLastEarningYear(expectedLastEarningYear || mapLastEarningYear)
-    .setAvgWageIncreaseAssumption(awiTrendSelection)
-    .setEarningsForQCIncreaseAssumption(5)
-    .setMaxWageBaseProjectionInd(1)
-    .setFirstYearProjectedEarningsForQC(2020)
-    .setForwardProjectionType(0)
-    .setFirstYearForwardEarningsProjection(2010)
-    .setForwardProjectionPercentage(0.1);
+    .setFirstEarningYear(mapFirstEarningYear)
+    .setLastEarningYear(expectedLastEarningYear || mapLastEarningYear);
+  if (weNeedAssumptions) {
+    piaFormat
+      .setAvgWageIncreaseAssumption(awiTrendSelection ??undefined)
+      .setEarningsForQCIncreaseAssumption(PiaTypeOfBenefitIncreaseAssumption.noFutureIncreases)
+      .setMaxWageBaseProjectionInd(PiaTypeOfMaxWageBaseProjection.alternative1Optimistic)
+      .setFirstYearProjectedEarningsForQC(2020)
+      .setForwardProjectionType(PiaTypeOfProjections.projectionRelatedToAverageWageIncrease)
+      .setFirstYearForwardEarningsProjection(2014)
+      .setForwardProjectionPercentage(0.1);
+  }
 
   const piaOutput = piaFormat.outputPia();
   console.log(piaOutput);
@@ -105,7 +113,7 @@ export async function finalCalculation (
 
   //Download the 2mb WASM file with the C++ policy logic, with a promise.
   const AnyPIAJS = await new Module();
-  
+
   //Instantiate AnyPIAJS C++ class we wrapped the original SSA AnyPIAB class with.
   const onePIADoc = new AnyPIAJS.PIADoc();
 
