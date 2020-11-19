@@ -137,7 +137,7 @@ class Prescreen1a extends React.Component<Prescreen1aProps, Prescreen1aState> {
                   Benefits is {fullRetirementAgeYearsOnly} years
                   {fullRetirementAgeMonthsOnly
                 ? " and " + fullRetirementAgeMonthsOnly + " months "
-                : ""}{" "}
+                : " "}
                   old
                   <a href="https://www.ssa.gov/OACT/ProgData/ar_drc.html">
                 <sup>1</sup>
