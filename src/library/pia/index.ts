@@ -5,7 +5,7 @@ import {
   EarningsMap,
   FutureAwiPredictionEnum,
 } from "../user-state-context";
-import { PiaYear, PiaEarnings, PiaTypeOfWageIncreaseAssumption, PiaTypeOfProjections, PiaTypeOfBenefitIncreaseAssumption, PiaTypeOfMaxWageBaseProjection } from "./pia-types";
+import { PiaYear, PiaEarnings, PiaTypeOfWageIncreaseAssumption, PiaTypeOfProjections, PiaTypeOfBenefitIncreaseAssumption, PiaTypeOfMaxWageBaseProjection, PiaFloat } from "./pia-types";
 import dayjs from "dayjs";
 
 import Module from "../anypiajs.mjs"; //remember https://stackoverflow.com/a/63592692/272018
@@ -36,7 +36,8 @@ export async function finalCalculation(
   earningsObj: EarningsRecord | null,
   expectedLastEarningYear: number | null,
   awiTrendOrManualPrediction: FutureAwiPredictionEnum | null,
-  awiTrendSelection: PiaTypeOfWageIncreaseAssumption | null
+  awiTrendSelection: PiaTypeOfWageIncreaseAssumption | null,
+  expectedPercentageWageIncrease: PiaFloat | null
 ) {
 
   // quit out if earningsObj is null
@@ -84,13 +85,13 @@ export async function finalCalculation(
     .setLastEarningYear(expectedLastEarningYear || mapLastEarningYear);
   if (weNeedAssumptions) {
     piaFormat
-      .setAvgWageIncreaseAssumption(awiTrendSelection ??undefined)
+      .setAvgWageIncreaseAssumption(awiTrendSelection ?? undefined)
       .setEarningsForQCIncreaseAssumption(PiaTypeOfBenefitIncreaseAssumption.noFutureIncreases)
       .setMaxWageBaseProjectionInd(PiaTypeOfMaxWageBaseProjection.alternative1Optimistic)
       .setFirstYearProjectedEarningsForQC(2020)
       .setForwardProjectionType(PiaTypeOfProjections.projectionRelatedToAverageWageIncrease)
       .setFirstYearForwardEarningsProjection(2014)
-      .setForwardProjectionPercentage(0.1);
+      .setForwardProjectionPercentage(expectedPercentageWageIncrease ?? undefined);
   }
 
   const piaOutput = piaFormat.outputPia();

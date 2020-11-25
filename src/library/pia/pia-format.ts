@@ -235,6 +235,9 @@ const oasdiEarningsSerializer: PiaSerializer = new (class {
           : this.fieldFormats.lastEarningYear.getBlank()
       }`,
     };
+
+    /*TODO: check if this is valid: do we always want the space 
+    that comes from padStart second argument below being 1? */
     const line8 = {
       8: `08${
         data.forwardProjectionType != undefined

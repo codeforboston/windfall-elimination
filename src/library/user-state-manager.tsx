@@ -72,6 +72,10 @@ const useAwiTrendSelection = createPersistedState(
   "awiTrendSelection",
   global.sessionStorage
 );
+const useExpectedPercentageWageIncrease = createPersistedState(
+  "expectedPercentageWageIncrease",
+  global.sessionStorage
+);
 
 // TODO The following should eventually be derived from the state values persisted to storage
 const useRetireDateState = createPersistedState(
@@ -180,7 +184,9 @@ export default function UserStateManager(
     awiTrendSelection,
     setAwiTrendSelection,
   ] = useAwiTrendSelection<FutureTrendEnum | null>(null);
-
+  const [expectedPercentageWageIncrease, setExpectedPercentageWageIncrease] = useExpectedPercentageWageIncrease<
+  number | null
+  >(0.01);
   const userState: UserState = useMemo(
     () => ({
       birthDate: birthDate ? new Date(birthDate) : null,
@@ -216,6 +222,7 @@ export default function UserStateManager(
       expectedLastEarningYear,
       awiTrendOrManualPrediction,
       awiTrendSelection,
+      expectedPercentageWageIncrease
     }),
     [
       birthDate,
@@ -233,6 +240,7 @@ export default function UserStateManager(
       preferPiaUserCalc,
       awiTrendOrManualPrediction,
       awiTrendSelection,
+      expectedPercentageWageIncrease
     ]
   );
 
@@ -254,6 +262,7 @@ export default function UserStateManager(
       setExpectedLastEarningYear,
       setAwiTrendOrManualPrediction,
       setAwiTrendSelection,
+      setExpectedPercentageWageIncrease
     }),
     [
       setBirthDate,
@@ -272,6 +281,7 @@ export default function UserStateManager(
       setExpectedLastEarningYear,
       setAwiTrendOrManualPrediction,
       setAwiTrendSelection,
+      setExpectedPercentageWageIncrease
     ]
   );
 

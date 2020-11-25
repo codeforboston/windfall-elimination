@@ -26,6 +26,7 @@ export interface UserStateActions {
   setExpectedLastEarningYear: (expectedLastEarningYear: number) => void;
   setAwiTrendOrManualPrediction: (value: FutureAwiPredictionEnum) => void;
   setAwiTrendSelection: (value: PiaTypeOfBenefitIncreaseAssumption ) => void;
+  setExpectedPercentageWageIncrease: (expectedPercentageWageIncrease: number) => void;
 }
 
 const UserStateActionsContext = React.createContext<UserStateActions | null>(

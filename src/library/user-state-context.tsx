@@ -1,5 +1,5 @@
 import * as React from "react";
-import { PiaYear, PiaEarnings, PiaTypeOfBenefitIncreaseAssumption} from "../library/pia/pia-types";
+import { PiaYear, PiaEarnings, PiaTypeOfBenefitIncreaseAssumption, PiaTypeOfWageIncreaseAssumption} from "../library/pia/pia-types";
 export {PiaTypeOfBenefitIncreaseAssumption};
 
 export enum EarningsEnum {
@@ -23,6 +23,7 @@ export enum PensionEnum {
 export enum FutureAwiPredictionEnum {
   TREND = "TREND",
   MANUAL = "MANUAL",
+  PERCENTAGE = "PERCENTAGE"
 }
 
 // export enum FutureAwiTrendEnum {
@@ -63,7 +64,8 @@ export interface UserState {
   preferPiaUserCalc: boolean | null;
   expectedLastEarningYear: number | null;
   awiTrendOrManualPrediction: FutureAwiPredictionEnum | null;
-  awiTrendSelection: PiaTypeOfBenefitIncreaseAssumption | null;
+  awiTrendSelection: PiaTypeOfWageIncreaseAssumption | null;
+  expectedPercentageWageIncrease: number | null;
 }
 
 const UserStateContext = React.createContext<UserState | null>(null);
