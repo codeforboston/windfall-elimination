@@ -56,7 +56,7 @@
     "@typescript-eslint/eslint-plugin": "^2.15.0",
     "@typescript-eslint/parser": "^2.15.0",
     "babel-jest": "^26.3.0",
-    "babel-plugin-emotion": "^10.0.9",
+    "babel-plugin-emotion": "^11.0.0",
     "eslint": "^6.8.0",
     "eslint-plugin-react": "^7.17.0",
     "eslint-plugin-react-hooks": "^4.1.0",
