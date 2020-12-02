@@ -60,12 +60,20 @@ const usePreferPiaUserCalcState = createPersistedState(
   "preferPiaUserCalcState",
   global.sessionStorage
 );
+const useExpectedLastEarningYear = createPersistedState(
+  "ExpectedLastEarningYear",
+  global.sessionStorage
+);
 const useAwiTrendOrManualPrediction = createPersistedState(
   "awiTrendOrManualPrediction",
   global.sessionStorage
 );
 const useAwiTrendSelection = createPersistedState(
   "awiTrendSelection",
+  global.sessionStorage
+);
+const useExpectedPercentageWageIncrease = createPersistedState(
+  "expectedPercentageWageIncrease",
   global.sessionStorage
 );
 
@@ -152,9 +160,6 @@ export default function UserStateManager(
     pensionOrRetirementAccount,
     setPensionOrRetirementAccount,
   ] = usePensionOrRetirementAccountState<PensionEnum | null>(null);
-  const [pensionAmount, setPensionAmount] = usePensionAmountState<
-    number | null
-  >(null);
   const [
     pensionDateAwarded,
     setPensionDateAwarded,
@@ -165,6 +170,12 @@ export default function UserStateManager(
   const [preferPiaUserCalc, setPreferPiaUserCalc] = usePreferPiaUserCalcState<
     boolean | null
   >(false);
+  const [pensionAmount, setPensionAmount] = usePensionAmountState<
+  number | null
+>(null);
+  const [expectedLastEarningYear, setExpectedLastEarningYear] = useExpectedLastEarningYear<
+  number | null
+  >(2020);
   const [
     awiTrendOrManualPrediction,
     setAwiTrendOrManualPrediction,
@@ -173,7 +184,9 @@ export default function UserStateManager(
     awiTrendSelection,
     setAwiTrendSelection,
   ] = useAwiTrendSelection<FutureTrendEnum | null>(null);
-
+  const [expectedPercentageWageIncrease, setExpectedPercentageWageIncrease] = useExpectedPercentageWageIncrease<
+  number | null
+  >(0.01);
   const userState: UserState = useMemo(
     () => ({
       birthDate: birthDate ? new Date(birthDate) : null,
@@ -206,8 +219,10 @@ export default function UserStateManager(
       pensionDateAwarded,
       userProfile,
       preferPiaUserCalc,
+      expectedLastEarningYear,
       awiTrendOrManualPrediction,
       awiTrendSelection,
+      expectedPercentageWageIncrease
     }),
     [
       birthDate,
@@ -225,6 +240,7 @@ export default function UserStateManager(
       preferPiaUserCalc,
       awiTrendOrManualPrediction,
       awiTrendSelection,
+      expectedPercentageWageIncrease
     ]
   );
 
@@ -243,8 +259,10 @@ export default function UserStateManager(
       setPensionDateAwarded,
       setUserProfile,
       setPreferPiaUserCalc,
+      setExpectedLastEarningYear,
       setAwiTrendOrManualPrediction,
       setAwiTrendSelection,
+      setExpectedPercentageWageIncrease
     }),
     [
       setBirthDate,
@@ -260,8 +278,10 @@ export default function UserStateManager(
       setPensionDateAwarded,
       setUserProfile,
       setPreferPiaUserCalc,
+      setExpectedLastEarningYear,
       setAwiTrendOrManualPrediction,
       setAwiTrendSelection,
+      setExpectedPercentageWageIncrease
     ]
   );
 

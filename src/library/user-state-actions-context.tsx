@@ -5,7 +5,7 @@ import {
   EarningsRecord,
   PensionEnum,
   FutureAwiPredictionEnum,
-  FutureAwiTrendEnum,
+  PiaTypeOfBenefitIncreaseAssumption,
   UserProfile,
 } from "./user-state-context";
 
@@ -23,8 +23,10 @@ export interface UserStateActions {
   setPensionDateAwarded: (date: Date) => void;
   setUserProfile: (profile: UserProfile) => void;
   setPreferPiaUserCalc: (setPreferPiaUserCalc: boolean) => void;
+  setExpectedLastEarningYear: (expectedLastEarningYear: number) => void;
   setAwiTrendOrManualPrediction: (value: FutureAwiPredictionEnum) => void;
-  setAwiTrendSelection: (value: FutureAwiTrendEnum) => void;
+  setAwiTrendSelection: (value: PiaTypeOfBenefitIncreaseAssumption ) => void;
+  setExpectedPercentageWageIncrease: (expectedPercentageWageIncrease: number) => void;
 }
 
 const UserStateActionsContext = React.createContext<UserStateActions | null>(
