@@ -72,8 +72,11 @@ export async function finalCalculation(
     ...Array.from(mapOasdiEarnings.keys())
   );
 
-    //todo
-  const weNeedAssumptions = dayjs(birthDatePicked).diff(dayjs(), "year") < 70
+  /* TODO: we know from observing AnyPIA that the "Assumptions..."
+   menu appears when date of entitlement aka retirement month/year is after the current month.
+  */
+  const weNeedAssumptions = dayjs().diff(dayjs(birthDatePicked), "year") < 70;
+  
   // Generate the AnyPIA format string like the known good one but
   //  based on the personalized user input
   const piaFormat = new PiaFormat("")
