@@ -68,22 +68,29 @@ const Link = styled.a`
 ///////
 ///////
 
+// TODO: Change te interface to a props object
 interface Prescreen1dProps {
   userState: UserState
   userStateActions: UserStateActions
 }
-
-class Prescreen1d extends React.Component<Prescreen1dProps> {
-  handleSelection = (e: React.ChangeEvent<HTMLInputElement>) => {
-    const {
-      userStateActions: {
-        setExpectedLastEarningYear,
+const Prescreen1d = ({ userState, userStateActions }: Prescreen1dProps) => {
+  const { setExpectedLastEarningYear,
         setAwiTrendOrManualPrediction,
         setAwiTrendSelection,
-        setExpectedPercentageWageIncrease
-      }
-    } = this.props
-    const selectValueString = e.target.value;
+    setExpectedPercentageWageIncrease } = userStateActions;
+  
+  // why was isManual here??
+  const {
+        pensionDateAwarded,
+        pensionAmount,
+        expectedLastEarningYear,
+        awiTrendOrManualPrediction,
+        awiTrendSelection,
+        expectedPercentageWageIncrease
+    } = userState;
+
+    const handleSelection = (e: React.ChangeEvent<HTMLInputElement>) => {
+  const selectValueString = e.target.value;
     switch (e.target.name) {
       case "expectedLastEarningYear":
         setExpectedLastEarningYear(parseInt(selectValueString, 10))
@@ -99,19 +106,7 @@ class Prescreen1d extends React.Component<Prescreen1dProps> {
     }
   }
 
-  render() {
-    const {
-      userState: {
-        pensionDateAwarded,
-        pensionAmount,
-        expectedLastEarningYear,
-        awiTrendOrManualPrediction,
-        awiTrendSelection,
-        expectedPercentageWageIncrease,
-        isManual
-      }
-    } = this.props
-    return (
+  return (
       <React.Fragment>
         <SEO
           title="Prescreen 1D"
@@ -129,7 +124,7 @@ class Prescreen1d extends React.Component<Prescreen1dProps> {
                     name="expectedLastEarningYear"
                     defaultValue={expectedLastEarningYear ?? undefined}
                     placeholder={'2020'}
-                    onChange={this.handleSelection}
+                    onChange={handleSelection}
                   ></AnswerInputDiscouragePlaceholder>
                 </label>
                 <WarningBox>
@@ -145,7 +140,7 @@ class Prescreen1d extends React.Component<Prescreen1dProps> {
                     type="radio"
                     name="awiTrendOrManualPrediction"
                     value={FutureAwiPredictionEnum.PERCENTAGE}
-                    onChange={this.handleSelection}
+                    onChange={handleSelection}
                     checked={awiTrendOrManualPrediction === FutureAwiPredictionEnum.PERCENTAGE}
                   />
                   <LabelText>Use Percentage Only</LabelText>
@@ -155,7 +150,7 @@ class Prescreen1d extends React.Component<Prescreen1dProps> {
                     type="radio"
                     name="awiTrendOrManualPrediction"
                     value={FutureAwiPredictionEnum.TREND}
-                    onChange={this.handleSelection}
+                    onChange={handleSelection}
                     checked={awiTrendOrManualPrediction === FutureAwiPredictionEnum.TREND}
                   />
                   <LabelText>Use Percentage plus<br /> Economic Trends</LabelText>
@@ -165,7 +160,7 @@ class Prescreen1d extends React.Component<Prescreen1dProps> {
                     type="radio"
                     name="awiTrendOrManualPrediction"
                     value={FutureAwiPredictionEnum.MANUAL}
-                    onChange={this.handleSelection}
+                    onChange={handleSelection}
                     checked={awiTrendOrManualPrediction === FutureAwiPredictionEnum.MANUAL}
                   />
                   <LabelText>Predict it myself</LabelText>
@@ -193,7 +188,7 @@ class Prescreen1d extends React.Component<Prescreen1dProps> {
                   name="expectedPercentageWageIncrease"
                   defaultValue={expectedPercentageWageIncrease ?? undefined}
                   placeholder={'0.01'}
-                  onChange={this.handleSelection}
+                  onChange={handleSelection}
                 >
                 </AnswerInputDiscouragePlaceholder>
               </Card>
@@ -250,8 +245,7 @@ class Prescreen1d extends React.Component<Prescreen1dProps> {
         </ContentContainer>
       </React.Fragment>
     );
-  }
-}
+};
 
 export default function Prescreen1dWrapper(): JSX.Element {
   const userState = useUserState()
