@@ -65,15 +65,7 @@ const Link = styled.a`
   overflow-wrap: break-word;
 `;
 
-///////
-///////
-
-// TODO: Change te interface to a props object
-interface Prescreen1dProps {
-  userState: UserState
-  userStateActions: UserStateActions
-}
-const Prescreen1d = ({ userState, userStateActions }: Prescreen1dProps) => {
+const Prescreen1d = ({ userState, userStateActions }) => {
   const { setExpectedLastEarningYear,
         setAwiTrendOrManualPrediction,
         setAwiTrendSelection,
@@ -247,8 +239,4 @@ const Prescreen1d = ({ userState, userStateActions }: Prescreen1dProps) => {
     );
 };
 
-export default function Prescreen1dWrapper(): JSX.Element {
-  const userState = useUserState()
-  const userStateActions = useUserStateActions()
-  return <Prescreen1d userState={userState} userStateActions={userStateActions} />
-}
+export default Prescreen1d;
