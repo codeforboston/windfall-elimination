@@ -74,6 +74,18 @@ const Link = styled.a`
   overflow-wrap: break-word;
 `;
 
+//TODO fix type to match object[number|null]
+const LastEarningsYearWarningBox = (
+  expectedLastEarningYearObject: number | null
+) => {
+  const expectedLastEarningYear =
+    expectedLastEarningYearObject.expectedLastEarningYear;
+  if (expectedLastEarningYear === null || expectedLastEarningYear < 2020) {
+    return <WarningBox>The year must be {dayjs().year()} or above.</WarningBox>;
+  }
+  return null;
+};
+
 const Prescreen1d = ({}) => {
   const {
     setExpectedLastEarningYear,
@@ -132,9 +144,9 @@ const Prescreen1d = ({}) => {
                   onChange={handleSelection}
                 ></AnswerInputDiscouragePlaceholder>
               </label>
-              <WarningBox>
-                The year must be {dayjs().year()} or above.
-              </WarningBox>
+              <LastEarningsYearWarningBox
+                expectedLastEarningYear={expectedLastEarningYear}
+              />
             </Card>
             <Card>
               <QuestionText>

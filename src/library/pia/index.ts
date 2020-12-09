@@ -5,7 +5,15 @@ import {
   EarningsMap,
   FutureAwiPredictionEnum,
 } from "../user-state-context";
-import { PiaYear, PiaEarnings, PiaTypeOfWageIncreaseAssumption, PiaTypeOfProjections, PiaTypeOfBenefitIncreaseAssumption, PiaTypeOfMaxWageBaseProjection, PiaFloat } from "./pia-types";
+import {
+  PiaYear,
+  PiaEarnings,
+  PiaTypeOfWageIncreaseAssumption,
+  PiaTypeOfProjections,
+  PiaTypeOfBenefitIncreaseAssumption,
+  PiaTypeOfMaxWageBaseProjection,
+  PiaFloat,
+} from "./pia-types";
 import dayjs from "dayjs";
 
 import Module from "../anypiajs.mjs"; //remember https://stackoverflow.com/a/63592692/272018
@@ -19,15 +27,14 @@ import Module from "../anypiajs.mjs"; //remember https://stackoverflow.com/a/635
 const emptyUserProfile: UserProfile = {
   "Standard PIA": "",
   "WEP PIA": "",
-  "WEP Diff":
-    "",
+  "WEP Diff": "",
   MPB: "",
   yearsSubstantialEarnings: 0,
   pensionNonCoveredMonthly: 0,
   aime: 0,
   fullRetireDate: new Date("2040-1-1").toLocaleDateString("en-US"),
-  calculatorType: 'blank'
-}
+  calculatorType: "blank",
+};
 
 export async function finalCalculation(
   birthDatePicked: string,
@@ -39,7 +46,6 @@ export async function finalCalculation(
   awiTrendSelection: PiaTypeOfWageIncreaseAssumption | null,
   expectedPercentageWageIncrease: PiaFloat | null
 ) {
-
   // quit out if earningsObj is null
   if (earningsObj === null) {
     return emptyUserProfile;
@@ -54,29 +60,28 @@ export async function finalCalculation(
     onlyIntsObject
   );
 
-  function mapMap(map: EarningsMap, fn: (v: PiaEarnings | "-1", k: PiaYear, map: EarningsMap) => any) {
+  function mapMap(
+    map: EarningsMap,
+    fn: (v: PiaEarnings | "-1", k: PiaYear, map: EarningsMap) => any
+  ) {
     return new Map(
       Array.from(map, ([key, value]) => [key.valueOf(), fn(value, key, map)])
     );
   }
 
-  //todo 
+  //todo
 
   const mapOasdiEarnings = mapMap(earningsRecords, (v, k) =>
     (v && v === -1) || v === "-1" ? 0 : v
   );
-  const mapFirstEarningYear = Math.min(
-    ...Array.from(mapOasdiEarnings.keys())
-  );
-  const mapLastEarningYear = Math.max(
-    ...Array.from(mapOasdiEarnings.keys())
-  );
+  const mapFirstEarningYear = Math.min(...Array.from(mapOasdiEarnings.keys()));
+  const mapLastEarningYear = Math.max(...Array.from(mapOasdiEarnings.keys()));
 
   /* TODO: we know from observing AnyPIA that the "Assumptions..."
    menu appears when date of entitlement aka retirement month/year is after the current month.
   */
   const weNeedAssumptions = dayjs().diff(dayjs(birthDatePicked), "year") < 70;
-  
+
   // Generate the AnyPIA format string like the known good one but
   //  based on the personalized user input
   const piaFormat = new PiaFormat("")
@@ -85,16 +90,26 @@ export async function finalCalculation(
     .setMonthlyNoncoveredPensionAmount(userPension)
     .setOasdiEarnings(earningsRecords)
     .setFirstEarningYear(mapFirstEarningYear)
-    .setLastEarningYear(expectedLastEarningYear || mapLastEarningYear);
+    .setLastEarningYear(expectedLastEarningYear || mapLastEarningYear)
+    .setAvgWageIncreaseAssumption(awiTrendSelection ?? undefined)
+    // .setFirstYearForwardEarningsProjection(2014);
+
   if (weNeedAssumptions) {
     piaFormat
-      .setAvgWageIncreaseAssumption(awiTrendSelection ?? undefined)
-      .setEarningsForQCIncreaseAssumption(PiaTypeOfBenefitIncreaseAssumption.noFutureIncreases)
-      .setMaxWageBaseProjectionInd(PiaTypeOfMaxWageBaseProjection.alternative1Optimistic)
+      .setEarningsForQCIncreaseAssumption(
+        PiaTypeOfBenefitIncreaseAssumption.noFutureIncreases
+      )
+      .setMaxWageBaseProjectionInd(
+        PiaTypeOfMaxWageBaseProjection.alternative1Optimistic
+      )
       .setFirstYearProjectedEarningsForQC(2020)
-      .setForwardProjectionType(PiaTypeOfProjections.projectionRelatedToAverageWageIncrease)
       .setFirstYearForwardEarningsProjection(2014)
-      .setForwardProjectionPercentage(expectedPercentageWageIncrease ?? undefined);
+      .setForwardProjectionType(
+        PiaTypeOfProjections.projectionRelatedToAverageWageIncrease
+      )
+      .setForwardProjectionPercentage(
+        expectedPercentageWageIncrease ?? undefined
+      );
   }
 
   const piaOutput = piaFormat.outputPia();
@@ -120,7 +135,6 @@ export async function finalCalculation(
 
   //Instantiate AnyPIAJS C++ class we wrapped the original SSA AnyPIAB class with.
   const onePIADoc = new AnyPIAJS.PIADoc();
-
   //If you forget to send a newline at the end, AnyPIAJS seems to ignore the last line.
   const consoleOutput = onePIADoc.calculate(piaOutput + "\n");
 
@@ -141,7 +155,6 @@ export async function finalCalculation(
   //TODO: add fullRetirementDate to C++ JSON API instead of stub date 2040-1-1
   //const userFullRetireDate = getFullRetirementDate(new Date(birthDatePicked));
 
-
   // Convert to web calculator display UserProfile format
   const calculation = resultObj.Calculation;
   const userProfile: UserProfile = {
@@ -161,7 +174,7 @@ export async function finalCalculation(
       calculation.NoncoveredPosion.MonthlyPension,
     aime: calculation.AIME && calculation.AIME.AME,
     fullRetireDate: new Date("2040-1-1").toLocaleDateString("en-US"),
-    calculatorType: 'anypia'
+    calculatorType: "anypia",
   };
   console.warn("DUMMY fullRetireDate until it can be added:");
 

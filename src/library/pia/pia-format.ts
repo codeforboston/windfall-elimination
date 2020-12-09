@@ -378,7 +378,7 @@ const oasdiEarningsSerializer: PiaSerializer = new (class {
               this.fieldFormats.forwardProjectionPercentage.endChar
             )
           ),
-          lastYearForwardEarningsProjections: parseInt(
+          firstYearForwardEarningsProjections: parseInt(
             PiaUtils.piaSubstr(
               line8,
               this.fieldFormats.firstYearForwardEarningsProjections.startChar,
