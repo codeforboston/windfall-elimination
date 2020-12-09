@@ -15,10 +15,20 @@ import {
   TextBlock,
   FileUpload,
   WarningBox,
-  AnswerInputDiscouragePlaceholder
+  AnswerInputDiscouragePlaceholder,
 } from "../components";
-import { FutureAwiPredictionEnum, PiaTypeOfBenefitIncreaseAssumption, EarningsEnum, useUserState, UserState } from '../library/user-state-context';
-import { useUserStateActions, UserStateActions } from '../library/user-state-actions-context'
+import {
+  FutureAwiPredictionEnum,
+  PiaTypeOfBenefitIncreaseAssumption,
+  PiaTypeOfWageIncreaseAssumption,
+  EarningsEnum,
+  useUserState,
+  UserState,
+} from "../library/user-state-context";
+import {
+  useUserStateActions,
+  UserStateActions,
+} from "../library/user-state-actions-context";
 const StyledDatePicker = styled(DatePicker)`
   border: 2px solid ${colors.purple};
   height: 60px;
@@ -28,31 +38,30 @@ const StyledDatePicker = styled(DatePicker)`
   padding-left: 10px;
   &::placeholder {
     font-size: 18px;
-    font-family: 'Montserrat',sans-serif;
+    font-family: "Montserrat", sans-serif;
   }
 `;
 
 const ContentContainer = styled.div`
   width: 100%;
- 
 `;
 
 const CardGlossaryContainer = styled.div`
   display: flex;
   justify-content: space-between;
   margin: auto 0;
-  
-  @media (max-width: 767px){
+
+  @media (max-width: 767px) {
     display: block;
   }
 `;
 
 const TopQuestionAndTitle = styled.div`
-width: 70%;
-margin-bottom: 75px;
-@media (max-width: 767px){
-  width: 100%;
-}
+  width: 70%;
+  margin-bottom: 75px;
+  @media (max-width: 767px) {
+    width: 100%;
+  }
 `;
 
 const HowToContainer = styled.div`
@@ -65,156 +74,194 @@ const Link = styled.a`
   overflow-wrap: break-word;
 `;
 
-///////
-///////
+const Prescreen1d = ({}) => {
+  const {
+    setExpectedLastEarningYear,
+    setAwiTrendOrManualPrediction,
+    setAwiTrendSelection,
+    setExpectedPercentageWageIncrease,
+  } = useUserStateActions();
 
-interface Prescreen1dProps {
-  userState: UserState
-  userStateActions: UserStateActions
-}
+  // why was isManual here??
+  const {
+    pensionDateAwarded,
+    pensionAmount,
+    expectedLastEarningYear,
+    awiTrendOrManualPrediction,
+    awiTrendSelection,
+    expectedPercentageWageIncrease,
+  } = useUserState();
 
-class Prescreen1d extends React.Component<Prescreen1dProps> {
-  handleSelection = (e: React.ChangeEvent<HTMLInputElement>) => {
-    const {
-      userStateActions: {
-        setExpectedLastEarningYear,
-        setAwiTrendOrManualPrediction,
-        setAwiTrendSelection,
-        setExpectedPercentageWageIncrease
-      }
-    } = this.props
+  const handleSelection = (e: React.ChangeEvent<HTMLInputElement>) => {
     const selectValueString = e.target.value;
     switch (e.target.name) {
       case "expectedLastEarningYear":
-        setExpectedLastEarningYear(parseInt(selectValueString, 10))
+        setExpectedLastEarningYear(parseInt(selectValueString, 10));
         break;
       case "awiTrendSelection":
-        setAwiTrendSelection(parseInt(selectValueString, 10) as PiaTypeOfBenefitIncreaseAssumption)
+        setAwiTrendSelection(
+          parseInt(selectValueString, 10) as PiaTypeOfBenefitIncreaseAssumption
+        );
         break;
       case "awiTrendOrManualPrediction":
-        setAwiTrendOrManualPrediction(selectValueString as FutureAwiPredictionEnum)
+        setAwiTrendOrManualPrediction(
+          selectValueString as FutureAwiPredictionEnum
+        );
         break;
       case "expectedPercentageWageIncrease":
-        setExpectedPercentageWageIncrease(parseFloat(selectValueString))
+        setExpectedPercentageWageIncrease(parseFloat(selectValueString));
     }
-  }
+  };
 
-  render() {
-    const {
-      userState: {
-        pensionDateAwarded,
-        pensionAmount,
-        expectedLastEarningYear,
-        awiTrendOrManualPrediction,
-        awiTrendSelection,
-        expectedPercentageWageIncrease,
-        isManual
-      }
-    } = this.props
-    return (
-      <React.Fragment>
-        <SEO
-          title="Prescreen 1D"
-          keywords={[`gatsby`, `application`, `react`]}
-        />
-        <ContentContainer>
-          <CardGlossaryContainer>
-            <TopQuestionAndTitle><H2>Your Earnings In the Years Ahead</H2>
-              <Card>
-                <label>
-                  <QuestionText>
-                    Please enter the last year you expect to earn.
-                  </QuestionText>
-                  <AnswerInputDiscouragePlaceholder
-                    name="expectedLastEarningYear"
-                    defaultValue={expectedLastEarningYear ?? undefined}
-                    placeholder={'2020'}
-                    onChange={this.handleSelection}
-                  ></AnswerInputDiscouragePlaceholder>
-                </label>
-                <WarningBox>
-                  The year must be {dayjs().year()} or above. 
-                </WarningBox>
-              </Card>
-              <Card>
+  return (
+    <React.Fragment>
+      <SEO title="Prescreen 1D" keywords={[`gatsby`, `application`, `react`]} />
+      <ContentContainer>
+        <CardGlossaryContainer>
+          <TopQuestionAndTitle>
+            <H2>Your Earnings In the Years Ahead</H2>
+            <Card>
+              <label>
                 <QuestionText>
-                  How would you like to estimate your future earnings?
-              </QuestionText>
-                <AnswerBox>
-                  <RadioButton
-                    type="radio"
-                    name="awiTrendOrManualPrediction"
-                    value={FutureAwiPredictionEnum.PERCENTAGE}
-                    onChange={this.handleSelection}
-                    checked={awiTrendOrManualPrediction === FutureAwiPredictionEnum.PERCENTAGE}
-                  />
-                  <LabelText>Use Percentage Only</LabelText>
-                </AnswerBox>
-                <AnswerBox>
-                  <RadioButton
-                    type="radio"
-                    name="awiTrendOrManualPrediction"
-                    value={FutureAwiPredictionEnum.TREND}
-                    onChange={this.handleSelection}
-                    checked={awiTrendOrManualPrediction === FutureAwiPredictionEnum.TREND}
-                  />
-                  <LabelText>Use Percentage plus<br /> Economic Trends</LabelText>
-                </AnswerBox>
-                <AnswerBox>
-                  <RadioButton
-                    type="radio"
-                    name="awiTrendOrManualPrediction"
-                    value={FutureAwiPredictionEnum.MANUAL}
-                    onChange={this.handleSelection}
-                    checked={awiTrendOrManualPrediction === FutureAwiPredictionEnum.MANUAL}
-                  />
-                  <LabelText>Predict it myself</LabelText>
-                </AnswerBox>
-              </Card>
-            </TopQuestionAndTitle>
-            <Glossary
-              title="WHAT EARNINGS WOULD NOT BE ON MY SOCIAL SECURITY EARNINGS RECORD?"
-              link="http://www.ncsssa.org/statessadminmenu.html"
-              linkText=""
-            >
-              For example, you may have worked for a state or local government, like
-              a city or town or school system. In many states, state and local jobs
-              do not pay into Social Security, which means earnings from these jobs
-              will not show up on a Social Security record.
-        </Glossary>
-          </CardGlossaryContainer>
-          {(awiTrendOrManualPrediction === FutureAwiPredictionEnum.PERCENTAGE || awiTrendOrManualPrediction === FutureAwiPredictionEnum.TREND) && (
-            <CardGlossaryContainer>
-              <Card>
-                <QuestionText>
-                  Percent wage increase
-                  </QuestionText>
+                  Please enter the last year you expect to earn.
+                </QuestionText>
                 <AnswerInputDiscouragePlaceholder
-                  name="expectedPercentageWageIncrease"
-                  defaultValue={expectedPercentageWageIncrease ?? undefined}
-                  placeholder={'0.01'}
-                  onChange={this.handleSelection}
-                >
-                </AnswerInputDiscouragePlaceholder>
-              </Card>
-            </CardGlossaryContainer>
-          )}
-          {awiTrendOrManualPrediction && awiTrendOrManualPrediction === FutureAwiPredictionEnum.TREND && (
+                  name="expectedLastEarningYear"
+                  defaultValue={expectedLastEarningYear ?? undefined}
+                  placeholder={"2020"}
+                  onChange={handleSelection}
+                ></AnswerInputDiscouragePlaceholder>
+              </label>
+              <WarningBox>
+                The year must be {dayjs().year()} or above.
+              </WarningBox>
+            </Card>
+            <Card>
+              <QuestionText>
+                How would you like to estimate your future earnings?
+              </QuestionText>
+              <AnswerBox>
+                <RadioButton
+                  type="radio"
+                  name="awiTrendOrManualPrediction"
+                  value={FutureAwiPredictionEnum.PERCENTAGE}
+                  onChange={handleSelection}
+                  checked={
+                    awiTrendOrManualPrediction ===
+                    FutureAwiPredictionEnum.PERCENTAGE
+                  }
+                />
+                <LabelText>Use Percentage Only</LabelText>
+              </AnswerBox>
+              <AnswerBox>
+                <RadioButton
+                  type="radio"
+                  name="awiTrendOrManualPrediction"
+                  value={FutureAwiPredictionEnum.TREND}
+                  onChange={handleSelection}
+                  checked={
+                    awiTrendOrManualPrediction === FutureAwiPredictionEnum.TREND
+                  }
+                />
+                <LabelText>
+                  Use Percentage plus
+                  <br /> Economic Trends
+                </LabelText>
+              </AnswerBox>
+              <AnswerBox>
+                <RadioButton
+                  type="radio"
+                  name="awiTrendOrManualPrediction"
+                  value={FutureAwiPredictionEnum.MANUAL}
+                  onChange={handleSelection}
+                  checked={
+                    awiTrendOrManualPrediction ===
+                    FutureAwiPredictionEnum.MANUAL
+                  }
+                />
+                <LabelText>Predict it myself</LabelText>
+              </AnswerBox>
+            </Card>
+          </TopQuestionAndTitle>
+          <Glossary
+            title="WHAT EARNINGS WOULD NOT BE ON MY SOCIAL SECURITY EARNINGS RECORD?"
+            link="http://www.ncsssa.org/statessadminmenu.html"
+            linkText=""
+          >
+            For example, you may have worked for a state or local government,
+            like a city or town or school system. In many states, state and
+            local jobs do not pay into Social Security, which means earnings
+            from these jobs will not show up on a Social Security record.
+          </Glossary>
+        </CardGlossaryContainer>
+        {(awiTrendOrManualPrediction === FutureAwiPredictionEnum.PERCENTAGE ||
+          awiTrendOrManualPrediction === FutureAwiPredictionEnum.TREND) && (
+          <CardGlossaryContainer>
+            <Card>
+              <QuestionText>Percent wage increase</QuestionText>
+              <AnswerInputDiscouragePlaceholder
+                name="expectedPercentageWageIncrease"
+                defaultValue={expectedPercentageWageIncrease ?? undefined}
+                placeholder={"0.01"}
+                onChange={handleSelection}
+              ></AnswerInputDiscouragePlaceholder>
+            </Card>
+          </CardGlossaryContainer>
+        )}
+        {awiTrendOrManualPrediction &&
+          awiTrendOrManualPrediction === FutureAwiPredictionEnum.TREND && (
             <CardGlossaryContainer>
               <Card>
                 <QuestionText>
-                  Which trend would you like to use to predict your future earnings?
+                  Which trend would you like to use to predict your future
+                  earnings?
                 </QuestionText>
                 <AnswerBox>
-                  <RadioButton type="radio" name="awiTrendSelection" value={PiaTypeOfBenefitIncreaseAssumption.alternative2Intermediate} onChange={this.handleSelection} checked={awiTrendSelection === PiaTypeOfBenefitIncreaseAssumption.alternative2Intermediate} />
-                  <LabelText>Intermediate <br />(Between Low and High)</LabelText>
+                  <RadioButton
+                    type="radio"
+                    name="awiTrendSelection"
+                    value={
+                      PiaTypeOfBenefitIncreaseAssumption.alternative2Intermediate
+                    }
+                    onChange={handleSelection}
+                    checked={
+                      awiTrendSelection ===
+                      PiaTypeOfWageIncreaseAssumption.alternative2Intermediate
+                    }
+                  />
+                  <LabelText>
+                    Intermediate <br />
+                    (Between Low and High)
+                  </LabelText>
                 </AnswerBox>
                 <AnswerBox>
-                  <RadioButton type="radio" name="awiTrendSelection" value={PiaTypeOfBenefitIncreaseAssumption.alternative3Pessimistic} onChange={this.handleSelection} checked={awiTrendSelection === PiaTypeOfBenefitIncreaseAssumption.alternative3Pessimistic} />
+                  <RadioButton
+                    type="radio"
+                    name="awiTrendSelection"
+                    value={
+                      PiaTypeOfBenefitIncreaseAssumption.alternative3Pessimistic
+                    }
+                    onChange={handleSelection}
+                    checked={
+                      awiTrendSelection ===
+                      PiaTypeOfWageIncreaseAssumption.alternative3Pessimistic
+                    }
+                  />
                   <LabelText>Low (Economy doesn’t go well)</LabelText>
                 </AnswerBox>
                 <AnswerBox>
-                  <RadioButton type="radio" name="awiTrendSelection" value={PiaTypeOfBenefitIncreaseAssumption.alternative1Optimistic} onChange={this.handleSelection} checked={awiTrendSelection === PiaTypeOfBenefitIncreaseAssumption.alternative1Optimistic} />
+                  <RadioButton
+                    type="radio"
+                    name="awiTrendSelection"
+                    value={
+                      PiaTypeOfBenefitIncreaseAssumption.alternative1Optimistic
+                    }
+                    onChange={handleSelection}
+                    checked={
+                      awiTrendSelection ===
+                      PiaTypeOfWageIncreaseAssumption.alternative1Optimistic
+                    }
+                  />
                   <LabelText>High (Economy goes well)</LabelText>
                 </AnswerBox>
               </Card>
@@ -223,38 +270,34 @@ class Prescreen1d extends React.Component<Prescreen1dProps> {
                 linkText=""
               >
                 The Social Security Administration updates their expectations
-                for average wages
-                in the USA economy about once a year, offering three projections:
-                low, intermediate, and high. <strong>Your choice will be used for predicting
-                earnings into the future.</strong>
-                </Glossary>
+                for average wages in the USA economy about once a year, offering
+                three projections: low, intermediate, and high.{" "}
+                <strong>
+                  Your choice will be used for predicting earnings into the
+                  future.
+                </strong>
+              </Glossary>
             </CardGlossaryContainer>
           )}
-          {//TODO: Maybe we want to display the earnings that the
-            // projections that the Detailed Calculator makes
-            // but we don't have that until the results page right now, 
-            // when the AnyPIAJS WASM code is run.
-          }
-          {awiTrendOrManualPrediction === FutureAwiPredictionEnum.MANUAL && (
-            <>
-              <Card>
-                <label>
-                  <QuestionText>
-                    Future Earnings
-                  </QuestionText>
-                </label>
-                <FileUpload manual={false} hideUploadButton={true} />
-              </Card>
-            </>
-          )}
-        </ContentContainer>
-      </React.Fragment>
-    );
-  }
-}
+        {
+          //TODO: Maybe we want to display the earnings that the
+          // projections that the Detailed Calculator makes
+          // but we don't have that until the results page right now,
+          // when the AnyPIAJS WASM code is run.
+        }
+        {awiTrendOrManualPrediction === FutureAwiPredictionEnum.MANUAL && (
+          <>
+            <Card>
+              <label>
+                <QuestionText>Future Earnings</QuestionText>
+              </label>
+              <FileUpload manual={false} hideUploadButton={true} />
+            </Card>
+          </>
+        )}
+      </ContentContainer>
+    </React.Fragment>
+  );
+};
 
-export default function Prescreen1dWrapper(): JSX.Element {
-  const userState = useUserState()
-  const userStateActions = useUserStateActions()
-  return <Prescreen1d userState={userState} userStateActions={userStateActions} />
-}
+export default Prescreen1d;
