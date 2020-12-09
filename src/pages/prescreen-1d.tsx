@@ -20,6 +20,7 @@ import {
 import {
   FutureAwiPredictionEnum,
   PiaTypeOfBenefitIncreaseAssumption,
+  PiaTypeOfWageIncreaseAssumption,
   EarningsEnum,
   useUserState,
   UserState,
@@ -222,10 +223,10 @@ const Prescreen1d = ({}) => {
                     value={
                       PiaTypeOfBenefitIncreaseAssumption.alternative2Intermediate
                     }
-                    onChange={this.handleSelection}
+                    onChange={handleSelection}
                     checked={
                       awiTrendSelection ===
-                      PiaTypeOfBenefitIncreaseAssumption.alternative2Intermediate
+                      PiaTypeOfWageIncreaseAssumption.alternative2Intermediate
                     }
                   />
                   <LabelText>
@@ -240,10 +241,10 @@ const Prescreen1d = ({}) => {
                     value={
                       PiaTypeOfBenefitIncreaseAssumption.alternative3Pessimistic
                     }
-                    onChange={this.handleSelection}
+                    onChange={handleSelection}
                     checked={
                       awiTrendSelection ===
-                      PiaTypeOfBenefitIncreaseAssumption.alternative3Pessimistic
+                      PiaTypeOfWageIncreaseAssumption.alternative3Pessimistic
                     }
                   />
                   <LabelText>Low (Economy doesn’t go well)</LabelText>
@@ -255,10 +256,10 @@ const Prescreen1d = ({}) => {
                     value={
                       PiaTypeOfBenefitIncreaseAssumption.alternative1Optimistic
                     }
-                    onChange={this.handleSelection}
+                    onChange={handleSelection}
                     checked={
                       awiTrendSelection ===
-                      PiaTypeOfBenefitIncreaseAssumption.alternative1Optimistic
+                      PiaTypeOfWageIncreaseAssumption.alternative1Optimistic
                     }
                   />
                   <LabelText>High (Economy goes well)</LabelText>
