@@ -1,4 +1,4 @@
-export const sample25RetirementValues = {
+export const sample25RetirementValuesExplicit = {
 	"osss:OnlineSocialSecurityStatementData": {"@_xmlns:osss":"http://ssa.gov/osss/schemas/1.0","osss:FileCreationDate":"2015-05-27T07:40:55.027-04:00","osss:UserInformation":{"osss:Name":"John Q. Sample25","osss:DateOfBirth":"1960-09-02"},
 	"osss:EstimatedBenefits":{"osss:EarlyRetirementEstimate":{"osss:RetirementAge":{"osss:Years":""},"osss:Estimate":""},
 	"osss:FullRetirementEstimate":{"osss:RetirementAge":{"osss:Years":62},"osss:Estimate":399, "osss:PIA":570.60, "osss:Pension":1500},
