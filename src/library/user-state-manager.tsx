@@ -121,9 +121,7 @@ function mergeYears(
  * Helper function to get a Date object equivalent to the start of the date given
  */
 function startOfDay(date: Date): Date {
-  return dayjs(date)
-    .startOf("day")
-    .toDate();
+  return dayjs(date).startOf("day").toDate();
 }
 
 interface UserStateManagerProps {
@@ -171,11 +169,12 @@ export default function UserStateManager(
     boolean | null
   >(false);
   const [pensionAmount, setPensionAmount] = usePensionAmountState<
-  number | null
->(null);
-  const [expectedLastEarningYear, setExpectedLastEarningYear] = useExpectedLastEarningYear<
-  number | null
-  >(2020);
+    number | null
+  >(null);
+  const [
+    expectedLastEarningYear,
+    setExpectedLastEarningYear,
+  ] = useExpectedLastEarningYear<number | null>(2020);
   const [
     awiTrendOrManualPrediction,
     setAwiTrendOrManualPrediction,
@@ -184,11 +183,13 @@ export default function UserStateManager(
     awiTrendSelection,
     setAwiTrendSelection,
   ] = useAwiTrendSelection<FutureTrendEnum | null>(null);
-  const [expectedPercentageWageIncrease, setExpectedPercentageWageIncrease] = useExpectedPercentageWageIncrease<
-  number | null
-  >(0.01);
+  const [
+    expectedPercentageWageIncrease,
+    setExpectedPercentageWageIncrease,
+  ] = useExpectedPercentageWageIncrease<number | null>(0.01);
   const userState: UserState = useMemo(
-    () => ({
+    () => (
+      {
       birthDate: birthDate ? new Date(birthDate) : null,
       retireDate: retireDate ? new Date(retireDate) : null,
       fullRetirementAge:
@@ -222,7 +223,7 @@ export default function UserStateManager(
       expectedLastEarningYear,
       awiTrendOrManualPrediction,
       awiTrendSelection,
-      expectedPercentageWageIncrease
+      expectedPercentageWageIncrease,
     }),
     [
       birthDate,
@@ -240,6 +241,7 @@ export default function UserStateManager(
       preferPiaUserCalc,
       awiTrendOrManualPrediction,
       awiTrendSelection,
+      expectedLastEarningYear,
       expectedPercentageWageIncrease
     ]
   );
@@ -250,7 +252,11 @@ export default function UserStateManager(
       setRetireDate: (date) => setRetireDate(date ? startOfDay(date) : null),
       setYear62,
       setHaveEarnings,
-      setEarnings,
+      /* setEarnings & mergeYears is unlikely to fire retroactively on changes 
+      of birthdate or retire date ideally we'd have a single function for all
+       three alterations (or wrappers around each of them) if we go this way in the end*/
+      setEarnings: (earnings) => setEarnings(mergeYears(earnings, birthDate, retireDate)), 
+      /* note the entries in the dependency array for birthDate and retireDate */
       setEarningsFormat,
       setHaveSSAAccount,
       setIsEmploymentCovered,
@@ -262,7 +268,7 @@ export default function UserStateManager(
       setExpectedLastEarningYear,
       setAwiTrendOrManualPrediction,
       setAwiTrendSelection,
-      setExpectedPercentageWageIncrease
+      setExpectedPercentageWageIncrease,
     }),
     [
       setBirthDate,
@@ -281,7 +287,9 @@ export default function UserStateManager(
       setExpectedLastEarningYear,
       setAwiTrendOrManualPrediction,
       setAwiTrendSelection,
-      setExpectedPercentageWageIncrease
+      setExpectedPercentageWageIncrease,
+      birthDate,
+      retireDate
     ]
   );
 

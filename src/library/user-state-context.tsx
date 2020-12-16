@@ -1,6 +1,11 @@
 import * as React from "react";
-import { PiaYear, PiaEarnings, PiaTypeOfBenefitIncreaseAssumption, PiaTypeOfWageIncreaseAssumption} from "../library/pia/pia-types";
-export {PiaTypeOfBenefitIncreaseAssumption};
+import {
+  PiaYear,
+  PiaEarnings,
+  PiaTypeOfBenefitIncreaseAssumption,
+  PiaTypeOfWageIncreaseAssumption,
+} from "../library/pia/pia-types";
+export { PiaTypeOfBenefitIncreaseAssumption, PiaTypeOfWageIncreaseAssumption };
 
 export enum EarningsEnum {
   XML = "XML",
@@ -23,7 +28,7 @@ export enum PensionEnum {
 export enum FutureAwiPredictionEnum {
   TREND = "TREND",
   MANUAL = "MANUAL",
-  PERCENTAGE = "PERCENTAGE"
+  PERCENTAGE = "PERCENTAGE",
 }
 
 // export enum FutureAwiTrendEnum {
