@@ -67,6 +67,7 @@ const AgeSlider = ({ fullRetirementDate, birthDate, preferPiaUserCalcValue, ageY
           marginBottom: 60
         }}
         defaultValue={ageMonthsOnly}
+        value={ageYearsOnly === 70 ? 0 : ageMonthsOnly}
         disabled={ ageYearsOnly === 70 ? true : false}
         min={0} max={11}
         marks=
@@ -104,7 +105,7 @@ const AgeSlider = ({ fullRetirementDate, birthDate, preferPiaUserCalcValue, ageY
         dotStyle={{ visibility: 'hidden' }}
         activeDotStyle={{ visibility: 'hidden' }}
         railStyle={{ backgroundColor: colors.gray }}
-        onAfterChange={(ageMonthsOnly) => { handleChange(ageYearsOnly, ageMonthsOnly, preferPiaUserCalcValue) }}
+        onChange={(ageMonthsOnly) => { handleChange(ageYearsOnly, ageMonthsOnly, preferPiaUserCalcValue) }}
       />
     </React.Fragment>
   )
