@@ -74,14 +74,17 @@ const Link = styled.a`
   overflow-wrap: break-word;
 `;
 
-//TODO fix type to match object[number|null]
-const LastEarningsYearWarningBox = (
-  expectedLastEarningYearObject: number | null
-) => {
-  const expectedLastEarningYear =
-    expectedLastEarningYearObject.expectedLastEarningYear;
-  if (expectedLastEarningYear === null || expectedLastEarningYear < 2020) {
+const LastEarningsYearWarningBox = (props: {
+  expectedLastEarningYear: number | null,
+  birthDate: Date | null,
+}) => {
+  const expectedLastEarningYear = props.expectedLastEarningYear;
+  const birthYear = props.birthDate && dayjs(props.birthDate).year();
+
+  if (expectedLastEarningYear === null || expectedLastEarningYear < dayjs().year()) {
     return <WarningBox>The year must be {dayjs().year()} or above.</WarningBox>;
+  } else if (birthYear && expectedLastEarningYear >= birthYear + 70) {
+    return <WarningBox>Social security does not look at earnings after 70 years old.</WarningBox>;
   }
   return null;
 };
@@ -102,8 +105,9 @@ const Prescreen1d = ({}) => {
     awiTrendOrManualPrediction,
     awiTrendSelection,
     expectedPercentageWageIncrease,
+    birthDate,
   } = useUserState();
-
+  
   const handleSelection = (e: React.ChangeEvent<HTMLInputElement>) => {
     const selectValueString = e.target.value;
     switch (e.target.name) {
@@ -124,7 +128,6 @@ const Prescreen1d = ({}) => {
         setExpectedPercentageWageIncrease(parseFloat(selectValueString));
     }
   };
-
   return (
     <React.Fragment>
       <SEO title="Prescreen 1D" keywords={[`gatsby`, `application`, `react`]} />
@@ -146,6 +149,7 @@ const Prescreen1d = ({}) => {
               </label>
               <LastEarningsYearWarningBox
                 expectedLastEarningYear={expectedLastEarningYear}
+                birthDate={birthDate}
               />
             </Card>
             <Card>

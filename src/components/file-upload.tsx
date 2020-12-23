@@ -121,7 +121,8 @@ const WarningBoxTight = styled.div`
 `
 
 interface GenerateTableProps {
-  parsedXml: EarningsRecord | null
+  earningsUserState: EarningsRecord | null
+  expectedLastEarningYear: number | null
   manual: boolean
   manualTable: EarningsRecord
   handleInputEarnings: (year: string, value: string) => void
@@ -138,7 +139,8 @@ interface GenerateTableProps {
 export class GenerateTable extends React.Component<GenerateTableProps> {
   render() {
     const {
-      parsedXml,
+      earningsUserState,
+      expectedLastEarningYearUserState,
       manual,
       handleInputEarnings,
       handleManualEarnings,
@@ -148,11 +150,15 @@ export class GenerateTable extends React.Component<GenerateTableProps> {
     } = this.props
     var tableRows;
     var earningsSize;
-    if (parsedXml && manual === false) {
-      var earningsYears = Object.keys(parsedXml);
+    if (earningsUserState && manual === false) {
+      // Only show the years up until (and including) the last year the user
+      // expects to earn.
+      const lastYearIndex = Object.keys(earningsUserState).indexOf("" + expectedLastEarningYearUserState)
+      var earningsYears = Object.keys(earningsUserState).slice(0, lastYearIndex + 1);
+      
       tableRows = earningsYears.map((year, i) => {
-        const earningValueXML = parsedXml[year]
-          ? { defaultValue: parsedXml[year] }
+        const earningValueXML = earningsUserState[year]
+          ? { defaultValue: earningsUserState[year] }
           : { placeholder: 0 };
         const needAYearSet = earningValueXML && earningValueXML.defaultValue==-1
         return (
@@ -412,7 +418,11 @@ class FileUpload extends React.Component<FileUploadProps, FileUploadState> {
   }
 
   render() {
-    const {manual, hideUploadButton, userState: {earnings}} = this.props
+    const {
+      manual,
+      hideUploadButton,
+      userState: {earnings, expectedLastEarningYear},
+    } = this.props
 
     return (
       <div className="upload-form">
@@ -433,7 +443,8 @@ class FileUpload extends React.Component<FileUploadProps, FileUploadState> {
           </UploadButton>
         )}
         <GenerateTable
-          parsedXml={earnings}
+          earningsUserState={earnings}
+          expectedLastEarningYearUserState={expectedLastEarningYear}
           handleInputEarnings={this.handleInputEarnings}
           manual={this.props.manual}
           manualTable={this.state.manualTable}

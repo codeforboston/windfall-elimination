@@ -88,6 +88,7 @@ const useYear62State = createPersistedState("Year62", global.sessionStorage);
  * EarningsRecord we got from any XML/PDF input
  * and the birth year to full retirement age of the user,
  * whichever is more complete in both youth and old age */
+// TODO: Ensure the range is at least 70 years past the birthday
 function mergeYears(
   earnings: EarningsRecord,
   birthDate: Date | null,
