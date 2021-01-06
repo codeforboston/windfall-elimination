@@ -86,16 +86,23 @@ const useYear62State = createPersistedState("Year62", global.sessionStorage);
 
 /* Union the full set of years that the user might specify from both the
  * EarningsRecord we got from any XML/PDF input
- * and the birth year to full retirement age of the user,
- * whichever is more complete in both youth and old age */
-// TODO: Ensure the range is at least 70 years past the birthday
+ * and the birth year to specified retirement date of the user,
+ * whichever is more complete. 
+ * If no retire date is specified, set it to their 70th birthday
+ * 
+ * TODO : allow specified retire date update lenght of array
+ * let cleanRetireDate = retireDate === null? dayjs(birthDate).add(70,'year').toDate(): retireDate;
+ */
 function mergeYears(
   earnings: EarningsRecord,
-  birthDate: Date | null,
-  retireDate: Date | null
+  birthDate: Date | null
+  //,retireDate: Date | null
 ): EarningsRecord {
   /* if we don't have other info, just return what was passed in */
-  if (birthDate === null || retireDate === null) return earnings;
+  if (birthDate === null) return earnings;
+  //let cleanRetireDate = retireDate === null? dayjs(birthDate).add(70,'year').toDate(): retireDate;
+  let cleanRetireDate = dayjs(birthDate).add(71,'year').toDate();
+
   const earningsRecord = earnings || {};
 
   /*TODO(TDK) why do we need to create a new date object here, it is a string coming in? */
@@ -103,7 +110,7 @@ function mergeYears(
   const startEmploymentYear =
     (earnings && Object.keys(earnings) && Number(Object.keys(earnings)[0])) ||
     birthYear + 18;
-  const retireYear = new Date(retireDate).getFullYear();
+  const retireYear = cleanRetireDate.getFullYear();
   const endYear = retireYear;
 
   var tempRecord = {} as EarningsRecord;

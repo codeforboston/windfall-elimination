@@ -122,7 +122,7 @@ const WarningBoxTight = styled.div`
 
 interface GenerateTableProps {
   earningsUserState: EarningsRecord | null
-  expectedLastEarningYear: number | null
+  expectedLastEarningYearUserState: number | null
   manual: boolean
   manualTable: EarningsRecord
   handleInputEarnings: (year: string, value: string) => void
@@ -153,9 +153,12 @@ export class GenerateTable extends React.Component<GenerateTableProps> {
     if (earningsUserState && manual === false) {
       // Only show the years up until (and including) the last year the user
       // expects to earn.
-      const lastYearIndex = Object.keys(earningsUserState).indexOf("" + expectedLastEarningYearUserState)
+      const lengthCheck= Object.keys(earningsUserState).indexOf("" + expectedLastEarningYearUserState)
+      const lastYearIndex = lengthCheck < 0 ? Object.keys(earningsUserState).length - 1 : lengthCheck
       var earningsYears = Object.keys(earningsUserState).slice(0, lastYearIndex + 1);
       
+      debugger;
+           
       tableRows = earningsYears.map((year, i) => {
         const earningValueXML = earningsUserState[year]
           ? { defaultValue: earningsUserState[year] }
@@ -182,6 +185,7 @@ export class GenerateTable extends React.Component<GenerateTableProps> {
           </React.Fragment>
         );
       });
+      console.log(tableRows);
       earningsSize = tableRows.length;
     } else if (manual) {
       tableRows = Object.keys(manualTable).map((year, key) => {
