@@ -149,7 +149,18 @@ export class Screen2 extends React.Component<Screen2Props, Screen2State> {
     if (preferPiaUserCalcValue) {
       return await finalCalculation(userDOB, userDOR, userPension, earnings);
     } else {
-      const userAIME = ObsFuncs.getAIMEFromEarnings(earnings, year62);
+
+      function fromEntriesPonyfill (iterable: any) {
+        return [...iterable].reduce((obj, [key, val]) => {
+          obj[key] = val
+          return obj
+        }, {})
+      }
+      //Windfall Calculator cannot handle years in the future
+      //truncate away future earnings before passing it in.
+      // Do not include the current year, because it will not be in maximum earnings table.
+      const truncatedEarnings = fromEntriesPonyfill(Object.entries(earnings).filter(a => parseInt(a[0], 10) < dayjs().year()));
+      const userAIME = ObsFuncs.getAIMEFromEarnings(truncatedEarnings, year62);
       //be aware: this userDOR may be accepting a string: ambiguous.
       return await ObsFuncs.finalCalculation(
         userDOB,
