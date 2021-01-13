@@ -179,10 +179,11 @@ export default function UserStateManager(
   const [pensionAmount, setPensionAmount] = usePensionAmountState<
     number | null
   >(null);
+
   const [
     expectedLastEarningYear,
     setExpectedLastEarningYear,
-  ] = useExpectedLastEarningYear<number | null>(2020);
+  ] = useExpectedLastEarningYear<number | null>(dayjs().year());
   const [
     awiTrendOrManualPrediction,
     setAwiTrendOrManualPrediction,

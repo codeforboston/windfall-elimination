@@ -156,8 +156,6 @@ export class GenerateTable extends React.Component<GenerateTableProps> {
       const lengthCheck= Object.keys(earningsUserState).indexOf("" + expectedLastEarningYearUserState)
       const lastYearIndex = lengthCheck < 0 ? Object.keys(earningsUserState).length - 1 : lengthCheck
       var earningsYears = Object.keys(earningsUserState).slice(0, lastYearIndex + 1);
-      
-      debugger;
            
       tableRows = earningsYears.map((year, i) => {
         const earningValueXML = earningsUserState[year]

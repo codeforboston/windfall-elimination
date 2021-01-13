@@ -143,7 +143,7 @@ const Prescreen1d = ({}) => {
                 <AnswerInputDiscouragePlaceholder
                   name="expectedLastEarningYear"
                   defaultValue={expectedLastEarningYear ?? undefined}
-                  placeholder={"2020"}
+                  placeholder={dayjs().year()}
                   onChange={handleSelection}
                 ></AnswerInputDiscouragePlaceholder>
               </label>
@@ -221,6 +221,7 @@ const Prescreen1d = ({}) => {
                 placeholder={"0.01"}
                 onChange={handleSelection}
               ></AnswerInputDiscouragePlaceholder>
+              {isNaN(expectedPercentageWageIncrease) && <WarningBox>Please enter a number.</WarningBox>}
             </Card>
           </CardGlossaryContainer>
         )}
