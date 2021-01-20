@@ -67,17 +67,25 @@ const Main = styled("main")`
 /* There must be an entry for each of these in indexToSessionStorageKeys
     of progress-tracker.tsx */
 
+const showFutureEarningsPage = process.env.GATSBY_SHOW_FUTURE_EARNINGS_PAGE;
+
 const LINKSPATH = [
   {path: "/", label: "Home"},
   {path: "/prescreen-1a/", label: "Background"},
   {path: "/prescreen-1b/", label: "Earnings"},
-  {path: "/prescreen-1c/", label: "Employment Status"},
-  {path: "/prescreen-1d/", label: "Future Earnings"},
+  {path: "/prescreen-1c/", label: "Employment Status"}
+];
+
+if (showFutureEarningsPage === "true") {
+  LINKSPATH.push({path: "/prescreen-1d/", label: "Future Earnings"});
+}
+
+LINKSPATH.push(
   {path: "/screen-2/", label: "Results"},
   {path: "/screen-2a/", label: "Benefit Formula"},
   // {path: "/screen-2b/", label: "OVERPAYMENT"},
-  // {path: "/screen-2c/", label: "TAKE ACTION"}
-];
+  // {path: "/screen-2c/", {label: "TAKE ACTION"}
+);  
 
 const Layout = ({ children }) => (
   <StaticQuery
