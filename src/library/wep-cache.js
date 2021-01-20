@@ -44,7 +44,8 @@ const cachedSocialSecTables = {
     { year: 2016, Cola: 0.3 },
     { year: 2017, Cola: 2 },
     { year: 2018, Cola: 2.8 },
-    { year: 2019, Cola: 1.6 }
+    { year: 2019, Cola: 1.6 },
+    { year: 2020, Cola: 1.3}
   ],
   benefitReductionTable: [
     {
@@ -1827,7 +1828,8 @@ const cachedSocialSecTables = {
     { year: 2017, SubstantialEarnings: 23625 },
     { year: 2018, SubstantialEarnings: 23850 },
     { year: 2019, SubstantialEarnings: 24675 },
-    { year: 2020, SubstantialEarnings: 25575 }
+    { year: 2020, SubstantialEarnings: 25575 },
+    { year: 2021, SubstantialEarnings: 26550 }
   ],
   bendPoints: [
     {
@@ -2126,10 +2128,10 @@ const cachedSocialSecTables = {
     },
     {
       year: 2021,
-      FirstDollarAmtPIA: 985,
-      SecondDollarAmtPIA: 5935,
-      DollarAmtInMaxFamilyBenefitFormula: 1258,
-      isActualValue: false
+      FirstDollarAmtPIA: 996,
+      SecondDollarAmtPIA: 6002,
+      DollarAmtInMaxFamilyBenefitFormula: 1272,
+      isActualValue: true
     },
     {
       year: 2022,
@@ -2420,7 +2422,7 @@ const cachedSocialSecTables = {
     { year: 2016, averageWageIndex: 48642.15, isActualValue: true },
     { year: 2017, averageWageIndex: 50321.89, isActualValue: true },
     { year: 2018, averageWageIndex: 52145.8, isActualValue: true },
-    { year: 2019, averageWageIndex: 53562.23, isActualValue: false },
+    { year: 2019, averageWageIndex: 54099.99, isActualValue: true },
     { year: 2020, averageWageIndex: 54141.23, isActualValue: false },
     { year: 2021, averageWageIndex: 55654.07, isActualValue: false },
     { year: 2022, averageWageIndex: 57630.79, isActualValue: false },
