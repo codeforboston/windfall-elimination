@@ -146,11 +146,15 @@ export class Screen2 extends React.Component<Screen2Props, Screen2State> {
     }
 
     if (preferPiaUserCalcValue) {
+      // Uses the wrapped Social Security AnyPIA.exe Detailed Calculator
       return await finalCalculation(userDOB, userDOR, userPension, earnings, expectedLastEarningYear, awiTrendOrManualPrediction,
         awiTrendSelection, expectedPercentageWageIncrease);
     } else {
 
-      function fromEntriesPonyfill (iterable: any) {
+      // Uses our Windfall Awareness Calculator implementation
+      /* from https://github.com/feross/fromentries implements
+      https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/Object/fromEntries */
+      function ObjectFromEntries (iterable: any) {
         return [...iterable].reduce((obj, [key, val]) => {
           obj[key] = val
           return obj
@@ -159,7 +163,7 @@ export class Screen2 extends React.Component<Screen2Props, Screen2State> {
       //Windfall Calculator cannot handle years in the future
       //truncate away future earnings before passing it in.
       // Do not include the current year, because it will not be in maximum earnings table.
-      const truncatedEarnings = fromEntriesPonyfill(Object.entries(earnings).filter(a => parseInt(a[0], 10) < dayjs().year()));
+      const truncatedEarnings = ObjectFromEntries(Object.entries(earnings).filter(a => parseInt(a[0], 10) < dayjs().year()));
       const userAIME = ObsFuncs.getAIMEFromEarnings(truncatedEarnings, year62);
       //be aware: this userDOR may be accepting a string: ambiguous.
       return await ObsFuncs.finalCalculation(
