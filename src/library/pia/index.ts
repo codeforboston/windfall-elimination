@@ -89,27 +89,34 @@ export async function finalCalculation(
     .setEntitlementDate(new Date(retireDatePicked))
     .setMonthlyNoncoveredPensionAmount(userPension)
     .setOasdiEarnings(earningsRecords)
-    .setFirstEarningYear(mapFirstEarningYear)
-    .setLastEarningYear(expectedLastEarningYear || mapLastEarningYear)
-    .setAvgWageIncreaseAssumption(awiTrendSelection ?? undefined)
-    // .setFirstYearForwardEarningsProjection(2014);
+    .setFirstEarningYear(mapFirstEarningYear) //Required since we added line8 and line40 support
+    .setLastEarningYear(expectedLastEarningYear || mapLastEarningYear) //Required since we added line8 and line40 support
 
-  if (weNeedAssumptions) {
+  const showFutureEarningsPage = process.env.GATSBY_SHOW_FUTURE_EARNINGS_PAGE;
+  if (showFutureEarningsPage === "true") {
+    // console.log('Show future earnings');
     piaFormat
-      .setEarningsForQCIncreaseAssumption(
-        PiaTypeOfBenefitIncreaseAssumption.noFutureIncreases
-      )
-      .setMaxWageBaseProjectionInd(
-        PiaTypeOfMaxWageBaseProjection.alternative1Optimistic
-      )
-      .setFirstYearProjectedEarningsForQC(2020)
-      .setFirstYearForwardEarningsProjection(2014)
-      .setForwardProjectionType(
-        PiaTypeOfProjections.projectionRelatedToAverageWageIncrease
-      )
-      .setForwardProjectionPercentage(
-        expectedPercentageWageIncrease ?? undefined
-      );
+      .setAvgWageIncreaseAssumption(awiTrendSelection ?? undefined)
+      .setFirstYearForwardEarningsProjection(2014);
+
+    if (weNeedAssumptions) {
+      // console.log('weNeedAssumptions block');
+      piaFormat
+        .setEarningsForQCIncreaseAssumption(
+          PiaTypeOfBenefitIncreaseAssumption.noFutureIncreases
+        )
+        .setMaxWageBaseProjectionInd(
+          PiaTypeOfMaxWageBaseProjection.alternative1Optimistic
+        )
+        .setFirstYearProjectedEarningsForQC(2020)
+        .setFirstYearForwardEarningsProjection(2014)
+        .setForwardProjectionType(
+          PiaTypeOfProjections.projectionRelatedToAverageWageIncrease
+        )
+        .setForwardProjectionPercentage(
+          expectedPercentageWageIncrease ?? undefined
+        );
+    }
   }
 
   const piaOutput = piaFormat.outputPia();
