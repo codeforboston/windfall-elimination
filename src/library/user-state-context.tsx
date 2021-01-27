@@ -31,6 +31,11 @@ export enum FutureAwiPredictionEnum {
   PERCENTAGE = "PERCENTAGE",
 }
 
+interface BendPoints {
+  Amount: number;
+  Percent: number;
+}
+
 // export enum FutureAwiTrendEnum {
 //   INTERMEDIATE = "INTERMEDIATE",
 //   LOW = "LOW",
@@ -48,6 +53,7 @@ export interface UserProfile {
   aime: number;
   fullRetireDate: string;
   calculatorType: string;
+  bendPoints?: BendPoints[] 
 }
 
 export interface UserState {
