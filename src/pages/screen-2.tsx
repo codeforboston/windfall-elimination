@@ -106,6 +106,10 @@ export class Screen2 extends React.Component<Screen2Props, Screen2State> {
         pensionOrRetirementAccount,
         pensionAmount,
         pensionDateAwarded,
+        expectedLastEarningYear,
+        awiTrendOrManualPrediction,
+        awiTrendSelection,
+        expectedPercentageWageIncrease
         // preferPiaUserCalc, //use the one passed in, in order to avoid localStorage delay.
       },
     } = this.props;
@@ -148,7 +152,8 @@ export class Screen2 extends React.Component<Screen2Props, Screen2State> {
 
     if (preferPiaUserCalcValue) {
       // Uses the wrapped Social Security AnyPIA.exe Detailed Calculator
-      return await finalCalculation(userDOB, userDOR, userPension, earnings);
+      return await finalCalculation(userDOB, userDOR, userPension, earnings, expectedLastEarningYear, awiTrendOrManualPrediction,
+        awiTrendSelection, expectedPercentageWageIncrease);
     } else {
 
       // Uses our Windfall Awareness Calculator implementation

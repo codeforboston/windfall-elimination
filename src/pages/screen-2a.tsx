@@ -35,18 +35,18 @@ export const Screen2a: FunctionComponent<Screen2aProps> = () => {
     className?: string,
     onClick?: () => void
   }) => (
-      <ArrowElement
-        className={className}
-        isArrowLeft={className ? className.includes("slick-prev") : false}
-        onClick={onClick}
-      />
-    );
+    <ArrowElement
+      className={className}
+      isArrowLeft={className ? className.includes("slick-prev") : false}
+      onClick={onClick}
+    />
+  );
 
 
   return (
     <Wrapper>
       <SEO
-        keywords={["application", "gatsby", "react"]}
+        keywords={['application', 'gatsby', 'react']}
         title="Pre-Screen 2a"
       />
       <H2> Benefit Formula </H2>
@@ -68,16 +68,15 @@ export const Screen2a: FunctionComponent<Screen2aProps> = () => {
         {SliderSections({ isInCarousel: true })}
       </SectionsCarousel>
     </Wrapper>
-  )
+  );
 };
 
-const BarChart = (bottomPercent: number) => {
-  // console.log('bottomPercent: ', bottomPercent.bottomPercent);
+const BarChart = (bottomPercentProps: { bottomPercent: number }) => {
   return (
-       <div className="barContainer">
-          <div className="barTop" style={{height:`${200 - 200 * bottomPercent.bottomPercent}px`}}></div>
-          <div className="barBottom"style={{height:`${200 * bottomPercent.bottomPercent}px`}}>{bottomPercent.bottomPercent * 100}%</div>
-       </div>
+    <div className="barContainer">
+      <div className="barTop" style={{ height: `${200 - 200 * bottomPercentProps.bottomPercent}px` }}></div>
+      <div className="barBottom" style={{ height: `${200 * bottomPercentProps.bottomPercent}px` }}>{bottomPercentProps.bottomPercent * 100}%</div>
+    </div>
   )
 };
 
@@ -107,8 +106,8 @@ const SliderSections = ({ isInCarousel }: { isInCarousel?: boolean } = {}) => {
     }
   };
 
-  return ([
-    <Section isInCarousel={isInCarousel} key={key + "1"}>
+  return [
+    <Section isInCarousel={isInCarousel} key={key + '1'}>
       <h3> How does Social Security calculate my benefits? </h3>
       <p>
         Social Security uses three things to calculate your Primary Insurance
@@ -126,7 +125,7 @@ const SliderSections = ({ isInCarousel }: { isInCarousel?: boolean } = {}) => {
       <p> We'll walk you through an example in the following steps. </p>
     </Section>,
 
-    <Section isInCarousel={isInCarousel} key={key + "2"}>
+    <Section isInCarousel={isInCarousel} key={key + '2'}>
       <h3> Step 1: </h3>
       <p>
         Social Security calculates how much of your Average Indexed Monthly
@@ -136,9 +135,9 @@ const SliderSections = ({ isInCarousel }: { isInCarousel?: boolean } = {}) => {
         <br />
         You get {formatPercent(beforeFirstBendPointPercent)} of what falls under this bend point.
       </p>
-     
-      <TableBarChart style={{columnWidth:"20px"}}>
-      <tr>
+
+      <TableBarChart style={{ columnWidth: "20px" }}>
+        <tr>
           <td>1st Bucket</td>
           <td>1st Bend Point = ${beforeFirstBendPoint}</td>
           <td></td>
@@ -150,9 +149,9 @@ const SliderSections = ({ isInCarousel }: { isInCarousel?: boolean } = {}) => {
         </tr>
         <tr>
           <td>
-            <BarChart bottomPercent={beforeFirstBendPointPercent}/>
+            <BarChart bottomPercent={beforeFirstBendPointPercent} />
           </td>
-          <td style={{borderRight:"1px dashed black"}}></td>
+          <td style={{ borderRight: "1px dashed black" }}></td>
           <td></td>
           <td></td>
           <td></td>
@@ -191,21 +190,21 @@ const SliderSections = ({ isInCarousel }: { isInCarousel?: boolean } = {}) => {
 
 
       <p>However, if you answered “Yes” to the first question in the “Employment Status” section of this website,
-         the amount you get back of this first bucket will be different. To learn more, please see the 
+      the amount you get back of this first bucket will be different. To learn more, please see the
          <a href="https://www.ssa.gov/pubs/EN-05-10045.pdf">Windfall Elimination Provision pamphlet</a>
       </p>
 
     </Section>,
 
-    <Section isInCarousel={isInCarousel} key={key + "3"}>
+    <Section isInCarousel={isInCarousel} key={key + '3'}>
       <h3> Step 2: </h3>
       <p>
         Social Security calculates how much of your AIME fall below your first
         and second <em> bend points. </em>
       </p>
-      
-      <TableBarChart style={{columnWidth:"20px"}}>
-      <tr>
+
+      <TableBarChart style={{ columnWidth: "20px" }}>
+        <tr>
           <td>1st Bucket</td>
           <td>1st Bend Point = ${beforeFirstBendPoint}</td>
           <td></td>
@@ -217,14 +216,14 @@ const SliderSections = ({ isInCarousel }: { isInCarousel?: boolean } = {}) => {
         </tr>
         <tr>
           <td>
-            <BarChart bottomPercent={beforeFirstBendPointPercent}/>
+            <BarChart bottomPercent={beforeFirstBendPointPercent} />
           </td>
-          <td style={{borderRight:"1px dashed black"}}></td>
+          <td style={{ borderRight: "1px dashed black" }}></td>
           <td></td>
           <td>
-            <BarChart bottomPercent={afterFirstBendPointPercent}/>
+            <BarChart bottomPercent={afterFirstBendPointPercent} />
           </td>
-          <td style={{borderRight:"1px dashed black"}}></td>
+          <td style={{ borderRight: "1px dashed black" }}></td>
           <td></td>
           <td></td>
           <td></td>
@@ -257,19 +256,19 @@ const SliderSections = ({ isInCarousel }: { isInCarousel?: boolean } = {}) => {
           <td></td>
         </tr>
       </DisplayTable>
-      
+
 
     </Section>,
 
-    <Section isInCarousel={isInCarousel} key={key + "4"}>
+    <Section isInCarousel={isInCarousel} key={key + '4'}>
       <h3> Step 3: </h3>
       <p>
         Social Security calculates how much of your AIME fall below your second
         <em> bend point. </em>
       </p>
-    
-      <TableBarChart style={{columnWidth:"20px"}}>
-      <tr>
+
+      <TableBarChart style={{ columnWidth: "20px" }}>
+        <tr>
           <td>1st Bucket</td>
           <td>1st Bend Point = ${beforeFirstBendPoint}</td>
           <td></td>
@@ -281,16 +280,16 @@ const SliderSections = ({ isInCarousel }: { isInCarousel?: boolean } = {}) => {
         </tr>
         <tr>
           <td>
-            <BarChart bottomPercent={beforeFirstBendPointPercent}/>
+            <BarChart bottomPercent={beforeFirstBendPointPercent} />
           </td>
-          <td style={{borderRight:"1px dashed black"}}></td>
+          <td style={{ borderRight: "1px dashed black" }}></td>
           <td></td>
           <td>
-            <BarChart bottomPercent={afterFirstBendPointPercent}/>
+            <BarChart bottomPercent={afterFirstBendPointPercent} />
           </td>
-          <td style={{borderRight:"1px dashed black"}}></td>
+          <td style={{ borderRight: "1px dashed black" }}></td>
           <td></td>
-          <td><BarChart bottomPercent={pastSecondBendPointPercent}/></td>
+          <td><BarChart bottomPercent={pastSecondBendPointPercent} /></td>
         </tr>
         <tr>
           <td colSpan={2}>You get back {formatPercent(beforeFirstBendPointPercent)} of the amount, or {formatValue(beforeFirstBendPoint)}</td>
@@ -322,15 +321,15 @@ const SliderSections = ({ isInCarousel }: { isInCarousel?: boolean } = {}) => {
 
     </Section>,
 
-    <Section isInCarousel={isInCarousel} key={key + "5"}>
+    <Section isInCarousel={isInCarousel} key={key + '5'}>
       <h3> Final Calculation </h3>
       <p>
         Finally, Social Security adds the results of the three previous steps
         altogether.
       </p>
 
-      <TableBarChart style={{columnWidth:"20px"}}>
-      <tr>
+      <TableBarChart style={{ columnWidth: "20px" }}>
+        <tr>
           <td>1st Bucket</td>
           <td>1st Bend Point = ${beforeFirstBendPoint}</td>
           <td></td>
@@ -342,16 +341,16 @@ const SliderSections = ({ isInCarousel }: { isInCarousel?: boolean } = {}) => {
         </tr>
         <tr>
           <td>
-            <BarChart bottomPercent={beforeFirstBendPointPercent}/>
+            <BarChart bottomPercent={beforeFirstBendPointPercent} />
           </td>
-          <td style={{borderRight:"1px dashed black"}}></td>
+          <td style={{ borderRight: "1px dashed black" }}></td>
           <td></td>
           <td>
-            <BarChart bottomPercent={afterFirstBendPointPercent}/>
+            <BarChart bottomPercent={afterFirstBendPointPercent} />
           </td>
-          <td style={{borderRight:"1px dashed black"}}></td>
+          <td style={{ borderRight: "1px dashed black" }}></td>
           <td></td>
-          <td><BarChart bottomPercent={pastSecondBendPointPercent}/></td>
+          <td><BarChart bottomPercent={pastSecondBendPointPercent} /></td>
         </tr>
         <tr>
           <td colSpan={2}>You get back {formatPercent(beforeFirstBendPointPercent)} of the amount, or {formatValue(beforeFirstBendPoint)}</td>
@@ -385,21 +384,21 @@ const SliderSections = ({ isInCarousel }: { isInCarousel?: boolean } = {}) => {
     </Section>,
 
     <Section isInCarousel={isInCarousel} key={key + "6"}>
-    <div style={{ margin: "auto" }}>
-      <h3>Commonly Asked Questions </h3>
+      <div style={{ margin: "auto" }}>
+        <h3>Commonly Asked Questions </h3>
 
-      <p>I currently have an overpayment, so what should I do?</p>
-      <a href="https://www.ssa.gov/pubs/EN-05-10098.pdf" target="_blank">See the SSA document on Overpayments</a>
+        <p>I currently have an overpayment, so what should I do?</p>
+        <a href="https://www.ssa.gov/pubs/EN-05-10098.pdf" target="_blank">See the SSA document on Overpayments</a>
 
-      <p>How can I work on changing this law?</p>
-      <a href="https://www.house.gov/representatives/find-your-representative" target="_blank">Find your Representative</a>
+        <p>How can I work on changing this law?</p>
+        <a href="https://www.house.gov/representatives/find-your-representative" target="_blank">Find your Representative</a>
 
-      <p>How can I talk with my representative about Social Security?</p>
-      <a href="https://casework.civicapp.us/casework/" target="_blank">Request for your Representative's staff to look at your case</a>
-    </div>
+        <p>How can I talk with my representative about Social Security?</p>
+        <a href="https://casework.civicapp.us/casework/" target="_blank">Request for your Representative's staff to look at your case</a>
+      </div>
     </Section>
-    
-  ])
+
+  ]
 };
 
 const TableBarChart = styled.table`
@@ -452,9 +451,9 @@ const SectionsList = styled.div`
 
 const Section = styled.section<{ isInCarousel?: boolean }>`
   box-sizing: border-box;
-  margin-top: ${props => !props.isInCarousel && "3rem"};
+  margin-top: ${(props) => !props.isInCarousel && '3rem'};
   outline: none;
-  padding: ${props => props.isInCarousel && "0 1rem"};
+  padding: ${(props) => props.isInCarousel && '0 1rem'};
 `;
 
 const Image = styled.img`
@@ -465,8 +464,8 @@ const Image = styled.img`
 
 const ArrowElement = styled.div<{ isArrowLeft?: boolean }>`
   height: 2.5rem;
-  left: ${props => props.isArrowLeft && "-2.75rem"};
-  right: ${props => !props.isArrowLeft && "-2.75rem"};
+  left: ${(props) => props.isArrowLeft && '-2.75rem'};
+  right: ${(props) => !props.isArrowLeft && '-2.75rem'};
   width: 2.5rem;
   &:before {
     color: ${colors.purple};
@@ -502,6 +501,5 @@ export const td = styled("tr")`
   text-align: center;
   padding: 8px;
 `;
-
 
 export default Screen2a;

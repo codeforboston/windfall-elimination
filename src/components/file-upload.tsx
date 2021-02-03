@@ -121,7 +121,8 @@ const WarningBoxTight = styled.div`
 `
 
 interface GenerateTableProps {
-  parsedXml: EarningsRecord | null
+  earningsUserState: EarningsRecord | null
+  expectedLastEarningYearUserState: number | null
   manual: boolean
   manualTable: EarningsRecord
   handleInputEarnings: (year: string, value: string) => void
@@ -138,7 +139,8 @@ interface GenerateTableProps {
 export class GenerateTable extends React.Component<GenerateTableProps> {
   render() {
     const {
-      parsedXml,
+      earningsUserState,
+      expectedLastEarningYearUserState,
       manual,
       handleInputEarnings,
       handleManualEarnings,
@@ -148,11 +150,16 @@ export class GenerateTable extends React.Component<GenerateTableProps> {
     } = this.props
     var tableRows;
     var earningsSize;
-    if (parsedXml && manual === false) {
-      var earningsYears = Object.keys(parsedXml);
+    if (earningsUserState && manual === false) {
+      // Only show the years up until (and including) the last year the user
+      // expects to earn.
+      const lengthCheck= Object.keys(earningsUserState).indexOf("" + expectedLastEarningYearUserState)
+      const lastYearIndex = lengthCheck < 0 ? Object.keys(earningsUserState).length - 1 : lengthCheck
+      var earningsYears = Object.keys(earningsUserState).slice(0, lastYearIndex + 1);
+           
       tableRows = earningsYears.map((year, i) => {
-        const earningValueXML = parsedXml[year]
-          ? { defaultValue: parsedXml[year] }
+        const earningValueXML = earningsUserState[year]
+          ? { defaultValue: earningsUserState[year] }
           : { placeholder: 0 };
         const needAYearSet = earningValueXML && earningValueXML.defaultValue==-1
         return (
@@ -216,6 +223,7 @@ export class GenerateTable extends React.Component<GenerateTableProps> {
 
 interface FileUploadProps {
   manual: boolean
+  hideUploadButton: boolean | null
   userState: UserState
   userStateActions: UserStateActions
 }
@@ -411,10 +419,15 @@ class FileUpload extends React.Component<FileUploadProps, FileUploadState> {
   }
 
   render() {
-    const {manual, userState: {earnings}} = this.props
+    const {
+      manual,
+      hideUploadButton,
+      userState: {earnings, expectedLastEarningYear},
+    } = this.props
+
     return (
       <div className="upload-form">
-        {!manual && (
+        {!manual && !hideUploadButton && (
           <UploadButton>
             <UploadLabel htmlFor="inputfile" className="btn">
               <UploadIconWrap>
@@ -431,7 +444,8 @@ class FileUpload extends React.Component<FileUploadProps, FileUploadState> {
           </UploadButton>
         )}
         <GenerateTable
-          parsedXml={earnings}
+          earningsUserState={earnings}
+          expectedLastEarningYearUserState={expectedLastEarningYear}
           handleInputEarnings={this.handleInputEarnings}
           manual={this.props.manual}
           manualTable={this.state.manualTable}
@@ -450,10 +464,10 @@ class FileUpload extends React.Component<FileUploadProps, FileUploadState> {
 type FileUploadWrapperProps = Omit<FileUploadProps, 'userState' | 'userStateActions'>
 
 export default function FileUploadWrapper(props: FileUploadWrapperProps) {
-  const {manual} = props
+  const {manual, hideUploadButton} = props
   const userStateActions = useUserStateActions()
   const userState = useUserState()
   return (
-    <FileUpload manual={manual} userState={userState} userStateActions={userStateActions} />
+    <FileUpload manual={manual} hideUploadButton={hideUploadButton} userState={userState} userStateActions={userStateActions} />
   )
 }

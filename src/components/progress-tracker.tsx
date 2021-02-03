@@ -81,10 +81,11 @@ const indexToSessionStorageKeys = {
   1: ["Year62", "BirthDate", "RetireDate"],
   2: ['haveEarnings'],
   3: ['coveredEmployment', 'pensionOrRetirementAccount'],
-  4: [],
+  4: ['awiTrendOrManualPrediction', 'awiTrendSelection'],
   5: [],
   6: [],
   7: [],
+  8: []
 }
 
 const checkMark = (index, indexOfActivePath) => {

@@ -10,7 +10,7 @@ export class PiaMonthYear extends Date {}
 
 export class PiaYear extends Number {}
 export class PiaEarnings extends Number {}
-
+export class PiaFloat extends Number {}
 export enum PiaSex {
   male = 0,
   female = 1,
@@ -24,11 +24,45 @@ export enum SSABenefitType {
 
 /* http://thadk.net/anypiamac-docs/html/Forms/type_of_earnings.html */
 export enum PiaTypeOfEarnings {
-  enteredEarnings= 0,
+  enteredEarnings = 0,
   maximum = 1,
   high = 2,
   average = 3,
   low = 4,
+}
+
+// Line 8
+export enum PiaTypeOfProjections {
+  noProjection = 0,
+  projectionRelatedToAverageWageIncrease = 1,
+  projectionByAConstantPercentage = 2,
+}
+
+//Line 40
+export enum PiaTypeOfBenefitIncreaseAssumption {
+  alternative1Optimistic = 1,
+  alternative2Intermediate = 2,
+  alternative3Pessimistic = 3,
+  noFutureIncreases = 4,
+  other = 5,
+}
+
+//Line 40
+export enum PiaTypeOfWageIncreaseAssumption {
+  alternative1Optimistic = 1,
+  alternative2Intermediate = 2,
+  alternative3Pessimistic = 3,
+  noFutureIncreases = 4,
+  other = 5,
+}
+
+//Line 40,
+export enum PiaTypeOfMaxWageBaseProjection {
+  alternative1Optimistic = 1,
+  alternative2Intermediate = 2,
+  alternative3Pessimistic = 3,
+  noFutureIncreases = 4,
+  other = 5,
 }
 
 export enum PiaTypeOfTaxes {
@@ -44,8 +78,8 @@ export interface PiaData {
   typeOfBenefit?: SSABenefitType; //line 4
   monthYearBenefit?: PiaMonthYear;
   monthYearEntitlement?: PiaMonthYear;
-  firstEarningYearActual?: PiaYear; //line6
-  lastEarningYearActual?: PiaYear;
+  firstEarningYear?: PiaYear; //line6 //first year of projected and inputed earnings
+  lastEarningYear?: PiaYear; //end of projected and inputed earnings
   typeOfEarnings?: Map<PiaYear, PiaTypeOfEarnings>; //line20
   typeOfTaxes?: Map<PiaYear, PiaTypeOfTaxes>; //line21
   oasdiEarnings?: Map<PiaYear, PiaEarnings>; //line22-29
@@ -54,9 +88,17 @@ export interface PiaData {
   monthYearEntitlementNoncoveredPension?: PiaMonthYear;
   nameOfWorker?: string; //line16
   oldQuartersOfCoverageStubString?: string;
-  wageBaseStubString?: string;
+  //wageBaseStubString?: string; //line 40
   pastProjectionStubString?: string;
-  futureProjectionStubString?: string;
+  //futureProjectionStubString?: string;
+  forwardProjectionType?: PiaTypeOfProjections; //line 8
+  forwardProjectionPercentage?: PiaFloat; //line 8
+  firstYearForwardEarningsProjections?: PiaYear; //line 8
+  firstYearProjectedEarningsForQC?: PiaYear; //line 40
+  earningsForQCIncreaseAssumption?: PiaTypeOfBenefitIncreaseAssumption; //line 40
+  avgWageIncreaseAssumption?: PiaTypeOfWageIncreaseAssumption; //line 40
+  maxWageBaseProjectionInd?: PiaTypeOfMaxWageBaseProjection; //line 40
+
   piaEverythingElse?: string;
 }
 
@@ -83,11 +125,11 @@ export interface PiaDataAdapter {
   getMonthYearEntitlement(): PiaMonthYear | undefined;
   setMonthYearEntitelemnt(value: PiaMonthYear | undefined): void;
 
-  getFirstEarningYearActual(): PiaYear | undefined;
-  setFirstEarningYearActual(value: PiaYear | undefined): void;
+  getFirstEarningYear(): PiaYear | undefined;
+  setFirstEarningYear(value: PiaYear | undefined): void;
 
-  getLastEarningYearActual(): PiaYear | undefined;
-  setLastEarningYearActual(value: PiaYear | undefined): void;
+  getLastEarningYear(): PiaYear | undefined;
+  setLastEarningYear(value: PiaYear | undefined): void;
 
   getTypeOfEarnings(): Map<PiaYear, PiaTypeOfEarnings> | undefined;
   setTypeOfEarnings(value: Map<PiaYear, PiaTypeOfEarnings> | undefined): void;
@@ -115,14 +157,8 @@ export interface PiaDataAdapter {
   getOldQuartersOfCoverageStubString(): string | undefined;
   setOldQuartersOfCoverageStubString(value: string | undefined): void;
 
-  getWageBaseStubString(): string | undefined;
-  setWageBaseStubString(value: string | undefined): void;
-
   getPastProjectionStubString(): string | undefined;
   setPastProjectionStubString(value: string | undefined): void;
-
-  getFutureProjectionStubString(): string | undefined;
-  setFutureProjectionStubString(value: string | undefined): void;
 
   getPiaEverythingElse(): string | undefined;
   setPiaEverythingElse(value: string | undefined): void;

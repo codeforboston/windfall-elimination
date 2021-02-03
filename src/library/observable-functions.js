@@ -43,7 +43,7 @@ async function findBendPoints(dob) {
 	const bendPoints = await getWepTables.bendPoints()
   const yearOf62yo = dayjs(dob).add(62, 'years').year()
 
-  return await bendPoints.find(d => (d.year === yearOf62yo && d.isActualValue === true));
+  return await bendPoints.find(d => d.year === yearOf62yo);
 }
 
 /*
