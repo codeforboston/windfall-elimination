@@ -70,8 +70,6 @@ export async function finalCalculation(
     );
   }
 
-  //todo
-
   const mapOasdiEarnings = mapMap(earningsRecords, (v, k) =>
     (v && v === -1) || v === "-1" ? 0 : v
   );
@@ -79,7 +77,8 @@ export async function finalCalculation(
   const mapLastEarningYear = Math.max(...Array.from(mapOasdiEarnings.keys()));
 
   /* TODO: we know from observing AnyPIA that the "Assumptions..."
-   menu appears when date of entitlement aka retirement month/year is after the current month.
+   menu appears when date of entitlement aka retirement month/year is after the current month
+   so far we're just looking at if they're younger than 70 yo.
   */
   const weNeedAssumptions = dayjs().diff(dayjs(birthDatePicked), "year") < 70;
 

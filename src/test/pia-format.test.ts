@@ -242,6 +242,8 @@ describe("Blank string instantiation of PiaFormat", () => {
   })
 
   it("Deserializing empty pia results in error", async () => {
+    /* TODO: Do we still want this test that's been disabled? 
+    Is the code below an important part of this restoring this test? */
     expect.assertions(1);
 
     const emptyPiaInputter = new PiaFormat(``);
@@ -250,9 +252,13 @@ describe("Blank string instantiation of PiaFormat", () => {
       const emptyPiaInputter = new PiaFormat(``);
       emptyPiaInputter.outputPia();
     };
+
+
+    //TODO: see above.
     // expect(throwAnError).toThrowError(
     //   "Cannot read property 'map' of undefined"
     // );
+
     expect(emptyPiaInputter.outputPia()).toBe(`01
 031
 06`);

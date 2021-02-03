@@ -90,8 +90,8 @@ const useYear62State = createPersistedState("Year62", global.sessionStorage);
  * whichever is more complete. 
  * If no retire date is specified, set it to their 70th birthday
  * 
- * TODO : allow specified retire date update lenght of array
- * let cleanRetireDate = retireDate === null? dayjs(birthDate).add(70,'year').toDate(): retireDate;
+ * TODO : allow specified retire date to update length of array
+ * e.g. let cleanRetireDate = retireDate === null? dayjs(birthDate).add(70,'year').toDate(): retireDate;
  */
 function mergeYears(
   earnings: EarningsRecord,
@@ -121,7 +121,6 @@ function mergeYears(
       tempRecord[i] = 0;
     }
   }
-  // debugger
   return tempRecord;
 }
 
@@ -206,10 +205,8 @@ export default function UserStateManager(
           ? dayjs(retireDate).diff(birthDate, "year", true)
           : null,
       isManual:
-        earningsFormat === EarningsEnum.XML ||
-        earningsFormat === EarningsEnum.PDF
-          ? false
-          : true,
+        !(earningsFormat === EarningsEnum.XML ||
+        earningsFormat === EarningsEnum.PDF),
       fullRetirementAgeYearsOnly:
         birthDate && retireDate
           ? dayjs(retireDate).diff(birthDate, "year", false)

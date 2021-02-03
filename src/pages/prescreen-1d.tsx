@@ -97,7 +97,6 @@ const Prescreen1d = ({}) => {
     setExpectedPercentageWageIncrease,
   } = useUserStateActions();
 
-  // why was isManual here??
   const {
     pensionDateAwarded,
     pensionAmount,
@@ -264,7 +263,7 @@ const Prescreen1d = ({}) => {
                       PiaTypeOfWageIncreaseAssumption.alternative3Pessimistic
                     }
                   />
-                  <LabelText>Low (Economy doesn’t go well)</LabelText>
+                  <LabelText>Low (Economy doesn&apos;t go well)</LabelText>
                 </AnswerBox>
                 <AnswerBox>
                   <RadioButton
@@ -297,7 +296,7 @@ const Prescreen1d = ({}) => {
             </CardGlossaryContainer>
           )}
         {
-          //TODO: Maybe we want to display the earnings that the
+          //TODO: Future Live preview mode: Maybe we want to display the earnings
           // projections that the Detailed Calculator makes
           // but we don't have that until the results page right now,
           // when the AnyPIAJS WASM code is run.

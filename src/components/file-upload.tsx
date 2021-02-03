@@ -183,7 +183,6 @@ export class GenerateTable extends React.Component<GenerateTableProps> {
           </React.Fragment>
         );
       });
-      console.log(tableRows);
       earningsSize = tableRows.length;
     } else if (manual) {
       tableRows = Object.keys(manualTable).map((year, key) => {

@@ -72,7 +72,6 @@ export const Screen2a: FunctionComponent<Screen2aProps> = () => {
 };
 
 const BarChart = (bottomPercentProps: { bottomPercent: number }) => {
-  // console.log('bottomPercent: ', bottomPercent.bottomPercent);
   return (
     <div className="barContainer">
       <div className="barTop" style={{ height: `${200 - 200 * bottomPercentProps.bottomPercent}px` }}></div>
