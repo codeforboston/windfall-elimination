@@ -7,7 +7,6 @@
 .DS_Store
 **/node_modules/
 **/vendor/
-**/package-lock.json
 .vscode/
 **/public/
 windfall-elimination.sublime-project
