@@ -15,3 +15,5 @@ Join the Slack channel [#windfall-elimination](https://www.codeforboston.org/) f
 ## Launching Gatsby Site
 
 Run `npm install && npm start` to launch the project.
+To enable feature toggle
+- In Windows, run `$env:GATSBY_SHOW_FUTURE_EARNINGS_PAGE = 'true'; npm start`
