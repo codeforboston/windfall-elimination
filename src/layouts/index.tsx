@@ -8,6 +8,7 @@ import { ProgressTracker } from "../components/progress-tracker";
 import { ProgressTrackerMobile} from "../components/progress-tracker-mobile";
 import UserStateManager from "../library/user-state-manager";
 import { breakPoints } from "../constants";
+import {gatsbyShowFutureEarningsPage} from "../constants/config"; 
 
 const Wrapper = styled("div")`
   overflow: hidden;
@@ -67,8 +68,6 @@ const Main = styled("main")`
 /* There must be an entry for each of these in indexToSessionStorageKeys
     of progress-tracker.tsx */
 
-const showFutureEarningsPage = process.env.GATSBY_SHOW_FUTURE_EARNINGS_PAGE;
-
 const LINKSPATH = [
   {path: "/", label: "Home"},
   {path: "/prescreen-1a/", label: "Background"},
@@ -76,7 +75,7 @@ const LINKSPATH = [
   {path: "/prescreen-1c/", label: "Employment Status"}
 ];
 
-if (showFutureEarningsPage === "true") {
+if (gatsbyShowFutureEarningsPage) {
   LINKSPATH.push({path: "/prescreen-1d/", label: "Future Earnings"});
 }
 
