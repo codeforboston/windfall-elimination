@@ -1,4 +1,5 @@
 import { PiaFormat } from "./pia-format";
+import {gatsbyShowFutureEarningsPage} from "../../constants/config";
 import {
   UserProfile,
   EarningsRecord,
@@ -92,8 +93,7 @@ export async function finalCalculation(
     .setFirstEarningYear(mapFirstEarningYear) //Required since we added line8 and line40 support
     .setLastEarningYear(expectedLastEarningYear || mapLastEarningYear) //Required since we added line8 and line40 support
 
-  const showFutureEarningsPage = process.env.GATSBY_SHOW_FUTURE_EARNINGS_PAGE;
-  if (showFutureEarningsPage === "true") {
+  if (gatsbyShowFutureEarningsPage) {
     // console.log('Show future earnings');
     piaFormat
       .setAvgWageIncreaseAssumption(awiTrendSelection ?? undefined)
