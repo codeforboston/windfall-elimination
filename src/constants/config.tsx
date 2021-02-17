@@ -1,0 +1,1 @@
+export const gatsbyShowFutureEarningsPage = process.env.GATSBY_SHOW_FUTURE_EARNINGS_PAGE === "true" || false;
