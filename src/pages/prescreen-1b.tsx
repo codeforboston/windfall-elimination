@@ -58,9 +58,19 @@ interface Prescreen1bProps {
 class Prescreen1b extends React.Component<Prescreen1bProps> {
   constructor(props: Prescreen1bProps) {
     super(props);
+    this.earningsSelectRef = React.createRef();
+    this.howToRef = React.createRef();
+    this.earningsRecordRef = React.createRef();
     this.showFileUpload = this.showFileUpload.bind(this);
     this.showManualTable = this.showManualTable.bind(this);
+    this.scrollToElement = this.scrollToElement.bind(this);
   }
+
+  scrollToElement(ref) {
+      setTimeout(() => {
+        ref.current.scrollIntoView({ behavior: 'smooth', block: 'start'  });
+      }, 100)
+    }
 
   showFileUpload() {
     const {
@@ -146,6 +156,7 @@ class Prescreen1b extends React.Component<Prescreen1bProps> {
                     name="haveEarnings"
                     value="true"
                     onChange={() => setHaveEarnings(true)}
+                    onClick={() => this.scrollToElement(this.earningsSelectRef)} 
                     checked={haveEarnings === true}
                   />
                   <LabelText>Yes</LabelText>
@@ -156,6 +167,7 @@ class Prescreen1b extends React.Component<Prescreen1bProps> {
                     name="haveEarnings"
                     value="false"
                     onChange={() => setHaveEarnings(false)}
+                    onClick={() => this.scrollToElement(this.earningsSelectRef)}
                     checked={haveEarnings === false}
                   />
                   <LabelText>No</LabelText>
@@ -172,7 +184,7 @@ class Prescreen1b extends React.Component<Prescreen1bProps> {
               of your earnings record to use for this question.
             </Glossary>
           </CardGlossaryContainer>
-
+          <div ref={this.earningsSelectRef}> 
           {haveEarnings === true ? (
             <Card>
               <QuestionText>
@@ -184,6 +196,7 @@ class Prescreen1b extends React.Component<Prescreen1bProps> {
                   name="earningsFormat"
                   value={EarningsEnum.XML}
                   onChange={() => setEarningsFormat(EarningsEnum.XML)}
+                  onClick={()=> this.scrollToElement(this.earningsRecordRef)}
                   checked={earningsFormat === EarningsEnum.XML}
                 />
                 <LabelText>XML file (MySocialSecurity)</LabelText>
@@ -194,6 +207,7 @@ class Prescreen1b extends React.Component<Prescreen1bProps> {
                   name="earningsFormat"
                   value={EarningsEnum.PDF}
                   onChange={() => setEarningsFormat(EarningsEnum.PDF)}
+                  onClick={()=> this.scrollToElement(this.earningsRecordRef)}
                   checked={earningsFormat === EarningsEnum.PDF}
                 />
                 <LabelText>PDF (MySocialSecurity)</LabelText>
@@ -204,6 +218,7 @@ class Prescreen1b extends React.Component<Prescreen1bProps> {
                   name="earningsFormat"
                   value={EarningsEnum.PDFPRINT}
                   onChange={() => setEarningsFormat(EarningsEnum.PDFPRINT)}
+                  onClick={()=> this.scrollToElement(this.earningsRecordRef)}
                   checked={earningsFormat === EarningsEnum.PDFPRINT}
                 />
                 <LabelText>PDF (scanned from print)</LabelText>
@@ -214,6 +229,7 @@ class Prescreen1b extends React.Component<Prescreen1bProps> {
                   name="earningsFormat"
                   value={EarningsEnum.PAPER}
                   onChange={() => setEarningsFormat(EarningsEnum.PAPER)}
+                  onClick={()=> this.scrollToElement(this.earningsRecordRef)} 
                   checked={earningsFormat === EarningsEnum.PAPER}
                 />
                 <LabelText>Paper (mailed from SSA)</LabelText>
@@ -232,6 +248,7 @@ class Prescreen1b extends React.Component<Prescreen1bProps> {
                   name="haveSSAAccount"
                   value="true"
                   onChange={() => setHaveSSAAccount(true)}
+                  onClick={() => this.scrollToElement(this.howToRef)}
                   checked={haveSSAAccount === true}
                 />
                 <LabelText>Yes</LabelText>
@@ -242,12 +259,15 @@ class Prescreen1b extends React.Component<Prescreen1bProps> {
                   name="haveSSAAccount"
                   value="false"
                   onChange={() => setHaveSSAAccount(false)}
+                  onClick={() => this.scrollToElement(this.howToRef)}
                   checked={haveSSAAccount === false}
                 />
                 <LabelText>No</LabelText>
               </AnswerBox>
             </Card>
           ) : null}
+          </div>
+          <div ref={this.howToRef}>
           {haveEarnings === false && haveSSAAccount === true ? (
             <HowToContainer>
               <Card>
@@ -274,6 +294,8 @@ class Prescreen1b extends React.Component<Prescreen1bProps> {
               </Card>
             </HowToContainer>
           ) : null}
+          
+          <div ref={this.earningsRecordRef}>
           {this.showFileUpload() ? (
             <HowToContainer>
               <Card>
@@ -317,7 +339,8 @@ class Prescreen1b extends React.Component<Prescreen1bProps> {
               </Card>
             </div>
           )}
-
+          </div>
+          
           {haveEarnings === false && haveSSAAccount === false ? (
             <>
               <HowToContainer>
@@ -353,7 +376,9 @@ class Prescreen1b extends React.Component<Prescreen1bProps> {
                 </Card>
               </HowToContainer>
             </>
-          ) : null}
+          ) : null
+          }
+          </div>
         </ContentContainer>
       </React.Fragment>
     );
