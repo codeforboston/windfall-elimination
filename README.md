@@ -15,3 +15,11 @@ Join the Slack channel [#windfall-elimination](https://www.codeforboston.org/) f
 ## Launching Gatsby Site
 
 Run `npm install && npm start` to launch the project.
+
+- To turn on feature toggle that enables features.  
+   - In Windows, run `$env:<feature keyword> = 'true'; npm start` 
+   - In Mac and Linux, run `<feature keyword>=true npm start`
+
+- Feature keyword list
+   - `GATSBY_SHOW_FUTURE_EARNINGS_PAGE` : show future earnings page in left side bar and main page
+   - `GATSBY_SCROLL_WHEN_FINISH` : scroll down when finish each step in prescreen-1b

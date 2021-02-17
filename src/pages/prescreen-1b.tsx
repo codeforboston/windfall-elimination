@@ -25,6 +25,7 @@ import {
   useUserStateActions,
 } from "../library/user-state-actions-context";
 import { PiaFormat } from "../library/pia/pia-format";
+import { gatsbyScrollWhenFinish } from "../constants/config";
 
 export const SsaImage = styled("img")`
   border: 1px solid #dddddd;
@@ -67,10 +68,12 @@ class Prescreen1b extends React.Component<Prescreen1bProps> {
   }
 
   scrollToElement(ref) {
+    if (gatsbyScrollWhenFinish) {
       setTimeout(() => {
         ref.current.scrollIntoView({ behavior: 'smooth', block: 'start'  });
       }, 100)
     }
+  }
 
   showFileUpload() {
     const {
