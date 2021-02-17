@@ -1,1 +1,2 @@
 export const gatsbyShowFutureEarningsPage = process.env.GATSBY_SHOW_FUTURE_EARNINGS_PAGE === "true" || false;
+export const gatsbyScrollWhenFinish = process.env.GATSBY_SCROLL_WHEN_FINISH === "true" || false;
