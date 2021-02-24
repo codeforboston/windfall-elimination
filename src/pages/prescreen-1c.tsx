@@ -46,6 +46,21 @@ interface Prescreen1cProps {
 }
 
 class Prescreen1c extends React.Component<Prescreen1cProps> {
+
+  constructor(props: Prescreen1cProps) {
+    super(props);
+    this.pensionTypeRef = React.createRef();
+    this.pensionAmountRef = React.createRef();
+  }
+
+  scrollToElement(ref) {
+    setTimeout(() => { 
+      ref.current.scrollIntoView({
+        behavior: 'smooth',
+        block: 'start'});
+    }, 100);
+  }
+
   handleDateAwardedChange = (value: Date) => {
     const {userStateActions: {setPensionDateAwarded}} = this.props
     setPensionDateAwarded(value)
@@ -106,6 +121,7 @@ class Prescreen1c extends React.Component<Prescreen1cProps> {
                   value="true"
                   checked={isEmploymentCovered === true}
                   onChange={this.handleSelection}
+                  onClick={() => this.scrollToElement(this.pensionTypeRef)}
                 />
                 <LabelText>Yes</LabelText>
               </AnswerBox>
@@ -116,6 +132,7 @@ class Prescreen1c extends React.Component<Prescreen1cProps> {
                   value="false"
                   checked={isEmploymentCovered === false}
                   onChange={this.handleSelection}
+                  onClick={() => this.scrollToElement(this.pensionTypeRef)}
                 />
                 <LabelText>No</LabelText>
               </AnswerBox>
@@ -134,22 +151,31 @@ class Prescreen1c extends React.Component<Prescreen1cProps> {
             </CardGlossaryContainer>
             {isEmploymentCovered && (
             <CardGlossaryContainer>
-              <Card>
+              <Card ref={this.pensionTypeRef}>
                 <QuestionText>
                 Do you have a pension or retirement account from
 the work you did that does not show up on your
 Social Security record?
                 </QuestionText>
                 <AnswerBox>
-                  <RadioButton type="radio" name="pensionOrRetirementAccount" value={PensionEnum.PENSION} onChange={this.handleSelection} checked={pensionOrRetirementAccount === PensionEnum.PENSION} />
+                  <RadioButton type="radio" name="pensionOrRetirementAccount" value={PensionEnum.PENSION}
+                  onChange={this.handleSelection}
+                  onClick={() => this.scrollToElement(this.pensionAmountRef)}
+                  checked={pensionOrRetirementAccount === PensionEnum.PENSION} />
                   <LabelText>Monthly pension</LabelText>
                 </AnswerBox>
                 <AnswerBox>
-                  <RadioButton type="radio" name="pensionOrRetirementAccount" value={PensionEnum.LUMPSUM} onChange={this.handleSelection} checked={pensionOrRetirementAccount === PensionEnum.LUMPSUM} />
+                  <RadioButton type="radio" name="pensionOrRetirementAccount" value={PensionEnum.LUMPSUM}
+                  onChange={this.handleSelection} 
+                  onClick={() => this.scrollToElement(this.pensionAmountRef)}
+                  checked={pensionOrRetirementAccount === PensionEnum.LUMPSUM} />
                   <LabelText>Retirement account</LabelText>
                 </AnswerBox>
                 <AnswerBox>
-                  <RadioButton type="radio" name="pensionOrRetirementAccount" value={PensionEnum.NONEOFABOVE} onChange={this.handleSelection} checked={pensionOrRetirementAccount === PensionEnum.NONEOFABOVE} />
+                  <RadioButton type="radio" name="pensionOrRetirementAccount" value={PensionEnum.NONEOFABOVE} 
+                  onChange={this.handleSelection} 
+                  onClick={() => this.scrollToElement(this.pensionAmountRef)}
+                  checked={pensionOrRetirementAccount === PensionEnum.NONEOFABOVE} />
                   <LabelText>None of the above</LabelText>
                 </AnswerBox>
               </Card>
@@ -166,7 +192,7 @@ Social Security record?
               <>
               <Card>
                 <label>
-                  <QuestionText>
+                  <QuestionText ref={this.pensionAmountRef}>
                     Please enter the amount of your monthly pension or lump sum retirement account.
                   </QuestionText>
                   <AnswerInputDiscouragePlaceholder
