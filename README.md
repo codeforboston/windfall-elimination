@@ -12,8 +12,9 @@ This is a tool to help retirees affected by the Social Security Windfall Elimina
 
 Join the Slack channel [#windfall-elimination](https://www.codeforboston.org/) for more information.
 
-## Launching Gatsby Site
+## Installation
 
+Use git clone command with SSH.
 Run `npm install && npm start` to launch the project.
 
 - To turn on feature toggle that enables "future earnings" page.  
