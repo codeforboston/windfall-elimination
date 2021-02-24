@@ -53,6 +53,7 @@ class Prescreen1c extends React.Component<Prescreen1cProps> {
     this.pensionAmountRef = React.createRef();
   }
 
+  // TODO: fix error when reselet radio button
   scrollToElement(ref) {
     setTimeout(() => { 
       ref.current.scrollIntoView({
@@ -174,7 +175,6 @@ Social Security record?
                 <AnswerBox>
                   <RadioButton type="radio" name="pensionOrRetirementAccount" value={PensionEnum.NONEOFABOVE} 
                   onChange={this.handleSelection} 
-                  onClick={() => this.scrollToElement(this.pensionAmountRef)}
                   checked={pensionOrRetirementAccount === PensionEnum.NONEOFABOVE} />
                   <LabelText>None of the above</LabelText>
                 </AnswerBox>

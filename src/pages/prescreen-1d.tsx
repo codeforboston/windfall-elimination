@@ -1,4 +1,4 @@
-import React from "react";
+import React, {useRef} from "react";
 import styled from "@emotion/styled";
 import DatePicker from "react-datepicker";
 import { colors } from "../constants";
@@ -107,6 +107,11 @@ const Prescreen1d = ({}) => {
     birthDate,
   } = useUserState();
   
+  const estimateTypeRef = useRef();
+  const wageIncreaseRef = useRef();
+  const trendRef = useRef();
+  const futureEarningRef = useRef();
+
   const handleSelection = (e: React.ChangeEvent<HTMLInputElement>) => {
     const selectValueString = e.target.value;
     switch (e.target.name) {
@@ -127,6 +132,15 @@ const Prescreen1d = ({}) => {
         setExpectedPercentageWageIncrease(parseFloat(selectValueString));
     }
   };
+
+  const scrollToElement = (ref) => {
+    setTimeout(() => { 
+      ref.current.scrollIntoView({
+        behavior: 'smooth',
+        block: 'start'});
+    }, 100);
+  }
+
   return (
     <React.Fragment>
       <SEO title="Prescreen 1D" keywords={[`gatsby`, `application`, `react`]} />
@@ -144,6 +158,7 @@ const Prescreen1d = ({}) => {
                   defaultValue={expectedLastEarningYear ?? undefined}
                   placeholder={dayjs().year()}
                   onChange={handleSelection}
+                  // TODO: onFinish, scroll
                 ></AnswerInputDiscouragePlaceholder>
               </label>
               <LastEarningsYearWarningBox
@@ -152,7 +167,7 @@ const Prescreen1d = ({}) => {
               />
             </Card>
             <Card>
-              <QuestionText>
+              <QuestionText ref={estimateTypeRef}>
                 How would you like to estimate your future earnings?
               </QuestionText>
               <AnswerBox>
@@ -165,6 +180,7 @@ const Prescreen1d = ({}) => {
                     awiTrendOrManualPrediction ===
                     FutureAwiPredictionEnum.PERCENTAGE
                   }
+                  onClick={() => scrollToElement(wageIncreaseRef)} 
                 />
                 <LabelText>Use Percentage Only</LabelText>
               </AnswerBox>
@@ -177,6 +193,7 @@ const Prescreen1d = ({}) => {
                   checked={
                     awiTrendOrManualPrediction === FutureAwiPredictionEnum.TREND
                   }
+                  onClick={() => scrollToElement(wageIncreaseRef)}
                 />
                 <LabelText>
                   Use Percentage plus
@@ -193,6 +210,7 @@ const Prescreen1d = ({}) => {
                     awiTrendOrManualPrediction ===
                     FutureAwiPredictionEnum.MANUAL
                   }
+                  onClick={() => scrollToElement(futureEarningRef)}
                 />
                 <LabelText>Predict it myself</LabelText>
               </AnswerBox>
@@ -212,13 +230,14 @@ const Prescreen1d = ({}) => {
         {(awiTrendOrManualPrediction === FutureAwiPredictionEnum.PERCENTAGE ||
           awiTrendOrManualPrediction === FutureAwiPredictionEnum.TREND) && (
           <CardGlossaryContainer>
-            <Card>
+            <Card ref={wageIncreaseRef}>
               <QuestionText>Percent wage increase</QuestionText>
               <AnswerInputDiscouragePlaceholder
                 name="expectedPercentageWageIncrease"
                 defaultValue={expectedPercentageWageIncrease ?? undefined}
                 placeholder={"0.01"}
                 onChange={handleSelection}
+                // TODO: onFinish, scroll
               ></AnswerInputDiscouragePlaceholder>
               {isNaN(expectedPercentageWageIncrease) && <WarningBox>Please enter a number.</WarningBox>}
             </Card>
@@ -227,7 +246,7 @@ const Prescreen1d = ({}) => {
         {awiTrendOrManualPrediction &&
           awiTrendOrManualPrediction === FutureAwiPredictionEnum.TREND && (
             <CardGlossaryContainer>
-              <Card>
+              <Card ref={trendRef}>
                 <QuestionText>
                   Which trend would you like to use to predict your future
                   earnings?
@@ -303,7 +322,7 @@ const Prescreen1d = ({}) => {
         }
         {awiTrendOrManualPrediction === FutureAwiPredictionEnum.MANUAL && (
           <>
-            <Card>
+            <Card ref={futureEarningRef}>
               <label>
                 <QuestionText>Future Earnings</QuestionText>
               </label>
