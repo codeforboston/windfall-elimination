@@ -107,10 +107,10 @@ const Prescreen1d = ({}) => {
     birthDate,
   } = useUserState();
   
-  const estimateTypeRef = useRef();
-  const wageIncreaseRef = useRef();
-  const trendRef = useRef();
-  const futureEarningRef = useRef();
+  const estimateTypeRef = useRef<HTMLDivElement>(null);
+  const wageIncreaseRef = useRef<HTMLDivElement>(null);
+  const trendRef = useRef<HTMLDivElement>(null);
+  const futureEarningRef = useRef<HTMLDivElement>(null);
 
   const handleSelection = (e: React.ChangeEvent<HTMLInputElement>) => {
     const selectValueString = e.target.value;
@@ -133,12 +133,15 @@ const Prescreen1d = ({}) => {
     }
   };
 
-  const scrollToElement = (ref) => {
-    setTimeout(() => { 
-      ref.current.scrollIntoView({
-        behavior: 'smooth',
-        block: 'start'});
-    }, 100);
+  const scrollToElement = (ref: React.RefObject<HTMLDivElement>) => {
+    const node = ref.current;
+    if(node){
+      setTimeout(() => { 
+        node.scrollIntoView({
+          behavior: 'smooth',
+          block: 'start'});
+      }, 100);
+    }
   }
 
   return (

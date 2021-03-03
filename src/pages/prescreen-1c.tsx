@@ -47,19 +47,23 @@ interface Prescreen1cProps {
 
 class Prescreen1c extends React.Component<Prescreen1cProps> {
 
+  private pensionTypeRef = React.createRef<HTMLDivElement>();
+  private pensionAmountRef = React.createRef<HTMLDivElement>();
+
   constructor(props: Prescreen1cProps) {
     super(props);
-    this.pensionTypeRef = React.createRef();
-    this.pensionAmountRef = React.createRef();
   }
 
   // TODO: fix error when reselet radio button
-  scrollToElement(ref) {
-    setTimeout(() => { 
-      ref.current.scrollIntoView({
-        behavior: 'smooth',
-        block: 'start'});
-    }, 100);
+  scrollToElement(ref: React.RefObject<HTMLDivElement>) {
+    const node = ref.current;
+    if(node) {
+      setTimeout(() => { 
+        node.scrollIntoView({
+          behavior: 'smooth',
+          block: 'start'});
+      }, 100);
+   }
   }
 
   handleDateAwardedChange = (value: Date) => {
@@ -133,9 +137,6 @@ class Prescreen1c extends React.Component<Prescreen1cProps> {
                   value="false"
                   checked={isEmploymentCovered === false}
                   onChange={this.handleSelection}
-                  // onClick={() => this.scrollToElement(this.pensionTypeRef)}
-                  // TODO: fix error when re-select
-                  // https://reactjs.org/docs/refs-and-the-dom.html
                 />
                 <LabelText>No</LabelText>
               </AnswerBox>
