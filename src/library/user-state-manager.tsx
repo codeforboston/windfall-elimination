@@ -95,18 +95,15 @@ const useYear62State = createPersistedState("Year62", global.sessionStorage);
  */
 function mergeYears(
   earnings: EarningsRecord,
-  birthDate: Date | null
-  //,retireDate: Date | null
+  birthDate: Date | null,
+  retireDate: Date | null
 ): EarningsRecord {
-  /* if we don't have other info, just return what was passed in */
   if (birthDate === null) return earnings;
-  //let cleanRetireDate = retireDate === null? dayjs(birthDate).add(70,'year').toDate(): retireDate;
-  let cleanRetireDate = dayjs(birthDate).add(71,'year').toDate();
+  let cleanRetireDate = (retireDate === null) ? dayjs(birthDate).add(70,'year').toDate(): retireDate;
 
   const earningsRecord = earnings || {};
 
-  /*TODO(TDK) why do we need to create a new date object here, it is a string coming in? */
-  const birthYear = new Date(birthDate).getFullYear();
+  const birthYear = birthDate.getFullYear();
   const startEmploymentYear =
     (earnings && Object.keys(earnings) && Number(Object.keys(earnings)[0])) ||
     birthYear + 18;
@@ -123,7 +120,6 @@ function mergeYears(
   }
   return tempRecord;
 }
-
 /**
  * Helper function to get a Date object equivalent to the start of the date given
  */
