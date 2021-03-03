@@ -89,25 +89,36 @@ const useYear62State = createPersistedState("Year62", global.sessionStorage);
  * and the birth year to specified retirement date of the user,
  * whichever is more complete. 
  * If no retire date is specified, set it to their 70th birthday
- * 
- * TODO : allow specified retire date to update length of array
- * e.g. let cleanRetireDate = retireDate === null? dayjs(birthDate).add(70,'year').toDate(): retireDate;
  */
 function mergeYears(
   earnings: EarningsRecord,
   birthDate: Date | null,
-  retireDate: Date | null
+  retireDate: Date | null,
+  expectedLastEarningYear: number | null
 ): EarningsRecord {
+  console.log(`expectedLastEarningYear:${expectedLastEarningYear}, birthdate: ${birthDate}, retireDate: ${retireDate}`)
   if (birthDate === null) return earnings;
-  let cleanRetireDate = (retireDate === null) ? dayjs(birthDate).add(70,'year').toDate(): retireDate;
+  const birthYear = dayjs(birthDate).get('year');
+  const maxRetireDate = dayjs(birthDate).add(71,'year').toDate()
+  const retireYearFromReport = dayjs(retireDate!).get('year') || null;
+
+  let cleanRetireDate: Date;
+  if ((expectedLastEarningYear && retireDate) === null) {
+    cleanRetireDate = dayjs(birthDate).add(71,'year').toDate();
+  } else if ((expectedLastEarningYear === null) && (retireYearFromReport! - birthYear) < 71){
+    cleanRetireDate = retireDate!
+  } else if ((retireDate === null) && ((expectedLastEarningYear! - birthYear) < 71)){
+    cleanRetireDate = dayjs().year(expectedLastEarningYear!).toDate()
+  } else {
+    cleanRetireDate = dayjs(birthDate).add(71,'year').toDate();
+  }
 
   const earningsRecord = earnings || {};
 
-  const birthYear = birthDate.getFullYear();
   const startEmploymentYear =
     (earnings && Object.keys(earnings) && Number(Object.keys(earnings)[0])) ||
     birthYear + 18;
-  const retireYear = cleanRetireDate.getFullYear();
+  const retireYear = dayjs(cleanRetireDate).get('year');
   const endYear = retireYear;
 
   var tempRecord = {} as EarningsRecord;
@@ -257,8 +268,8 @@ export default function UserStateManager(
       /* setEarnings & mergeYears is unlikely to fire retroactively on changes 
       of birthdate or retire date ideally we'd have a single function for all
        three alterations (or wrappers around each of them) if we go this way in the end*/
-      setEarnings: (earnings) => setEarnings(mergeYears(earnings, birthDate, retireDate)), 
-      /* note the entries in the dependency array for birthDate and retireDate */
+      setEarnings: (earnings) => setEarnings(mergeYears(earnings, birthDate, retireDate, expectedLastEarningYear)), 
+      /* note the entries in the dependency array for birthDate, retireDate, and expectedLastEarningYear */
       setEarningsFormat,
       setHaveSSAAccount,
       setIsEmploymentCovered,
@@ -291,7 +302,8 @@ export default function UserStateManager(
       setAwiTrendSelection,
       setExpectedPercentageWageIncrease,
       birthDate,
-      retireDate
+      retireDate,
+      expectedLastEarningYear
     ]
   );
 
