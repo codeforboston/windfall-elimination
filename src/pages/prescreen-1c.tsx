@@ -133,7 +133,9 @@ class Prescreen1c extends React.Component<Prescreen1cProps> {
                   value="false"
                   checked={isEmploymentCovered === false}
                   onChange={this.handleSelection}
-                  onClick={() => this.scrollToElement(this.pensionTypeRef)}
+                  // onClick={() => this.scrollToElement(this.pensionTypeRef)}
+                  // TODO: fix error when re-select
+                  // https://reactjs.org/docs/refs-and-the-dom.html
                 />
                 <LabelText>No</LabelText>
               </AnswerBox>
