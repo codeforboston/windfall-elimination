@@ -71,11 +71,11 @@ class Prescreen1b extends React.Component<Prescreen1bProps> {
   scrollToElement(ref: React.RefObject<HTMLDivElement>){
     if (gatsbyScrollWhenFinish) {
       const node = ref.current;
-      if(node) {
         setTimeout(() => {
+          if(node) {
           node.scrollIntoView({ behavior: 'smooth', block: 'start'});
+          }
         }, 100);
-      }
     }
   }
 
