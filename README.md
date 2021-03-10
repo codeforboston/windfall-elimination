@@ -18,7 +18,7 @@ Use git clone command with SSH.
 Run `npm install && npm start` to launch the project.
 
 - To turn on feature toggle that enables features.  
-   - In Windows, run `$env:<feature keyword> = 'true'; npm start` 
+   - In Windows PowerShell(not cmd), run `$env:<feature keyword> = 'true'; npm start` 
    - In Mac and Linux, run `<feature keyword>=true npm start`
 
 - Feature keyword list
