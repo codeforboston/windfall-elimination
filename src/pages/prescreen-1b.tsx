@@ -57,21 +57,25 @@ interface Prescreen1bProps {
 }
 
 class Prescreen1b extends React.Component<Prescreen1bProps> {
+  private earningsSelectRef = React.createRef<HTMLDivElement>();
+  private howToRef = React.createRef<HTMLDivElement>();
+  private earningsRecordRef= React.createRef<HTMLDivElement>();
+
   constructor(props: Prescreen1bProps) {
-    super(props);
-    this.earningsSelectRef = React.createRef();
-    this.howToRef = React.createRef();
-    this.earningsRecordRef = React.createRef();
+    super(props);  
     this.showFileUpload = this.showFileUpload.bind(this);
     this.showManualTable = this.showManualTable.bind(this);
     this.scrollToElement = this.scrollToElement.bind(this);
   }
 
-  scrollToElement(ref) {
+  scrollToElement(ref: React.RefObject<HTMLDivElement>){
     if (gatsbyScrollWhenFinish) {
-      setTimeout(() => {
-        ref.current.scrollIntoView({ behavior: 'smooth', block: 'start'  });
-      }, 100)
+      const node = ref.current;
+        setTimeout(() => {
+          if(node) {
+          node.scrollIntoView({ behavior: 'smooth', block: 'start'});
+          }
+        }, 100);
     }
   }
 
