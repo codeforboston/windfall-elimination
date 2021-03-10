@@ -54,7 +54,6 @@ class Prescreen1c extends React.Component<Prescreen1cProps> {
     super(props);
   }
 
-  // TODO: fix error when reselet radio button
   scrollToElement(ref: React.RefObject<HTMLDivElement>) { 
       setTimeout(() => { 
         if(ref && ref.current) {

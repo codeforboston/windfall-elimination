@@ -161,7 +161,6 @@ const Prescreen1d = ({}) => {
                   defaultValue={expectedLastEarningYear ?? undefined}
                   placeholder={dayjs().year()}
                   onChange={handleSelection}
-                  // TODO: onFinish, scroll
                 ></AnswerInputDiscouragePlaceholder>
               </label>
               <LastEarningsYearWarningBox
