@@ -18,6 +18,7 @@ import {
 } from "../components";
 import {PensionEnum, useUserState, UserState} from '../library/user-state-context'
 import {useUserStateActions, UserStateActions} from '../library/user-state-actions-context'
+import { gatsbyScrollWhenFinish } from "../constants/config";
 
 const StyledDatePicker = styled(DatePicker)`
   border: 2px solid ${colors.purple};
@@ -55,6 +56,7 @@ class Prescreen1c extends React.Component<Prescreen1cProps> {
   }
 
   scrollToElement(ref: React.RefObject<HTMLDivElement>) { 
+    if (gatsbyScrollWhenFinish) {
       setTimeout(() => { 
         if(ref && ref.current) {
         ref.current.scrollIntoView({
@@ -62,7 +64,7 @@ class Prescreen1c extends React.Component<Prescreen1cProps> {
           block: 'start'});
         }
       },100);
-   
+    }
   }
 
   handleDateAwardedChange = (value: Date) => {
