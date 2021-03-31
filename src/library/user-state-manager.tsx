@@ -110,7 +110,7 @@ function mergeYears(
   } else if ((retireDate === null) && ((expectedLastEarningYear! - birthYear) < 71)){
     cleanRetireDate = dayjs().year(expectedLastEarningYear!).toDate()
   } else {
-    cleanRetireDate = dayjs(birthDate).add(71,'year').toDate();
+    cleanRetireDate = maxRetireDate
   }
 
   const earningsRecord = earnings || {};
