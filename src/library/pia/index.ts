@@ -185,7 +185,8 @@ export async function finalCalculation(
     aime: calculation.AIME && calculation.AIME.AME,
     fullRetireDate: new Date("2040-1-1").toLocaleDateString("en-US"),
     calculatorType: 'anypia',
-    bendPoints: usePIAAfterWindwfall ? calculation.PIAAfterWindwfall : calculation.PIAEligibility
+    bendPoints: usePIAAfterWindwfall ? calculation.PIAAfterWindwfall : calculation.PIAEligibility,
+    calculatorApp: resultObj.App
   };
   console.log("usePIAAfterWindwfall", usePIAAfterWindwfall);
   console.warn("DUMMY fullRetireDate until it can be added:");

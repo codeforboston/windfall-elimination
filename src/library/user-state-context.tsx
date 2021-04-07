@@ -42,6 +42,12 @@ interface BendPoints {
 //   HIGH = "HIGH",
 // }
 
+export interface CalculatorApp {
+  Description: string;
+  Name: string;
+  Version: string;
+}
+
 // Calculated results for the user
 export interface UserProfile {
   "Standard PIA": string;
@@ -54,6 +60,7 @@ export interface UserProfile {
   fullRetireDate: string;
   calculatorType: string;
   bendPoints?: BendPoints[] 
+  calculatorApp?: CalculatorApp;
 }
 
 export interface UserState {
