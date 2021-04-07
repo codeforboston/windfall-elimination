@@ -1,5 +1,6 @@
  // TODO ENABLE NODEJS mode for Emscripten Module and uncomment this file  
  // will not work without this. Also need to find way to reference wasm file for tests since /anypiajs.wasm won't workA
+const Module = require("../library/anypiajs.js"); //remember https://stackoverflow.com/a/63592692/272018
 
 import { finalCalculation } from "../library/pia/index";
 import { delayedRetirementValues, fullRetirementValues, sample20RetirementValues } from "../library/testFiles";
@@ -9,7 +10,7 @@ import {
 } from "../library/observable-functions";
 import dayjs from "dayjs";
 
-
+let AnyPIAJS = null;
 
 describe("Run AnyPIAJS", () => {
     it("Now it has NodeJS support", async () => {
@@ -20,116 +21,67 @@ describe("Run AnyPIAJS", () => {
 });
 // TODO:
 // Do an approach like this: https://github.com/emscripten-core/emscripten/issues/8400#issuecomment-498218291
-describe("John Q. Public (Full Retirement)", async () => {
+// describe("John Q. Public (Full Retirement)", async () => {
 
-  beforeAll(async () => {
-    var loader = ???();
-    loader.ready = () =>
-        // https://github.com/emscripten-core/emscripten/issues/5820
-        new Promise((resolve, reject) => {
-            delete loader.then;
-            loader.onAbort = reject;
-            loader.addOnPostRun(() => {
-                resolve(loader);
-            });
-        });
-    ??? = await loader.ready();
-});
-
-  const earnings =
-    fullRetirementValues["osss:OnlineSocialSecurityStatementData"][
-      "osss:EarningsRecord"
-    ]["osss:Earnings"];
-
-    const userDOB = "1947-10-10";
-    const userDOR = dayjs("2013-10-10").toDate(); // 66yo is their full retirement age.
-    //const year62 = "2014";
-  const rawEarnings = getRawEarnings(earnings);
-  const userPension = 0;
-
-  const piaUserCal = await finalCalculation(
-    userDOB,
-    userDOR,
-    userPension,
-    rawEarnings,
-    null,
-    null,
-    null,null
-  );
-  // var userCalc = await finalCalculation(userDOB, userDOR, year62, userYSE, userPension, userAIME)
-
-  const userYSE = Number(piaUserCal["yearsSubstantialEarnings"]);
-
-  it("Correctly tallies years of substantial earnings from a full earnings record.", async () => {
-    expect.assertions(1);
-
-    expect(userYSE).toBe(30);
-  });
-});
-
-//   it("Correctly calculates AIME from a full earnings record.", async () => {
-//     expect.assertions(1);
-
-//     const AIME = Number(piaUserCal["aime"]);
-//     //3383 is value for Observable notebook with correct birthdate.
-//       expect(AIME).toBe(3383)
-//     })
-
-//   it("Correctly calculates Payable Benefit from a full earnings record according to observable (good).", async () => {
-//     expect.assertions(1);
-
-
-//     /* detailed calculator says 1,595.10 while observable says 1514.08, XML said 1811.00 (likely flawed)  */
-//     /* Right now the test returns 1514.09 rather than 1514.08 like observable
-//     Added one cent tolerance in test */
-
-//     const result = Number(piaUserCal["MPB"]);
-//     expect(result >= 1514.08 && result <= 1514.09).toBeTruthy();
-//   });
+//   beforeAll(async () => {
+//     //Download the 2mb WASM file with the C++ policy logic, with a promise.
+//     var loader =  Module();
+//     loader.ready = () =>
+//         // https://github.com/emscripten-core/emscripten/issues/5820
+//         new Promise((resolve, reject) => {
+//             delete loader.then;
+//             loader.onAbort = reject;
+//             loader.addOnPostRun(() => {
+//                 resolve(loader);
+//                 reject((i, p , q) => {
+//                   console.log(this, i, p, q);
+//                 })
+//             });
+//         });
+//     AnyPIAJS = await loader.ready();
 // });
 
-// describe("Sample 20 AnyPIA (Full Retirement)", async () => {
-//   //Background finance info for Sample20
-//   const earnings =
-//     sample20RetirementValues["osss:OnlineSocialSecurityStatementData"][
-//       "osss:EarningsRecord"
-//     ]["osss:Earnings"];
-//   const userDOB = new Date("1952-06-22");
-//   const userDOR = new Date("2018-06-22"); // 66yo is their full retirement age.
-//   const year62 = "2014";
-//   const rawEarnings = getRawEarnings(earnings);
-//   const userPension = 1500;
+//   //Here's a known good AnyPIA format string for example: specifies mostly the
+//   // same things as above.
+//   const knownGood = `01          06221952
+// 031072014
+// 0619662010
+// 12   1500.00062010
+// 16Sample 20
+// 20000000000000000000000000000000000000011111110
+// 22     800.00    4100.00    4000.00    3700.00    4600.00    7300.00    9000.00   10800.00   12000.00   11700.00
+// 23   14100.00    6400.00   11600.00    5000.00       0.00       0.00       0.00       0.00       0.00       0.00
+// 24       0.00       0.00       0.00       0.00       0.00       0.00       0.00       0.00       0.00       0.00
+// 25       0.00       0.00       0.00       0.00       0.00       0.00   20000.00  104400.00  105480.00  108000.00
+// 26  113040.00  117000.00  122400.00  128160.00   35000.00
+// 95 40 40`;
 
-//   const piaUserCal = await finalCalculation(
-//     userDOB,
-//     userDOR,
-//     userPension,
-//     rawEarnings
-//   );
+
+
+//   //Instantiate AnyPIAJS C++ class we wrapped the original SSA AnyPIAB class with.
+//   //If you forget to send a newline at the end, AnyPIAJS seems to ignore the last line.
+
+//   const knownGoodPIADoc = new AnyPIAJS.PIADoc();
+//   const consoleOutputKnownGood = knownGoodPIADoc.calculate(knownGood + "\n");
+
+//   //Request a JSON dump from AnyPIAJS
+//   // const resultString = onePIADoc.getResult();
+//   // const resultObj = JSON.parse(resultString);
+
+//   //Cross check with known good value via new instance of same API.
+
+
+//   const resultStringKnownGood = knownGoodPIADoc.getResult();
+//   console.log(resultStringKnownGood); 
+//   const resultObjKnownGood = JSON.parse(resultStringKnownGood);
+
+
 
 
 //   it("Correctly tallies years of substantial earnings from a full earnings record.", async () => {
 //     expect.assertions(1);
 
-//   const userYSE = Number(piaUserCal["yearsSubstantialEarnings"]); 
-//     expect(userYSE).toBe(22);
-//   });
-
-//   //Test AIME calculations
-//   it("Correctly calculates getAIMEFromEarnings from a full earnings record.", async () => {
-//     expect.assertions(1);
-
-//     const AIME = Number(piaUserCal["aime"])
-
-//     expect(AIME).toBe(3403);
-//   });
-
-//   //Test MPB calculations
-//   it("Correctly calculates Payable Benefit from a full earnings record (best).", async () => {
-//     expect.assertions(1);
-
-//     /* both Detailed Calculator and Observable matched this value for me with the 1500 pension -tk */
-//     expect(Number(piaUserCal["MPB"])).toBe(1235.84);
+//     expect(userYSE).toBe(30);
 //   });
 // });
 
