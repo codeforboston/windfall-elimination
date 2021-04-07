@@ -54,7 +54,7 @@ const Text = styled.div`
   font-size: ${fontSizes[1]};
 `;
 
-const GlosssaryContainer = styled.div`
+const GlossaryContainer = styled.div`
   margin-left: 20px;
 `;
 
@@ -387,7 +387,7 @@ export class Screen2 extends React.Component<Screen2Props, Screen2State> {
               ) : null}
               </LeaveGutterAtRight>
               {preferPiaUserCalc && (
-                <GlosssaryContainer>
+                <GlossaryContainer>
                 <Glossary
                   title="Detailed Calculator"
                   link="https://www.ssa.gov/oact/anypia/anypia.html"
@@ -395,7 +395,7 @@ export class Screen2 extends React.Component<Screen2Props, Screen2State> {
                 >
                   {userProfile.calculatorApp?.Description}
                 </Glossary>
-              </GlosssaryContainer>
+              </GlossaryContainer>
               )}
                               </CardGlossaryContainer>
 
