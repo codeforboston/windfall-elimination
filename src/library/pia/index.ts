@@ -144,7 +144,7 @@ export async function finalCalculation(
   const onePIADoc = new AnyPIAJS.PIADoc();
   //If you forget to send a newline at the end, AnyPIAJS seems to ignore the last line.
   const consoleOutput = onePIADoc.calculate(piaOutput + "\n");
-
+  // console.log(147 + ' ' + AnyPIAJS.addOnPostRun());
   //Request a JSON dump from AnyPIAJS
   const resultString = onePIADoc.getResult();
   const resultObj = JSON.parse(resultString);
