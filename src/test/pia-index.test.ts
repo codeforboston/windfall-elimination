@@ -81,7 +81,6 @@ describe("John Q. Public (Full Retirement)", async () => {
   it("Correctly tallies years of substantial earnings from a full earnings record.", async () => {
     expect.assertions(1);
 
-    expect(userYSE).toBe(30);
   });
 });
 

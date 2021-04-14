@@ -1,16 +1,16 @@
-// require('core-js/modules/es6.typed-array.float32-array');
-// require('core-js/modules/es6.typed-array.float64-array');
-// require('core-js/modules/es6.typed-array.int16-array');
-// require('core-js/modules/es6.typed-array.int32-array');
-// require('core-js/modules/es6.typed-array.int8-array');
-// require('core-js/modules/es6.typed-array.uint16-array');
-// require('core-js/modules/es6.typed-array.uint32-array');
-// require('core-js/modules/es6.typed-array.uint8-array');
-// require('core-js/modules/es6.typed-array.uint8-clamped-array');
+// import 'core-js/modules/es6.typed-array.float32-array';
+// import 'core-js/modules/es6.typed-array.float64-array';
+// import 'core-js/modules/es6.typed-array.int16-array';
+// import 'core-js/modules/es6.typed-array.int32-array';
+// import 'core-js/modules/es6.typed-array.int8-array';
+// import 'core-js/modules/es6.typed-array.uint16-array';
+// import 'core-js/modules/es6.typed-array.uint32-array';
+// import 'core-js/modules/es6.typed-array.uint8-array';
+// import 'core-js/modules/es6.typed-array.uint8-clamped-array'
 // See: https://stackoverflow.com/questions/63592691/core-js-cannot-resolve-core-js-modules-es6-typed-uint32-array/63592692#63592692
 
 var Module = (function() {
-  var _scriptDir = '/anypiajs-20201.wasm';
+  var _scriptDir = '/anypiajs-20211.wasm';
   
   return (
 function(Module) {
@@ -1462,11 +1462,11 @@ function updateGlobalBufferAndViews(buf) {
 }
 
 var STATIC_BASE = 1024,
-    STACK_BASE = 74496,
+    STACK_BASE = 74272,
     STACKTOP = STACK_BASE,
-    STACK_MAX = 5317376,
-    DYNAMIC_BASE = 5317376,
-    DYNAMICTOP_PTR = 74288;
+    STACK_MAX = 5317152,
+    DYNAMIC_BASE = 5317152,
+    DYNAMICTOP_PTR = 74064;
 
 assert(STACK_BASE % 16 === 0, 'stack must start aligned');
 assert(DYNAMIC_BASE % 16 === 0, 'heap must start aligned');
@@ -1890,7 +1890,7 @@ function createExportWrapper(name, fixedasm) {
   };
 }
 
-var wasmBinaryFile = 'anypiajs-20201.wasm';
+var wasmBinaryFile = 'anypiajs-20211.wasm';
 if (!isDataURI(wasmBinaryFile)) {
   wasmBinaryFile = locateFile(wasmBinaryFile);
 }
@@ -2043,7 +2043,7 @@ var ASM_CONSTS = [];
 
 
 
-// STATICTOP = STATIC_BASE + 73472;
+// STATICTOP = STATIC_BASE + 73248;
 /* global initializers */  __ATINIT__.push({ func: function() { globalCtors() } });
 
 
@@ -2054,7 +2054,7 @@ var ASM_CONSTS = [];
 
 
 /* no memory initializer */
-var tempDoublePtr = 74480;
+var tempDoublePtr = 74256;
 
 function copyTempFloat(ptr) { // functions, because inlining this code increases code size too much
   HEAP8[tempDoublePtr] = HEAP8[ptr];
@@ -6344,7 +6344,7 @@ function copyTempDouble(ptr) {
     }
 
   
-  var ___tm_timezone=(stringToUTF8("GMT", 74384, 4), 74384);
+  var ___tm_timezone=(stringToUTF8("GMT", 74160, 4), 74160);
   
   function _tzset() {
       // TODO: Use (malleable) environment variables instead of system settings.
@@ -7085,8 +7085,8 @@ var dynCall_viiiiii = Module["dynCall_viiiiii"] = createExportWrapper("dynCall_v
 
 /** @type {function(...*):?} */
 var dynCall_viijii = Module["dynCall_viijii"] = createExportWrapper("dynCall_viijii");
-Module['__ZZNKSt3__27num_putIwNS_19ostreambuf_iteratorIwNS_11char_traitsIwEEEEE6do_putES4_RNS_8ios_baseEwPKvE5__fmt'] = 62847;
-Module['__ZZNKSt3__27num_putIwNS_19ostreambuf_iteratorIwNS_11char_traitsIwEEEEE6do_putES4_RNS_8ios_baseEwmE5__fmt'] = 62858;;
+Module['__ZZNKSt3__27num_putIwNS_19ostreambuf_iteratorIwNS_11char_traitsIwEEEEE6do_putES4_RNS_8ios_baseEwPKvE5__fmt'] = 62625;
+Module['__ZZNKSt3__27num_putIwNS_19ostreambuf_iteratorIwNS_11char_traitsIwEEEEE6do_putES4_RNS_8ios_baseEwmE5__fmt'] = 62636;;
 
 
 
@@ -7112,7 +7112,7 @@ if (!Object.getOwnPropertyDescriptor(Module, "addOnPreRun")) Module["addOnPreRun
 if (!Object.getOwnPropertyDescriptor(Module, "addOnInit")) Module["addOnInit"] = function() { abort("'addOnInit' was not exported. add it to EXTRA_EXPORTED_RUNTIME_METHODS (see the FAQ)") };
 if (!Object.getOwnPropertyDescriptor(Module, "addOnPreMain")) Module["addOnPreMain"] = function() { abort("'addOnPreMain' was not exported. add it to EXTRA_EXPORTED_RUNTIME_METHODS (see the FAQ)") };
 if (!Object.getOwnPropertyDescriptor(Module, "addOnExit")) Module["addOnExit"] = function() { abort("'addOnExit' was not exported. add it to EXTRA_EXPORTED_RUNTIME_METHODS (see the FAQ)") };
-if (!Object.getOwnPropertyDescriptor(Module, "addOnPostRun")) Module["addOnPostRun"] = function() { abort("'addOnPostRun' was not exported. add it to EXTRA_EXPORTED_RUNTIME_METHODS (see the FAQ)") };
+Module["addOnPostRun"] = addOnPostRun;
 if (!Object.getOwnPropertyDescriptor(Module, "writeStringToMemory")) Module["writeStringToMemory"] = function() { abort("'writeStringToMemory' was not exported. add it to EXTRA_EXPORTED_RUNTIME_METHODS (see the FAQ)") };
 if (!Object.getOwnPropertyDescriptor(Module, "writeArrayToMemory")) Module["writeArrayToMemory"] = function() { abort("'writeArrayToMemory' was not exported. add it to EXTRA_EXPORTED_RUNTIME_METHODS (see the FAQ)") };
 if (!Object.getOwnPropertyDescriptor(Module, "writeAsciiToMemory")) Module["writeAsciiToMemory"] = function() { abort("'writeAsciiToMemory' was not exported. add it to EXTRA_EXPORTED_RUNTIME_METHODS (see the FAQ)") };
