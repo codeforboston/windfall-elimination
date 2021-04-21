@@ -13,18 +13,10 @@ import {
   Glossary,
   WarningBox,
   CardGlossaryContainer,
-  ContentContainer
+  ContentContainer,
 } from "../components";
-import {
-  UserState,
-  EarningsEnum,
-  useUserState,
-} from "../library/user-state-context";
-import {
-  UserStateActions,
-  useUserStateActions,
-} from "../library/user-state-actions-context";
-import { PiaFormat } from "../library/pia/pia-format";
+import { UserState, EarningsEnum, useUserState } from "../library/user-state-context";
+import { UserStateActions, useUserStateActions } from "../library/user-state-actions-context";
 import { gatsbyScrollWhenFinish } from "../constants/config";
 
 export const SsaImage = styled("img")`
@@ -56,63 +48,43 @@ interface Prescreen1bProps {
   userStateActions: UserStateActions;
 }
 
-class Prescreen1b extends React.Component<Prescreen1bProps> {
-  private earningsSelectRef = React.createRef<HTMLDivElement>();
-  private howToRef = React.createRef<HTMLDivElement>();
-  private earningsRecordRef= React.createRef<HTMLDivElement>();
+function Prescreen1b(props: Prescreen1bProps) {
+  const earningsSelectRef = React.createRef<HTMLDivElement>();
+  const howToRef = React.createRef<HTMLDivElement>();
+  const earningsRecordRef = React.createRef<HTMLDivElement>();
 
-  constructor(props: Prescreen1bProps) {
-    super(props);  
-    this.showFileUpload = this.showFileUpload.bind(this);
-    this.showManualTable = this.showManualTable.bind(this);
-    this.scrollToElement = this.scrollToElement.bind(this);
-  }
+  const {
+    userState: { birthDate, haveEarnings, haveSSAAccount, earningsFormat },
+    userStateActions: { setHaveEarnings, setHaveSSAAccount, setEarningsFormat },
+  } = props;
 
-  scrollToElement(ref: React.RefObject<HTMLDivElement>){
+  function scrollToElement(ref: React.RefObject<HTMLDivElement>) {
     if (gatsbyScrollWhenFinish) {
       const node = ref.current;
-        setTimeout(() => {
-          if(node) {
-          node.scrollIntoView({ behavior: 'smooth', block: 'start'});
-          }
-        }, 100);
+      setTimeout(() => {
+        if (node) {
+          node.scrollIntoView({ behavior: "smooth", block: "start" });
+        }
+      }, 100);
     }
   }
 
-  showFileUpload() {
-    const {
-      userState: { haveEarnings, haveSSAAccount, earningsFormat },
-    } = this.props;
+  function showFileUpload() {
     return (
       (haveEarnings === false && haveSSAAccount === true) ||
-      (haveEarnings === true &&
-        (earningsFormat === EarningsEnum.XML ||
-          earningsFormat === EarningsEnum.PDF))
+      (haveEarnings === true && (earningsFormat === EarningsEnum.XML || earningsFormat === EarningsEnum.PDF))
     );
   }
 
-  showManualTable() {
-    const {
-      userState: { haveEarnings, earningsFormat },
-    } = this.props;
-    return (
-      haveEarnings === true &&
-      (earningsFormat === EarningsEnum.PDFPRINT ||
-        earningsFormat === EarningsEnum.PAPER)
-    );
+  function showManualTable() {
+    return haveEarnings === true && (earningsFormat === EarningsEnum.PDFPRINT || earningsFormat === EarningsEnum.PAPER);
   }
 
-  checkForBirthday = () => {
-    const {
-      userState: { birthDate },
-    } = this.props;
+  const checkForBirthday = () => {
     if (birthDate === null) {
       return (
         <WarningBox>
-          <label>
-            Please go back and fill out appropriate birthdate before going
-            forward.{" "}
-          </label>
+          <label>Please go back and fill out appropriate birthdate before going forward. </label>
         </WarningBox>
       );
     }
@@ -120,123 +92,102 @@ class Prescreen1b extends React.Component<Prescreen1bProps> {
     return null;
   };
 
-  render() {
-    const {
-      userState: { haveEarnings, haveSSAAccount, earningsFormat },
-      userStateActions: {
-        setHaveEarnings,
-        setHaveSSAAccount,
-        setEarningsFormat,
-      },
-    } = this.props;
+  return (
+    <React.Fragment>
+      <SEO title='Prescreen 1b' keywords={[`social security`, `government`, `retirement`]} />
+      <ContentContainer>
+        <CardGlossaryContainer>
+          <TopQuestionAndTitle>
+            <H2>Step 2: Earnings</H2>
+            <TextBlock>
+              Your Social Security retirement benefits are calculated based on your earnings in covered employment.
+            </TextBlock>
+            <br />
+            <TextBlock>
+              To calculate your Social Security retirement benefits, you will need a record of your earnings from Social
+              Security. Follow the steps below to get your earning record.
+            </TextBlock>
+            {checkForBirthday()}
 
-
-    return (
-      <React.Fragment>
-        <SEO
-          title="Prescreen 1b"
-          keywords={[`social security`, `government`, `retirement`]}
-        />
-        <ContentContainer>
-          <CardGlossaryContainer>
-            <TopQuestionAndTitle>
-              <H2>Step 2: Earnings</H2>
-              <TextBlock>
-                Your Social Security retirement benefits are calculated based on
-                your earnings in covered employment.
-              </TextBlock>
-              <br />
-              <TextBlock>
-                To calculate your Social Security retirement benefits, you will
-                need a record of your earnings from Social Security. Follow the
-                steps below to get your earning record.
-              </TextBlock>
-              {this.checkForBirthday()}
-
-              <Card>
-                <QuestionText>
-                  Do you have a copy of your earnings record?
-                </QuestionText>
-                <AnswerBox>
-                  <RadioButton
-                    type="radio"
-                    name="haveEarnings"
-                    value="true"
-                    onChange={() => setHaveEarnings(true)}
-                    onClick={() => this.scrollToElement(this.earningsSelectRef)} 
-                    checked={haveEarnings === true}
-                  />
-                  <LabelText>Yes</LabelText>
-                </AnswerBox>
-                <AnswerBox>
-                  <RadioButton
-                    type="radio"
-                    name="haveEarnings"
-                    value="false"
-                    onChange={() => setHaveEarnings(false)}
-                    onClick={() => this.scrollToElement(this.earningsSelectRef)}
-                    checked={haveEarnings === false}
-                  />
-                  <LabelText>No</LabelText>
-                </AnswerBox>
-              </Card>
-            </TopQuestionAndTitle>
-            <Glossary
-              title="MYSOCIALSECURITY"
-              link="https://www.ssa.gov/myaccount/"
-              linkText="Login or signup online for a MySocialSecurity using this link."
-            >
-              MySocialSecurity is the Social Security Administrations online
-              service. With a MySocialSecurity account , you can download a copy
-              of your earnings record to use for this question.
-            </Glossary>
-          </CardGlossaryContainer>
-          <div ref={this.earningsSelectRef}> 
-          {haveEarnings === true ? (
             <Card>
-              <QuestionText>
-                What format is the copy of your earnings record?
-              </QuestionText>
+              <QuestionText>Do you have a copy of your earnings record?</QuestionText>
               <AnswerBox>
                 <RadioButton
-                  type="radio"
-                  name="earningsFormat"
+                  type='radio'
+                  name='haveEarnings'
+                  value='true'
+                  onChange={() => setHaveEarnings(true)}
+                  onClick={() => scrollToElement(earningsSelectRef)}
+                  checked={haveEarnings === true}
+                />
+                <LabelText>Yes</LabelText>
+              </AnswerBox>
+              <AnswerBox>
+                <RadioButton
+                  type='radio'
+                  name='haveEarnings'
+                  value='false'
+                  onChange={() => setHaveEarnings(false)}
+                  onClick={() => scrollToElement(earningsSelectRef)}
+                  checked={haveEarnings === false}
+                />
+                <LabelText>No</LabelText>
+              </AnswerBox>
+            </Card>
+          </TopQuestionAndTitle>
+          <Glossary
+            title='MYSOCIALSECURITY'
+            link='https://www.ssa.gov/myaccount/'
+            linkText='Login or signup online for a MySocialSecurity using this link.'
+          >
+            MySocialSecurity is the Social Security Administrations online service. With a MySocialSecurity account ,
+            you can download a copy of your earnings record to use for this question.
+          </Glossary>
+        </CardGlossaryContainer>
+        <div ref={earningsSelectRef}>
+          {haveEarnings === true ? (
+            <Card>
+              <QuestionText>What format is the copy of your earnings record?</QuestionText>
+              <AnswerBox>
+                <RadioButton
+                  type='radio'
+                  name='earningsFormat'
                   value={EarningsEnum.XML}
                   onChange={() => setEarningsFormat(EarningsEnum.XML)}
-                  onClick={()=> this.scrollToElement(this.earningsRecordRef)}
+                  onClick={() => scrollToElement(earningsRecordRef)}
                   checked={earningsFormat === EarningsEnum.XML}
                 />
                 <LabelText>XML file (MySocialSecurity)</LabelText>
               </AnswerBox>
               <AnswerBox>
                 <RadioButton
-                  type="radio"
-                  name="earningsFormat"
+                  type='radio'
+                  name='earningsFormat'
                   value={EarningsEnum.PDF}
                   onChange={() => setEarningsFormat(EarningsEnum.PDF)}
-                  onClick={()=> this.scrollToElement(this.earningsRecordRef)}
+                  onClick={() => scrollToElement(earningsRecordRef)}
                   checked={earningsFormat === EarningsEnum.PDF}
                 />
                 <LabelText>PDF (MySocialSecurity)</LabelText>
               </AnswerBox>
               <AnswerBox>
                 <RadioButton
-                  type="radio"
-                  name="earningsFormat"
+                  type='radio'
+                  name='earningsFormat'
                   value={EarningsEnum.PDFPRINT}
                   onChange={() => setEarningsFormat(EarningsEnum.PDFPRINT)}
-                  onClick={()=> this.scrollToElement(this.earningsRecordRef)}
+                  onClick={() => scrollToElement(earningsRecordRef)}
                   checked={earningsFormat === EarningsEnum.PDFPRINT}
                 />
                 <LabelText>PDF (scanned from print)</LabelText>
               </AnswerBox>
               <AnswerBox>
                 <RadioButton
-                  type="radio"
-                  name="earningsFormat"
+                  type='radio'
+                  name='earningsFormat'
                   value={EarningsEnum.PAPER}
                   onChange={() => setEarningsFormat(EarningsEnum.PAPER)}
-                  onClick={()=> this.scrollToElement(this.earningsRecordRef)} 
+                  onClick={() => scrollToElement(earningsRecordRef)}
                   checked={earningsFormat === EarningsEnum.PAPER}
                 />
                 <LabelText>Paper (mailed from SSA)</LabelText>
@@ -246,121 +197,105 @@ class Prescreen1b extends React.Component<Prescreen1bProps> {
 
           {haveEarnings === false ? (
             <Card>
-              <QuestionText>
-                Do you have a MySocialSecurity account?
-              </QuestionText>
+              <QuestionText>Do you have a MySocialSecurity account?</QuestionText>
               <AnswerBox>
                 <RadioButton
-                  type="radio"
-                  name="haveSSAAccount"
-                  value="true"
+                  type='radio'
+                  name='haveSSAAccount'
+                  value='true'
                   onChange={() => setHaveSSAAccount(true)}
-                  onClick={() => this.scrollToElement(this.howToRef)}
+                  onClick={() => scrollToElement(howToRef)}
                   checked={haveSSAAccount === true}
                 />
                 <LabelText>Yes</LabelText>
               </AnswerBox>
               <AnswerBox>
                 <RadioButton
-                  type="radio"
-                  name="haveSSAAccount"
-                  value="false"
+                  type='radio'
+                  name='haveSSAAccount'
+                  value='false'
                   onChange={() => setHaveSSAAccount(false)}
-                  onClick={() => this.scrollToElement(this.howToRef)}
+                  onClick={() => scrollToElement(howToRef)}
                   checked={haveSSAAccount === false}
                 />
                 <LabelText>No</LabelText>
               </AnswerBox>
             </Card>
           ) : null}
-          </div>
-          <div ref={this.howToRef}>
+        </div>
+        <div ref={howToRef}>
           {haveEarnings === false && haveSSAAccount === true ? (
             <HowToContainer>
               <Card>
                 <H2>HOW-TO</H2>
                 <h3>Download your earnings record from MySocialSecurity</h3>
                 <WarningBox>
-                  This how-to will show you how to download your personal Social
-                  Security information. Only follow these steps if you are using
-                  a private computer. If you only have access to a public
-                  computer - like those at a library, school, or computer lab -
-                  please click here to be shown instructions for requesting a
+                  This how-to will show you how to download your personal Social Security information. Only follow these
+                  steps if you are using a private computer. If you only have access to a public computer - like those
+                  at a library, school, or computer lab - please click here to be shown instructions for requesting a
                   physical copy of your earnings record in the mail.
                 </WarningBox>
                 <ul>
                   <ol>1) Log in to your MySocialSecurity account</ol>
-                  <ol>
-                    2) Click on “Download Your Statement Data”, as seen in the
-                    red box in the photo below.
-                  </ol>
-                  <SsaImage src="https://user-images.githubusercontent.com/50156013/56998273-bcd78800-6b78-11e9-86b5-9db06d292a4c.jpg" />
+                  <ol>2) Click on “Download Your Statement Data”, as seen in the red box in the photo below.</ol>
+                  <SsaImage src='https://user-images.githubusercontent.com/50156013/56998273-bcd78800-6b78-11e9-86b5-9db06d292a4c.jpg' />
                   <ol>3) Save the XML file to your computer.</ol>
                   <ol>4) Upload the XML file using the tool below.</ol>
                 </ul>
               </Card>
             </HowToContainer>
           ) : null}
-          
-          <div ref={this.earningsRecordRef}>
-          {this.showFileUpload() ? (
-            <HowToContainer>
-              <Card>
-                <TextBlock>Please upload your earnings record file</TextBlock>
-                <FileUpload manual={false} />
-                <TextBlock>
-                  Once you have uploaded your earnings record, click next and go
-                  forward.
-                </TextBlock>
-              </Card>
-            </HowToContainer>
-          ) : null}
 
-          {this.showManualTable() && (
-            <div>
-              <CardGlossaryContainer>
+          <div ref={earningsRecordRef}>
+            {showFileUpload() ? (
+              <HowToContainer>
                 <Card>
-                  <TextBlock>
-                    Please enter the “Taxed Social Security Earnings” amounts
-                    from your earnings record.
-                  </TextBlock>
+                  <TextBlock>Please upload your earnings record file</TextBlock>
+                  <FileUpload manual={false} />
+                  <TextBlock>Once you have uploaded your earnings record, click next and go forward.</TextBlock>
                 </Card>
+              </HowToContainer>
+            ) : null}
 
-                {this.showFileUpload() == true && (
-                  <Glossary title="IMPORTED RECORDS">
-                    The values are imported from the file that you upload.
-                    Please review them for accuracy and correct any errors that
-                    you find.
-                  </Glossary>
-                )}
-                {this.showManualTable() === true && (
-                  <Glossary title="MANUAL RECORDS">
-                    Please review the values so that the years match and correct
-                    any errors that you find. The first row may be a different
-                    year than on the paper document.
-                  </Glossary>
-                )}
-              </CardGlossaryContainer>
-              <Card>
-                <FileUpload manual={true} />
-              </Card>
-            </div>
-          )}
+            {showManualTable() && (
+              <div>
+                <CardGlossaryContainer>
+                  <Card>
+                    <TextBlock>
+                      Please enter the “Taxed Social Security Earnings” amounts from your earnings record.
+                    </TextBlock>
+                  </Card>
+
+                  {showFileUpload() == true && (
+                    <Glossary title='IMPORTED RECORDS'>
+                      The values are imported from the file that you upload. Please review them for accuracy and correct
+                      any errors that you find.
+                    </Glossary>
+                  )}
+                  {showManualTable() === true && (
+                    <Glossary title='MANUAL RECORDS'>
+                      Please review the values so that the years match and correct any errors that you find. The first
+                      row may be a different year than on the paper document.
+                    </Glossary>
+                  )}
+                </CardGlossaryContainer>
+                <Card>
+                  <FileUpload manual={true} />
+                </Card>
+              </div>
+            )}
           </div>
-          
+
           {haveEarnings === false && haveSSAAccount === false ? (
             <>
               <HowToContainer>
                 <Card>
                   <H2>HOW-TO</H2>
-                  <h3>
-                    Request a copy of your earnings report through the mail
-                  </h3>
+                  <h3>Request a copy of your earnings report through the mail</h3>
                   <WarningBox>
-                    We cannot estimate your WEP without a copy of your earnings
-                    record. The How-to’s linked below will tell you how to get
-                    your earnings record through the mail, or by signing up for
-                    a MySocialSecurity account online.
+                    We cannot estimate your WEP without a copy of your earnings record. The How-to’s linked below will
+                    tell you how to get your earnings record through the mail, or by signing up for a MySocialSecurity
+                    account online.
                   </WarningBox>
                 </Card>
               </HowToContainer>
@@ -369,33 +304,26 @@ class Prescreen1b extends React.Component<Prescreen1bProps> {
                   <H2>Browse to the HOW-TO</H2>
                   <ul>
                     <li>
-                      <Link href="https://faq.ssa.gov/en-us/Topic/article/KA-01741">
-                        Read the guide.
-                      </Link>
+                      <Link href='https://faq.ssa.gov/en-us/Topic/article/KA-01741'>Read the guide.</Link>
                     </li>
                     <li>
-                      <Link href="https://secure.ssa.gov/RIL/SiView.action">
-                        Signup or login to your online account at
-                        MySocialSecurity
+                      <Link href='https://secure.ssa.gov/RIL/SiView.action'>
+                        Signup or login to your online account at MySocialSecurity
                       </Link>
                     </li>
                   </ul>
                 </Card>
               </HowToContainer>
             </>
-          ) : null
-          }
-          </div>
-        </ContentContainer>
-      </React.Fragment>
-    );
-  }
+          ) : null}
+        </div>
+      </ContentContainer>
+    </React.Fragment>
+  );
 }
 
 export default function Prescreen1bWrapper(): JSX.Element {
   const userState = useUserState();
   const userStateActions = useUserStateActions();
-  return (
-    <Prescreen1b userState={userState} userStateActions={userStateActions} />
-  );
+  return <Prescreen1b userState={userState} userStateActions={userStateActions} />;
 }

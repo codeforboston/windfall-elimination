@@ -1,6 +1,7 @@
 import styled from "@emotion/styled";
 import { colors } from "../constants";
 import { ClassNames } from "@emotion/core";
+import React, { ReactChildren } from "react";
 
 export const RadioButton = styled.input`
   -webkit-appearance: none;
@@ -22,28 +23,37 @@ export const RadioButton = styled.input`
     background-color: ${colors.purple};
 
     &:after {
-      content: ' ';
+      content: " ";
       height: 15px;
       width: 10px;
       background-color: #fff;
       padding-left: 5px;
       margin-left: 7.5px;
-      border: 2px solid #FFF;
+      border: 2px solid #fff;
       border-radius: 100px;
       margin-top: 7.5px;
       display: inline-block;
-   }
+    }
   }
-
 `;
 
 /* Look for radiobuttons inside this component that have checked children and set a special class */
-/* this might be refactorable to use style with https://stackoverflow.com/a/44646995/272018 
+/* this might be refactorable to use style with https://stackoverflow.com/a/44646995/272018
  *  but I couldn't get it to work */
-export const AnswerBoxBasic = ({ className, children, ...props }) => {
+export const AnswerBoxBasic = ({
+  className,
+  children,
+  ...props
+}: {
+  className?: string;
+  children: React.ReactNodeArray;
+}) => {
   const hasCheckedChildren =
-    children.filter(n => n.props.checked === "true" || n.props.checked === true)
-      .length > 0;
+    children &&
+    children.filter((n) => {
+      const nElement = n as React.ReactElement;
+      nElement.props.checked === "true" || nElement.props.checked === true;
+    }).length > 0;
 
   return (
     <ClassNames>
@@ -55,8 +65,8 @@ export const AnswerBoxBasic = ({ className, children, ...props }) => {
             hasCheckedChildren &&
               css`
                 background-color: ${colors.purple};
-                color: #FFF;
-              `
+                color: #fff;
+              `,
           ].join(" ")}
         >
           {children}
@@ -69,7 +79,6 @@ export const AnswerBoxBasic = ({ className, children, ...props }) => {
 export const LabelText = styled.span`
   font-size: 18px;
 `;
-
 
 export const AnswerBox = styled(AnswerBoxBasic)`
   border: 2px solid ${colors.purple};
@@ -85,7 +94,6 @@ export const AnswerBox = styled(AnswerBoxBasic)`
   @media (max-width: 767px) {
     width: 90%;
   }
-
 `;
 
 export const AnswerInput = styled.input`
@@ -97,7 +105,7 @@ export const AnswerInput = styled.input`
   margin: 10px 0;
   padding: 0 10px;
   font-size: 18px;
-  font-family: 'Montserrat',sans-serif;
+  font-family: "Montserrat", sans-serif;
 `;
 
 export const AnswerInputDiscouragePlaceholder = styled(AnswerInput)`
@@ -105,4 +113,4 @@ export const AnswerInputDiscouragePlaceholder = styled(AnswerInput)`
     color: red;
     font-size: 1.1em;
   }
-`
+`;

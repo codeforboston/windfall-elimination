@@ -241,7 +241,7 @@ const Prescreen1d = ({}) => {
                 onChange={handleSelection}
                 // TODO: onFinish, scroll
               ></AnswerInputDiscouragePlaceholder>
-              {isNaN(expectedPercentageWageIncrease) && <WarningBox>Please enter a number.</WarningBox>}
+              {expectedPercentageWageIncrease === null || isNaN(expectedPercentageWageIncrease) && <WarningBox>Please enter a number.</WarningBox>}
             </Card>
           </CardGlossaryContainer>
         )}

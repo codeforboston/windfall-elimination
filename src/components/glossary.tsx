@@ -37,7 +37,12 @@ const ContentBox = styled.div`
 `;
 
 
-const Glossary = ({ title, link, children,linkText }) =>  (
+const Glossary = ({ title, link, children,linkText }:{
+  title: string, 
+  link?: any, 
+  children: React.ReactNode,
+  linkText?: string
+}) =>  (
     <GlossaryContainer>
       <Term>
         {title}
