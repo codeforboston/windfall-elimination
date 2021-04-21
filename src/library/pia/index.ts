@@ -144,7 +144,7 @@ export async function finalCalculation(
   const onePIADoc = new AnyPIAJS.PIADoc();
   //If you forget to send a newline at the end, AnyPIAJS seems to ignore the last line.
   const consoleOutput = onePIADoc.calculate(piaOutput + "\n");
-
+  // console.log(147 + ' ' + AnyPIAJS.addOnPostRun());
   //Request a JSON dump from AnyPIAJS
   const resultString = onePIADoc.getResult();
   const resultObj = JSON.parse(resultString);
@@ -185,7 +185,8 @@ export async function finalCalculation(
     aime: calculation.AIME && calculation.AIME.AME,
     fullRetireDate: new Date("2040-1-1").toLocaleDateString("en-US"),
     calculatorType: 'anypia',
-    bendPoints: usePIAAfterWindwfall ? calculation.PIAAfterWindwfall : calculation.PIAEligibility
+    bendPoints: usePIAAfterWindwfall ? calculation.PIAAfterWindwfall : calculation.PIAEligibility,
+    calculatorApp: resultObj.App
   };
   console.log("usePIAAfterWindwfall", usePIAAfterWindwfall);
   console.warn("DUMMY fullRetireDate until it can be added:");
