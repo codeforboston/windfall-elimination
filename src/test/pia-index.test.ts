@@ -1,7 +1,9 @@
  // TODO ENABLE NODEJS mode for Emscripten Module and uncomment this file  
  // will not work without this. Also need to find way to reference wasm file for tests since /anypiajs.wasm won't workA
-const Module2020 = require("../library/anypiajs2020.js"); //remember https://stackoverflow.com/a/63592692/272018
-const Module2021 = require("../library/anypiajs2021.js"); //remember https://stackoverflow.com/a/63592692/272018
+import Module2020 from "../library/anypiajs2020.js";
+import Module2021 from "../library/anypiajs2021.js"
+ // const Module2020 = require("../library/anypiajs2020.js"); //remember https://stackoverflow.com/a/63592692/272018
+// const Module2021 = require("../library/anypiajs2021.js"); //remember https://stackoverflow.com/a/63592692/272018
 
 import { finalCalculation } from "../library/pia/index";
 import { delayedRetirementValues, fullRetirementValues, sample20RetirementValues } from "../library/testFiles";
@@ -23,25 +25,30 @@ describe("Run AnyPIAJS", () => {
 });
 // TODO:
 // Do an approach like this: https://github.com/emscripten-core/emscripten/issues/8400#issuecomment-498218291
-describe("Test of 2021 detail calculator", async () => {
+describe("Test of 2021 detail calculator", () => {
 
   beforeAll(async () => {
     //Download the 2mb WASM file with the C++ policy logic, with a promise.
-    var loader =  Module2021();
-    loader.ready = () =>
-        // https://github.com/emscripten-core/emscripten/issues/5820
-        new Promise((resolve, reject) => {
-            delete loader.then;
-            loader.onAbort = reject;
-            loader.addOnPostRun(() => {
-                resolve(loader);
-                reject((i, p , q) => {
-                  console.log(this, i, p, q);
-                })
-            });
-        });
-    AnyPIAJS2021 = await loader.ready();
+    // var loader =  await Module2021();
+    // console.log("test for 2021", loader)
+    // loader.ready = () =>
+    //     // https://github.com/emscripten-core/emscripten/issues/5820
+    //     new Promise((resolve, reject) => {
+    //         delete loader.then;
+    //         loader.onAbort = reject;
+    //         loader.addOnPostRun(() => {
+    //             resolve(loader);
+    //             debugger
+    //             reject((i, p , q) => {
+    //               console.log(this, i, p, q);
+    //             })
+    //         });
+    //     });
+    // AnyPIAJS2021 = await loader.ready();
+    AnyPIAJS2021 = await Module2021();
+    debugger
 });
+
 
   //Here's a known good AnyPIA format string for example: specifies mostly the
   // same things as above.
@@ -80,30 +87,37 @@ describe("Test of 2021 detail calculator", async () => {
 
 
 
-  it("Correctly tallies years of substantial earnings from a full earnings record.", async () => {
+  test("Correctly tallies years of substantial earnings from a full earnings record.", async () => {
     expect.assertions(1);
+    AnyPIAJS2021 = await Module2021();
+    debugger
+    // expect(AnyPIAJS2021).toBeNull();
+    expect(knownGoodPIADoc).not.toBeNull()
 
   });
 });
 
-describe("Test of 2021 detail calculator", async () => {
+describe("Test of 2020 detail calculator", () => {
 
   beforeAll(async () => {
     //Download the 2mb WASM file with the C++ policy logic, with a promise.
-    var loader =  Module2020();
-    loader.ready = () =>
-        // https://github.com/emscripten-core/emscripten/issues/5820
-        new Promise((resolve, reject) => {
-            delete loader.then;
-            loader.onAbort = reject;
-            loader.addOnPostRun(() => {
-                resolve(loader);
-                reject((i, p , q) => {
-                  console.log(this, i, p, q);
-                })
-            });
-        });
-    AnyPIAJS2020 = await loader.ready();
+    // var loader =  Module2020();
+    AnyPIAJS2020 = await Module2020();
+    // console.log("test for 2020", loader)
+
+    // loader.ready = () =>
+    //     // https://github.com/emscripten-core/emscripten/issues/5820
+    //     new Promise((resolve, reject) => {
+    //         delete loader.then;
+    //         loader.onAbort = reject;
+    //         loader.addOnPostRun(() => {
+    //             resolve(loader);
+    //             reject((i, p , q) => {
+    //               console.log(this, i, p, q);
+    //             })
+    //         });
+    //     });
+    // AnyPIAJS2020 = await loader.ready();
 });
 
   //Here's a known good AnyPIA format string for example: specifies mostly the
@@ -125,7 +139,7 @@ describe("Test of 2021 detail calculator", async () => {
 
   //Instantiate AnyPIAJS C++ class we wrapped the original SSA AnyPIAB class with.
   //If you forget to send a newline at the end, AnyPIAJS seems to ignore the last line.
-
+debugger
   const knownGoodPIADoc = new AnyPIAJS2020.PIADoc();
   const consoleOutputKnownGood = knownGoodPIADoc.calculate(knownGood + "\n");
 

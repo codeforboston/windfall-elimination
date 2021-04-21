@@ -6,16 +6,15 @@ import 'core-js/modules/es6.typed-array.int8-array';
 import 'core-js/modules/es6.typed-array.uint16-array';
 import 'core-js/modules/es6.typed-array.uint32-array';
 import 'core-js/modules/es6.typed-array.uint8-array';
-import 'core-js/modules/es6.typed-array.uint8-clamped-array';
+import 'core-js/modules/es6.typed-array.uint8-clamped-array'
 // See: https://stackoverflow.com/questions/63592691/core-js-cannot-resolve-core-js-modules-es6-typed-uint32-array/63592692#63592692
 
 var Module = (function() {
-  var _scriptDir = '/anypiajs-20211.wasm';
+  var _scriptDir = '/anypiajs-20211-versioned.wasm';
   
   return (
 function(Module) {
   Module = Module || {};
-
 
 
 // The Module object: Our interface to the outside world. We import
@@ -1462,11 +1461,11 @@ function updateGlobalBufferAndViews(buf) {
 }
 
 var STATIC_BASE = 1024,
-    STACK_BASE = 74272,
+    STACK_BASE = 74512,
     STACKTOP = STACK_BASE,
-    STACK_MAX = 5317152,
-    DYNAMIC_BASE = 5317152,
-    DYNAMICTOP_PTR = 74064;
+    STACK_MAX = 5317392,
+    DYNAMIC_BASE = 5317392,
+    DYNAMICTOP_PTR = 74304;
 
 assert(STACK_BASE % 16 === 0, 'stack must start aligned');
 assert(DYNAMIC_BASE % 16 === 0, 'heap must start aligned');
@@ -1890,7 +1889,7 @@ function createExportWrapper(name, fixedasm) {
   };
 }
 
-var wasmBinaryFile = 'anypiajs-20211.wasm';
+var wasmBinaryFile = 'anypiajs20211-versioned.wasm';
 if (!isDataURI(wasmBinaryFile)) {
   wasmBinaryFile = locateFile(wasmBinaryFile);
 }
@@ -2043,7 +2042,7 @@ var ASM_CONSTS = [];
 
 
 
-// STATICTOP = STATIC_BASE + 73248;
+// STATICTOP = STATIC_BASE + 73488;
 /* global initializers */  __ATINIT__.push({ func: function() { globalCtors() } });
 
 
@@ -2054,7 +2053,7 @@ var ASM_CONSTS = [];
 
 
 /* no memory initializer */
-var tempDoublePtr = 74256;
+var tempDoublePtr = 74496;
 
 function copyTempFloat(ptr) { // functions, because inlining this code increases code size too much
   HEAP8[tempDoublePtr] = HEAP8[ptr];
@@ -6344,7 +6343,7 @@ function copyTempDouble(ptr) {
     }
 
   
-  var ___tm_timezone=(stringToUTF8("GMT", 74160, 4), 74160);
+  var ___tm_timezone=(stringToUTF8("GMT", 74400, 4), 74400);
   
   function _tzset() {
       // TODO: Use (malleable) environment variables instead of system settings.
@@ -7085,8 +7084,8 @@ var dynCall_viiiiii = Module["dynCall_viiiiii"] = createExportWrapper("dynCall_v
 
 /** @type {function(...*):?} */
 var dynCall_viijii = Module["dynCall_viijii"] = createExportWrapper("dynCall_viijii");
-Module['__ZZNKSt3__27num_putIwNS_19ostreambuf_iteratorIwNS_11char_traitsIwEEEEE6do_putES4_RNS_8ios_baseEwPKvE5__fmt'] = 62625;
-Module['__ZZNKSt3__27num_putIwNS_19ostreambuf_iteratorIwNS_11char_traitsIwEEEEE6do_putES4_RNS_8ios_baseEwmE5__fmt'] = 62636;;
+Module['__ZZNKSt3__27num_putIwNS_19ostreambuf_iteratorIwNS_11char_traitsIwEEEEE6do_putES4_RNS_8ios_baseEwPKvE5__fmt'] = 62863;
+Module['__ZZNKSt3__27num_putIwNS_19ostreambuf_iteratorIwNS_11char_traitsIwEEEEE6do_putES4_RNS_8ios_baseEwmE5__fmt'] = 62874;;
 
 
 

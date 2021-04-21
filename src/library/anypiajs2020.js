@@ -10,7 +10,7 @@
 // See: https://stackoverflow.com/questions/63592691/core-js-cannot-resolve-core-js-modules-es6-typed-uint32-array/63592692#63592692
 
 var Module = (function() {
-    var _scriptDir = '/anypiajs-20201.wasm';
+    var _scriptDir = '../../static/anypiajs-20201.wasm';
     
     return (
   function(Module) {
@@ -1890,7 +1890,7 @@ var Module = (function() {
     };
   }
   
-  var wasmBinaryFile = 'anypiajs-20201.wasm';
+  var wasmBinaryFile = '../../static/anypiajs-20201.wasm';
   if (!isDataURI(wasmBinaryFile)) {
     wasmBinaryFile = locateFile(wasmBinaryFile);
   }
