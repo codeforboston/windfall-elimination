@@ -48,7 +48,7 @@ interface Prescreen1bProps {
   userStateActions: UserStateActions;
 }
 
-function Prescreen1b(props: Prescreen1bProps) {
+function Prescreen1b() {
   const earningsSelectRef = React.createRef<HTMLDivElement>();
   const howToRef = React.createRef<HTMLDivElement>();
   const earningsRecordRef = React.createRef<HTMLDivElement>();
