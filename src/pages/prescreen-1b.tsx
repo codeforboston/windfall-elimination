@@ -16,7 +16,7 @@ import {
   ContentContainer,
 } from "../components";
 import { UserState, EarningsEnum, useUserState } from "../library/user-state-context";
-import { UserStateActions, useUserStateActions } from "../library/user-state-actions-context";
+import { useUserStateActions } from "../library/user-state-actions-context";
 import { gatsbyScrollWhenFinish } from "../constants/config";
 
 export const SsaImage = styled("img")`
