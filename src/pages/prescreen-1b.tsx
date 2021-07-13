@@ -56,7 +56,7 @@ function Prescreen1b() {
   const {
     userState: { birthDate, haveEarnings, haveSSAAccount, earningsFormat },
     userStateActions: { setHaveEarnings, setHaveSSAAccount, setEarningsFormat },
-  } = props;
+  } = {userState: useUserState(), userStateActions: useUserStateActions()} ; 
 
   function scrollToElement(ref: React.RefObject<HTMLDivElement>) {
     if (gatsbyScrollWhenFinish) {
