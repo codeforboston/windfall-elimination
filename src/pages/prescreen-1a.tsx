@@ -33,7 +33,7 @@ interface Prescreen1aProps {
   userStateActions: UserStateActions;
 }
 
-const Prescreen1a = (props: Prescreen1aProps) => {
+const Prescreen1a = () => {
   const userState = useUserState();
   const userStateActions = useUserStateActions();
   const { birthDate, retireDate, fullRetirementAgeYearsOnly, fullRetirementAgeMonthsOnly } = userState;
