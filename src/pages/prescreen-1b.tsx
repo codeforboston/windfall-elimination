@@ -15,7 +15,7 @@ import {
   CardGlossaryContainer,
   ContentContainer,
 } from "../components";
-import { UserState, EarningsEnum, useUserState } from "../library/user-state-context";
+import { EarningsEnum, useUserState } from "../library/user-state-context";
 import { useUserStateActions } from "../library/user-state-actions-context";
 import { gatsbyScrollWhenFinish } from "../constants/config";
 
