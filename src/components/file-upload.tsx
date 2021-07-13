@@ -223,7 +223,7 @@ export class GenerateTable extends React.Component<GenerateTableProps> {
 
 interface FileUploadProps {
   manual: boolean
-  hideUploadButton: boolean | null
+  hideUploadButton?: boolean | null
   userState: UserState
   userStateActions: UserStateActions
 }
