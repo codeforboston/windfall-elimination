@@ -60,7 +60,7 @@
     "babel-plugin-emotion": "^11.0.0",
     "eslint": "^7.30.0",
     "identity-obj-proxy": "^3.0.0",
-    "jest": "^24.9.0",
+    "jest": "^27.0.6",
     "prettier": "^2.1.2",
     "ts-jest": "^24.0.2"
   },
