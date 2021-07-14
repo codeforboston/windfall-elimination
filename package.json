@@ -16,7 +16,7 @@
     "@types/react-datepicker": "^3.1.1",
     "@types/react-helmet": "^6.1.2",
     "@types/use-persisted-state": "^0.3.0",
-    "babel-preset-gatsby": "^0.5.6",
+    "babel-preset-gatsby": "^1.9.0",
     "caniuse-lite": "^1.0.30001198",
     "core-js": "3.15.2",
     "d3": "^6.2.0",
