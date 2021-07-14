@@ -6,7 +6,7 @@ import * as ObsFuncs from "../library/observable-functions";
 import { colors } from "../constants";
 import dayjs from "dayjs";
 
-import { UserState, useUserState } from "../library/user-state-context";
+import { useUserState } from "../library/user-state-context";
 import { useUserStateActions } from "../library/user-state-actions-context";
 
 import { TextBlock, SEO, Card, WarningBox, H2 } from "../components";
@@ -28,11 +28,6 @@ const H4 = styled.h4`
   margin: 5px 0;
 `;
 
-interface Prescreen1aProps {
-  userState: UserState;
-  userStateActions: UserStateActions;
-}
-
 const Prescreen1a = () => {
   const userState = useUserState();
   const userStateActions = useUserStateActions();
@@ -51,6 +46,11 @@ const Prescreen1a = () => {
       userStateActions.setYear62(year62);
       let fullRetirementAge = 0;
 
+      /*
+        TODO: use the getFullRetirementAge from whichever calculator is picked
+       so we dont need to update the tables by hand
+       use the raw value because of the delay in setting local/session storage.
+       */
       fullRetirementAge = await ObsFuncs.getFullRetirementDateSimple(value);
       setRetireDate(value, fullRetirementAge);
     } else if (value === null) {
@@ -60,6 +60,8 @@ const Prescreen1a = () => {
   };
 
   const setRetireDate = async (dateOfBirth: Date, retireAge: number) => {
+    /* dayjs cannot .add() fractional years that we put into the tables 
+    but only months, so let us use rounded months. */
     const retireAgeInRoundedMonths = Math.round((await retireAge) * 12);
     const retireDate = dayjs(dateOfBirth).add(retireAgeInRoundedMonths, "month").toDate();
     userStateActions.setRetireDate(retireDate);
@@ -69,7 +71,7 @@ const Prescreen1a = () => {
     <div>
       <SEO title='Pre-Screen 1a' keywords={[`gatsby`, `application`, `react`]} />
       <H2>Step 1: Background Information</H2>
-      <TextBlock>To calculate your Social Security benefit, please input the following dates.</TextBlock>
+      <TextBlock>To calculate your Social Security benefit, please provide your birthdate.</TextBlock>
       <Card>
         <H4>Birthdate</H4>
         <StyledDatePicker
@@ -117,8 +119,4 @@ const Prescreen1a = () => {
   );
 };
 
-export default function Prescreen1aWrapper() {
-  const userStateActions = useUserStateActions();
-  const userState = useUserState();
-  return <Prescreen1a userState={userState} userStateActions={userStateActions} />;
-}
+export default Prescreen1a;

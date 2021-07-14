@@ -43,20 +43,14 @@ const Link = styled.a`
   overflow-wrap: break-word;
 `;
 
-interface Prescreen1bProps {
-  userState: UserState;
-  userStateActions: UserStateActions;
-}
 
-function Prescreen1b() {
+const Prescreen1b = () => {
   const earningsSelectRef = React.createRef<HTMLDivElement>();
   const howToRef = React.createRef<HTMLDivElement>();
   const earningsRecordRef = React.createRef<HTMLDivElement>();
 
-  const {
-    userState: { birthDate, haveEarnings, haveSSAAccount, earningsFormat },
-    userStateActions: { setHaveEarnings, setHaveSSAAccount, setEarningsFormat },
-  } = {userState: useUserState(), userStateActions: useUserStateActions()} ; 
+  const { birthDate, haveEarnings, haveSSAAccount, earningsFormat } = useUserState();
+  const {  setHaveEarnings, setHaveSSAAccount, setEarningsFormat } = useUserStateActions();
 
   function scrollToElement(ref: React.RefObject<HTMLDivElement>) {
     if (gatsbyScrollWhenFinish) {
@@ -322,8 +316,4 @@ function Prescreen1b() {
   );
 }
 
-export default function Prescreen1bWrapper(): JSX.Element {
-  const userState = useUserState();
-  const userStateActions = useUserStateActions();
-  return <Prescreen1b userState={userState} userStateActions={userStateActions} />;
-}
+export default Prescreen1b;

@@ -16,8 +16,8 @@ import {
   ContentContainer,
   AnswerInputDiscouragePlaceholder,
 } from "../components";
-import { PensionEnum, useUserState, UserState } from "../library/user-state-context";
-import { useUserStateActions, UserStateActions } from "../library/user-state-actions-context";
+import { PensionEnum, useUserState } from "../library/user-state-context";
+import { useUserStateActions } from "../library/user-state-actions-context";
 import { gatsbyScrollWhenFinish } from "../constants/config";
 
 const StyledDatePicker = styled(DatePicker)`
@@ -41,24 +41,20 @@ const TopQuestionAndTitle = styled.div`
   }
 `;
 
-interface Prescreen1cProps {
-  userState: UserState;
-  userStateActions: UserStateActions;
-}
-
-const Prescreen1c = (props: Prescreen1cProps) => {
+const Prescreen1c = () => {
   const pensionTypeRef = React.createRef<HTMLDivElement>();
   const pensionAmountRef = React.createRef<HTMLDivElement>();
 
+  const { isEmploymentCovered,
+    pensionDateAwarded,
+    pensionAmount,
+    pensionOrRetirementAccount } = useUserState();
   const {
-    userState: { isEmploymentCovered, pensionDateAwarded, pensionAmount, pensionOrRetirementAccount },
-    userStateActions: {
-      setPensionDateAwarded,
-      setIsEmploymentCovered,
-      setPensionOrRetirementAccount,
-      setPensionAmount,
-    },
-  } = props;
+    setPensionDateAwarded,
+    setIsEmploymentCovered,
+    setPensionOrRetirementAccount,
+    setPensionAmount,
+  } = useUserStateActions();
 
   function scrollToElement(ref: React.RefObject<HTMLDivElement>) {
     if (gatsbyScrollWhenFinish) {
@@ -220,8 +216,4 @@ const Prescreen1c = (props: Prescreen1cProps) => {
   );
 };
 
-export default function Prescreen1cWrapper(): JSX.Element {
-  const userState = useUserState();
-  const userStateActions = useUserStateActions();
-  return <Prescreen1c userState={userState} userStateActions={userStateActions} />;
-}
+export default Prescreen1c;
