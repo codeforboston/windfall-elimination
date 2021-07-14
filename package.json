@@ -82,5 +82,8 @@
   },
   "bugs": {
     "url": "https://github.com/codeforboston/windfall-elimination/issues"
+  },
+  "engines": {
+    "node": ">=0.12.13"
   }
 }
