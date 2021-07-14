@@ -9,8 +9,8 @@ module.exports = {
       "<rootDir>/__mocks__/file-mock.js",
   },
   moduleFileExtensions: ["ts", "tsx", "js", "jsx", "json", "node"],
-  testPathIgnorePatterns: ["node_modules", ".cache"],
-  transformIgnorePatterns: ["node_modules/(?!(gatsby)/)"],
+  testPathIgnorePatterns: ["node_modules", `\\.cache`, `<rootDir>.*/public`],
+  transformIgnorePatterns: ["node_modules/(?!(gatsby|d3-fetch|d3-dsv)/)"],
   globals: {
     "ts-jest": {
       diagnostics: false
