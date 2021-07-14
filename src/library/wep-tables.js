@@ -1,10 +1,10 @@
-import * as d3 from "d3";
 import { checkJSONCache } from "./wep-cache";
+import { csv } from 'd3-fetch';
 
 var getWepTables = (function() {
 
 	var ColaTable = function() {
-		const ColaTable = checkJSONCache("ColaTable") || d3.csv("https://docs.google.com/spreadsheets/d/e/2PACX-1vQ0KGd5_ZHdYIIFPdSzBHkG38FAkGQ04ADGHKkT-ODA64Qr79Ia8g-W1DMNFb4LEC2sh502ybgPeQDF/pub?gid=1291489757&single=true&output=csv",
+		const ColaTable = checkJSONCache("ColaTable") || csv("https://docs.google.com/spreadsheets/d/e/2PACX-1vQ0KGd5_ZHdYIIFPdSzBHkG38FAkGQ04ADGHKkT-ODA64Qr79Ia8g-W1DMNFb4LEC2sh502ybgPeQDF/pub?gid=1291489757&single=true&output=csv",
 		                    ({Year, COLA}) => 
 		                    ({year: +Year,
 		                      Cola: Number(COLA)})
@@ -14,7 +14,7 @@ var getWepTables = (function() {
 	}
 	
 	var actuarialValueLumpSumTable = function(){
-		const actuarialValueLumpSumTable = checkJSONCache("actuarialValueLumpSumTable") || d3.csv('https://docs.google.com/spreadsheets/d/e/2PACX-1vQ0KGd5_ZHdYIIFPdSzBHkG38FAkGQ04ADGHKkT-ODA64Qr79Ia8g-W1DMNFb4LEC2sh502ybgPeQDF/pub?gid=1500974875&single=true&output=csv',
+		const actuarialValueLumpSumTable = checkJSONCache("actuarialValueLumpSumTable") || csv('https://docs.google.com/spreadsheets/d/e/2PACX-1vQ0KGd5_ZHdYIIFPdSzBHkG38FAkGQ04ADGHKkT-ODA64Qr79Ia8g-W1DMNFb4LEC2sh502ybgPeQDF/pub?gid=1500974875&single=true&output=csv',
 		                    ({age, Column20160601, Column20110531, Column20070601, Column20070531}) => 
 		                    ({age: +age,
 		                      column20160601: +Column20160601,
@@ -27,7 +27,7 @@ var getWepTables = (function() {
 	}
 
 	var benefitReductionTable = function(){
-		const benefitReductionTable = checkJSONCache("benefitReductionTable") || d3.csv('https://docs.google.com/spreadsheets/d/e/2PACX-1vQ0KGd5_ZHdYIIFPdSzBHkG38FAkGQ04ADGHKkT-ODA64Qr79Ia8g-W1DMNFb4LEC2sh502ybgPeQDF/pub?gid=297756699&single=true&output=csv',
+		const benefitReductionTable = checkJSONCache("benefitReductionTable") || csv('https://docs.google.com/spreadsheets/d/e/2PACX-1vQ0KGd5_ZHdYIIFPdSzBHkG38FAkGQ04ADGHKkT-ODA64Qr79Ia8g-W1DMNFb4LEC2sh502ybgPeQDF/pub?gid=297756699&single=true&output=csv',
                     ({YearOfBirth, NormalRetirementAge, PctCreditForEachDelayYear, age62,age63,age64,age65,age66,age67,age68,age69,age70}) => 
                     ({year: +YearOfBirth,
                       NormalRetirementAge: +NormalRetirementAge,
@@ -40,7 +40,7 @@ var getWepTables = (function() {
 	}
 
 	var substantialEarningsMarks = function() {
-		const substantialEarningsMarks = checkJSONCache("substantialEarningsMarks") || d3.csv('https://docs.google.com/spreadsheets/d/e/2PACX-1vQ0KGd5_ZHdYIIFPdSzBHkG38FAkGQ04ADGHKkT-ODA64Qr79Ia8g-W1DMNFb4LEC2sh502ybgPeQDF/pub?gid=1895732439&single=true&output=csv',
+		const substantialEarningsMarks = checkJSONCache("substantialEarningsMarks") || csv('https://docs.google.com/spreadsheets/d/e/2PACX-1vQ0KGd5_ZHdYIIFPdSzBHkG38FAkGQ04ADGHKkT-ODA64Qr79Ia8g-W1DMNFb4LEC2sh502ybgPeQDF/pub?gid=1895732439&single=true&output=csv',
                     ({Year, SubstantialEarnings}) => 
                     ({year: +Year,
                       SubstantialEarnings: Number(SubstantialEarnings.replace("$",""))})
@@ -51,7 +51,7 @@ var getWepTables = (function() {
 
 
 	var bendPoints = function() {
-		const bendPoints = checkJSONCache("bendPoints") || d3.csv('https://docs.google.com/spreadsheets/d/e/2PACX-1vQ0KGd5_ZHdYIIFPdSzBHkG38FAkGQ04ADGHKkT-ODA64Qr79Ia8g-W1DMNFb4LEC2sh502ybgPeQDF/pub?gid=1610617310&single=true&output=csv',
+		const bendPoints = checkJSONCache("bendPoints") || csv('https://docs.google.com/spreadsheets/d/e/2PACX-1vQ0KGd5_ZHdYIIFPdSzBHkG38FAkGQ04ADGHKkT-ODA64Qr79Ia8g-W1DMNFb4LEC2sh502ybgPeQDF/pub?gid=1610617310&single=true&output=csv',
                     ({Year, FirstDollarAmtPIA, SecondDollarAmtPIA, DollarAmtInMaxFamilyBenefitFormula, NA, IsActualValue}) => 
                     ({year: +Year,
                       FirstDollarAmtPIA: Number(FirstDollarAmtPIA.replace("$","")),
@@ -65,7 +65,7 @@ var getWepTables = (function() {
 	}
 	var maximumEarningsCreditable = function() {
 		// used only for the AIME from earnings calculation.
-		const maximumEarningsCreditable = checkJSONCache("maximumEarningsCreditable") || d3.csv('https://docs.google.com/spreadsheets/d/e/2PACX-1vQ0KGd5_ZHdYIIFPdSzBHkG38FAkGQ04ADGHKkT-ODA64Qr79Ia8g-W1DMNFb4LEC2sh502ybgPeQDF/pub?gid=519940844&single=true&output=csv',
+		const maximumEarningsCreditable = checkJSONCache("maximumEarningsCreditable") || csv('https://docs.google.com/spreadsheets/d/e/2PACX-1vQ0KGd5_ZHdYIIFPdSzBHkG38FAkGQ04ADGHKkT-ODA64Qr79Ia8g-W1DMNFb4LEC2sh502ybgPeQDF/pub?gid=519940844&single=true&output=csv',
                     ({Year, TaxRatePct, MaximumWagesTaxable, MaximumAnnualContributions}) => 
                     ({year: +Year,
                       maximumEarningsCreditable: +MaximumWagesTaxable
@@ -76,7 +76,7 @@ var getWepTables = (function() {
 
 	var averageWageIndexTable = function() {
 
-		const averageWageIndexTable = checkJSONCache("averageWageIndexTable") || d3.csv('https://docs.google.com/spreadsheets/d/e/2PACX-1vQ0KGd5_ZHdYIIFPdSzBHkG38FAkGQ04ADGHKkT-ODA64Qr79Ia8g-W1DMNFb4LEC2sh502ybgPeQDF/pub?gid=1069245443&single=true&output=csv',
+		const averageWageIndexTable = checkJSONCache("averageWageIndexTable") || csv('https://docs.google.com/spreadsheets/d/e/2PACX-1vQ0KGd5_ZHdYIIFPdSzBHkG38FAkGQ04ADGHKkT-ODA64Qr79Ia8g-W1DMNFb4LEC2sh502ybgPeQDF/pub?gid=1069245443&single=true&output=csv',
                     ({Year, AverageWageIndex,LowWage20192, HighWage20192, CalcPercent, TrusteeReportIntermediate20192, TrusteeReportHigh20192, TrusteeReportLow20192,IsActualValue}) => 
                     ({year: +Year,
 					  averageWageIndex: +AverageWageIndex,
