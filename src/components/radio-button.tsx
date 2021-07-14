@@ -1,6 +1,6 @@
 import styled from "@emotion/styled";
 import { colors } from "../constants";
-import { ClassNames } from "@emotion/core";
+import { ClassNames } from "@emotion/react";
 import React, { ReactChildren } from "react";
 
 export const RadioButton = styled.input`
