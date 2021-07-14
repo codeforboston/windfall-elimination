@@ -48,7 +48,7 @@
   },
   "devDependencies": {
     "@babel/plugin-syntax-nullish-coalescing-operator": "^7.8.3",
-    "@types/d3-format": "^2.0.0",
+    "@types/d3-format": "^3.0.1",
     "@types/node": "^14.0.14",
     "@types/rc-slider": "^8.6.5",
     "@types/react": "^17.0.1",
