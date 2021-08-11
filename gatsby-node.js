@@ -11,6 +11,7 @@ exports.onCreateWebpackConfig = ({ stage, actions }) => {
 
         //allow us to not use ENVIRONMENT=web when compiling anypia-js, test it
         // https://stackoverflow.com/questions/59487224/webpack-throws-error-with-emscripten-cant-resolve-fs
-       "node": { "fs": "empty" }
+       "node": { "fs": "empty" },
+       "resolve": { fallback: { "path": false, "fs": false, "crypto": false } }
     })
   }
