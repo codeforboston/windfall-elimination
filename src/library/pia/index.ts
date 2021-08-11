@@ -119,8 +119,16 @@ export async function finalCalculation(
     }
   }
 
+  //TODO: ObjectFromEntries here for debugging purposes only, remove later
+  function ObjectFromEntries (iterable: any) {
+    return [...iterable].reduce((obj, [key, val]) => {
+      obj[key] = val
+      return obj
+    }, {})
+  }
   const piaOutput = piaFormat.outputPia();
-  console.log(piaOutput);
+  //only show non-getters and non-setter values for easier debugging:
+  console.log("piaFormat:",ObjectFromEntries(Object.entries(piaFormat.piaData).filter(d=>typeof d[1] !== 'function')), piaOutput);
 
   //Here's a known good AnyPIA format string for example: specifies mostly the
   // same things as above.
