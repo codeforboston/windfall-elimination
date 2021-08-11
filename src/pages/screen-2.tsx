@@ -54,6 +54,10 @@ const Text = styled.div`
   font-size: ${fontSizes[1]};
 `;
 
+const GlossaryContainer = styled.div`
+  margin-left: 20px;
+`;
+
 interface Screen2Props {
   userState: UserState;
   userStateActions: UserStateActions;
@@ -383,20 +387,15 @@ export class Screen2 extends React.Component<Screen2Props, Screen2State> {
               ) : null}
               </LeaveGutterAtRight>
               {preferPiaUserCalc && (
-                <React.Fragment>
-                   <div></div>
-                  <Glossary
-                    title="Detailed Calculator"
-                    link="https://www.ssa.gov/oact/anypia/anypia.html"
-                    linkText="Info on the Detailed Calculator on SSA.gov"
-                  >
-                    The current version of the Social Security Detailed
-                    Calculator is 2020.1, which was released on December 31,
-                    2019. It updates the 2019.2 version with the new economic
-                    information from the automatic adjustments announced on
-                    October 10, 2019.
-                  </Glossary>
-                  </React.Fragment>
+                <GlossaryContainer>
+                <Glossary
+                  title="Detailed Calculator"
+                  link="https://www.ssa.gov/oact/anypia/anypia.html"
+                  linkText="Info on the Detailed Calculator on SSA.gov"
+                >
+                  {userProfile.calculatorApp?.Description}
+                </Glossary>
+              </GlossaryContainer>
               )}
                               </CardGlossaryContainer>
 

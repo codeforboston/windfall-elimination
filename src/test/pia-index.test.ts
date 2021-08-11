@@ -1,28 +1,49 @@
  // TODO ENABLE NODEJS mode for Emscripten Module and uncomment this file  
  // will not work without this. Also need to find way to reference wasm file for tests since /anypiajs.wasm won't workA
 
-// import { finalCalculation } from "../library/pia/index";
-// import { delayedRetirementValues, fullRetirementValues, sample20RetirementValues } from "../library/testFiles";
-// import {
-//   finalCalculation as originalFinalCalculation,
-//   getRawEarnings,
-// } from "../library/observable-functions";
+import { finalCalculation } from "../library/pia/index";
+import { delayedRetirementValues, fullRetirementValues, sample20RetirementValues } from "../library/testFiles";
+import {
+  finalCalculation as originalFinalCalculation,
+  getRawEarnings,
+} from "../library/observable-functions";
+import dayjs from "dayjs";
+
+
 
 describe("Run AnyPIAJS", () => {
-    it("once it is recompiled with NodeJS support", async () => {
+    it("Now it has NodeJS support", async () => {
     expect.assertions(1);
 
     expect(null).toBe(null);
   });
 });
-
+// TODO: try to get the below block running soon.
+// Do an approach like this: https://github.com/emscripten-core/emscripten/issues/8400#issuecomment-498218291
 // describe("John Q. Public (Full Retirement)", async () => {
+
+//   beforeAll(async () => {
+//     var loader = ???();
+//     loader.ready = () =>
+//         // https://github.com/emscripten-core/emscripten/issues/5820
+//         new Promise((resolve, reject) => {
+//             delete loader.then;
+//             loader.onAbort = reject;
+//             loader.addOnPostRun(() => {
+//                 resolve(loader);
+//             });
+//         });
+//     ??? = await loader.ready();
+// });
+
 //   const earnings =
 //     fullRetirementValues["osss:OnlineSocialSecurityStatementData"][
 //       "osss:EarningsRecord"
 //     ]["osss:Earnings"];
-//   const userDOB = new Date("1947-10-10");
-//   const userDOR = new Date("2013-10-10"); // 66 is their full retirement age
+
+//     const userDOB = "1947-10-10";
+//     const userDOR = dayjs("2013-10-10").toDate(); // 66yo is their full retirement age.
+//     //const year62 = "2014";
 //   const rawEarnings = getRawEarnings(earnings);
 //   const userPension = 0;
 
@@ -30,7 +51,10 @@ describe("Run AnyPIAJS", () => {
 //     userDOB,
 //     userDOR,
 //     userPension,
-//     rawEarnings
+//     rawEarnings,
+//     null,
+//     null,
+//     null,null
 //   );
 //   // var userCalc = await finalCalculation(userDOB, userDOR, year62, userYSE, userPension, userAIME)
 
@@ -41,7 +65,9 @@ describe("Run AnyPIAJS", () => {
 
 //     expect(userYSE).toBe(30);
 //   });
+// });
 
+////====TESTS FOR LATER, or removal=====
 //   it("Correctly calculates AIME from a full earnings record.", async () => {
 //     expect.assertions(1);
 
