@@ -22,7 +22,7 @@
     "d3-format": "^1.4.3",
     "dayjs": "^1.8.15",
     "fast-xml-parser": "^3.12.16",
-    "gatsby": "^3.9.1",
+    "gatsby": "^3.14.6",
     "gatsby-image": "^3.9.0",
     "gatsby-plugin-emotion": "^6.9.0",
     "gatsby-plugin-google-analytics": "^3.9.0",
