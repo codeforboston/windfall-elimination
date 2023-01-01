@@ -33,7 +33,7 @@
     "gatsby-plugin-sharp": "^3.9.0",
     "gatsby-plugin-typescript": "^3.9.0",
     "gatsby-source-filesystem": "^3.9.0",
-    "gatsby-transformer-sharp": "^3.9.0",
+    "gatsby-transformer-sharp": "^3.15.0",
     "pdfjs-dist": "2.1.266",
     "prop-types": "^15.7.2",
     "rc-slider": "^8.7.1",
